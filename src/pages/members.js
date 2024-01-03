@@ -29,7 +29,6 @@ import StatisticsHeader from "../components/statistics/statisticsHeader";
 function Members() {
 
     const { Title, Text } = Typography;
-    const [api, contextHolder] = notification.useNotification();
     const loginUser = useSelector((state) => state.auth.user)
     const navigate = useNavigate()
     const [loading, setLoading] = useState(false)
@@ -160,7 +159,6 @@ function Members() {
 
     return (
         <>
-            {contextHolder}
             <Modal
                 style={{ minWidth: 400, maxWidth: "100%" }}
                 footer={[

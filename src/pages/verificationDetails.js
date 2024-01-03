@@ -32,14 +32,12 @@ import StatisticsHeader from "../components/statistics/statisticsHeader";
 function VerificationDetails() {
 
     const { Title, Text } = Typography;
-    const [api, contextHolder] = notification.useNotification();
     const navigate = useNavigate()
     const [loading, setLoading] = useState(false)
     const [form] = Form.useForm();
 
     return (
         <>
-            {contextHolder}
             <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: "20px", marginTop: "50px" }}>
                 <Title style={{ color: "#166805", margin: 0 }} level={3}>Verification Details</Title>
                 <div style={{ display: "flex", alignItems: "center" }}>

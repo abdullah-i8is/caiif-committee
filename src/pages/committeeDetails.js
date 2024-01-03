@@ -33,14 +33,12 @@ import StatisticsHeader from "../components/statistics/statisticsHeader";
 function CommitteeDetails() {
 
     const { Title, Text } = Typography;
-    const [api, contextHolder] = notification.useNotification();
     const navigate = useNavigate()
     const [loading, setLoading] = useState(false)
     const [form] = Form.useForm();
 
     return (
         <>
-            {contextHolder}
             <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: "20px", marginTop: "50px" }}>
                 <Title style={{ color: "#166805", margin: 0 }} level={3}>Committee Details</Title>
                 <Button onClick={() => navigate("/enroll-requests")} style={{ margin: "0 0 0 10px", width: "100px" }} className="add-cycle-btn">Submit</Button>

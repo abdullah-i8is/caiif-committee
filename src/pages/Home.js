@@ -20,43 +20,22 @@ import {
   FloatButton,
 } from "antd";
 import {
-  ToTopOutlined,
-  MenuUnfoldOutlined,
-  RightOutlined,
-  ArrowRightOutlined,
-  CloseOutlined,
-  PlusOutlined,
   CarOutlined,
 } from "@ant-design/icons";
 import { useSelector } from "react-redux";
-import CardComp from "../components/cards/cards";
-import TableComp from "../components/tables/tables";
-import ButtonComp from "../components/buttons/buttons";
-import ModalComp from "../components/modals/modals";
-import InputComp from "../components/inputs/inputs";
 import { useNavigate } from "react-router-dom";
 import { auth, firestore } from "../config/firebase";
-import CountUp from 'react-countup';
 import { collection, doc, onSnapshot, updateDoc } from "firebase/firestore";
-import dayjs from 'dayjs'
-import icon1 from '../assets/images/member2.svg'
-import icon2 from '../assets/images/enroll.svg'
-import icon3 from '../assets/images/committee.svg'
 import memberIcon from '../assets/images/member2.svg'
 import StatisticsHeader from "../components/statistics/statisticsHeader";
 
 function Home() {
 
   const { Title, Text } = Typography;
-  const [api, contextHolder] = notification.useNotification();
-  const success = useSelector((state) => state.common.success)
   const loginUser = useSelector((state) => state.auth.user)
-  const [trips, setTrips] = useState([])
-  const [tripDetails, setTripDetails] = useState([])
   const navigate = useNavigate()
   const [loading, setLoading] = useState(false)
   const [modalOpen, setModalOpen] = useState(false)
-  const [depart, setDepart] = useState()
   const [approveTrips, setApproveTrips] = useState()
   const [flightBudget, setFlightBudget] = useState(0)
   const [hotelBudget, setHotelBudget] = useState(0)
@@ -67,16 +46,6 @@ function Home() {
     { property: "Premium Pro Ultra Max", amount: "250", members: "60", startDate: "1st January 2023", endDate: "31 December 2027", cycle: "1 Month", available: "60", payment: "15,000" },
     { property: "Premium Pro Ultra Max", amount: "250", members: "60", startDate: "1st January 2023", endDate: "31 December 2027", cycle: "1 Month", available: "60", payment: "15,000" },
   ])
-
-  useEffect(() => {
-    if (success === true) {
-      api.success({
-        message: `Login success`,
-        description: "Hello welcome to travel mate",
-        placement: "topRight",
-      });
-    }
-  }, [success])
 
   const column = [
     {
@@ -170,7 +139,6 @@ function Home() {
 
   return (
     <>
-      {contextHolder}
       <Modal
         style={{ minWidth: 400, maxWidth: "100%" }}
         footer={[
