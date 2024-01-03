@@ -1,0 +1,48 @@
+1. City main country add krna hai. => DONE
+2. pasport expiry date. => DONE
+3. ff card. => DONE
+4. lov flights 
+5. EmpID => DONE
+6. add purpose date and time => DONE
+7. suggest hotel name. 
+8. lagaue currency.
+9. approval pehle hogi then flights detail aeyin gi...?
+
+//
+indivisual trip...
+
+trip purpose LOV
+
+
+// 
+
+pasport expiry notification before 6 month
+
+
+
+
+/// 9 03
+
+1 . unit lov's  =>   Done.
+2. passport expiry date. in admin portal => Done
+3. ff card .in admin portal =>Done
+4. description
+5. notification on user level
+6. visa expiry 2 month
+7. passport expiry 7 month
+8. notification on whatsapp and email 
+9. whatsapp on employee popup
+10. exit employee status
+11. email generation on trip status update
+12. ff card on mobile app user profile and web app
+13. trip status detail update
+14. email approval
+15. guest list on trip status
+16 . ticket number
+17. currency
+18 . currency @ trip edit form
+//
+
+whatsapp number
+email address 
+dedicated server
