@@ -38,7 +38,6 @@ import { useNavigate } from "react-router-dom";
 import { auth, firestore } from "../config/firebase";
 import CountUp from 'react-countup';
 import { collection, doc, onSnapshot, updateDoc } from "firebase/firestore";
-import { Loader } from "react-overlay-loader";
 import dayjs from 'dayjs'
 import icon1 from '../assets/images/member2.svg'
 import icon2 from '../assets/images/enroll.svg'
@@ -172,7 +171,6 @@ function Home() {
   return (
     <>
       {contextHolder}
-      <Loader loading={loading} />
       <Modal
         style={{ minWidth: 400, maxWidth: "100%" }}
         footer={[

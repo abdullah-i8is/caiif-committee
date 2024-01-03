@@ -66,7 +66,6 @@ function EnrollRequests() {
     return (
         <>
             {contextHolder}
-            <Loader loading={loading} />
             <div style={{ marginBottom: "20px", marginTop: "50px" }}>
                 <Title style={{ color: "#166805", margin: 0 }} level={3}>Enroll Request</Title>
             </div>

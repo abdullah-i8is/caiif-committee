@@ -161,7 +161,6 @@ function Members() {
     return (
         <>
             {contextHolder}
-            <Loader loading={loading} />
             <Modal
                 style={{ minWidth: 400, maxWidth: "100%" }}
                 footer={[
