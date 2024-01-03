@@ -22,7 +22,6 @@ import { useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import { auth, firestore } from "../config/firebase";
 import { collection, doc, onSnapshot, updateDoc } from "firebase/firestore";
-import { Loader } from "react-overlay-loader";
 import memberIcon from '../assets/images/member2.svg'
 import deleteIcon from '../assets/images/del-icon.svg'
 import StatisticsHeader from "../components/statistics/statisticsHeader";
@@ -165,7 +164,6 @@ function Setup() {
   return (
     <>
       {contextHolder}
-      <Loader loading={loading} />
       <Modal
         style={{ minWidth: 400, maxWidth: "100%" }}
         footer={[
