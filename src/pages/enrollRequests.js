@@ -6,7 +6,6 @@ import {
     Table,
 } from "antd";
 import { useNavigate } from "react-router-dom";
-import { Loader } from "react-overlay-loader";
 
 function EnrollRequests() {
 
