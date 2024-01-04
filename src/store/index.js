@@ -13,10 +13,12 @@ import {
   PURGE,
   REGISTER,
 } from "redux-persist";
+import membersReducer from "./membersSlice/membersSlice";
 
 const allreducers = combineReducers({
   auth: authReducer,
   common: commonReducer,
+  members: membersReducer,
 });
 
 const persistConfig = {

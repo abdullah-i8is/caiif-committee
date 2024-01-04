@@ -1,7 +1,9 @@
 import { Menu, Button } from "antd";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { NavLink, useLocation } from "react-router-dom";
 import logo from '../../assets/images/caiif-logo.svg'
+import { setToken } from "../../store/commonSlice/commonSlice";
+import { setUser } from "../../store/authSlice/authSlice";
 
 function Sidenav({ color }) {
 
@@ -50,8 +52,15 @@ function Sidenav({ color }) {
     </svg>
   ]
 
-  const loginUser = useSelector((state) => state.auth.user)
-  console.log(loginUser);
+  const user = useSelector((state) => state.auth.user)
+  const dispatch = useDispatch()
+
+  function handleLogout() {
+    dispatch(setToken(null))
+    dispatch(setUser(null))
+  }
+
+  console.log(user);
 
   return (
     <>
@@ -60,7 +69,7 @@ function Sidenav({ color }) {
         <img src={logo} alt="" style={{ width: "100%" }} />
       </div>
 
-      <div style={{ width: '100%', height: "3px", backgroundColor: "rgba(22, 104, 5, 0.50)", margin:"10px 0 50px 0" }}></div>
+      <div style={{ width: '100%', height: "3px", backgroundColor: "rgba(22, 104, 5, 0.50)", margin: "10px 0 50px 0" }}></div>
 
       <div style={{ display: "flex", alignItems: "center", marginBottom: "60px" }}>
         <div>
@@ -70,71 +79,119 @@ function Sidenav({ color }) {
             width: 80,
             height: 80,
             objectFit: "cover"
-          }} src="https://static.livebooks.com/b18c364831dd4d4ca0794ece1769bb78/i/d5ab9a3e330e4400858a72c2b7d6a6f3/1/4SoifmQp45JMgBnHp7ed2/Corporate_Headshot_041.jpg" alt="" />
+          }} src={user?.imageUrl} alt="" />
         </div>
-        <div style={{marginLeft:"20px"}}>
-          <p style={{ margin: 0, color: "#166805", fontWeight: "700", fontSize: "18px" }}>Ayesha khan</p>
-          <p style={{ margin: 0, color: "#F2C649", fontWeight: "700", fontSize: "18px" }}>Admin</p>
+        <div style={{ marginLeft: "20px" }}>
+          <p style={{ margin: 0, color: "#166805", fontWeight: "700", fontSize: "18px" }}>{user?.name}</p>
+          <p style={{ margin: 0, color: "#F2C649", fontWeight: "700", fontSize: "18px" }}>{user?.userType}</p>
         </div>
       </div>
 
       <Menu theme="light" mode="inline">
-        <Menu.Item key="1">
-          <NavLink to="/">
-            <span
-              className="icon"
-              style={{
-                background: page === "dashboard" ? color : "",
-              }}
-            >
-              {dashboard}
-            </span>
-            <span className="label">Dashboard</span>
-          </NavLink>
-        </Menu.Item>
-        <Menu.Item key="2">
-          <NavLink to="/members">
-            <span
-              className="icon"
-              style={{
-                background: page === "members" ? color : "",
-              }}
-            >
-              {member}
-            </span>
-            <span className="label">Member's</span>
-          </NavLink>
-        </Menu.Item>
-        <Menu.Item key="3">
-          <NavLink to="/setup">
-            <span
-              className="icon"
-              style={{
-                background: page === "setup" ? color : "",
-              }}
-            >
-              {committee}
-            </span>
-            <span className="label">Total Committee</span>
-          </NavLink>
-        </Menu.Item>
-        <Menu.Item key="4">
-          <NavLink to="/sign-in">
-            <span
-              className="icon"
-              style={{
-                background: page === "sign-in" ? color : "",
-              }}
-            >
-              {logout}
-            </span>
-            <span className="label">Logout</span>
-          </NavLink>
-        </Menu.Item>
 
-        {/* // <Menu.Item className="menu-item-header" key="100">
-        //   Admin
-        // </Menu.Item> */}
+        {user?.userType === "user" ? (
+          <>
+            <Menu.Item key="1">
+              <NavLink to="/">
+                <span
+                  className="icon"
+                  style={{
+                    background: page === "dashboard" ? color : "",
+                  }}
+                >
+                  {dashboard}
+                </span>
+                <span className="label">Dashboard</span>
+              </NavLink>
+            </Menu.Item>
+
+            <Menu.Item key="3">
+              <NavLink to="/setup">
+                <span
+                  className="icon"
+                  style={{
+                    background: page === "setup" ? color : "",
+                  }}
+                >
+                  {committee}
+                </span>
+                <span className="label">Total Committee</span>
+              </NavLink>
+            </Menu.Item>
+
+            <Menu.Item key="4" onClick={handleLogout}>
+              <NavLink to="/sign-in">
+                <span
+                  className="icon"
+                  style={{
+                    background: page === "sign-in" ? color : "",
+                  }}
+                >
+                  {logout}
+                </span>
+                <span className="label">Logout</span>
+              </NavLink>
+            </Menu.Item>
+          </>
+        ) : user?.userType === "admin" ? (
+          <>
+            <Menu.Item key="1">
+              <NavLink to="/">
+                <span
+                  className="icon"
+                  style={{
+                    background: page === "dashboard" ? color : "",
+                  }}
+                >
+                  {dashboard}
+                </span>
+                <span className="label">Dashboard</span>
+              </NavLink>
+            </Menu.Item>
+
+            <Menu.Item key="2">
+              <NavLink to="/members">
+                <span
+                  className="icon"
+                  style={{
+                    background: page === "members" ? color : "",
+                  }}
+                >
+                  {member}
+                </span>
+                <span className="label">Member's</span>
+              </NavLink>
+            </Menu.Item>
+
+            <Menu.Item key="3">
+              <NavLink to="/setup">
+                <span
+                  className="icon"
+                  style={{
+                    background: page === "setup" ? color : "",
+                  }}
+                >
+                  {committee}
+                </span>
+                <span className="label">Total Committee</span>
+              </NavLink>
+            </Menu.Item>
+
+            <Menu.Item key="4" onClick={handleLogout}>
+              <NavLink to="/sign-in">
+                <span
+                  className="icon"
+                  style={{
+                    background: page === "sign-in" ? color : "",
+                  }}
+                >
+                  {logout}
+                </span>
+                <span className="label">Logout</span>
+              </NavLink>
+            </Menu.Item>
+          </>
+        ) : null}
 
         {/* <Menu.Item key="6">
           <NavLink to="/profile">

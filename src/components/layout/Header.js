@@ -1,49 +1,16 @@
-/*!
-  =========================================================
-  * Muse Ant Design Dashboard - v1.0.0
-  =========================================================
-  * Product Page: https://www.creative-tim.com/product/muse-ant-design-dashboard
-  * Copyright 2021 Creative Tim (https://www.creative-tim.com)
-  * Licensed under MIT (https://github.com/creativetimofficial/muse-ant-design-dashboard/blob/main/LICENSE.md)
-  * Coded by Creative Tim
-  =========================================================
-  * The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
-*/
-
 import { useState, useEffect } from "react";
 
 import {
   Row,
   Col,
-  Breadcrumb,
   Badge,
-  Dropdown,
   Button,
-  List,
-  Avatar,
-  Input,
-  Drawer,
   Typography,
   Switch,
   Tooltip,
 } from "antd";
 
-import {
-  SearchOutlined,
-  StarOutlined,
-  TwitterOutlined,
-  FacebookFilled,
-  LogoutOutlined,
-  UserOutlined,
-  UserAddOutlined,
-} from "@ant-design/icons";
-
-import { NavLink, Link, useLocation } from "react-router-dom";
 import styled from "styled-components";
-import avtar from "../../assets/images/team-2.jpg";
-import ModalComp from "../modals/modals";
-import ButtonComp from "../buttons/buttons";
-import { auth } from '../../config/firebase'
 import { useDispatch, useSelector } from "react-redux";
 import { setSuccess, setToken } from '../../store/commonSlice/commonSlice'
 import { setUser } from '../../store/authSlice/authSlice'
@@ -251,7 +218,6 @@ function Header({
   console.log("LOGIN USER", loginUser);
 
   const handleLogout = () => {
-    auth.signOut()
     dispatch(setSuccess(false))
     dispatch(setToken(null))
     dispatch(setUser({}))

@@ -10,15 +10,15 @@ import icon1 from '../../assets/images/member2.svg'
 import icon2 from '../../assets/images/enroll.svg'
 import icon3 from '../../assets/images/committee.svg'
 
-const StatisticsHeader = () => {
+const StatisticsHeader = ({ approveMembers }) => {
     const { Title, Text } = Typography;
     const arr = [
-        { id: 1, title: "Total Members", description: 63, icon: icon1 },
+        { id: 1, title: "Total Members", description: approveMembers?.length ? approveMembers?.length : 0, icon: icon1 },
         { id: 2, title: "Enroll Request", description: 4, icon: icon2 },
         { id: 3, title: "Add New Committee", description: "Click Now", icon: icon3 },
     ]
     return (
-        <div className="layout-content" style={{ marginTop: "50px", marginBottom:"40px" }}>
+        <div className="layout-content" style={{ marginTop: "50px", marginBottom: "40px" }}>
             <Row gutter={[24, 0]}>
                 {arr.map((card, index) => {
                     return (

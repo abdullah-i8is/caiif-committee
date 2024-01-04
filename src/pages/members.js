@@ -18,13 +18,14 @@ import {
 import {
     CarOutlined,
 } from "@ant-design/icons";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
-import { auth, firestore } from "../config/firebase";
-import { collection, doc, onSnapshot, updateDoc } from "firebase/firestore";
 import memberIcon from '../assets/images/member2.svg'
 import deleteIcon from '../assets/images/del-icon.svg'
 import StatisticsHeader from "../components/statistics/statisticsHeader";
+import axios from "axios";
+import { API_URL } from "../config/api";
+import { setApproveMembers } from "../store/membersSlice/membersSlice";
 
 function Members() {
 
@@ -53,16 +54,16 @@ function Members() {
     const column = [
         {
             title: <Title style={{ fontSize: "18px", margin: 0, color: "#166805", fontWeight: "600" }}>Name</Title>,
-            dataIndex: 'username',
-            key: 'username',
+            dataIndex: 'name',
+            key: 'name',
             render: (text, record, index) => {
-                return <Title style={{ fontSize: "18px", margin: 0, color: "#166805", fontWeight: "600" }}>{record?.username}</Title>
+                return <Title style={{ fontSize: "18px", margin: 0, color: "#166805", fontWeight: "600" }}>{record?.name}</Title>
             }
         },
         {
             title: <Title style={{ fontSize: "18px", margin: 0, color: "#166805", fontWeight: "600" }}>Amount</Title>,
-            dataIndex: 'CNIC',
-            key: 'CNIC',
+            dataIndex: 'amount',
+            key: 'amount',
             render: (text, record) => {
                 return <Title style={{ fontSize: "16px", margin: 0, color: "#818181" }}>{record?.amount}</Title>
             }
@@ -77,25 +78,25 @@ function Members() {
         },
         {
             title: <Title style={{ fontSize: "18px", margin: 0, color: "#166805", fontWeight: "600" }}>Email</Title>,
-            dataIndex: 'CNIC',
-            key: 'CNIC',
+            dataIndex: 'email',
+            key: 'email',
             render: (text, record) => {
                 return <Title style={{ fontSize: "16px", margin: 0, color: "#818181" }}>{record?.email}</Title>
             }
         },
         {
             title: <Title style={{ fontSize: "18px", margin: 0, color: "#166805", fontWeight: "600" }}>Phone Number</Title>,
-            dataIndex: 'phonenumber',
-            key: 'phonenumber',
+            dataIndex: 'contactNumber',
+            key: 'contactNumber',
             render: (text, record) => {
-                return <Title style={{ fontSize: "16px", margin: 0, color: "#818181" }}>{record?.phonenumber}</Title>
+                return <Title style={{ fontSize: "16px", margin: 0, color: "#818181" }}>{record?.contactNumber}</Title>
             }
         },
         {
             title: <Title style={{ fontSize: "18px", margin: 0, color: "#166805", fontWeight: "600" }}></Title>,
             render: (text, record) => {
                 return (
-                    <Button style={{ margin: "0 0 0 20px" }} onClick={() => navigate("/verification-details")} className="add-cycle-btn">View</Button>
+                    <Button style={{ margin: "0 0 0 20px" }} onClick={() => navigate(`/verification-details/${record._id}`)} className="add-cycle-btn">View</Button>
                 )
             }
         },
@@ -104,10 +105,10 @@ function Members() {
     const column2 = [
         {
             title: <Title style={{ fontSize: "18px", margin: 0, color: "#166805", fontWeight: "600" }}>Name</Title>,
-            dataIndex: 'username',
-            key: 'username',
+            dataIndex: 'name',
+            key: 'name',
             render: (text, record, index) => {
-                return <Title style={{ fontSize: "18px", margin: 0, color: "#166805", fontWeight: "600" }}>{record?.username}</Title>
+                return <Title style={{ fontSize: "18px", margin: 0, color: "#166805", fontWeight: "600" }}>{record?.name}</Title>
             }
         },
         {
@@ -120,10 +121,10 @@ function Members() {
         },
         {
             title: <Title style={{ fontSize: "18px", margin: 0, color: "#166805", fontWeight: "600" }}>Phone Number</Title>,
-            dataIndex: 'phonenumber',
-            key: 'phonenumber',
+            dataIndex: 'contactNumber',
+            key: 'contactNumber',
             render: (text, record) => {
-                return <Title style={{ fontSize: "16px", margin: 0, color: "#818181" }}>{record?.phonenumber}</Title>
+                return <Title style={{ fontSize: "16px", margin: 0, color: "#818181" }}>{record?.contactNumber}</Title>
             }
         },
         {
@@ -136,26 +137,39 @@ function Members() {
         },
         {
             title: <Title style={{ fontSize: "18px", margin: 0, color: "#166805", fontWeight: "600" }}>Tier</Title>,
-            dataIndex: 'tier',
-            key: 'tier',
+            dataIndex: 'level',
+            key: 'level',
             render: (text, record) => {
-                return <Title style={{ fontSize: "16px", margin: 0, color: "#818181" }}>{record?.tier}</Title>
+                return <Title style={{ fontSize: "16px", margin: 0, color: "#818181" }}>{record?.level}</Title>
             }
         },
     ];
 
-    const handleApproveTrip = (name) => {
-        console.log(name);
-        setLoading(true)
-        const docRef = doc(firestore, "trips", approveTrips.id)
-        setModalOpen(false)
-        updateDoc(docRef, {
-            ...approveTrips,
-            tripStatus: name === "approve" ? 3 : name === "reject" ? 4 : ""
-        }).then(() => {
-            setLoading(false)
-        })
+    const token = useSelector((state) => state.common.token)
+    const approveMembers = useSelector((state) => state.members.approveMembers)
+    const dispatch = useDispatch()
+
+    console.log(approveMembers);
+
+    async function getMembers() {
+        try {
+            const response = await axios.get(`${API_URL}/admin/getAllUsers`, {
+                headers: {
+                    Authorization: "Bearer " + token
+                }
+            })
+            if (response.status === 200) {
+                console.log(response);
+                dispatch(setApproveMembers(response.data.users))
+            }
+        } catch (error) {
+            console.log(error);
+        }
     }
+
+    useEffect(() => {
+        getMembers()
+    }, [])
 
     return (
         <>
@@ -163,8 +177,8 @@ function Members() {
                 style={{ minWidth: 400, maxWidth: "100%" }}
                 footer={[
                     <>
-                        <Button onClick={() => handleApproveTrip("reject")} type="default">Reject</Button>
-                        <Button onClick={() => handleApproveTrip("approve")} type="primary">Approve</Button>
+                        <Button type="default">Reject</Button>
+                        <Button type="primary">Approve</Button>
                     </>
                 ]}
                 centered
@@ -192,18 +206,18 @@ function Members() {
                     </Card>
                 </Row>
             </Modal>
-            <StatisticsHeader />
+            <StatisticsHeader approveMembers={approveMembers} />
             <div style={{ marginBottom: "20px" }}>
                 <Title style={{ color: "#166805", margin: 0 }} level={3}>Approval members Request</Title>
             </div>
             <Card className="my-card" style={{ marginBottom: "20px" }}>
-                <Table dataSource={data} columns={column} />
+                <Table dataSource={approveMembers?.filter((user) => user.approve === false)} columns={column} />
             </Card>
             <div style={{ marginBottom: "20px", marginTop: "40px" }}>
                 <Title style={{ color: "#166805", margin: 0 }} level={3}>Approved members</Title>
             </div>
             <Card className="my-card" style={{ marginBottom: "20px" }}>
-                <Table dataSource={data2} columns={column2} />
+                <Table dataSource={approveMembers?.filter((user) => user.approve === true)} columns={column2} />
             </Card>
             {Number(loginUser.role) === 3 ? (
                 <Tooltip title="Add Trip">

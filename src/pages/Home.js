@@ -24,8 +24,6 @@ import {
 } from "@ant-design/icons";
 import { useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
-import { auth, firestore } from "../config/firebase";
-import { collection, doc, onSnapshot, updateDoc } from "firebase/firestore";
 import memberIcon from '../assets/images/member2.svg'
 import StatisticsHeader from "../components/statistics/statisticsHeader";
 
@@ -124,27 +122,14 @@ function Home() {
     },
   ];
 
-  const handleApproveTrip = (name) => {
-    console.log(name);
-    setLoading(true)
-    const docRef = doc(firestore, "trips", approveTrips.id)
-    setModalOpen(false)
-    updateDoc(docRef, {
-      ...approveTrips,
-      tripStatus: name === "approve" ? 3 : name === "reject" ? 4 : ""
-    }).then(() => {
-      setLoading(false)
-    })
-  }
-
   return (
     <>
       <Modal
         style={{ minWidth: 400, maxWidth: "100%" }}
         footer={[
           <>
-            <Button onClick={() => handleApproveTrip("reject")} type="default">Reject</Button>
-            <Button onClick={() => handleApproveTrip("approve")} type="primary">Approve</Button>
+            <Button type="default">Reject</Button>
+            <Button type="primary">Approve</Button>
           </>
         ]}
         centered
@@ -180,7 +165,7 @@ function Home() {
       <Card className="my-card">
         <Table dataSource={data} columns={column} />
       </Card>
-      {Number(loginUser.role) === 3 ? (
+      {/* {Number(loginUser.role) === 3 ? (
         <Tooltip title="Add Trip">
           <FloatButton
             onClick={() => {
@@ -193,7 +178,7 @@ function Home() {
           >
           </FloatButton>
         </Tooltip>
-      ) : ""}
+      ) : ""} */}
     </>
   );
 }
