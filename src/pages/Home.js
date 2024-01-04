@@ -159,8 +159,13 @@ function Home() {
       </Modal>
       <StatisticsHeader />
       <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: "20px" }}>
-        <Title style={{ color: "#166805", margin: 0 }} level={3}>Committee</Title>
-        <Button onClick={() => navigate("/view-all-committee")} className="view-all-btn">View All</Button>
+        <div>
+          <Title style={{ color: "#166805", margin: 0 }} level={3}>Committee</Title>
+        </div>
+        <div>
+          <Button onClick={() => navigate("/committee-details")} className="view-all-btn">Create Committee</Button>
+          <Button style={{ margin: "0 0 0 20px" }} onClick={() => navigate("/view-all-committee")} className="view-all-btn">View All</Button>
+        </div>
       </div>
       <Card className="my-card">
         <Table dataSource={data} columns={column} />

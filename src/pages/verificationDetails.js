@@ -36,20 +36,23 @@ function VerificationDetails() {
     async function handleApprove(status) {
         setLoading(status === false ? true : false)
         setLoading2(status === true ? true : false)
-        // try {
-        //     const response = await axios.post(`${API_URL}/admin/approveAccount/${id}`, {
-        //         approve: status
-        //     })
-        //     if (response.status === 200) {
-        //         setLoading(false)
-        //         setLoading2(false)
-        //         console.log(response);
-        //     }
-        // } catch (error) {
-        //     setLoading(false)
-        //     setLoading2(false)
-        //     console.log(error);
-        // }
+        try {
+            const response = await axios.post(`${API_URL}/admin/approveAccount/${id}`, {
+                approve: status
+            })
+            if (response.status === 200) {
+                setLoading(false)
+                setLoading2(false)
+                setTimeout(() => {
+                    navigate("/members")
+                }, 2000);
+                console.log(response);
+            }
+        } catch (error) {
+            setLoading(false)
+            setLoading2(false)
+            console.log(error);
+        }
     }
 
     console.log(formFields);
