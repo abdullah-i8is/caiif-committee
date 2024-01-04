@@ -20,9 +20,6 @@ function App() {
   const token = useSelector((state) => state.common.token)
   const user = useSelector((state) => state.auth.user)
 
-  console.log(token);
-  console.log(user);
-
   return (
 
     <div className="App">
