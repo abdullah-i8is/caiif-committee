@@ -25,6 +25,7 @@ function VerificationDetails() {
     const navigate = useNavigate()
     const approveMembers = useSelector((state) => state.members.approveMembers)
     const [formFields, setFormFields] = useState({})
+    const token = useSelector((state) => state.common.token)
 
     const { id } = useParams()
 
@@ -39,6 +40,10 @@ function VerificationDetails() {
         try {
             const response = await axios.post(`${API_URL}/admin/approveAccount/${id}`, {
                 approve: status
+            }, {
+                headers: {
+                    Authorization: "Bearer " + token
+                }
             })
             if (response.status === 200) {
                 setLoading(false)
