@@ -75,7 +75,7 @@ export default function SignIn() {
     if (userType === "user") {
       setLoading2(true)
       try {
-        const response = await axios.post(`${API_URL}/signin/user`, {
+        const response = await axios.post(`${API_URL}/signin`, {
           ...formFields
         })
         if (response.status === 200) {

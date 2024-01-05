@@ -89,7 +89,7 @@ function Sidenav({ color }) {
 
       <Menu theme="light" mode="inline">
 
-        {user?.userType === "user" ? (
+        {user?.userType === "customer" ? (
           <>
             <Menu.Item key="1">
               <NavLink to="/">

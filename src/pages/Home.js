@@ -30,7 +30,6 @@ import StatisticsHeader from "../components/statistics/statisticsHeader";
 function Home() {
 
   const { Title, Text } = Typography;
-  const loginUser = useSelector((state) => state.auth.user)
   const navigate = useNavigate()
   const [loading, setLoading] = useState(false)
   const [modalOpen, setModalOpen] = useState(false)
@@ -122,6 +121,8 @@ function Home() {
     },
   ];
 
+  const user = useSelector((state) => state.auth.user)
+
   return (
     <>
       <Modal
@@ -157,13 +158,13 @@ function Home() {
           </Card>
         </Row>
       </Modal>
-      <StatisticsHeader />
+      <StatisticsHeader user={user} />
       <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: "20px" }}>
         <div>
           <Title style={{ color: "#166805", margin: 0 }} level={3}>Committee</Title>
         </div>
         <div>
-          <Button onClick={() => navigate("/committee-details")} className="view-all-btn">Create Committee</Button>
+          {user.userType === "admin" && <Button onClick={() => navigate("/committee-details")} className="view-all-btn">Create Committee</Button>}
           <Button style={{ margin: "0 0 0 20px" }} onClick={() => navigate("/view-all-committee")} className="view-all-btn">View All</Button>
         </div>
       </div>
