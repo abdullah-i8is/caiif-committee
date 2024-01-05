@@ -14,6 +14,7 @@ import { useSelector } from "react-redux";
 import Members from "./pages/members";
 import VerificationDetails from "./pages/verificationDetails";
 import { useEffect } from "react";
+import VerifyAccount from "./pages/verifyAccount";
 
 function App() {
 
@@ -28,7 +29,7 @@ function App() {
 
         <Route path="/sign-up" exact element={!token ? <SignUp /> : <Navigate to="/" />} />
         <Route path="/sign-in" exact element={!token ? <SignIn /> : <Navigate to="/" />} />
-        <Route path="/create-account/:id/:email" element={<SignIn />} />
+        <Route path="/create-account/:id/:email" element={<VerifyAccount />} />
 
         <Route path="/" element={<Main />}>
 
