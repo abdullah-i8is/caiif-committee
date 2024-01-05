@@ -31,11 +31,6 @@ function Home() {
 
   const { Title, Text } = Typography;
   const navigate = useNavigate()
-  const [loading, setLoading] = useState(false)
-  const [modalOpen, setModalOpen] = useState(false)
-  const [approveTrips, setApproveTrips] = useState()
-  const [flightBudget, setFlightBudget] = useState(0)
-  const [hotelBudget, setHotelBudget] = useState(0)
   const [data, setData] = useState([
     { property: "Premium Pro Ultra Max", amount: "250", members: "60", startDate: "1st January 2023", endDate: "31 December 2027", cycle: "1 Month", available: "60", payment: "15,000" },
     { property: "Premium Pro Ultra Max", amount: "250", members: "60", startDate: "1st January 2023", endDate: "31 December 2027", cycle: "1 Month", available: "60", payment: "15,000" },
