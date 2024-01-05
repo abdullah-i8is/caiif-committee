@@ -16,7 +16,7 @@ import VerificationDetails from "./pages/verificationDetails";
 import { useEffect, useState } from "react";
 import VerifyAccount from "./pages/verifyAccount";
 import Lottie from "react-lottie";
-import animationData from "./assets/money.json";
+import animationData from "./assets/money2.json";
 import logo from "./assets/images/caiif-logo.svg";
 
 function App() {
@@ -45,8 +45,9 @@ function App() {
 
       {loading ? (
         <div style={{ padding: "20px" }}>
-          <div style={{ minHeight: "65vh", display: "flex", justifyContent: "center", alignItems: "center", flexDirection: "column", position: "relative" }}>
-            <Lottie options={defaultOptions} height={500} width={500} />
+          <div style={{ minHeight: "90vh", display: "flex", justifyContent: "center", alignItems: "center", flexDirection: "column", position: "relative" }}>
+            <img src={logo} />
+            <Lottie options={defaultOptions} height={400} width={400} />
           </div>
         </div>
       ) : (
