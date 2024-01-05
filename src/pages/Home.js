@@ -125,66 +125,19 @@ function Home() {
 
   return (
     <>
-      <Modal
-        style={{ minWidth: 400, maxWidth: "100%" }}
-        footer={[
-          <>
-            <Button type="default">Reject</Button>
-            <Button type="primary">Approve</Button>
-          </>
-        ]}
-        centered
-        title="Trips"
-        open={modalOpen}
-        onCancel={() => setModalOpen(false)}>
-        <Row gutter={[24, 0]}>
-          <Col xs={24} sm={24} md={24} lg={24} xl={24}>
-            <Text style={{ fontSize: 20 }}>Trip No</Text>: <Text style={{ fontSize: 20 }}>{approveTrips ? approveTrips.tripNo : ""}</Text>
-          </Col>
-          <Col xs={24} sm={24} md={24} lg={24} xl={24}>
-            <Text style={{ fontSize: 20 }}>Trip Status</Text>: <Tag color={"warning"}>{approveTrips ? approveTrips.tripStatus === 2 ? "PENDING" : "" : ""}</Tag>
-          </Col>
-          <Card style={{ width: "100%", margin: "10px 0" }}>
-            <Col xs={24} sm={24} md={24} lg={24} xl={24}>
-              <Row gutter={[24, 0]}>
-                <Col xs={24} sm={24} md={12} lg={12} xl={12}>
-                  <Title level={5}>Total Flight Budget</Title> {flightBudget}
-                </Col>
-                <Col xs={24} sm={24} md={12} lg={12} xl={12}>
-                  <Title level={5}>Total Hotel Budget</Title> {hotelBudget}
-                </Col>
-              </Row>
-            </Col>
-          </Card>
-        </Row>
-      </Modal>
       <StatisticsHeader user={user} />
       <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: "20px" }}>
         <div>
           <Title style={{ color: "#166805", margin: 0 }} level={3}>Committee</Title>
         </div>
         <div>
-          {user.userType === "admin" && <Button onClick={() => navigate("/committee-details")} className="view-all-btn">Create Committee</Button>}
+          {user?.userType === "admin" && <Button onClick={() => navigate("/committee-details")} className="view-all-btn">Create Committee</Button>}
           <Button style={{ margin: "0 0 0 20px" }} onClick={() => navigate("/view-all-committee")} className="view-all-btn">View All</Button>
         </div>
       </div>
       <Card className="my-card">
         <Table dataSource={data} columns={column} />
       </Card>
-      {/* {Number(loginUser.role) === 3 ? (
-        <Tooltip title="Add Trip">
-          <FloatButton
-            onClick={() => {
-              navigate({ pathname: `/add-trip-detail` }, { state: { loginUser: loginUser } })
-            }}
-            shape="circle"
-            trigger="hover"
-            type="primary"
-            icon={<CarOutlined />}
-          >
-          </FloatButton>
-        </Tooltip>
-      ) : ""} */}
     </>
   );
 }
