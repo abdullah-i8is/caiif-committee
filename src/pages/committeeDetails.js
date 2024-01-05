@@ -152,7 +152,7 @@ function CommitteeDetails() {
                                         message: 'Please input your Total Amount!',
                                     },
                                 ]}
-                                name="payment"
+                                name="amount"
                                 label={<Title style={{ fontSize: "16px", margin: 0, color: "#4E4E4E" }}>Total Amount</Title>}>
                                 <Input placeholder="$ 000" />
                             </Form.Item>
@@ -220,11 +220,11 @@ function CommitteeDetails() {
                                 rules={[
                                     {
                                         required: true,
-                                        message: 'Please input your Amount!',
+                                        message: 'Please input your Payment!',
                                     },
                                 ]}
-                                name="amount">
-                                <Input placeholder="$ 000" />
+                                name="payment">
+                                <Input value={formFields.amount / formFields.cycle} placeholder="$ 000" />
                             </Form.Item>
                         </Col>
                     </Row>
