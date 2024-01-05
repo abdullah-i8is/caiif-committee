@@ -43,10 +43,11 @@ function App() {
 
     <div className="App">
 
-      {!loading ? (
-        <div style={{ minHeight: "70vh", display: "flex", justifyContent: "center", alignItems: "center", flexDirection: "column", position:"relative" }}>
-          <img width={300} src={logo} alt="" />
-          <Lottie options={defaultOptions} height={400} width={400} style={{ position: "absolute", top: 350 }} />
+      {loading ? (
+        <div style={{ padding: "20px" }}>
+          <div style={{ minHeight: "65vh", display: "flex", justifyContent: "center", alignItems: "center", flexDirection: "column", position: "relative" }}>
+            <Lottie options={defaultOptions} height={500} width={500} />
+          </div>
         </div>
       ) : (
         <Routes>
