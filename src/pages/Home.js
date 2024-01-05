@@ -22,13 +22,15 @@ import {
 import {
   CarOutlined,
 } from "@ant-design/icons";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import memberIcon from '../assets/images/member2.svg'
 import StatisticsHeader from "../components/statistics/statisticsHeader";
 import axios from "axios";
 import { API_URL } from "../config/api";
 import { SpinnerCircular } from "spinners-react";
+import { setCommittees } from "../store/committeeSlice/committeeSlice";
+import { GetAdminCommittees, GetUserCommittees } from "../middlewares/commitee";
 
 
 function Home() {
@@ -114,14 +116,14 @@ function Home() {
         return <Title style={{ fontSize: "16px", margin: 0, color: "#818181" }}>{record?.committee?.payment}</Title>
       }
     },
-    {
-      title: <Title style={{ fontSize: "18px", margin: 0, color: "#166805", fontWeight: "600" }}>Payment</Title>,
-      dataIndex: 'payment',
-      key: 'payment',
-      render: (text, record) => {
-        return <Title style={{ fontSize: "16px", margin: 0, color: "#818181" }}>{record?.committee?.payment}</Title>
-      }
-    },
+    // {
+    //   title: <Title style={{ fontSize: "18px", margin: 0, color: "#166805", fontWeight: "600" }}>Payment</Title>,
+    //   dataIndex: 'payment',
+    //   key: 'payment',
+    //   render: (text, record) => {
+    //     return <Title style={{ fontSize: "16px", margin: 0, color: "#818181" }}>{record?.committee?.payment}</Title>
+    //   }
+    // },
     {
       title: <Title style={{ fontSize: "18px", margin: 0, color: "#166805", fontWeight: "600" }}></Title>,
       render: (text, record) => {
@@ -219,35 +221,32 @@ function Home() {
 
   const user = useSelector((state) => state.auth.user)
   const token = useSelector((state) => state.common.token)
-
-  async function getCommittees() {
-    setLoading(true)
-    try {
-      const response = await axios.get(`${API_URL}/user/allCommittees`, {
-        headers: {
-          Authorization: "Bearer " + token
-        }
-      })
-      if (response.status === 200) {
-        console.log(response);
-        setLoading(false)
-        const committee = response.data.allCommittees
-        setData2([...committee.level1, ...committee.level2, ...committee.level3])
-      }
-    } catch (error) {
-      setLoading(false)
-      console.log(error);
-    }
-  }
-
-  useEffect(() => {
-    if (user?.userType === "customer") {
-      getCommittees()
-    }
-  }, [])
-
   const approveMembers = useSelector((state) => state.members.approveMembers)
   const committees = useSelector((state) => state.committees.committees)
+  const dispatch = useDispatch()
+
+  useEffect(() => {
+    if (user.userType === "admin") {
+      GetAdminCommittees(token)
+        .then((res) => {
+          const committee = res.data.allCommittees
+          dispatch(setCommittees([...committee.level1, ...committee.level2, ...committee.level3]))
+        })
+        .catch((err) => {
+          console.log(err);
+        })
+    }
+    if (user.userType === "customer") {
+      GetUserCommittees(token)
+        .then((res) => {
+          const committee = res.data.allCommittees
+          dispatch(setCommittees([...committee.level1, ...committee.level2, ...committee.level3]))
+        })
+        .catch((err) => {
+          console.log(err);
+        })
+    }
+  }, [])
 
   console.log(committees);
 
@@ -265,8 +264,8 @@ function Home() {
       </div>
       <Card className="my-card">
         <Table
-          dataSource={user?.userType === "admin" ? committees : data2}
-          columns={user?.userType === "admin" ? column : column2}
+          dataSource={committees}
+          columns={column}
         />
       </Card>
     </>

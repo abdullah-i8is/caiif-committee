@@ -46,49 +46,6 @@ function App() {
     }, 5000);
   }, [])
 
-  async function getMembers() {
-    try {
-      const response = await axios.get(`${API_URL}/admin/getAllUsers`, {
-        headers: {
-          Authorization: "Bearer " + token
-        }
-      })
-      if (response.status === 200) {
-        console.log(response);
-        dispatch(setApproveMembers(response.data.users))
-      }
-    } catch (error) {
-      console.log(error);
-    }
-  }
-
-  async function getCommittees() {
-    setLoading(true)
-    try {
-      const response = await axios.get(`${API_URL}/admin/allCommittees`, {
-        headers: {
-          Authorization: "Bearer " + token
-        }
-      })
-      if (response.status === 200) {
-        console.log(response);
-        setLoading(false)
-        const committee = response.data.allCommittees
-        dispatch(setCommittees([...committee.level1, ...committee.level2, ...committee.level3]))
-      }
-    } catch (error) {
-      setLoading(false)
-      console.log(error);
-    }
-  }
-
-  useEffect(() => {
-    if (user?.userType === "admin") {
-      getMembers()
-      getCommittees()
-    }
-  }, [])
-
   return (
 
     <div className="App">
