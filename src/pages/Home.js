@@ -35,23 +35,17 @@ function Home() {
 
   const { Title, Text } = Typography;
   const navigate = useNavigate()
-  const [data, setData] = useState([
-    { property: "Premium Pro Ultra Max", amount: "250", members: "60", startDate: "1st January 2023", endDate: "31 December 2027", cycle: "1 Month", available: "60", payment: "15,000" },
-    { property: "Premium Pro Ultra Max", amount: "250", members: "60", startDate: "1st January 2023", endDate: "31 December 2027", cycle: "1 Month", available: "60", payment: "15,000" },
-    { property: "Premium Pro Ultra Max", amount: "250", members: "60", startDate: "1st January 2023", endDate: "31 December 2027", cycle: "1 Month", available: "60", payment: "15,000" },
-    { property: "Premium Pro Ultra Max", amount: "250", members: "60", startDate: "1st January 2023", endDate: "31 December 2027", cycle: "1 Month", available: "60", payment: "15,000" },
-    { property: "Premium Pro Ultra Max", amount: "250", members: "60", startDate: "1st January 2023", endDate: "31 December 2027", cycle: "1 Month", available: "60", payment: "15,000" },
-  ])
+  const [data, setData] = useState([])
   const [data2, setData2] = useState([])
   const [loading, setLoading] = useState(false)
 
   const column = [
     {
-      title: <Title style={{ fontSize: "18px", margin: 0, color: "#166805", fontWeight: "600" }}>Property</Title>,
-      dataIndex: 'property',
-      key: 'property',
+      title: <Title style={{ fontSize: "18px", margin: 0, color: "#166805", fontWeight: "600" }}>Name</Title>,
+      dataIndex: 'name',
+      key: 'name',
       render: (text, record, index) => {
-        return <Title style={{ fontSize: "18px", margin: 0 }}>Premium Pro Ultra Max</Title>
+        return <Title style={{ fontSize: "18px", margin: 0 }}>{record?.committee.name}</Title>
       }
     },
     {
@@ -59,7 +53,7 @@ function Home() {
       dataIndex: 'amount',
       key: 'amount',
       render: (text, record) => {
-        return <Title style={{ fontSize: "16px", margin: 0, color: "#818181" }}>$ {record?.amount}</Title>
+        return <Title style={{ fontSize: "16px", margin: 0, color: "#818181" }}>$ {record?.committee?.amount}</Title>
       }
     },
     {
@@ -70,7 +64,7 @@ function Home() {
         return (
           <div style={{ display: "flex", alignItems: "center" }}>
             <img width={30} src={memberIcon} />
-            <Title style={{ fontSize: "16px", margin: "0 0 0 10px", color: "#818181" }}>{record?.members}</Title>
+            <Title style={{ fontSize: "16px", margin: "0 0 0 10px", color: "#818181" }}>{record?.committee?.members}</Title>
           </div>
         )
       }
@@ -80,7 +74,7 @@ function Home() {
       dataIndex: 'startDate',
       key: 'startDate',
       render: (text, record) => {
-        return <Title style={{ fontSize: "16px", margin: 0, color: "#818181" }}>{record?.startDate}</Title>
+        return <Title style={{ fontSize: "16px", margin: 0, color: "#818181" }}>{record?.committee?.startDate}</Title>
       }
     },
     {
@@ -88,7 +82,7 @@ function Home() {
       dataIndex: 'endDate',
       key: 'endDate',
       render: (text, record) => {
-        return <Title style={{ fontSize: "16px", margin: 0, color: "#818181" }}>{record?.endDate}</Title>
+        return <Title style={{ fontSize: "16px", margin: 0, color: "#818181" }}>{record?.committee?.endDate}</Title>
       }
     },
     {
@@ -96,20 +90,28 @@ function Home() {
       dataIndex: 'cycle',
       key: 'cycle',
       render: (text, record) => {
-        return <Title style={{ fontSize: "16px", margin: 0, color: "#818181" }}>{record?.cycle}</Title>
+        return <Title style={{ fontSize: "16px", margin: 0, color: "#818181" }}>{record?.committee?.cycle}</Title>
       }
     },
+    // {
+    //   title: <Title style={{ fontSize: "18px", margin: 0, color: "#166805", fontWeight: "600" }}>Available</Title>,
+    //   dataIndex: 'available',
+    //   key: 'available',
+    //   render: (text, record) => {
+    //     return (
+    //       <div style={{ display: "flex", alignItems: "center" }}>
+    //         <img width={30} src={memberIcon} />
+    //         <Title style={{ fontSize: "16px", margin: "0 0 0 10px", color: "#818181" }}>{record?.committee?.available}</Title>
+    //       </div>
+    //     )
+    //   }
+    // },
     {
-      title: <Title style={{ fontSize: "18px", margin: 0, color: "#166805", fontWeight: "600" }}>Available</Title>,
-      dataIndex: 'available',
-      key: 'available',
+      title: <Title style={{ fontSize: "18px", margin: 0, color: "#166805", fontWeight: "600" }}>Payment</Title>,
+      dataIndex: 'payment',
+      key: 'payment',
       render: (text, record) => {
-        return (
-          <div style={{ display: "flex", alignItems: "center" }}>
-            <img width={30} src={memberIcon} />
-            <Title style={{ fontSize: "16px", margin: "0 0 0 10px", color: "#818181" }}>{record?.available}</Title>
-          </div>
-        )
+        return <Title style={{ fontSize: "16px", margin: 0, color: "#818181" }}>{record?.committee?.payment}</Title>
       }
     },
     {
@@ -117,15 +119,24 @@ function Home() {
       dataIndex: 'payment',
       key: 'payment',
       render: (text, record) => {
-        return <Title style={{ fontSize: "16px", margin: 0, color: "#818181" }}>{record?.payment}</Title>
+        return <Title style={{ fontSize: "16px", margin: 0, color: "#818181" }}>{record?.committee?.payment}</Title>
+      }
+    },
+    {
+      title: <Title style={{ fontSize: "18px", margin: 0, color: "#166805", fontWeight: "600" }}></Title>,
+      render: (text, record) => {
+        return (
+          <Button style={{ margin: "0 0 0 20px" }} onClick={() => navigate(`/view-committee/${record?.committee?._id}`)} className="add-cycle-btn">View</Button>
+        )
       }
     },
   ];
+
   const column2 = [
     {
-      title: <Title style={{ fontSize: "18px", margin: 0, color: "#166805", fontWeight: "600" }}>Property</Title>,
-      dataIndex: 'property',
-      key: 'property',
+      title: <Title style={{ fontSize: "18px", margin: 0, color: "#166805", fontWeight: "600" }}>Name</Title>,
+      dataIndex: 'name',
+      key: 'name',
       render: (text, record, index) => {
         return <Title style={{ fontSize: "18px", margin: 0 }}>{record?.name}</Title>
       }
@@ -196,6 +207,14 @@ function Home() {
         return <Title style={{ fontSize: "16px", margin: 0, color: "#818181" }}>{record?.payment}</Title>
       }
     },
+    {
+      title: <Title style={{ fontSize: "18px", margin: 0, color: "#166805", fontWeight: "600" }}></Title>,
+      render: (text, record) => {
+        return (
+          <Button style={{ margin: "0 0 0 20px" }} onClick={() => navigate(`/view-committee/${record?.committee?._id}`)} className="add-cycle-btn">View</Button>
+        )
+      }
+    },
   ];
 
   const user = useSelector((state) => state.auth.user)
@@ -227,9 +246,14 @@ function Home() {
     }
   }, [])
 
+  const approveMembers = useSelector((state) => state.members.approveMembers)
+  const committees = useSelector((state) => state.committees.committees)
+
+  console.log(committees);
+
   return (
     <>
-      <StatisticsHeader user={user} />
+      <StatisticsHeader approveMembers={approveMembers} user={user} committees={committees} />
       <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: "20px" }}>
         <div>
           <Title style={{ color: "#166805", margin: 0 }} level={3}>Committee</Title>
@@ -241,7 +265,7 @@ function Home() {
       </div>
       <Card className="my-card">
         <Table
-          dataSource={user?.userType === "admin" ? data : data2}
+          dataSource={user?.userType === "admin" ? committees : data2}
           columns={user?.userType === "admin" ? column : column2}
         />
       </Card>

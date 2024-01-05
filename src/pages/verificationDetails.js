@@ -23,15 +23,30 @@ function VerificationDetails() {
     const [loading, setLoading] = useState(false)
     const [loading2, setLoading2] = useState(false)
     const navigate = useNavigate()
-    const approveMembers = useSelector((state) => state.members.approveMembers)
     const [formFields, setFormFields] = useState({})
     const token = useSelector((state) => state.common.token)
+    const [user, setUser] = useState()
 
     const { id } = useParams()
 
+    async function getUser() {
+        try {
+            const response = await axios.get(`${API_URL}/admin/userById/${id}`, {
+                headers: {
+                    Authorization: "Bearer " + token
+                }
+            })
+            if (response.status === 200) {
+                console.log(response);
+                setUser(response.data.user)
+            }
+        } catch (error) {
+            console.log(error);
+        }
+    }
+
     useEffect(() => {
-        const findUser = approveMembers?.find((user) => user._id === id)
-        setFormFields({ ...findUser })
+        getUser()
     }, [id])
 
     async function handleApprove(status) {
@@ -89,52 +104,52 @@ function VerificationDetails() {
                         </Col>
                         <Col xs={24} sm={24} md={12} lg={12} xl={12}>
                             <Form.Item label={<Title style={{ fontSize: "16px", margin: 0, color: "#4E4E4E" }}>Name</Title>}>
-                                <Input value={formFields?.name} />
+                                <Input value={user?.name} />
                             </Form.Item>
                         </Col>
                         <Col xs={24} sm={24} md={12} lg={12} xl={12}>
                             <Form.Item label={<Title style={{ fontSize: "16px", margin: 0, color: "#4E4E4E" }}>Bank Name</Title>}>
-                                <Input value={formFields?.bankName} />
+                                <Input value={user?.bankName} />
                             </Form.Item>
                         </Col>
                         <Col xs={24} sm={24} md={12} lg={12} xl={12}>
                             <Form.Item label={<Title style={{ fontSize: "16px", margin: 0, color: "#4E4E4E" }}>Bank Branch Name</Title>}>
-                                <Input value={formFields?.bankBranchName} />
+                                <Input value={user?.bankBranchName} />
                             </Form.Item>
                         </Col>
                         <Col xs={24} sm={24} md={12} lg={12} xl={12}>
                             <Form.Item label={<Title style={{ fontSize: "16px", margin: 0, color: "#4E4E4E" }}>Bank Account Number</Title>}>
-                                <Input value={formFields?.bankAccountNumber} />
+                                <Input value={user?.accountNumber} />
                             </Form.Item>
                         </Col>
                         <Col xs={24} sm={24} md={12} lg={12} xl={12}>
                             <Form.Item label={<Title style={{ fontSize: "16px", margin: 0, color: "#4E4E4E" }}>Work Address</Title>}>
-                                <Input value={formFields?.workAddress} />
+                                <Input value={user?.workAddress} />
                             </Form.Item>
                         </Col>
                         <Col xs={24} sm={24} md={12} lg={12} xl={12}>
                             <Form.Item label={<Title style={{ fontSize: "16px", margin: 0, color: "#4E4E4E" }}>Residential Address</Title>}>
-                                <Input value={formFields?.residentialAddress} />
+                                <Input value={user?.residentialAddress} />
                             </Form.Item>
                         </Col>
                         <Col xs={24} sm={24} md={12} lg={12} xl={12}>
                             <Form.Item label={<Title style={{ fontSize: "16px", margin: 0, color: "#4E4E4E" }}>Monthly Income</Title>}>
-                                <Input value={formFields?.monthlyIncome} />
+                                <Input value={user?.monthlyIncome} />
                             </Form.Item>
                         </Col>
                         <Col xs={24} sm={24} md={12} lg={12} xl={12}>
                             <Form.Item label={<Title style={{ fontSize: "16px", margin: 0, color: "#4E4E4E" }}>Job Occupation</Title>}>
-                                <Input value={formFields?.jobOccupation} />
+                                <Input value={user?.jobOccupation} />
                             </Form.Item>
                         </Col>
                         <Col xs={24} sm={24} md={12} lg={12} xl={12}>
                             <Form.Item label={<Title style={{ fontSize: "16px", margin: 0, color: "#4E4E4E" }}>Emergency Contact Relation</Title>}>
-                                <Input value={formFields?.emergencyContactRelation} />
+                                <Input value={user?.emergencyContactRelation} />
                             </Form.Item>
                         </Col>
                         <Col xs={24} sm={24} md={12} lg={12} xl={12}>
                             <Form.Item label={<Title style={{ fontSize: "16px", margin: 0, color: "#4E4E4E" }}>Emergency Contact</Title>}>
-                                <Input value={formFields?.emergencyContact} />
+                                <Input value={user?.emergencyContact} />
                             </Form.Item>
                         </Col>
                     </Row>

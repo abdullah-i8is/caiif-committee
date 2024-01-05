@@ -61,22 +61,6 @@ function Members() {
             }
         },
         {
-            title: <Title style={{ fontSize: "18px", margin: 0, color: "#166805", fontWeight: "600" }}>Amount</Title>,
-            dataIndex: 'amount',
-            key: 'amount',
-            render: (text, record) => {
-                return <Title style={{ fontSize: "16px", margin: 0, color: "#818181" }}>{record?.amount}</Title>
-            }
-        },
-        {
-            title: <Title style={{ fontSize: "18px", margin: 0, color: "#166805", fontWeight: "600" }}>CNIC</Title>,
-            dataIndex: 'CNIC',
-            key: 'CNIC',
-            render: (text, record) => {
-                return <Title style={{ fontSize: "16px", margin: 0, color: "#818181" }}>{record?.CNIC}</Title>
-            }
-        },
-        {
             title: <Title style={{ fontSize: "18px", margin: 0, color: "#166805", fontWeight: "600" }}>Email</Title>,
             dataIndex: 'email',
             key: 'email',
@@ -90,6 +74,14 @@ function Members() {
             key: 'contactNumber',
             render: (text, record) => {
                 return <Title style={{ fontSize: "16px", margin: 0, color: "#818181" }}>{record?.contactNumber}</Title>
+            }
+        },
+        {
+            title: <Title style={{ fontSize: "18px", margin: 0, color: "#166805", fontWeight: "600" }}>Tier</Title>,
+            dataIndex: 'level',
+            key: 'level',
+            render: (text, record) => {
+                return <Title style={{ fontSize: "16px", margin: 0, color: "#818181" }}>{record?.level}</Title>
             }
         },
         {
@@ -128,14 +120,6 @@ function Members() {
             }
         },
         {
-            title: <Title style={{ fontSize: "18px", margin: 0, color: "#166805", fontWeight: "600" }}>CNIC</Title>,
-            dataIndex: 'CNIC',
-            key: 'CNIC',
-            render: (text, record) => {
-                return <Title style={{ fontSize: "16px", margin: 0, color: "#818181" }}>{record?.CNIC}</Title>
-            }
-        },
-        {
             title: <Title style={{ fontSize: "18px", margin: 0, color: "#166805", fontWeight: "600" }}>Tier</Title>,
             dataIndex: 'level',
             key: 'level',
@@ -143,70 +127,22 @@ function Members() {
                 return <Title style={{ fontSize: "16px", margin: 0, color: "#818181" }}>{record?.level}</Title>
             }
         },
+        {
+            title: <Title style={{ fontSize: "18px", margin: 0, color: "#166805", fontWeight: "600" }}></Title>,
+            render: (text, record) => {
+                return (
+                    <Button style={{ margin: "0 0 0 20px" }} onClick={() => navigate(`/verification-details/${record._id}`)} className="add-cycle-btn">View</Button>
+                )
+            }
+        },
     ];
 
-    const token = useSelector((state) => state.common.token)
     const approveMembers = useSelector((state) => state.members.approveMembers)
-    const dispatch = useDispatch()
-
-    console.log(approveMembers);
-
-    async function getMembers() {
-        try {
-            const response = await axios.get(`${API_URL}/admin/getAllUsers`, {
-                headers: {
-                    Authorization: "Bearer " + token
-                }
-            })
-            if (response.status === 200) {
-                console.log(response);
-                dispatch(setApproveMembers(response.data.users))
-            }
-        } catch (error) {
-            console.log(error);
-        }
-    }
-
-    useEffect(() => {
-        getMembers()
-    }, [])
+    const committees = useSelector((state) => state.committees.committees)
 
     return (
         <>
-            <Modal
-                style={{ minWidth: 400, maxWidth: "100%" }}
-                footer={[
-                    <>
-                        <Button type="default">Reject</Button>
-                        <Button type="primary">Approve</Button>
-                    </>
-                ]}
-                centered
-                title="Trips"
-                open={modalOpen}
-                onCancel={() => setModalOpen(false)}>
-                <Row gutter={[24, 0]}>
-                    <Col xs={24} sm={24} md={24} lg={24} xl={24}>
-                        <Text style={{ fontSize: 20 }}>Trip No</Text>: <Text style={{ fontSize: 20 }}>{approveTrips ? approveTrips.tripNo : ""}</Text>
-                    </Col>
-                    <Col xs={24} sm={24} md={24} lg={24} xl={24}>
-                        <Text style={{ fontSize: 20 }}>Trip Status</Text>: <Tag color={"warning"}>{approveTrips ? approveTrips.tripStatus === 2 ? "PENDING" : "" : ""}</Tag>
-                    </Col>
-                    <Card style={{ width: "100%", margin: "10px 0" }}>
-                        <Col xs={24} sm={24} md={24} lg={24} xl={24}>
-                            <Row gutter={[24, 0]}>
-                                <Col xs={24} sm={24} md={12} lg={12} xl={12}>
-                                    <Title level={5}>Total Flight Budget</Title> {flightBudget}
-                                </Col>
-                                <Col xs={24} sm={24} md={12} lg={12} xl={12}>
-                                    <Title level={5}>Total Hotel Budget</Title> {hotelBudget}
-                                </Col>
-                            </Row>
-                        </Col>
-                    </Card>
-                </Row>
-            </Modal>
-            <StatisticsHeader approveMembers={approveMembers} />
+            <StatisticsHeader approveMembers={approveMembers} committees={committees} user={loginUser} />
             <div style={{ marginBottom: "20px" }}>
                 <Title style={{ color: "#166805", margin: 0 }} level={3}>Approval members Request</Title>
             </div>
@@ -219,20 +155,6 @@ function Members() {
             <Card className="my-card" style={{ marginBottom: "20px" }}>
                 <Table dataSource={approveMembers?.filter((user) => user.approve === true)} columns={column2} />
             </Card>
-            {Number(loginUser.role) === 3 ? (
-                <Tooltip title="Add Trip">
-                    <FloatButton
-                        onClick={() => {
-                            navigate({ pathname: `/add-trip-detail` }, { state: { loginUser: loginUser } })
-                        }}
-                        shape="circle"
-                        trigger="hover"
-                        type="primary"
-                        icon={<CarOutlined />}
-                    >
-                    </FloatButton>
-                </Tooltip>
-            ) : ""}
         </>
     );
 }

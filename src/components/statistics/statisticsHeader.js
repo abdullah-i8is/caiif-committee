@@ -10,12 +10,12 @@ import icon1 from '../../assets/images/member2.svg'
 import icon2 from '../../assets/images/enroll.svg'
 import icon3 from '../../assets/images/committee.svg'
 
-const StatisticsHeader = ({ approveMembers, user }) => {
+const StatisticsHeader = ({ approveMembers, user, committees }) => {
     const { Title, Text } = Typography;
     const arr = [
         { id: 1, title: "Total Members", description: approveMembers?.length ? approveMembers?.length : 0, icon: icon1 },
         { id: 2, title: "Enroll Request", description: 4, icon: icon2 },
-        { id: 3, title: "Add New Committee", description: "Click Now", icon: icon3 },
+        { id: 3, title: "Add New Committee", description: committees?.length ? committees?.length : 0, icon: icon3 },
     ]
     const arr2 = [
         { id: 1, title: "Total Enrolled Committee", description: 2, icon: icon1 },

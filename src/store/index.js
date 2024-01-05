@@ -1,6 +1,8 @@
 import { combineReducers, configureStore } from "@reduxjs/toolkit";
 import commonReducer from "./commonSlice/commonSlice";
 import authReducer from "./authSlice/authSlice";
+import membersReducer from "./membersSlice/membersSlice";
+import committeesReducer from "./committeeSlice/committeeSlice";
 import storage from 'redux-persist/lib/storage';
 
 import {
@@ -13,12 +15,12 @@ import {
   PURGE,
   REGISTER,
 } from "redux-persist";
-import membersReducer from "./membersSlice/membersSlice";
 
 const allreducers = combineReducers({
   auth: authReducer,
   common: commonReducer,
   members: membersReducer,
+  committees: committeesReducer,
 });
 
 const persistConfig = {

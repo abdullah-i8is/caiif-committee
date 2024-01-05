@@ -10,7 +10,7 @@ import "antd/dist/reset.css";
 // import "antd/dist/antd.css";
 import "./assets/styles/main.css";
 import "./assets/styles/responsive.css";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import Members from "./pages/members";
 import VerificationDetails from "./pages/verificationDetails";
 import { useEffect, useState } from "react";
@@ -18,12 +18,19 @@ import VerifyAccount from "./pages/verifyAccount";
 import Lottie from "react-lottie";
 import animationData from "./assets/money2.json";
 import logo from "./assets/images/caiif-logo.svg";
+import { setApproveMembers } from "./store/membersSlice/membersSlice";
+import { API_URL } from "./config/api";
+import axios from "axios";
+import { setCommittees } from "./store/committeeSlice/committeeSlice";
+import Setup2 from "./pages/Setup2";
 
 function App() {
 
   const [loading, setLoading] = useState(true)
   const token = useSelector((state) => state.common.token)
   const user = useSelector((state) => state.auth.user)
+  const dispatch = useDispatch()
+  const location = useLocation()
   const defaultOptions = {
     loop: true,
     autoplay: true,
@@ -37,6 +44,49 @@ function App() {
     setTimeout(() => {
       setLoading(false)
     }, 5000);
+  }, [])
+
+  async function getMembers() {
+    try {
+      const response = await axios.get(`${API_URL}/admin/getAllUsers`, {
+        headers: {
+          Authorization: "Bearer " + token
+        }
+      })
+      if (response.status === 200) {
+        console.log(response);
+        dispatch(setApproveMembers(response.data.users))
+      }
+    } catch (error) {
+      console.log(error);
+    }
+  }
+
+  async function getCommittees() {
+    setLoading(true)
+    try {
+      const response = await axios.get(`${API_URL}/admin/allCommittees`, {
+        headers: {
+          Authorization: "Bearer " + token
+        }
+      })
+      if (response.status === 200) {
+        console.log(response);
+        setLoading(false)
+        const committee = response.data.allCommittees
+        dispatch(setCommittees([...committee.level1, ...committee.level2, ...committee.level3]))
+      }
+    } catch (error) {
+      setLoading(false)
+      console.log(error);
+    }
+  }
+
+  useEffect(() => {
+    if (user?.userType === "admin") {
+      getMembers()
+      getCommittees()
+    }
   }, [])
 
   return (
@@ -58,6 +108,7 @@ function App() {
           <Route path="/" element={<Main />}>
             <Route path="/" element={token ? <Home /> : <Navigate to="/sign-in" />} />
             <Route path="/members" element={token ? <Members /> : <Navigate to="/sign-in" />} />
+            <Route path="/view-committee/:id" element={token ? <Setup2 /> : <Navigate to="/sign-in" />} />
             <Route path="/view-all-committee" element={token ? <Setup /> : <Navigate to="/sign-in" />} />
             <Route path="/verification-details/:id" element={token ? <VerificationDetails /> : <Navigate to="/sign-in" />} />
             <Route path="/committee-details" element={token ? <CommitteeDetails /> : <Navigate to="/sign-in" />} />

@@ -192,7 +192,7 @@ function Setup() {
 
   return (
     <>
-      <StatisticsHeader />
+      <StatisticsHeader user={user} />
       {user.userType === "admin" ? (
         <>
           <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: "20px" }}>
@@ -205,7 +205,7 @@ function Setup() {
           <Card className="my-card" style={{ marginBottom: "20px" }}>
             <Table dataSource={data} columns={column} />
           </Card>
-          <Form
+          {/* <Form
             form={form}
             layout="vertical"
           >
@@ -243,7 +243,7 @@ function Setup() {
                 </Col>
               </Row>
             </Card>
-          </Form>
+          </Form> */}
           <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: "20px", marginTop: "40px" }}>
             <Title style={{ color: "#166805", margin: 0 }} level={3}>Committee Received</Title>
             <div style={{ display: "flex", alignItems: "center" }}>
