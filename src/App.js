@@ -28,6 +28,7 @@ function App() {
 
         <Route path="/sign-up" exact element={!token ? <SignUp /> : <Navigate to="/" />} />
         <Route path="/sign-in" exact element={!token ? <SignIn /> : <Navigate to="/" />} />
+        <Route path="/create-account/:id/:email" element={<SignIn />} />
 
         <Route path="/" element={<Main />}>
 
@@ -37,7 +38,6 @@ function App() {
           <Route path="/verification-details/:id" element={token ? <VerificationDetails /> : <Navigate to="/sign-in" />} />
           <Route path="/committee-details" element={token ? <CommitteeDetails /> : <Navigate to="/sign-in" />} />
           <Route path="/profile" element={token ? <Profile /> : <Navigate to="/sign-in" />} />
-          <Route path="/create-account/:id/:email" element={<SignIn />} />
 
         </Route>
 
