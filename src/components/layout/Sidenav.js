@@ -60,7 +60,7 @@ function Sidenav({ color }) {
     dispatch(setUser(null))
   }
 
-  console.log(user);
+  // console.log(user);
 
   return (
     <>
