@@ -18,11 +18,7 @@ export const GetAdminCommittees = async (token) => {
 
 export const GetUserCommittees = async (token) => {
     try {
-        const response = await axios.get(`${API_URL}/user/allCommittees`, {
-            headers: {
-                Authorization: "Bearer " + token
-            }
-        })
+        const response = await axios.get(`${API_URL}/user/allCommittees`)
         return response
     } catch (error) {
         console.log(error);

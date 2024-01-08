@@ -40,24 +40,24 @@ function App() {
     },
   };
 
-  useEffect(() => {
-    setTimeout(() => {
-      setLoading(false)
-    }, 5000);
-  }, [])
+  // useEffect(() => {
+  //   setTimeout(() => {
+  //     setLoading(false)
+  //   }, 5000);
+  // }, [])
 
   return (
 
     <div className="App">
 
-      {loading ? (
+      {/* {loading ? (
         <div style={{ padding: "20px" }}>
           <div style={{ minHeight: "90vh", display: "flex", justifyContent: "center", alignItems: "center", flexDirection: "column", position: "relative" }}>
             <img src={logo} />
             <Lottie options={defaultOptions} height={400} width={400} />
           </div>
         </div>
-      ) : (
+      ) : ( */}
         <Routes>
           <Route path="/sign-up" exact element={!token ? <SignUp /> : <Navigate to="/" />} />
           <Route path="/sign-in" exact element={!token ? <SignIn /> : <Navigate to="/" />} />
@@ -73,7 +73,7 @@ function App() {
           </Route>
           <Route path="*" element={<Navigate to="/" />} />
         </Routes>
-      )}
+      {/* )} */}
 
     </div>
 

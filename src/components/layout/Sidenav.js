@@ -89,7 +89,7 @@ function Sidenav({ color }) {
 
       <Menu theme="light" mode="inline">
 
-        {user?.userType === "customer" ? (
+        {user?.userType === "user" ? (
           <>
             <Menu.Item key="1">
               <NavLink to="/">
@@ -105,7 +105,7 @@ function Sidenav({ color }) {
               </NavLink>
             </Menu.Item>
 
-            <Menu.Item key="3">
+            {/* <Menu.Item key="3">
               <NavLink to="/setup">
                 <span
                   className="icon"
@@ -117,7 +117,7 @@ function Sidenav({ color }) {
                 </span>
                 <span className="label">Total Committee</span>
               </NavLink>
-            </Menu.Item>
+            </Menu.Item> */}
 
             <Menu.Item key="4" onClick={handleLogout}>
               <NavLink to="/sign-in">

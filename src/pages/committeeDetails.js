@@ -152,7 +152,7 @@ function CommitteeDetails() {
                                         message: 'Please input your Total Amount!',
                                     },
                                 ]}
-                                name="amount"
+                                name="payment"
                                 label={<Title style={{ fontSize: "16px", margin: 0, color: "#4E4E4E" }}>Total Amount</Title>}>
                                 <Input placeholder="$ 000" />
                             </Form.Item>
@@ -223,7 +223,7 @@ function CommitteeDetails() {
                                         message: 'Please input your Payment!',
                                     },
                                 ]}
-                                name="payment">
+                                name="amount">
                                 <Input value={formFields.amount / formFields.cycle} placeholder="$ 000" />
                             </Form.Item>
                         </Col>

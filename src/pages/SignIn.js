@@ -82,6 +82,7 @@ export default function SignIn() {
           setLoading2(false)
           const token = response.data.token
           const user = jwtDecode(token)
+          console.log(response);
           dispatch(setToken(token))
           dispatch(setUser(user))
           console.log(response);

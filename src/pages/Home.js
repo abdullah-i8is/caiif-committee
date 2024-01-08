@@ -226,7 +226,7 @@ function Home() {
   const dispatch = useDispatch()
 
   useEffect(() => {
-    if (user.userType === "admin") {
+    if (user?.userType === "admin") {
       GetAdminCommittees(token)
         .then((res) => {
           const committee = res.data.allCommittees
@@ -236,7 +236,7 @@ function Home() {
           console.log(err);
         })
     }
-    if (user.userType === "customer") {
+    if (user?.userType === "user") {
       GetUserCommittees(token)
         .then((res) => {
           const committee = res.data.allCommittees
@@ -264,7 +264,7 @@ function Home() {
       </div>
       <Card className="my-card">
         <Table
-          dataSource={committees}
+          dataSource={user?.userType === "admin" ? committees : user?.userType === "user" ? committees.filter((com) => com.committee.userIds.some((id) => id === user?._id)) : null}
           columns={column}
         />
       </Card>
