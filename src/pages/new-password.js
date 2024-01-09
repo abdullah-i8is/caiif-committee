@@ -33,6 +33,7 @@ export default function NewPassword() {
     const navigate = useNavigate()
     const [err, setErr] = useState(null);
     const [message, setMessage] = useState(null);
+    const [userId, setUserId] = useState(null);
     const [loading, setLoading] = useState(false);
     const [loading2, setLoading2] = useState(false);
     const [formFields, setFormFields] = useState({
@@ -58,7 +59,7 @@ export default function NewPassword() {
         try {
             const response = await axios.post(`${API_URL}/user/createPassword`, {
                 newPassword: formFields.password,
-                userId: params.id
+                userId: userId
             })
             if (response.status === 200) {
                 setLoading(false)
@@ -86,7 +87,7 @@ export default function NewPassword() {
                 setTimeout(() => {
                     dispatch(setUserVerification(true))
                 }, 3000);
-                console.log(response);
+                setUserId(response.data.user._id)
             }
         } catch (error) {
             setLoading2(false)
