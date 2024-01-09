@@ -62,7 +62,7 @@ function App() {
         <Routes>
           <Route path="/sign-up" exact element={!token ? <SignUp /> : <Navigate to="/" />} />
           <Route path="/sign-in" exact element={!token ? <SignIn /> : <Navigate to="/" />} />
-          <Route path="/new-password/:id" exact element={<NewPassword />} />
+          <Route path="/new-password/:id/:email" exact element={<NewPassword />} />
           <Route path="/create-account/:id/:email" element={<VerifyAccount />} />
           <Route path="/" element={<Main />}>
             <Route path="/" element={token ? <Home /> : <Navigate to="/sign-in" />} />
