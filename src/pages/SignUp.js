@@ -44,6 +44,7 @@ export default function SignUp() {
   const [activeStep, setActiveStep] = useState(0);
   const [monthDuration, setMonthDuration] = useState(0);
   const [monthlyPayment, setMonthlyPayment] = useState(0);
+  const [totalAmount, setTotalAmount] = useState(0);
   const [committeeId, setCommitteeId] = useState(null);
   const [imageUrl, setImageUrl] = useState("");
   const [imageUrl2, setImageUrl2] = useState("");
@@ -234,7 +235,8 @@ export default function SignUp() {
     const monthsDiff = endDateObj.getUTCMonth() - startDateObj.getUTCMonth();
     const totalMonths = yearsDiff * 12 + monthsDiff;
     setMonthDuration(totalMonths)
-    setMonthlyPayment(findCommittee?.committee?.payment)
+    setMonthlyPayment(findCommittee?.committee?.amount)
+    setTotalAmount(findCommittee?.committee?.payment)
   }, [committeeId])
 
   // console.log(state);
@@ -405,7 +407,7 @@ export default function SignUp() {
                             <Input />
                           </Form.Item>
                         </Col>
-                        <Col xs={24} sm={24} md={8} lg={8} xl={8}>
+                        <Col xs={24} sm={24} md={6} lg={6} xl={6}>
                           <Form.Item name="committee"
                             rules={[
                               {
@@ -424,13 +426,19 @@ export default function SignUp() {
                             />
                           </Form.Item>
                         </Col>
-                        <Col xs={24} sm={24} md={8} lg={8} xl={8}>
+                        <Col xs={24} sm={24} md={6} lg={6} xl={6}>
                           <Form.Item
                             label={<Title style={{ fontSize: "16px", margin: 0, color: "#4E4E4E" }}>Duration</Title>}>
                             <Input disabled={true} value={monthDuration} />
                           </Form.Item>
                         </Col>
-                        <Col xs={24} sm={24} md={8} lg={8} xl={8}>
+                        <Col xs={24} sm={24} md={6} lg={6} xl={6}>
+                          <Form.Item
+                            label={<Title style={{ fontSize: "16px", margin: 0, color: "#4E4E4E" }}>Total Amount</Title>}>
+                            <Input disabled={true} value={totalAmount} />
+                          </Form.Item>
+                        </Col>
+                        <Col xs={24} sm={24} md={6} lg={6} xl={6}>
                           <Form.Item
                             label={<Title style={{ fontSize: "16px", margin: 0, color: "#4E4E4E" }}>Monthly Payment</Title>}>
                             <Input disabled={true} value={monthlyPayment} />
