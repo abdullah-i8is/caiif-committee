@@ -77,6 +77,7 @@ export default function NewPassword() {
 
     const handleVerify = async () => {
         setLoading2(true)
+        dispatch(setUserVerification(false))
         try {
             const response = await axios.post(`${API_URL}/user/verifyAccount/${params.id}/${params.email}`)
             if (response.status === 200) {
