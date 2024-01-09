@@ -14,10 +14,7 @@ const authSlice = createSlice({
             }
         },
         setUserVerification: (state, { payload }) => {
-            return {
-                ...state,
-                isVerified: payload
-            }
+            state.isVerified = payload
         },
     }
 })

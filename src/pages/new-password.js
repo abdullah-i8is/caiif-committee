@@ -82,7 +82,7 @@ export default function NewPassword() {
             if (response.status === 200) {
                 setTimeout(() => {
                     dispatch(setUserVerification(true))
-                }, 3000);
+                }, 1000);
                 setMessage(response.data.message)
                 setLoading2(false)
                 console.log(response);
