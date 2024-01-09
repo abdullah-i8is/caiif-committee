@@ -120,7 +120,7 @@ export default function NewPassword() {
 
                                 <Form.Item>
                                     <Button
-                                        loading={loading2}
+                                        loading={loading}
                                         style={{ width: "100%", backgroundColor: "#166805", color: 'white' }}
                                         type="primary"
                                         htmlType="submit"
