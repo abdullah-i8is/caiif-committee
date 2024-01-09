@@ -82,9 +82,9 @@ export default function NewPassword() {
             if (response.status === 200) {
                 setTimeout(() => {
                     dispatch(setUserVerification(true))
-                }, 1000);
-                setMessage(response.data.message)
-                setLoading2(false)
+                    setLoading2(false)
+                    setMessage(response.data.message)
+                }, 3000);
                 console.log(response);
             }
         } catch (error) {
