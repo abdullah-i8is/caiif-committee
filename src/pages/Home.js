@@ -246,7 +246,7 @@ function Home() {
           console.log(err);
         })
     }
-  }, [])
+  }, [user])
 
   console.log(committees);
 

@@ -15,6 +15,7 @@ import { useNavigate } from "react-router-dom";
 import { API_URL } from "../config/api";
 import axios from "axios";
 import { useSelector } from "react-redux";
+import moment from "moment";
 
 function CommitteeDetails() {
 
@@ -26,28 +27,20 @@ function CommitteeDetails() {
     const [err, setErr] = useState(null);
     const [formFields, setFormFields] = useState({
         name: "",
-        amount: "",
-        cycle: "",
-        payment: "",
-        startDate: "",
-        endDate: "",
-        members: "",
+        amount: null,
+        cycle: {
+            type: "",
+            value: null
+        },
+        payment: null,
+        startDate: null,
+        endDate: null,
+        members: null,
     });
     const token = useSelector((state) => state.common.token)
 
     const onFinish = (values) => {
         console.log("Success:", values);
-        if (values?.name || values?.amount || values?.cycle || values?.payment || values?.startDate || values?.endDate || values?.members) {
-            setFormFields({
-                name: values.name,
-                amount: values.amount,
-                cycle: values.cycle,
-                payment: values.payment,
-                startDate: values.startDate,
-                endDate: values.endDate,
-                members: values.members,
-            })
-        }
     };
 
     const onFinishFailed = (errorInfo) => {
@@ -55,43 +48,85 @@ function CommitteeDetails() {
     };
 
     const handleCreateCommittee = async () => {
-        setLoading(true)
-        try {
-            const response = await axios.post(`${API_URL}/admin/createCommittee`, {
-                ...formFields
-            }, {
-                headers: {
-                    Authorization: "Bearer " + token
+        if (formFields.name && formFields.amount && formFields.cycle && formFields.payment && formFields.startDate && formFields.endDate && formFields.members) {
+            setLoading(true)
+            try {
+                const response = await axios.post(`${API_URL}/admin/createCommittee`, {
+                    ...formFields
+                }, {
+                    headers: {
+                        Authorization: "Bearer " + token
+                    }
+                })
+                if (response.status === 200) {
+                    console.log(response);
+                    setLoading(false)
+                    setErr(response.data.message)
+                    setTimeout(() => {
+                        navigate("/")
+                    }, 2000);
                 }
-            })
-            if (response.status === 200) {
-                console.log(response);
+            } catch (error) {
                 setLoading(false)
-                setErr(response.data.message)
-                setTimeout(() => {
-                    navigate("/")
-                }, 2000);
+                setErr(error.response.data.message)
+                console.log(error);
             }
-        } catch (error) {
-            setLoading(false)
-            setErr(error.response.data.message)
-            console.log(error);
+        }
+        else {
+            return null
         }
     }
 
+    console.log(formFields);
+
     useEffect(() => {
-        if (
-            formFields.name !== "" ||
-            formFields.amount !== "" ||
-            formFields.cycle !== "" ||
-            formFields.payment !== "" ||
-            formFields.startDate !== "" ||
-            formFields.endDate !== "" ||
-            formFields.members !== ""
-        ) {
-            handleCreateCommittee()
+        setFormFields((prevFields) => {
+            return {
+                ...prevFields,
+                amount: formFields.payment / formFields.members
+            }
+        })
+    }, [formFields.payment])
+
+    function handleChange(field) {
+        if (field.type === "cycle") {
+            setFormFields((prevFields) => {
+                return {
+                    ...prevFields,
+                    cycle: {
+                        type: field?.label,
+                        value: field?.value
+                    }
+                }
+            })
         }
-    }, [formFields])
+        else {
+            setFormFields((prevFields) => {
+                if (field.type === "startDate") {
+                    const endDate = moment(field.value).set('date', 1).add(formFields.members, 'months');
+                    form.setFieldsValue({ endDate });
+                    return {
+                        ...prevFields,
+                        [field.type]: field.value,
+                        endDate: endDate,
+                    }
+                }
+                if (field.type === "payment" || field.type === "members") {
+                    return {
+                        ...prevFields,
+                        [field.type]: Number(field.value.target.value)
+                    }
+                }
+                else {
+                    return {
+                        ...prevFields,
+                        [field.type]: field.value.target.value
+                    }
+                }
+            })
+        }
+        console.log(field);
+    }
 
     return (
         <>
@@ -108,6 +143,9 @@ function CommitteeDetails() {
                     <Title style={{ color: "#166805", margin: 0 }} level={3}>Committee Details</Title>
                     <Form.Item style={{ marginBottom: 0 }}>
                         <Button
+                            onClick={() => {
+                                handleCreateCommittee()
+                            }}
                             loading={loading}
                             htmlType="submit"
                             style={{ margin: "0 0 0 10px", width: "100px" }}
@@ -128,10 +166,13 @@ function CommitteeDetails() {
                                 ]}
                                 name="name"
                                 label={<Title style={{ fontSize: "16px", margin: 0, color: "#4E4E4E" }}>Committee Name</Title>}>
-                                <Input placeholder="New Title" />
+                                <Input
+                                    onChange={(e) => handleChange({ value: e, type: "name" })}
+                                    placeholder="New Title"
+                                />
                             </Form.Item>
                         </Col>
-                        <Col xs={24} sm={24} md={12} lg={12} xl={12}>
+                        {/* <Col xs={24} sm={24} md={12} lg={12} xl={12}>
                             <Form.Item
                                 rules={[
                                     {
@@ -142,6 +183,26 @@ function CommitteeDetails() {
                                 name="cycle"
                                 label={<Title style={{ fontSize: "16px", margin: 0, color: "#4E4E4E" }}>Cycle</Title>}>
                                 <Input placeholder="New Title" />
+                            </Form.Item>
+                        </Col> */}
+                        <Col xs={24} sm={24} md={12} lg={12} xl={12}>
+                            <Form.Item name="cycle"
+                                rules={[
+                                    {
+                                        required: true,
+                                        message: 'Please select your Cycle !',
+                                    },
+                                ]}
+                                label={<Title style={{ fontSize: "16px", margin: 0, color: "#4E4E4E" }}>Cycle</Title>}>
+                                <Select
+                                    defaultValue="Select"
+                                    style={{ width: "100%" }}
+                                    options={[
+                                        { value: 15, label: "By weekly" },
+                                        { value: 30, label: "Monthly" }
+                                    ]}
+                                    onChange={(e, opt) => handleChange({ value: e, label: opt.label, type: "cycle" })}
+                                />
                             </Form.Item>
                         </Col>
                         <Col xs={24} sm={24} md={12} lg={12} xl={12}>
@@ -154,7 +215,10 @@ function CommitteeDetails() {
                                 ]}
                                 name="payment"
                                 label={<Title style={{ fontSize: "16px", margin: 0, color: "#4E4E4E" }}>Total Amount</Title>}>
-                                <Input placeholder="$ 000" />
+                                <Input
+                                    onChange={(e, opt) => handleChange({ value: e, type: "payment" })}
+                                    placeholder="$ 000"
+                                />
                             </Form.Item>
                         </Col>
                         <Col xs={24} sm={24} md={12} lg={12} xl={12}>
@@ -167,7 +231,10 @@ function CommitteeDetails() {
                                 ]}
                                 name="members"
                                 label={<Title style={{ fontSize: "16px", margin: 0, color: "#4E4E4E" }}>Total Member’s</Title>}>
-                                <Input placeholder={99} />
+                                <Input
+                                    placeholder={99}
+                                    onChange={(e, opt) => handleChange({ value: e, type: "members" })}
+                                />
                             </Form.Item>
                         </Col>
                         <Col xs={24} sm={24} md={24} lg={12} xl={12}>
@@ -183,7 +250,7 @@ function CommitteeDetails() {
                                 ]}
                                 name="startDate"
                             >
-                                <DatePicker style={{ width: "100%", height: "45px" }} />
+                                <DatePicker onChange={(e) => handleChange({ value: e, type: "startDate" })} style={{ width: "100%", height: "45px" }} />
                             </Form.Item>
                         </Col>
                         <Col xs={24} sm={24} md={24} lg={12} xl={12}>
@@ -222,9 +289,12 @@ function CommitteeDetails() {
                                         required: true,
                                         message: 'Please input your Payment!',
                                     },
-                                ]}
-                                name="amount">
-                                <Input value={formFields.amount / formFields.cycle} placeholder="$ 000" />
+                                ]}>
+                                <Input
+                                    disabled={true}
+                                    value={formFields.amount}
+                                    placeholder="$ 000"
+                                />
                             </Form.Item>
                         </Col>
                     </Row>

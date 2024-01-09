@@ -23,6 +23,8 @@ import { useNavigate, useParams } from "react-router-dom";
 import memberIcon from '../assets/images/member2.svg'
 import deleteIcon from '../assets/images/del-icon.svg'
 import StatisticsHeader from "../components/statistics/statisticsHeader";
+import axios from "axios";
+import { API_URL } from "../config/api";
 
 function Setup2() {
 
@@ -32,6 +34,7 @@ function Setup2() {
     const params = useParams()
     const [committeeUsers, setCommitteeUsers] = useState([])
     const committees = useSelector((state) => state.committees.committees)
+    const token = useSelector((state) => state.common.token)
     const approveMembers = useSelector((state) => state.members.approveMembers)
 
     const data = [
@@ -200,6 +203,21 @@ function Setup2() {
         })
         setCommitteeUsers(filterCommitteeUsers)
     }, [])
+
+    async function fetchCommitteeUsers() {
+        try {
+            const response = await axios.get(`${API_URL}/admin/committeeById/${params.id}`, {
+                headers: {Authorization: "Bearer " + token}
+            })
+            console.log(response);
+        } catch (error) {
+            console.log(error);
+        }
+    }
+
+    useEffect(() => {
+        fetchCommitteeUsers()
+    }, [params.id])
 
     console.log(committeeUsers);
 

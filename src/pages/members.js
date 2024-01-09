@@ -106,7 +106,7 @@ function Members() {
                 const res = committees?.filter((f) => {
                     return record?.committeeList?.some((a) => a.cid === f.committee._id)
                 })
-                return <Title style={{ fontSize: "16px", margin: 0, color: "#818181" }}>{res?.Active || !res?.Active ? res[0]?.committee?.name : ""}</Title>
+                return <Title style={{ fontSize: "16px", margin: 0, color: "#818181" }}>{res?.Active === true || res?.Active === false ? res[0]?.committee?.name : ""}</Title>
             }
         },
         {
@@ -114,7 +114,7 @@ function Members() {
             dataIndex: 'note',
             key: 'note',
             render: (text, record) => {
-                return <Title style={{ fontSize: "16px", margin: 0, color: "#818181" }}>{record?.note === "" ? "N/A" : record.note}</Title>
+                return <Title style={{ fontSize: "16px", margin: 0, color: "#818181" }}>{record?.note === "" || !record?.note ? "N/A" : record.note}</Title>
             }
         },
         // {
@@ -191,7 +191,7 @@ function Members() {
                 const res = committees?.filter((f) => {
                     return record?.committeeList?.some((a) => a?.cid === f?.committee?._id)
                 })
-                return <Title style={{ fontSize: "16px", margin: 0, color: "#818181" }}>{res?.Active || !res?.Active ? res[0]?.committee?.name : ""}</Title>
+                return <Title style={{ fontSize: "16px", margin: 0, color: "#818181" }}>{res?.Active === true || res?.Active === false ? res[0]?.committee?.name : ""}</Title>
             }
         },
         {
@@ -199,8 +199,23 @@ function Members() {
             dataIndex: 'note',
             key: 'note',
             render: (text, record) => {
-                return <Title style={{ fontSize: "16px", margin: 0, color: "#818181" }}>{record?.note === "" ? "N/A" : record.note}</Title>
+                return <Title style={{ fontSize: "16px", margin: 0, color: "#818181" }}>{record?.note === "" || !record?.note ? "N/A" : record.note}</Title>
             }
+        },
+        {
+            title: <Title style={{ fontSize: "18px", margin: 0, color: "#166805", fontWeight: "600" }}>CNIC</Title>,
+            dataIndex: 'note',
+            key: 'note',
+            render: (text, record) => {
+                console.log('nicFront:', record?.nicFront);
+                console.log('nicFront data:', record?.nicFront?.data);
+            
+                if (record?.nicFront && record?.nicFront?.data) {
+                    const base64String = Buffer.from(record.nicFront.data).toString('base64');
+                    return <img src={`data:${record.nicFront.contentType};base64,${base64String}`} alt="NIC Front" />;
+                }
+            }
+                        
         },
         // {
         //     title: <Title style={{ fontSize: "18px", margin: 0, color: "#166805", fontWeight: "600" }}></Title>,
