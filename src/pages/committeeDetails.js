@@ -198,7 +198,7 @@ function CommitteeDetails() {
                                     defaultValue="Select"
                                     style={{ width: "100%" }}
                                     options={[
-                                        { value: 15, label: "By weekly" },
+                                        { value: 15, label: "Bi-weekly" },
                                         { value: 30, label: "Monthly" }
                                     ]}
                                     onChange={(e, opt) => handleChange({ value: e, label: opt.label, type: "cycle" })}
