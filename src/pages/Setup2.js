@@ -36,6 +36,7 @@ function Setup2() {
     const params = useParams()
     const [committeeUsers, setCommitteeUsers] = useState([])
     const [committeeUsers2, setCommitteeUsers2] = useState([])
+    const [loading, setLoading] = useState(false)
     const committees = useSelector((state) => state.committees.committees)
     const token = useSelector((state) => state.common.token)
     const approveMembers = useSelector((state) => state.members.approveMembers)
@@ -212,6 +213,7 @@ function Setup2() {
     // }, [])
 
     async function fetchCommitteeUsers() {
+        setLoading(true)
         try {
             const response = await axios.get(`${API_URL}/admin/committeeById/${params.id}`, {
                 headers: { Authorization: "Bearer " + token }
@@ -220,9 +222,11 @@ function Setup2() {
             const res2 = response?.data?.data?.receivedUsers?.length > 0 ? response?.data?.data?.receivedUsers?.map((f) => f.userDetails).flat() : null
             setCommitteeUsers(res)
             setCommitteeUsers2(res2)
+            setLoading(false)
             console.log(response);
         } catch (error) {
             console.log(error);
+            setLoading(false)
         }
     }
 
@@ -253,7 +257,7 @@ function Setup2() {
                         </div>
                     </div>
                     <Card className="my-card" style={{ marginBottom: "20px" }}>
-                        <Table dataSource={committeeUsers} columns={column} />
+                        <Table loading={loading} dataSource={committeeUsers} columns={column} />
                     </Card>
                     {/* <Form
             form={form}
@@ -302,7 +306,7 @@ function Setup2() {
                         </div>
                     </div>
                     <Card className="my-card" style={{ marginBottom: "20px" }}>
-                        <Table dataSource={committeeUsers2} columns={column2} />
+                        <Table loading={loading} dataSource={committeeUsers2} columns={column2} />
                     </Card>
                 </>
             ) : (

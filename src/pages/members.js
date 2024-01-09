@@ -38,6 +38,7 @@ function Members() {
     const navigate = useNavigate()
     const [loading, setLoading] = useState(false)
     const [loading2, setLoading2] = useState(false)
+    const [loading3, setLoading3] = useState(false)
     const [userId, setUserId] = useState("")
     const [modalOpen, setModalOpen] = useState(false)
     const [approveTrips, setApproveTrips] = useState()
@@ -212,13 +213,13 @@ function Members() {
             render: (text, record) => {
                 console.log('nicFront:', record?.nicFront);
                 console.log('nicFront data:', record?.nicFront?.data);
-            
+
                 if (record?.nicFront && record?.nicFront?.data) {
                     const base64String = Buffer.from(record.nicFront.data).toString('base64');
                     return <img src={`data:${record.nicFront.contentType};base64,${base64String}`} alt="NIC Front" />;
                 }
             }
-                        
+
         },
         // {
         //     title: <Title style={{ fontSize: "18px", margin: 0, color: "#166805", fontWeight: "600" }}></Title>,
@@ -278,12 +279,15 @@ function Members() {
     const token = useSelector((state) => state.common.token)
 
     useEffect(() => {
+        setLoading3(true)
         GetAllMembers(token)
             .then((res) => {
                 console.log(res?.data);
+                setLoading3(false)
                 dispatch(setApproveMembers(res?.data?.users))
             })
             .catch((error) => {
+                setLoading3(false)
                 console.log(error);
             })
         GetUserCommittees()
@@ -319,13 +323,13 @@ function Members() {
                 <Title style={{ color: "#166805", margin: 0 }} level={3}>Approval members Request</Title>
             </div>
             <Card className="my-card" style={{ marginBottom: "20px" }}>
-                <Table dataSource={approveMembers?.filter((user) => user.approve === false)} columns={column} />
+                <Table loading={loading3} dataSource={approveMembers?.filter((user) => user.approve === false)} columns={column} />
             </Card>
             <div style={{ marginBottom: "20px", marginTop: "40px" }}>
                 <Title style={{ color: "#166805", margin: 0 }} level={3}>Approved members</Title>
             </div>
             <Card className="my-card" style={{ marginBottom: "20px" }}>
-                <Table dataSource={approveMembers?.filter((user) => user.approve === true)} columns={column2} />
+                <Table loading={loading3} dataSource={approveMembers?.filter((user) => user.approve === true)} columns={column2} />
             </Card>
         </>
     );

@@ -47,7 +47,7 @@ function Home() {
       dataIndex: 'name',
       key: 'name',
       render: (text, record, index) => {
-        return <Title style={{ fontSize: "18px", margin: 0 }}>{record?.committee.name}</Title>
+        return <Title style={{ fontSize: "18px", margin: 0 }}>{record?.committeeDetails?.committee?.name}</Title>
       }
     },
     {
@@ -55,7 +55,7 @@ function Home() {
       dataIndex: 'amount',
       key: 'amount',
       render: (text, record) => {
-        return <Title style={{ fontSize: "16px", margin: 0, color: "#818181" }}>$ {record?.committee?.amount}</Title>
+        return <Title style={{ fontSize: "16px", margin: 0, color: "#818181" }}>$ {record?.committeeDetails?.committee?.amount}</Title>
       }
     },
     {
@@ -66,7 +66,7 @@ function Home() {
         return (
           <div style={{ display: "flex", alignItems: "center" }}>
             <img width={30} src={memberIcon} />
-            <Title style={{ fontSize: "16px", margin: "0 0 0 10px", color: "#818181" }}>{record?.committee?.members}</Title>
+            <Title style={{ fontSize: "16px", margin: "0 0 0 10px", color: "#818181" }}>{record?.committeeDetails?.committee?.members}</Title>
           </div>
         )
       }
@@ -76,7 +76,7 @@ function Home() {
       dataIndex: 'startDate',
       key: 'startDate',
       render: (text, record) => {
-        return <Title style={{ fontSize: "16px", margin: 0, color: "#818181" }}>{new Date(record?.committee?.startDate).toLocaleDateString()}</Title>
+        return <Title style={{ fontSize: "16px", margin: 0, color: "#818181" }}>{new Date(record?.committeeDetails?.committee?.startDate).toLocaleDateString()}</Title>
       }
     },
     {
@@ -84,7 +84,7 @@ function Home() {
       dataIndex: 'endDate',
       key: 'endDate',
       render: (text, record) => {
-        return <Title style={{ fontSize: "16px", margin: 0, color: "#818181" }}>{new Date(record?.committee?.endDate).toLocaleDateString()}</Title>
+        return <Title style={{ fontSize: "16px", margin: 0, color: "#818181" }}>{new Date(record?.committeeDetails?.committee?.endDate).toLocaleDateString()}</Title>
       }
     },
     {
@@ -92,7 +92,7 @@ function Home() {
       dataIndex: 'cycle',
       key: 'cycle',
       render: (text, record) => {
-        return <Title style={{ fontSize: "16px", margin: 0, color: "#818181" }}>{record?.committee?.cycle.type}</Title>
+        return <Title style={{ fontSize: "16px", margin: 0, color: "#818181" }}>{record?.committeeDetails?.committee?.cycle.type}</Title>
       }
     },
     // {
@@ -103,7 +103,7 @@ function Home() {
     //     return (
     //       <div style={{ display: "flex", alignItems: "center" }}>
     //         <img width={30} src={memberIcon} />
-    //         <Title style={{ fontSize: "16px", margin: "0 0 0 10px", color: "#818181" }}>{record?.committee?.available}</Title>
+    //         <Title style={{ fontSize: "16px", margin: "0 0 0 10px", color: "#818181" }}>{record?.committeeDetails?.committee?.available}</Title>
     //       </div>
     //     )
     //   }
@@ -113,7 +113,7 @@ function Home() {
       dataIndex: 'payment',
       key: 'payment',
       render: (text, record) => {
-        return <Title style={{ fontSize: "16px", margin: 0, color: "#818181" }}>{record?.committee?.payment}</Title>
+        return <Title style={{ fontSize: "16px", margin: 0, color: "#818181" }}>{record?.committeeDetails?.committee?.payment}</Title>
       }
     },
     // {
@@ -121,14 +121,14 @@ function Home() {
     //   dataIndex: 'payment',
     //   key: 'payment',
     //   render: (text, record) => {
-    //     return <Title style={{ fontSize: "16px", margin: 0, color: "#818181" }}>{record?.committee?.payment}</Title>
+    //     return <Title style={{ fontSize: "16px", margin: 0, color: "#818181" }}>{record?.committeeDetails?.committee?.payment}</Title>
     //   }
     // },
     {
       title: <Title style={{ fontSize: "18px", margin: 0, color: "#166805", fontWeight: "600" }}></Title>,
       render: (text, record) => {
         return (
-          <Button style={{ margin: "0 0 0 20px" }} onClick={() => navigate(`/view-committee/${record?.committee?._id}`)} className="add-cycle-btn">View</Button>
+          <Button style={{ margin: "0 0 0 20px" }} onClick={() => navigate(`/view-committee/${record?.committeeDetails?.committee?._id}`)} className="add-cycle-btn">View</Button>
         )
       }
     },
@@ -213,7 +213,7 @@ function Home() {
       title: <Title style={{ fontSize: "18px", margin: 0, color: "#166805", fontWeight: "600" }}></Title>,
       render: (text, record) => {
         return (
-          <Button style={{ margin: "0 0 0 20px" }} onClick={() => navigate(`/view-committee/${record?.committee?._id}`)} className="add-cycle-btn">View</Button>
+          <Button style={{ margin: "0 0 0 20px" }} onClick={() => navigate(`/view-committee/${record?.committeeDetails?.committee?._id}`)} className="add-cycle-btn">View</Button>
         )
       }
     },
@@ -227,22 +227,34 @@ function Home() {
 
   useEffect(() => {
     if (user?.userType === "admin") {
+      setLoading(true)
       GetAdminCommittees(token)
         .then((res) => {
           const committee = res.data.allCommittees
           dispatch(setCommittees([...committee.level1, ...committee.level2, ...committee.level3]))
+          if (res.status === 200) {
+            console.log(res);
+            setLoading(false)
+          }
         })
         .catch((err) => {
           console.log(err);
+          setLoading(false)
         })
     }
     if (user?.userType === "user") {
+      setLoading(true)
       GetUserCommittees(token)
         .then((res) => {
-          const committee = res.data.allCommittees
-          dispatch(setCommittees([...committee.level1, ...committee.level2, ...committee.level3]))
+          if (res.status === 200) {
+            console.log(res);
+            setLoading(false)
+            const committee = res.data.allCommittees
+            dispatch(setCommittees([...committee.level1, ...committee.level2, ...committee.level3]))
+          }
         })
         .catch((err) => {
+          setLoading(false)
           console.log(err);
         })
     }
@@ -266,6 +278,7 @@ function Home() {
         <Table
           dataSource={user?.userType === "admin" ? committees : user?.userType === "user" ? committees.filter((com) => com.committee.userIds.some((id) => id === user?._id)) : null}
           columns={column}
+          loading={loading}
         />
       </Card>
     </>
