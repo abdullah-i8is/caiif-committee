@@ -25,7 +25,7 @@ import deleteIcon from '../assets/images/del-icon.svg'
 import StatisticsHeader from "../components/statistics/statisticsHeader";
 import axios from "axios";
 import { API_URL } from "../config/api";
-import { GetUserCommittees } from "../middlewares/commitee";
+import { GetAdminCommittees, GetUserCommittees } from "../middlewares/commitee";
 import { setCommittees } from "../store/committeeSlice/committeeSlice";
 
 function Setup2() {
@@ -87,23 +87,31 @@ function Setup2() {
                 return <Title style={{ fontSize: "16px", margin: 0, color: "#818181" }}>{record?.contactNumber}</Title>
             }
         },
-        {
-            title: <Title style={{ fontSize: "18px", margin: 0, color: "#166805", fontWeight: "600" }}>Committee</Title>,
-            dataIndex: 'monthlyIncome',
-            key: 'monthlyIncome',
-            render: (text, record) => {
-                const res = committees?.filter((f) => {
-                    return record?.committeeList?.some((a) => a?.cid === f?.committee?._id)
-                })
-                return <Title style={{ fontSize: "16px", margin: 0, color: "#818181" }}>{res[0]?.committee?.name ? res[0]?.committee?.name : ""}</Title>
-            }
-        },
+        // {
+        //     title: <Title style={{ fontSize: "18px", margin: 0, color: "#166805", fontWeight: "600" }}>Committee</Title>,
+        //     dataIndex: 'monthlyIncome',
+        //     key: 'monthlyIncome',
+        //     render: (text, record) => {
+        //         const res = committees?.filter((f) => {
+        //             return record?.committeeList?.some((a) => a?.cid === f?.committee?._id)
+        //         })
+        //         return <Title style={{ fontSize: "16px", margin: 0, color: "#818181" }}>{res[0]?.committee?.name ? res[0]?.committee?.name : ""}</Title>
+        //     }
+        // },
         {
             title: <Title style={{ fontSize: "18px", margin: 0, color: "#166805", fontWeight: "600" }}>Tier</Title>,
             dataIndex: 'level',
             key: 'level',
             render: (text, record) => {
                 return <Title style={{ fontSize: "16px", margin: 0, color: "#818181" }}>{record?.level}</Title>
+            }
+        },
+        {
+            title: <Title style={{ fontSize: "18px", margin: 0, color: "#166805", fontWeight: "600" }}></Title>,
+            render: (text, record) => {
+                return (
+                    <Button style={{ margin: "0 0 0 20px" }} onClick={() => navigate(`/verification-details/${record._id}`)} className="add-cycle-btn">View</Button>
+                )
             }
         },
     ];
@@ -160,6 +168,14 @@ function Setup2() {
                 )
             }
         },
+        {
+            title: <Title style={{ fontSize: "18px", margin: 0, color: "#166805", fontWeight: "600" }}></Title>,
+            render: (text, record) => {
+                return (
+                    <Button style={{ margin: "0 0 0 20px" }} onClick={() => navigate(`/verification-details/${record._id}`)} className="add-cycle-btn">View</Button>
+                )
+            }
+        },
     ];
 
     const column3 = [
@@ -201,6 +217,14 @@ function Setup2() {
             key: 'enroll',
             render: (text, record) => {
                 return <Title style={{ fontSize: "16px", margin: 0, color: "#818181" }}>{record?.enroll}</Title>
+            }
+        },
+        {
+            title: <Title style={{ fontSize: "18px", margin: 0, color: "#166805", fontWeight: "600" }}></Title>,
+            render: (text, record) => {
+                return (
+                    <Button style={{ margin: "0 0 0 20px" }} onClick={() => navigate(`/verification-details/${record._id}`)} className="add-cycle-btn">View</Button>
+                )
             }
         },
     ];
@@ -251,14 +275,26 @@ function Setup2() {
 
     useEffect(() => {
         fetchCommitteeUsers()
-        GetUserCommittees()
-            .then((res) => {
-                const committee = res.data.allCommittees
-                dispatch(setCommittees([...committee.level1, ...committee.level2, ...committee.level3]))
-            })
-            .catch((err) => {
-                console.log(err);
-            })
+        if (user?.userType === "admin") {
+            GetAdminCommittees()
+                .then((res) => {
+                    const committee = res.data.allCommittees
+                    dispatch(setCommittees([...committee.level1, ...committee.level2, ...committee.level3]))
+                })
+                .catch((err) => {
+                    console.log(err);
+                })
+        }
+        if (user?.userType === "user") {
+            GetUserCommittees()
+                .then((res) => {
+                    const committee = res.data.allCommittees
+                    dispatch(setCommittees([...committee.level1, ...committee.level2, ...committee.level3]))
+                })
+                .catch((err) => {
+                    console.log(err);
+                })
+        }
     }, [params.id])
 
     console.log(committeeUsers);

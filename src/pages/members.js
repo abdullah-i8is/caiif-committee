@@ -28,7 +28,7 @@ import { API_URL } from "../config/api";
 import { setApproveMembers } from "../store/membersSlice/membersSlice";
 import { GetAllMembers } from "../middlewares/members";
 import denyIcon from '../assets/images/deny.svg'
-import { GetUserCommittees } from "../middlewares/commitee";
+import { GetAdminCommittees, GetUserCommittees } from "../middlewares/commitee";
 import { setCommittees } from "../store/committeeSlice/committeeSlice";
 
 function Members() {
@@ -45,6 +45,7 @@ function Members() {
     const [flightBudget, setFlightBudget] = useState(0)
     const [hotelBudget, setHotelBudget] = useState(0)
     const dispatch = useDispatch()
+    const user = useSelector((state) => state.auth.user)
 
     const data = [
         { username: "Hassan Soomro", email: "hassansoomro@i8is.com", amount: 4230142301423, phonenumber: "+92300000333", CNIC: 4230142301423, enroll: 3, },
@@ -101,18 +102,18 @@ function Members() {
         //         )
         //     }
         // },
-        {
-            title: <Title style={{ fontSize: "18px", margin: 0, color: "#166805", fontWeight: "600" }}>Committee</Title>,
-            dataIndex: 'level',
-            key: 'level',
-            render: (text, record) => {
-                const res = committees?.filter((f) => {
-                    return record?.committeeList?.some((a) => a?.cid === f?.committee?._id)
-                })
-                console.log(res);
-                return <Title style={{ fontSize: "16px", margin: 0, color: "#818181" }}>{res[0]?.committee?.name ? res[0]?.committee?.name : ""}</Title>
-            }
-        },
+        // {
+        //     title: <Title style={{ fontSize: "18px", margin: 0, color: "#166805", fontWeight: "600" }}>Committee</Title>,
+        //     dataIndex: 'level',
+        //     key: 'level',
+        //     render: (text, record) => {
+        //         const res = committees?.filter((f) => {
+        //             return record?.committeeList?.some((a) => a?.cid === f?.committee?._id)
+        //         })
+        //         console.log(res);
+        //         return <Title style={{ fontSize: "16px", margin: 0, color: "#818181" }}>{res[0]?.committee?.name ? res[0]?.committee?.name : ""}</Title>
+        //     }
+        // },
         {
             title: <Title style={{ fontSize: "18px", margin: 0, color: "#166805", fontWeight: "600" }}>Note</Title>,
             dataIndex: 'note',
@@ -121,14 +122,6 @@ function Members() {
                 return <Title style={{ fontSize: "16px", margin: 0, color: "#818181" }}>{record?.note === "" || !record?.note ? "N/A" : record.note}</Title>
             }
         },
-        // {
-        //     title: <Title style={{ fontSize: "18px", margin: 0, color: "#166805", fontWeight: "600" }}></Title>,
-        //     render: (text, record) => {
-        //         return (
-        //             <Button style={{ margin: "0 0 0 20px" }} onClick={() => navigate(`/verification-details/${record._id}`)} className="add-cycle-btn">View</Button>
-        //         )
-        //     }
-        // },
         {
             width: "200px",
             title: <Title style={{ fontSize: "18px", margin: 0, color: "#166805", fontWeight: "600" }}>Action</Title>,
@@ -160,6 +153,14 @@ function Members() {
                 )
             }
         },
+        {
+            title: <Title style={{ fontSize: "18px", margin: 0, color: "#166805", fontWeight: "600" }}></Title>,
+            render: (text, record) => {
+                return (
+                    <Button style={{ margin: "0 0 0 20px" }} onClick={() => navigate(`/verification-details/${record._id}`)} className="add-cycle-btn">View</Button>
+                )
+            }
+        },
     ];
 
     const column2 = [
@@ -187,17 +188,17 @@ function Members() {
                 return <Title style={{ fontSize: "16px", margin: 0, color: "#818181" }}>{record?.contactNumber}</Title>
             }
         },
-        {
-            title: <Title style={{ fontSize: "18px", margin: 0, color: "#166805", fontWeight: "600" }}>Committee</Title>,
-            dataIndex: 'name',
-            key: 'name',
-            render: (text, record) => {
-                const res = committees?.filter((f) => {
-                    return record?.committeeList?.some((a) => a?.cid === f?.committee?._id)
-                })
-                return <Title style={{ fontSize: "16px", margin: 0, color: "#818181" }}>{res[0]?.committee?.name ? res[0]?.committee?.name : ""}</Title>
-            }
-        },
+        // {
+        //     title: <Title style={{ fontSize: "18px", margin: 0, color: "#166805", fontWeight: "600" }}>Committee</Title>,
+        //     dataIndex: 'name',
+        //     key: 'name',
+        //     render: (text, record) => {
+        //         const res = committees?.filter((f) => {
+        //             return record?.committeeList?.some((a) => a?.cid === f?.committee?._id)
+        //         })
+        //         return <Title style={{ fontSize: "16px", margin: 0, color: "#818181" }}>{res[0]?.committee?.name ? res[0]?.committee?.name : ""}</Title>
+        //     }
+        // },
         {
             title: <Title style={{ fontSize: "18px", margin: 0, color: "#166805", fontWeight: "600" }}>Note</Title>,
             dataIndex: 'note',
@@ -221,14 +222,14 @@ function Members() {
             }
 
         },
-        // {
-        //     title: <Title style={{ fontSize: "18px", margin: 0, color: "#166805", fontWeight: "600" }}></Title>,
-        //     render: (text, record) => {
-        //         return (
-        //             <Button style={{ margin: "0 0 0 20px" }} onClick={() => navigate(`/verification-details/${record._id}`)} className="add-cycle-btn">View</Button>
-        //         )
-        //     }
-        // },
+        {
+            title: <Title style={{ fontSize: "18px", margin: 0, color: "#166805", fontWeight: "600" }}></Title>,
+            render: (text, record) => {
+                return (
+                    <Button style={{ margin: "0 0 0 20px" }} onClick={() => navigate(`/verification-details/${record._id}`)} className="add-cycle-btn">View</Button>
+                )
+            }
+        },
         // {
         //     width: "200px",
         //     title: <Title style={{ fontSize: "18px", margin: 0, color: "#166805", fontWeight: "600" }}>Action</Title>,
@@ -290,14 +291,26 @@ function Members() {
                 setLoading3(false)
                 console.log(error);
             })
-        GetUserCommittees()
-            .then((res) => {
-                const committee = res.data.allCommittees
-                dispatch(setCommittees([...committee.level1, ...committee.level2, ...committee.level3]))
-            })
-            .catch((err) => {
-                console.log(err);
-            })
+        if (user?.userType === "admin") {
+            GetAdminCommittees()
+                .then((res) => {
+                    const committee = res.data.allCommittees
+                    dispatch(setCommittees([...committee.level1, ...committee.level2, ...committee.level3]))
+                })
+                .catch((err) => {
+                    console.log(err);
+                })
+        }
+        if (user?.userType === "user") {
+            GetUserCommittees()
+                .then((res) => {
+                    const committee = res.data.allCommittees
+                    dispatch(setCommittees([...committee.level1, ...committee.level2, ...committee.level3]))
+                })
+                .catch((err) => {
+                    console.log(err);
+                })
+        }
     }, [])
 
     console.log(approveMembers);

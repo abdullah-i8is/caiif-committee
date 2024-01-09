@@ -79,12 +79,12 @@ function VerificationDetails() {
 
     return (
         <>
-            <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: "20px", marginTop: "50px" }}>
+            <div style={{ marginBottom: "20px", marginTop: "50px" }}>
                 <Title style={{ color: "#166805", margin: 0 }} level={3}>Verification Details</Title>
-                <div style={{ display: "flex", alignItems: "center" }}>
+                {/* <div style={{ display: "flex", alignItems: "center" }}>
                     <Button loading={loading} onClick={() => handleApprove(false)} style={{ margin: "0 0 0 10px", width: "100px" }} className="deny-btn"> <img width={15} src={denyIcon} style={{ margin: "0 5px 0 0" }} /> Deny</Button>
                     <Button loading={loading2} onClick={() => handleApprove(true)} style={{ margin: "0 0 0 10px", width: "100px" }} className="add-cycle-btn"> Approve</Button>
-                </div>
+                </div> */}
             </div>
             <Form
                 form={form}
@@ -102,54 +102,19 @@ function VerificationDetails() {
                                 <img src={cnicFront} style={{ borderRadius: "10px", width: "100%" }} />
                             </Card>
                         </Col>
-                        <Col xs={24} sm={24} md={12} lg={12} xl={12}>
+                        <Col xs={24} sm={24} md={8} lg={8} xl={8}>
                             <Form.Item label={<Title style={{ fontSize: "16px", margin: 0, color: "#4E4E4E" }}>Name</Title>}>
                                 <Input value={user?.name} />
                             </Form.Item>
                         </Col>
-                        <Col xs={24} sm={24} md={12} lg={12} xl={12}>
-                            <Form.Item label={<Title style={{ fontSize: "16px", margin: 0, color: "#4E4E4E" }}>Bank Name</Title>}>
-                                <Input value={user?.bankName} />
+                        <Col xs={24} sm={24} md={8} lg={8} xl={8}>
+                            <Form.Item label={<Title style={{ fontSize: "16px", margin: 0, color: "#4E4E4E" }}>Email Address</Title>}>
+                                <Input value={user?.email} />
                             </Form.Item>
                         </Col>
-                        <Col xs={24} sm={24} md={12} lg={12} xl={12}>
-                            <Form.Item label={<Title style={{ fontSize: "16px", margin: 0, color: "#4E4E4E" }}>Bank Branch Name</Title>}>
-                                <Input value={user?.bankBranchName} />
-                            </Form.Item>
-                        </Col>
-                        <Col xs={24} sm={24} md={12} lg={12} xl={12}>
-                            <Form.Item label={<Title style={{ fontSize: "16px", margin: 0, color: "#4E4E4E" }}>Bank Account Number</Title>}>
-                                <Input value={user?.accountNumber} />
-                            </Form.Item>
-                        </Col>
-                        <Col xs={24} sm={24} md={12} lg={12} xl={12}>
-                            <Form.Item label={<Title style={{ fontSize: "16px", margin: 0, color: "#4E4E4E" }}>Work Address</Title>}>
-                                <Input value={user?.workAddress} />
-                            </Form.Item>
-                        </Col>
-                        <Col xs={24} sm={24} md={12} lg={12} xl={12}>
-                            <Form.Item label={<Title style={{ fontSize: "16px", margin: 0, color: "#4E4E4E" }}>Residential Address</Title>}>
-                                <Input value={user?.residentialAddress} />
-                            </Form.Item>
-                        </Col>
-                        <Col xs={24} sm={24} md={12} lg={12} xl={12}>
-                            <Form.Item label={<Title style={{ fontSize: "16px", margin: 0, color: "#4E4E4E" }}>Monthly Income</Title>}>
-                                <Input value={user?.monthlyIncome} />
-                            </Form.Item>
-                        </Col>
-                        <Col xs={24} sm={24} md={12} lg={12} xl={12}>
-                            <Form.Item label={<Title style={{ fontSize: "16px", margin: 0, color: "#4E4E4E" }}>Job Occupation</Title>}>
-                                <Input value={user?.jobOccupation} />
-                            </Form.Item>
-                        </Col>
-                        <Col xs={24} sm={24} md={12} lg={12} xl={12}>
-                            <Form.Item label={<Title style={{ fontSize: "16px", margin: 0, color: "#4E4E4E" }}>Emergency Contact Relation</Title>}>
-                                <Input value={user?.emergencyContactRelation} />
-                            </Form.Item>
-                        </Col>
-                        <Col xs={24} sm={24} md={12} lg={12} xl={12}>
-                            <Form.Item label={<Title style={{ fontSize: "16px", margin: 0, color: "#4E4E4E" }}>Emergency Contact</Title>}>
-                                <Input value={user?.emergencyContact} />
+                        <Col xs={24} sm={24} md={8} lg={8} xl={8}>
+                            <Form.Item label={<Title style={{ fontSize: "16px", margin: 0, color: "#4E4E4E" }}>Phone Number</Title>}>
+                                <Input value={user?.contactNumber} />
                             </Form.Item>
                         </Col>
                     </Row>
