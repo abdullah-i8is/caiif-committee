@@ -140,7 +140,7 @@ function Home() {
       dataIndex: 'name',
       key: 'name',
       render: (text, record, index) => {
-        return <Title style={{ fontSize: "18px", margin: 0 }}>{record?.name}</Title>
+        return <Title style={{ fontSize: "18px", margin: 0 }}>{record?.committee?.name}</Title>
       }
     },
     {
@@ -148,7 +148,7 @@ function Home() {
       dataIndex: 'amount',
       key: 'amount',
       render: (text, record) => {
-        return <Title style={{ fontSize: "16px", margin: 0, color: "#818181" }}>$ {record?.amount}</Title>
+        return <Title style={{ fontSize: "16px", margin: 0, color: "#818181" }}>$ {record?.committee?.amount}</Title>
       }
     },
     {
@@ -159,7 +159,7 @@ function Home() {
         return (
           <div style={{ display: "flex", alignItems: "center" }}>
             <img width={30} src={memberIcon} />
-            <Title style={{ fontSize: "16px", margin: "0 0 0 10px", color: "#818181" }}>{record?.members}</Title>
+            <Title style={{ fontSize: "16px", margin: "0 0 0 10px", color: "#818181" }}>{record?.committee?.members}</Title>
           </div>
         )
       }
@@ -169,7 +169,7 @@ function Home() {
       dataIndex: 'startDate',
       key: 'startDate',
       render: (text, record) => {
-        return <Title style={{ fontSize: "16px", margin: 0, color: "#818181" }}>{record?.startDate}</Title>
+        return <Title style={{ fontSize: "16px", margin: 0, color: "#818181" }}>{record?.committee?.startDate}</Title>
       }
     },
     {
@@ -177,7 +177,7 @@ function Home() {
       dataIndex: 'endDate',
       key: 'endDate',
       render: (text, record) => {
-        return <Title style={{ fontSize: "16px", margin: 0, color: "#818181" }}>{record?.endDate}</Title>
+        return <Title style={{ fontSize: "16px", margin: 0, color: "#818181" }}>{record?.committee?.endDate}</Title>
       }
     },
     {
@@ -185,7 +185,7 @@ function Home() {
       dataIndex: 'cycle',
       key: 'cycle',
       render: (text, record) => {
-        return <Title style={{ fontSize: "16px", margin: 0, color: "#818181" }}>{record?.cycle}</Title>
+        return <Title style={{ fontSize: "16px", margin: 0, color: "#818181" }}>{record?.committee?.cycle}</Title>
       }
     },
     // {
@@ -196,7 +196,7 @@ function Home() {
     //     return (
     //       <div style={{ display: "flex", alignItems: "center" }}>
     //         <img width={30} src={memberIcon} />
-    //         <Title style={{ fontSize: "16px", margin: "0 0 0 10px", color: "#818181" }}>{record?.available}</Title>
+    //         <Title style={{ fontSize: "16px", margin: "0 0 0 10px", color: "#818181" }}>{record?.committee?.available}</Title>
     //       </div>
     //     )
     //   }
@@ -206,14 +206,14 @@ function Home() {
       dataIndex: 'payment',
       key: 'payment',
       render: (text, record) => {
-        return <Title style={{ fontSize: "16px", margin: 0, color: "#818181" }}>{record?.payment}</Title>
+        return <Title style={{ fontSize: "16px", margin: 0, color: "#818181" }}>{record?.committee?.payment}</Title>
       }
     },
     {
       title: <Title style={{ fontSize: "18px", margin: 0, color: "#166805", fontWeight: "600" }}></Title>,
       render: (text, record) => {
         return (
-          <Button style={{ margin: "0 0 0 20px" }} onClick={() => navigate(`/view-committee/${record?.committeeDetails?.committee?._id}`)} className="add-cycle-btn">View</Button>
+          <Button style={{ margin: "0 0 0 20px" }} onClick={() => navigate(`/view-committee/${record?.committee?._id}`)} className="add-cycle-btn">View</Button>
         )
       }
     },
@@ -277,7 +277,7 @@ function Home() {
       <Card className="my-card">
         <Table
           dataSource={user?.userType === "admin" ? committees : user?.userType === "user" ? committees?.filter((com) => com?.committee?.userIds?.some((id) => id === user?._id)) : null}
-          columns={column}
+          columns={user?.userType === "admin" ? column : column2}
           loading={loading}
         />
       </Card>

@@ -213,20 +213,39 @@ function Setup2() {
     // }, [])
 
     async function fetchCommitteeUsers() {
-        setLoading(true)
-        try {
-            const response = await axios.get(`${API_URL}/admin/committeeById/${params.id}`, {
-                headers: { Authorization: "Bearer " + token }
-            })
-            const res = response?.data?.data?.enrolledUsers?.length > 0 ? response?.data?.data?.enrolledUsers?.map((f) => f.userDetails).flat() : null
-            const res2 = response?.data?.data?.receivedUsers?.length > 0 ? response?.data?.data?.receivedUsers?.map((f) => f.userDetails).flat() : null
-            setCommitteeUsers(res)
-            setCommitteeUsers2(res2)
-            setLoading(false)
-            console.log(response);
-        } catch (error) {
-            console.log(error);
-            setLoading(false)
+        if (user?.userType === "admin") {
+            setLoading(true)
+            try {
+                const response = await axios.get(`${API_URL}/admin/committeeById/${params.id}`, {
+                    headers: { Authorization: "Bearer " + token }
+                })
+                const res = response?.data?.data?.enrolledUsers?.length > 0 ? response?.data?.data?.enrolledUsers?.map((f) => f.userDetails).flat() : null
+                const res2 = response?.data?.data?.receivedUsers?.length > 0 ? response?.data?.data?.receivedUsers?.map((f) => f.userDetails).flat() : null
+                setCommitteeUsers(res)
+                setCommitteeUsers2(res2)
+                setLoading(false)
+                console.log(response);
+            } catch (error) {
+                console.log(error);
+                setLoading(false)
+            }
+        }
+        else {
+            setLoading(true)
+            try {
+                const response = await axios.get(`${API_URL}/user/committeeById/${params.id}`, {
+                    headers: { Authorization: "Bearer " + token }
+                })
+                const res = response?.data?.data?.enrolledusers?.length > 0 ? response?.data?.data?.enrolledusers?.map((f) => f.userDetails).flat() : null
+                const res2 = response?.data?.data?.receivedUsers?.length > 0 ? response?.data?.data?.receivedUsers?.map((f) => f.userDetails).flat() : null
+                setCommitteeUsers(res)
+                setCommitteeUsers2(res2)
+                setLoading(false)
+                console.log(response);
+            } catch (error) {
+                console.log(error);
+                setLoading(false)
+            }
         }
     }
 
@@ -243,6 +262,7 @@ function Setup2() {
     }, [params.id])
 
     console.log(committeeUsers);
+    console.log(committeeUsers2);
 
     return (
         <>
@@ -319,7 +339,7 @@ function Setup2() {
                         </div>
                     </div>
                     <Card className="my-card" style={{ marginBottom: "20px" }}>
-                        <Table dataSource={data3} columns={column3} />
+                        <Table loading={loading} dataSource={committeeUsers} columns={column3} />
                     </Card>
                 </>
             )}
