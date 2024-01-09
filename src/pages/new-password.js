@@ -119,10 +119,10 @@ export default function NewPassword() {
                     <Card>
                         <div style={{ display: "flex", justifyContent: "center", alignItems: "center", flexDirection: "column", padding: "40px" }}>
                             <div style={{ marginBottom: 20 }}>
-                                <Title>{loading2 ? "Verifying Your Account..." : message}</Title>
+                                <Title level={3}>{loading2 ? "Verifying Your Account..." : message}</Title>
                             </div>
                             <div>
-                                {loading2 ? <SpinnerRound size={200} thickness={100} speed={100} color="#36ad47" /> : <img width={100} src="https://upload.wikimedia.org/wikipedia/commons/thumb/3/3b/Eo_circle_green_checkmark.svg/1200px-Eo_circle_green_checkmark.svg.png" alt="" />}
+                                {loading2 ? <SpinnerRound size={200} thickness={100} speed={100} color="#36ad47" /> : <img width={60} src="https://upload.wikimedia.org/wikipedia/commons/thumb/3/3b/Eo_circle_green_checkmark.svg/1200px-Eo_circle_green_checkmark.svg.png" alt="" />}
                             </div>
                         </div>
                     </Card>

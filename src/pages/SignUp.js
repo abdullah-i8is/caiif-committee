@@ -330,10 +330,10 @@ export default function SignUp() {
                       <Col xs={24} sm={24} md={24} lg={24} xl={24}>
                         <div style={{ display: "flex", justifyContent: "center", alignItems: "center", flexDirection: "column", padding: "40px" }}>
                           <div style={{ marginBottom: 20 }}>
-                            <Title>Account created successfully verifying your account...</Title>
+                            <Title level={3}>Account created successfully verifying your account...</Title>
                           </div>
                           <div>
-                            <img width={100} src="https://upload.wikimedia.org/wikipedia/commons/thumb/3/3b/Eo_circle_green_checkmark.svg/1200px-Eo_circle_green_checkmark.svg.png" alt="" />
+                            <img width={60} src="https://upload.wikimedia.org/wikipedia/commons/thumb/3/3b/Eo_circle_green_checkmark.svg/1200px-Eo_circle_green_checkmark.svg.png" alt="" />
                           </div>
                         </div>
                       </Col>
