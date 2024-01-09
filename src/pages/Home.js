@@ -76,7 +76,7 @@ function Home() {
       dataIndex: 'startDate',
       key: 'startDate',
       render: (text, record) => {
-        return <Title style={{ fontSize: "16px", margin: 0, color: "#818181" }}>{record?.committee?.startDate}</Title>
+        return <Title style={{ fontSize: "16px", margin: 0, color: "#818181" }}>{new Date(record?.committee?.startDate).toLocaleDateString()}</Title>
       }
     },
     {
@@ -84,7 +84,7 @@ function Home() {
       dataIndex: 'endDate',
       key: 'endDate',
       render: (text, record) => {
-        return <Title style={{ fontSize: "16px", margin: 0, color: "#818181" }}>{record?.committee?.endDate}</Title>
+        return <Title style={{ fontSize: "16px", margin: 0, color: "#818181" }}>{new Date(record?.committee?.endDate).toLocaleDateString()}</Title>
       }
     },
     {
@@ -92,7 +92,7 @@ function Home() {
       dataIndex: 'cycle',
       key: 'cycle',
       render: (text, record) => {
-        return <Title style={{ fontSize: "16px", margin: 0, color: "#818181" }}>{record?.committee?.cycle}</Title>
+        return <Title style={{ fontSize: "16px", margin: 0, color: "#818181" }}>{record?.committee?.cycle.type}</Title>
       }
     },
     // {

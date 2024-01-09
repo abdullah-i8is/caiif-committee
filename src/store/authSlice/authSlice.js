@@ -4,6 +4,7 @@ const authSlice = createSlice({
     name: "auth",
     initialState: {
         user: null,
+        isVerified: false
     },
     reducers: {
         setUser: (state, { payload }) => {
@@ -12,8 +13,14 @@ const authSlice = createSlice({
                 user: payload
             }
         },
+        setUserVerification: (state, { payload }) => {
+            return {
+                ...state,
+                isVerified: payload
+            }
+        },
     }
 })
 
-export const { setUser } = authSlice.actions
+export const { setUser, setUserVerification } = authSlice.actions
 export default authSlice.reducer
