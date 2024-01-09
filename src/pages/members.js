@@ -43,6 +43,8 @@ function Members() {
     const [approveTrips, setApproveTrips] = useState()
     const [flightBudget, setFlightBudget] = useState(0)
     const [hotelBudget, setHotelBudget] = useState(0)
+    const dispatch = useDispatch()
+
     const data = [
         { username: "Hassan Soomro", email: "hassansoomro@i8is.com", amount: 4230142301423, phonenumber: "+92300000333", CNIC: 4230142301423, enroll: 3, },
         { username: "Nisa Hoorain", email: "nisahoorain@i8is.com", amount: 4230142301423, phonenumber: "+92300000333", CNIC: 4230142301423, enroll: 4, },
@@ -104,9 +106,10 @@ function Members() {
             key: 'level',
             render: (text, record) => {
                 const res = committees?.filter((f) => {
-                    return record?.committeeList?.some((a) => a.cid === f.committee._id)
+                    return record?.committeeList?.some((a) => a?.cid === f?.committee?._id)
                 })
-                return <Title style={{ fontSize: "16px", margin: 0, color: "#818181" }}>{res?.Active === true || res?.Active === false ? res[0]?.committee?.name : ""}</Title>
+                console.log(res);
+                return <Title style={{ fontSize: "16px", margin: 0, color: "#818181" }}>{res[0]?.committee?.name ? res[0]?.committee?.name : ""}</Title>
             }
         },
         {
@@ -191,7 +194,7 @@ function Members() {
                 const res = committees?.filter((f) => {
                     return record?.committeeList?.some((a) => a?.cid === f?.committee?._id)
                 })
-                return <Title style={{ fontSize: "16px", margin: 0, color: "#818181" }}>{res?.Active === true || res?.Active === false ? res[0]?.committee?.name : ""}</Title>
+                return <Title style={{ fontSize: "16px", margin: 0, color: "#818181" }}>{res[0]?.committee?.name ? res[0]?.committee?.name : ""}</Title>
             }
         },
         {
@@ -273,7 +276,6 @@ function Members() {
     const approveMembers = useSelector((state) => state.members.approveMembers)
     const committees = useSelector((state) => state.committees.committees)
     const token = useSelector((state) => state.common.token)
-    const dispatch = useDispatch()
 
     useEffect(() => {
         GetAllMembers(token)

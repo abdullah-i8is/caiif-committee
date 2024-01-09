@@ -18,13 +18,15 @@ import {
 import {
     CarOutlined,
 } from "@ant-design/icons";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { useNavigate, useParams } from "react-router-dom";
 import memberIcon from '../assets/images/member2.svg'
 import deleteIcon from '../assets/images/del-icon.svg'
 import StatisticsHeader from "../components/statistics/statisticsHeader";
 import axios from "axios";
 import { API_URL } from "../config/api";
+import { GetUserCommittees } from "../middlewares/commitee";
+import { setCommittees } from "../store/committeeSlice/committeeSlice";
 
 function Setup2() {
 
@@ -33,9 +35,11 @@ function Setup2() {
     const navigate = useNavigate()
     const params = useParams()
     const [committeeUsers, setCommitteeUsers] = useState([])
+    const [committeeUsers2, setCommitteeUsers2] = useState([])
     const committees = useSelector((state) => state.committees.committees)
     const token = useSelector((state) => state.common.token)
     const approveMembers = useSelector((state) => state.members.approveMembers)
+    const dispatch = useDispatch()
 
     const data = [
         { username: "Hassan Soomro", email: "hassansoomro@i8is.com", phonenumber: "+92300000333", CNIC: "4230142301423", enroll: 3, },
@@ -83,19 +87,22 @@ function Setup2() {
             }
         },
         {
-            title: <Title style={{ fontSize: "18px", margin: 0, color: "#166805", fontWeight: "600" }}>Job Occupation</Title>,
-            dataIndex: 'jobOccupation',
-            key: 'jobOccupation',
-            render: (text, record) => {
-                return <Title style={{ fontSize: "16px", margin: 0, color: "#818181" }}>{record?.jobOccupation}</Title>
-            }
-        },
-        {
-            title: <Title style={{ fontSize: "18px", margin: 0, color: "#166805", fontWeight: "600" }}>Monthly Income</Title>,
+            title: <Title style={{ fontSize: "18px", margin: 0, color: "#166805", fontWeight: "600" }}>Committee</Title>,
             dataIndex: 'monthlyIncome',
             key: 'monthlyIncome',
             render: (text, record) => {
-                return <Title style={{ fontSize: "16px", margin: 0, color: "#818181" }}>{record?.monthlyIncome}</Title>
+                const res = committees?.filter((f) => {
+                    return record?.committeeList?.some((a) => a?.cid === f?.committee?._id)
+                })
+                return <Title style={{ fontSize: "16px", margin: 0, color: "#818181" }}>{res[0]?.committee?.name ? res[0]?.committee?.name : ""}</Title>
+            }
+        },
+        {
+            title: <Title style={{ fontSize: "18px", margin: 0, color: "#166805", fontWeight: "600" }}>Tier</Title>,
+            dataIndex: 'level',
+            key: 'level',
+            render: (text, record) => {
+                return <Title style={{ fontSize: "16px", margin: 0, color: "#818181" }}>{record?.level}</Title>
             }
         },
     ];
@@ -197,18 +204,22 @@ function Setup2() {
         },
     ];
 
-    useEffect(() => {
-        const filterCommitteeUsers = approveMembers?.filter((approveUsers, index) => {
-            return approveUsers?.committeeList.some((committeeList) => committeeList.cid === params.id)
-        })
-        setCommitteeUsers(filterCommitteeUsers)
-    }, [])
+    // useEffect(() => {
+    //     const filterCommitteeUsers = approveMembers?.filter((approveUsers, index) => {
+    //         return approveUsers?.committeeList.some((committeeList) => committeeList.cid === params.id)
+    //     })
+    //     setCommitteeUsers(filterCommitteeUsers)
+    // }, [])
 
     async function fetchCommitteeUsers() {
         try {
             const response = await axios.get(`${API_URL}/admin/committeeById/${params.id}`, {
-                headers: {Authorization: "Bearer " + token}
+                headers: { Authorization: "Bearer " + token }
             })
+            const res = response?.data?.data?.enrolledUsers?.length > 0 ? response?.data?.data?.enrolledUsers?.map((f) => f.userDetails).flat() : null
+            const res2 = response?.data?.data?.receivedUsers?.length > 0 ? response?.data?.data?.receivedUsers?.map((f) => f.userDetails).flat() : null
+            setCommitteeUsers(res)
+            setCommitteeUsers2(res2)
             console.log(response);
         } catch (error) {
             console.log(error);
@@ -217,6 +228,14 @@ function Setup2() {
 
     useEffect(() => {
         fetchCommitteeUsers()
+        GetUserCommittees()
+            .then((res) => {
+                const committee = res.data.allCommittees
+                dispatch(setCommittees([...committee.level1, ...committee.level2, ...committee.level3]))
+            })
+            .catch((err) => {
+                console.log(err);
+            })
     }, [params.id])
 
     console.log(committeeUsers);
@@ -283,7 +302,7 @@ function Setup2() {
                         </div>
                     </div>
                     <Card className="my-card" style={{ marginBottom: "20px" }}>
-                        <Table dataSource={data2} columns={column2} />
+                        <Table dataSource={committeeUsers2} columns={column2} />
                     </Card>
                 </>
             ) : (
