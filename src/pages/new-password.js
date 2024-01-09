@@ -81,10 +81,10 @@ export default function NewPassword() {
         try {
             const response = await axios.post(`${API_URL}/user/verifyAccount/${params.id}/${params.email}`)
             if (response.status === 200) {
+                setMessage(response.data.message)
+                setLoading2(false)
                 setTimeout(() => {
                     dispatch(setUserVerification(true))
-                    setLoading2(false)
-                    setMessage(response.data.message)
                 }, 3000);
                 console.log(response);
             }
