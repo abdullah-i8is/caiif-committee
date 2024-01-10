@@ -65,9 +65,9 @@ function Sidenav({ color }) {
   return (
     <>
 
-      <div>
+      {/* <div>
         <img src={logo} alt="" style={{ width: "100%" }} />
-      </div>
+      </div> */}
 
       <div style={{ width: '100%', height: "3px", backgroundColor: "rgba(22, 104, 5, 0.50)", margin: "10px 0 50px 0" }}></div>
 

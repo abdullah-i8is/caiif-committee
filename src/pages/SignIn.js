@@ -124,9 +124,9 @@ export default function SignIn() {
   return (
     <div>
 
-      <div style={{ width: "100%", backgroundColor: "#166805", padding: "20px" }} onClick={() => navigate("/sign-in")}>
+      {/* <div style={{ width: "100%", backgroundColor: "#166805", padding: "20px" }} onClick={() => navigate("/sign-in")}>
         <img width={200} src={logo} alt="" />
-      </div>
+      </div> */}
 
       <div>
         <Card>

@@ -68,7 +68,7 @@ function Setup() {
       dataIndex: 'username',
       key: 'username',
       render: (text, record, index) => {
-        return <Title style={{ fontSize: "18px", margin: 0, color: "#166805", fontWeight: "600" }}>{record?.committeeDetails?.username}</Title>
+        return <Title style={{ fontSize: "18px", margin: 0, color: "#166805", fontWeight: "600" }}>{record?.name}</Title>
       }
     },
     {
@@ -76,7 +76,7 @@ function Setup() {
       dataIndex: 'email',
       key: 'email',
       render: (text, record) => {
-        return <Title style={{ fontSize: "16px", margin: 0, color: "#818181" }}>{record?.committeeDetails?.email}</Title>
+        return <Title style={{ fontSize: "16px", margin: 0, color: "#818181" }}>{record?.email}</Title>
       }
     },
     {
@@ -84,15 +84,15 @@ function Setup() {
       dataIndex: 'phonenumber',
       key: 'phonenumber',
       render: (text, record) => {
-        return <Title style={{ fontSize: "16px", margin: 0, color: "#818181" }}>{record?.committeeDetails?.phonenumber}</Title>
+        return <Title style={{ fontSize: "16px", margin: 0, color: "#818181" }}>{record?.contactNumber}</Title>
       }
     },
     {
-      title: <Title style={{ fontSize: "18px", margin: 0, color: "#166805", fontWeight: "600" }}>CNIC</Title>,
-      dataIndex: 'CNIC',
-      key: 'CNIC',
+      title: <Title style={{ fontSize: "18px", margin: 0, color: "#166805", fontWeight: "600" }}>Level</Title>,
+      dataIndex: 'level',
+      key: 'level',
       render: (text, record) => {
-        return <Title style={{ fontSize: "16px", margin: 0, color: "#818181" }}>{record?.committeeDetails?.CNIC}</Title>
+        return <Title style={{ fontSize: "16px", margin: 0, color: "#818181" }}>{record?.level}</Title>
       }
     },
     {
@@ -100,7 +100,7 @@ function Setup() {
       dataIndex: 'enroll',
       key: 'enroll',
       render: (text, record) => {
-        return <Title style={{ fontSize: "16px", margin: 0, color: "#818181" }}>{record?.committeeDetails?.enroll}</Title>
+        return <Title style={{ fontSize: "16px", margin: 0, color: "#818181" }}>{record?.committeeList?.length}</Title>
       }
     },
   ];
@@ -173,7 +173,7 @@ function Setup() {
         </div>
       </div>
       <Card className="my-card" style={{ marginBottom: "20px" }}>
-        <Table dataSource={committees} columns={column} />
+        <Table dataSource={committees?.map((f) => f?.committeeDetails?.enrolledUsers)?.flat()} columns={column} />
       </Card>
       <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: "20px", marginTop: "40px" }}>
         <Title style={{ color: "#166805", margin: 0 }} level={3}>Committee Received</Title>
