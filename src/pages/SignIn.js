@@ -36,6 +36,7 @@ export default function SignIn() {
     email: "",
     password: "",
   });
+  const [width,setWidth] = useState(0)
 
   const onFinish = (values) => {
     console.log("Success:", values);
@@ -94,7 +95,21 @@ export default function SignIn() {
       }
     }
   }
-
+  useEffect(() => {
+    const handleResize = () => {
+      setWidth(window.innerWidth);
+    };
+  
+    // Add event listener
+    window.addEventListener("resize", handleResize);
+  
+    // Remove event listener when the component unmounts
+    return () => {
+      window.removeEventListener("resize", handleResize);
+    };
+  }, []);
+  
+  
   useEffect(() => {
     if (formFields.email !== "" || formFields.password !== "") {
       handleSignin()
@@ -108,14 +123,14 @@ export default function SignIn() {
   return (
     <div>
 
-      <div style={{ width: "100%", backgroundColor: "#166805", padding: "20px" }}>
+      <div style={{ width: "100%", backgroundColor: "#166805", padding: "20px" }} onClick={() => navigate("/sign-in")}>
         <img width={200} src={logo} alt="" />
       </div>
 
-      <div style={{ display: "flex", justifyContent: "center", alignItems: "center", marginTop: "100px" }}>
+      <div>
         <Card>
           <div style={{ display: "flex", justifyContent: "center", alignItems: "center", }}>
-            <div style={{ margin: "0 30px" }}>
+            <div style={{ margin: "0 30px" }}>  
               <Form
                 form={form}
                 layout="vertical"
@@ -176,9 +191,9 @@ export default function SignIn() {
 
               </Form>
             </div>
-            <div style={{ margin: "0 30px" }}>
+            {width > 768 && <div style={{ margin: "0 30px" }}>
               <img src={loginImg} />
-            </div>
+            </div>}
           </div>
         </Card>
       </div>

@@ -246,13 +246,13 @@ export default function SignUp() {
   return (
     <div>
 
-      <div style={{ width: "100%", backgroundColor: "#166805", padding: "20px" }}>
+      <div style={{ width: "100%", backgroundColor: "#166805", padding: "20px" }} onClick={() => navigate("/sign-in")}>
         <img width={200} src={logo} alt="" />
       </div>
 
       <div style={{ display: "flex", justifyContent: "center", alignItems: "center", height: '90vh' }}>
         <Card>
-          <div style={{ display: "flex", justifyContent: "center", alignItems: "center", }}>
+          <div>
             <div style={{ margin: "0" }}>
               {/* {activeStep === 0 ? (
                 <div className={activeStep === 0 ? 'step-form__step--active' : ''}>

@@ -3111,6 +3111,8 @@ th.ant-table-cell h1 {
 
 .my-card .ant-card-body {
   padding: 0 !important;
+  width: 100%;
+  overflow-x: scroll;
 }
 
 .ant-form-item-explain-error {
