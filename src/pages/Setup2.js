@@ -184,7 +184,7 @@ function Setup2() {
             dataIndex: 'username',
             key: 'username',
             render: (text, record, index) => {
-                return <Title style={{ fontSize: "18px", margin: 0, color: "#166805", fontWeight: "600" }}>{record?.username}</Title>
+                return <Title style={{ fontSize: "18px", margin: 0, color: "#166805", fontWeight: "600" }}>{record?.name}</Title>
             }
         },
         {
@@ -200,15 +200,15 @@ function Setup2() {
             dataIndex: 'phonenumber',
             key: 'phonenumber',
             render: (text, record) => {
-                return <Title style={{ fontSize: "16px", margin: 0, color: "#818181" }}>{record?.phonenumber}</Title>
+                return <Title style={{ fontSize: "16px", margin: 0, color: "#818181" }}>{record?.contactNumber}</Title>
             }
         },
         {
-            title: <Title style={{ fontSize: "18px", margin: 0, color: "#166805", fontWeight: "600" }}>CNIC</Title>,
-            dataIndex: 'CNIC',
-            key: 'CNIC',
+            title: <Title style={{ fontSize: "18px", margin: 0, color: "#166805", fontWeight: "600" }}>Level</Title>,
+            dataIndex: 'level',
+            key: 'level',
             render: (text, record) => {
-                return <Title style={{ fontSize: "16px", margin: 0, color: "#818181" }}>{record?.CNIC}</Title>
+                return <Title style={{ fontSize: "16px", margin: 0, color: "#818181" }}>{record?.level}</Title>
             }
         },
         {
@@ -216,15 +216,7 @@ function Setup2() {
             dataIndex: 'enroll',
             key: 'enroll',
             render: (text, record) => {
-                return <Title style={{ fontSize: "16px", margin: 0, color: "#818181" }}>{record?.enroll}</Title>
-            }
-        },
-        {
-            title: <Title style={{ fontSize: "18px", margin: 0, color: "#166805", fontWeight: "600" }}></Title>,
-            render: (text, record) => {
-                return (
-                    <Button style={{ margin: "0 0 0 20px" }} onClick={() => navigate(`/verification-details/${record._id}`)} className="add-cycle-btn">View</Button>
-                )
+                return <Title style={{ fontSize: "16px", margin: 0, color: "#818181" }}>{record?.committeeList?.length}</Title>
             }
         },
     ];
@@ -243,8 +235,8 @@ function Setup2() {
                 const response = await axios.get(`${API_URL}/admin/committeeById/${params.id}`, {
                     headers: { Authorization: "Bearer " + token }
                 })
-                const res = response?.data?.data?.enrolledUsers?.length > 0 ? response?.data?.data?.enrolledUsers?.map((f) => f.userDetails).flat() : null
-                const res2 = response?.data?.data?.receivedUsers?.length > 0 ? response?.data?.data?.receivedUsers?.map((f) => f.userDetails).flat() : null
+                const res = response?.data?.data?.enrolledUsers?.length > 0 ? response?.data?.data?.enrolledUsers : null
+                const res2 = response?.data?.data?.receivedUsers?.length > 0 ? response?.data?.data?.receivedUsers : null
                 setCommitteeUsers(res)
                 setCommitteeUsers2(res2)
                 setLoading(false)
@@ -260,12 +252,13 @@ function Setup2() {
                 const response = await axios.get(`${API_URL}/user/committeeById/${params.id}`, {
                     headers: { Authorization: "Bearer " + token }
                 })
-                const res = response?.data?.data?.enrolledusers?.length > 0 ? response?.data?.data?.enrolledusers?.map((f) => f.userDetails).flat() : null
-                const res2 = response?.data?.data?.receivedUsers?.length > 0 ? response?.data?.data?.receivedUsers?.map((f) => f.userDetails).flat() : null
+                const res = response?.data?.data?.enrolledusers?.length > 0 ? response?.data?.data?.enrolledusers : null
+                const res2 = response?.data?.data?.receivedUsers?.length > 0 ? response?.data?.data?.receivedUsers : null
                 setCommitteeUsers(res)
                 setCommitteeUsers2(res2)
                 setLoading(false)
                 console.log(response);
+                console.log(res);
             } catch (error) {
                 console.log(error);
                 setLoading(false)

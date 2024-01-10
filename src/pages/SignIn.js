@@ -96,6 +96,7 @@ export default function SignIn() {
     }
   }
   useEffect(() => {
+    setWidth(window.innerWidth);
     const handleResize = () => {
       setWidth(window.innerWidth);
     };
