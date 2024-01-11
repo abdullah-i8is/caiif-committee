@@ -133,18 +133,18 @@ export default function SignUp() {
     }
   }, [formFields])
 
-  async function getCommittee() {
-    try {
-      const response = await axios.get(`${API_URL}/user/committeeById/${params.id}`)
-      console.log(response);
-    } catch (error) {
-      console.log(error);
-    }
-  }
+  // async function getCommittee() {
+  //   try {
+  //     const response = await axios.get(`${API_URL}/user/committeeById/${params.id}`)
+  //     console.log(response);
+  //   } catch (error) {
+  //     console.log(error);
+  //   }
+  // }
 
-  useEffect(() => {
-    getCommittee()
-  }, [params.id])
+  // useEffect(() => {
+  //   getCommittee()
+  // }, [params.id])
 
   const getBase64 = (img, callback) => {
     const reader = new FileReader();
