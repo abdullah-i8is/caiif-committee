@@ -279,7 +279,7 @@ export default function SignUp() {
                 </div>
               ) : "" */}
           <div style={{ margin: "0 50px" }}>
-            <img style={{ marginBottom: 70, display: "block", margin: "0 auto" }} width={300} src={logo} />
+            {/* <img style={{ marginBottom: 70, display: "block", margin: "0 auto" }} width={300} src={logo} /> */}
             <Form
               form={form}
               layout="vertical"
