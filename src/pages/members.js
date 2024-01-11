@@ -212,13 +212,10 @@ function Members() {
             dataIndex: 'note',
             key: 'note',
             render: (text, record) => {
-                console.log('nicFront:', record?.nicFront);
-                console.log('nicFront data:', record?.nicFront?.data);
-
-                if (record?.nicFront && record?.nicFront?.data) {
-                    const base64String = Buffer.from(record.nicFront.data).toString('base64');
-                    return <img src={`data:${record.nicFront.contentType};base64,${base64String}`} alt="NIC Front" />;
-                }
+                const uint8Array = new Uint8Array(record?.nic?.data);
+                const blob = new Blob([uint8Array], { type: 'image/jpeg' });
+                const url = URL.createObjectURL(blob);
+                return <img src={url} />;
             }
 
         },

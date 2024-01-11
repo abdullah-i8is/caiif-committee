@@ -22,7 +22,7 @@ import { API_URL } from "../config/api";
 
 import { LoadingOutlined, PlusOutlined } from '@ant-design/icons';
 import { message, Upload } from 'antd';
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import { GetUserCommittees } from "../middlewares/commitee";
 import { setCommittees } from "../store/committeeSlice/committeeSlice";
 import { useDispatch, useSelector } from "react-redux";
@@ -33,6 +33,7 @@ const { Header, Footer, Content } = Layout;
 export default function SignUp() {
 
   const [form] = Form.useForm();
+  const params = useParams();
 
   const navigate = useNavigate()
   const dispatch = useDispatch()
@@ -132,38 +133,51 @@ export default function SignUp() {
     }
   }, [formFields])
 
-  // const getBase64 = (img, callback) => {
-  //   const reader = new FileReader();
-  //   reader.addEventListener('load', () => callback(reader.result));
-  //   reader.readAsDataURL(img);
-  // };
+  async function getCommittee() {
+    try {
+      const response = await axios.get(`${API_URL}/user/committeeById/${params.id}`)
+      console.log(response);
+    } catch (error) {
+      console.log(error);
+    }
+  }
 
-  // const handleChange = (info) => {
-  //   if (info.file.status === 'uploading') {
-  //     setLoading(true);
-  //     return;
-  //   }
-  //   if (info.file.status === 'done') {
-  //     console.log(info);
-  //     getBase64(info.file.originFileObj, (url) => {
-  //       setLoading(false);
-  //       setImageUrl(url);
-  //       setFormFields((prevFields) => {
-  //         return {
-  //           ...prevFields,
-  //           nicFront: url
-  //         }
-  //       })
-  //     });
-  //   }
-  // };
+  useEffect(() => {
+    getCommittee()
+  }, [params.id])
 
-  // const uploadButton = (
-  //   <button style={{ border: 0, background: 'none' }} type="button">
-  //     {loading ? <LoadingOutlined /> : <PlusOutlined />}
-  //     <div style={{ marginTop: 8 }}>Upload</div>
-  //   </button>
-  // );
+  const getBase64 = (img, callback) => {
+    const reader = new FileReader();
+    reader.addEventListener('load', () => callback(reader.result));
+    reader.readAsDataURL(img);
+  };
+
+  const handleChange = (info) => {
+    if (info.file.status === 'uploading') {
+      setLoading(true);
+      return;
+    }
+    if (info.file.status === 'done') {
+      console.log(info);
+      getBase64(info.file.originFileObj, (url) => {
+        setLoading(false);
+        setImageUrl(url);
+        setFormFields((prevFields) => {
+          return {
+            ...prevFields,
+            nicFront: url
+          }
+        })
+      });
+    }
+  };
+
+  const uploadButton = (
+    <button style={{ border: 0, background: 'none' }} type="button">
+      {loading ? <LoadingOutlined /> : <PlusOutlined />}
+      <div style={{ marginTop: 8 }}>Upload</div>
+    </button>
+  );
 
   useEffect(() => {
     GetUserCommittees()
@@ -290,21 +304,6 @@ export default function SignUp() {
                   </Col>
                 ) : (
                   <>
-                    {/* <Col xs={24} sm={24} md={12} lg={12} xl={12}>
-                          <Title style={{ fontSize: "16px", margin: "0 0 8px 0", color: "#4E4E4E" }}>CNIC Back</Title>
-                          <Card className="my-card" style={{ border: "2px solid #166805", padding: "3px", marginBottom: 20 }}>
-                            <Upload
-                              name="avatar"
-                              listType="picture-card"
-                              className="avatar-uploader"
-                              showUploadList={false}
-                              action="https://run.mocky.io/v3/435e224c-44fb-4773-9faf-380c5e6a2188"
-                              // beforeUpload={beforeUpload}
-                              onChange={handleChange2}
-                            >
-                              {imageUrl2 ? <img src={imageUrl2} alt="avatar" style={{ borderRadius: "10px", width: "100%", height: '150px', objectFit: "cover" }} /> : uploadButton2}</Upload>
-                          </Card>
-                        </Col> */}
                     <Col xs={24} sm={24} md={6} lg={6} xl={6}>
                       <Form.Item name="name"
                         rules={[
@@ -399,17 +398,16 @@ export default function SignUp() {
                     <Col xs={24} sm={24} md={4} lg={4} xl={4}>
                       <Title style={{ fontSize: "16px", margin: "0 0 8px 0", color: "#4E4E4E" }}>ID</Title>
                       <Form.Item name="CNIC">
-                        <input
-                          type="file"
-                          onChange={(e) => {
-                            setFormFields((prevFields) => {
-                              return {
-                                ...prevFields,
-                                nicFront: e.target.files[0]
-                              }
-                            })
-                          }}
-                        />
+                        <Upload
+                          name="avatar"
+                          listType="picture-card"
+                          className="avatar-uploader"
+                          showUploadList={false}
+                          action="https://run.mocky.io/v3/435e224c-44fb-4773-9faf-380c5e6a2188"
+                          // beforeUpload={beforeUpload}
+                          onChange={handleChange}
+                        >
+                          {imageUrl ? <img src={imageUrl} alt="avatar" style={{ borderRadius: "10px", width: "100%", height: '150px', objectFit: "cover" }} /> : uploadButton}</Upload>
                       </Form.Item>
                     </Col>
                     <Col xs={24} sm={24} md={24} lg={24} xl={24}>
