@@ -399,7 +399,7 @@ export default function SignUp() {
                         <Input.TextArea style={{ height: "100px" }} />
                       </Form.Item>
                     </Col>
-                    <Col xs={24} sm={24} md={4} lg={4} xl={4}>
+                    <Col xs={24} sm={24} md={2} lg={2} xl={2}>
                       <Title style={{ fontSize: "16px", margin: "0 0 8px 0", color: "#4E4E4E" }}>ID</Title>
                       <Form.Item name="CNIC">
                         <Upload
