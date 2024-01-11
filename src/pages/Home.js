@@ -273,7 +273,7 @@ function Home() {
           {user?.userType === "admin" && (
             <>
               <Button onClick={() => navigate("/committee-details")} className="view-all-btn">Create Committee</Button>
-              <Button style={{ margin: "0 0 0 20px" }} onClick={() => navigate("/view-all-committee")} className="view-all-btn">View All</Button>
+              {/* <Button style={{ margin: "0 0 0 20px" }} onClick={() => navigate("/view-all-committee")} className="view-all-btn">View All</Button> */}
             </>
           )}
         </div>
