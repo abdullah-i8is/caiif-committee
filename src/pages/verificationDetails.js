@@ -24,9 +24,9 @@ function VerificationDetails() {
     const [loading2, setLoading2] = useState(false)
     const [additionalDetail, setAdditionalDetail] = useState(false)
     const navigate = useNavigate()
-    const [formFields, setFormFields] = useState({})
     const token = useSelector((state) => state.common.token)
     const [user, setUser] = useState()
+    const [note, setNote] = useState("");
 
     const { id } = useParams()
 
@@ -50,12 +50,11 @@ function VerificationDetails() {
         getUser()
     }, [id])
 
-    async function handleApprove(status) {
-        setLoading(status === false ? true : false)
-        setLoading2(status === true ? true : false)
+    async function handleSubmit() {
+        setLoading(true)
         try {
             const response = await axios.post(`${API_URL}/admin/approveAccount/${id}`, {
-                approve: status
+                approve: ""
             }, {
                 headers: {
                     Authorization: "Bearer " + token
@@ -63,7 +62,6 @@ function VerificationDetails() {
             })
             if (response.status === 200) {
                 setLoading(false)
-                setLoading2(false)
                 setTimeout(() => {
                     navigate("/members")
                 }, 2000);
@@ -71,12 +69,9 @@ function VerificationDetails() {
             }
         } catch (error) {
             setLoading(false)
-            setLoading2(false)
             console.log(error);
         }
     }
-
-    console.log(formFields);
 
     return (
         <>
@@ -118,17 +113,17 @@ function VerificationDetails() {
                         </Col>
                         {additionalDetail && (
                             <>
-                                <Col xs={24} sm={24} md={12} lg={12} xl={12}>
+                                {/* <Col xs={24} sm={24} md={12} lg={12} xl={12}>
                                     <Form.Item name="bankBranchName" rules={[
                                         {
                                             required: true,
                                             message: 'Please input your Bank Branch Name!',
                                         },
                                     ]} label={<Title style={{ fontSize: "16px", margin: 0, color: "#4E4E4E" }}>Bank Branch Name</Title>}>
-                                        <Input />
+                                        <Input onChange={(e) => handleChange(e.target.value, "bankBranchName")} />
                                     </Form.Item>
-                                </Col>
-                                <Col xs={24} sm={24} md={12} lg={12} xl={12}>
+                                </Col> */}
+                                {/* <Col xs={24} sm={24} md={12} lg={12} xl={12}>
                                     <Form.Item
                                         name="accountNumber"
                                         rules={[
@@ -137,10 +132,10 @@ function VerificationDetails() {
                                                 message: 'Please input your Account Number!',
                                             },
                                         ]} label={<Title style={{ fontSize: "16px", margin: 0, color: "#4E4E4E" }}>Bank Account Number</Title>}>
-                                        <Input />
+                                        <Input onChange={(e) => handleChange(e.target.value, "bankBranchName")} />
                                     </Form.Item>
-                                </Col>
-                                <Col xs={24} sm={24} md={12} lg={12} xl={12}>
+                                </Col> */}
+                                {/* <Col xs={24} sm={24} md={12} lg={12} xl={12}>
                                     <Form.Item
                                         name="workAddress"
                                         rules={[
@@ -152,8 +147,8 @@ function VerificationDetails() {
                                         label={<Title style={{ fontSize: "16px", margin: 0, color: "#4E4E4E" }}>Work Address</Title>}>
                                         <Input />
                                     </Form.Item>
-                                </Col>
-                                <Col xs={24} sm={24} md={12} lg={12} xl={12}>
+                                </Col> */}
+                                {/* <Col xs={24} sm={24} md={12} lg={12} xl={12}>
                                     <Form.Item
                                         name="residentialAddress"
                                         rules={[
@@ -165,8 +160,8 @@ function VerificationDetails() {
                                         label={<Title style={{ fontSize: "16px", margin: 0, color: "#4E4E4E" }}>Residential Address</Title>}>
                                         <Input />
                                     </Form.Item>
-                                </Col>
-                                <Col xs={24} sm={24} md={12} lg={12} xl={12}>
+                                </Col> */}
+                                {/* <Col xs={24} sm={24} md={12} lg={12} xl={12}>
                                     <Form.Item
                                         name="monthlyIncome"
                                         rules={[
@@ -178,8 +173,8 @@ function VerificationDetails() {
                                         label={<Title style={{ fontSize: "16px", margin: 0, color: "#4E4E4E" }}>Monthly Income</Title>}>
                                         <Input />
                                     </Form.Item>
-                                </Col>
-                                <Col xs={24} sm={24} md={12} lg={12} xl={12}>
+                                </Col> */}
+                                {/* <Col xs={24} sm={24} md={12} lg={12} xl={12}>
                                     <Form.Item
                                         name="emergencyContactRelation"
                                         rules={[
@@ -191,8 +186,8 @@ function VerificationDetails() {
                                         label={<Title style={{ fontSize: "16px", margin: 0, color: "#4E4E4E" }}>Emergency Contact Relation</Title>}>
                                         <Input />
                                     </Form.Item>
-                                </Col>
-                                <Col xs={24} sm={24} md={12} lg={12} xl={12}>
+                                </Col> */}
+                                {/* <Col xs={24} sm={24} md={12} lg={12} xl={12}>
                                     <Form.Item
                                         name="emergencyContact"
                                         rules={[
@@ -204,9 +199,22 @@ function VerificationDetails() {
                                         label={<Title style={{ fontSize: "16px", margin: 0, color: "#4E4E4E" }}>Emergency Contact</Title>}>
                                         <Input />
                                     </Form.Item>
+                                </Col> */}
+                                <Col xs={24} sm={24} md={12} lg={12} xl={12}>
+                                    <Form.Item
+                                        name="note"
+                                        rules={[
+                                            {
+                                                required: true,
+                                                message: 'Please input your Note!',
+                                            },
+                                        ]}
+                                        label={<Title style={{ fontSize: "16px", margin: 0, color: "#4E4E4E" }}>Note</Title>}>
+                                        <Input.TextArea value={note} onChange={(e) => setNote(e.target.value)} />
+                                    </Form.Item>
                                 </Col>
                                 <Col xs={24} sm={24} md={24} lg={24} xl={24}>
-                                    <Button className="add-cycle-btn">Submit</Button>
+                                    <Button loading={loading} onClick={handleSubmit} className="add-cycle-btn">Submit</Button>
                                 </Col>
                             </>
                         )}

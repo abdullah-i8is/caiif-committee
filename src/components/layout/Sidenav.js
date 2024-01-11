@@ -163,7 +163,7 @@ function Sidenav({ color }) {
               </NavLink>
             </Menu.Item>
 
-            <Menu.Item key="3">
+            {/* <Menu.Item key="3">
               <NavLink to="/setup">
                 <span
                   className="icon"
@@ -175,8 +175,8 @@ function Sidenav({ color }) {
                 </span>
                 <span className="label">Total Committee</span>
               </NavLink>
-            </Menu.Item>
-            <Menu.Item key="4">
+            </Menu.Item> */}
+            <Menu.Item key="3">
               <NavLink to="/payment-history">
                 <span
                   className="icon"
@@ -190,7 +190,7 @@ function Sidenav({ color }) {
               </NavLink>
             </Menu.Item>
 
-            <Menu.Item key="5" onClick={handleLogout}>
+            <Menu.Item key="4" onClick={handleLogout}>
               <NavLink to="/sign-in">
                 <span
                   className="icon"

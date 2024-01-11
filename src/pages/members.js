@@ -331,7 +331,7 @@ function Members() {
             <Card className="my-card" style={{ marginBottom: "20px" }}>
                 <Table dataSource={approveMembers?.filter((user) => user.approve === true)} columns={column2} />
             </Card> */}
-            <StatisticsHeader approveMembers={approveMembers} committees={committees} user={loginUser} />
+            {/* <StatisticsHeader approveMembers={approveMembers} committees={committees} user={loginUser} /> */}
             <div style={{ marginBottom: "20px" }}>
                 <Title style={{ color: "#166805", margin: 0 }} level={3}>Approval members Request</Title>
             </div>

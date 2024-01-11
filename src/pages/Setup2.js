@@ -120,6 +120,14 @@ function Setup2() {
             }
         },
         {
+            title: <Title style={{ fontSize: "18px", margin: 0, color: "#166805", fontWeight: "600" }}>Status</Title>,
+            dataIndex: 'enroll',
+            key: 'enroll',
+            render: (text, record) => {
+                return <Title style={{ fontSize: "16px", margin: 0, color: "#818181" }}>{record?.committeeList[0].received === true ? "RECEIVED" : "NOT RECEIVED"}</Title>
+            }
+        },
+        {
             width: 250,
             title: <Title style={{ fontSize: "18px", margin: 0, color: "#166805", fontWeight: "600" }}></Title>,
             render: (text, record) => {
@@ -142,67 +150,6 @@ function Setup2() {
                             Add payment history
                         </Button>
                     </>
-                )
-            }
-        },
-    ];
-    const column2 = [
-        {
-            title: <Title style={{ fontSize: "18px", margin: 0, color: "#166805", fontWeight: "600" }}>Name</Title>,
-            dataIndex: 'username',
-            key: 'username',
-            render: (text, record, index) => {
-                return <Title style={{ fontSize: "18px", margin: 0, color: "#166805", fontWeight: "600" }}>{record?.username}</Title>
-            }
-        },
-        {
-            title: <Title style={{ fontSize: "18px", margin: 0, color: "#166805", fontWeight: "600" }}>Account</Title>,
-            dataIndex: 'email',
-            key: 'email',
-            render: (text, record) => {
-                return <Title style={{ fontSize: "16px", margin: 0, color: "#818181" }}>{record?.accountnumber}</Title>
-            }
-        },
-        {
-            title: <Title style={{ fontSize: "18px", margin: 0, color: "#166805", fontWeight: "600" }}>Phone Number</Title>,
-            dataIndex: 'phonenumber',
-            key: 'phonenumber',
-            render: (text, record) => {
-                return <Title style={{ fontSize: "16px", margin: 0, color: "#818181" }}>{record?.phonenumber}</Title>
-            }
-        },
-        {
-            title: <Title style={{ fontSize: "18px", margin: 0, color: "#166805", fontWeight: "600" }}>CNIC</Title>,
-            dataIndex: 'CNIC',
-            key: 'CNIC',
-            render: (text, record) => {
-                return <Title style={{ fontSize: "16px", margin: 0, color: "#818181" }}>{record?.CNIC}</Title>
-            }
-        },
-        {
-            title: <Title style={{ fontSize: "18px", margin: 0, color: "#166805", fontWeight: "600" }}>PDF’S</Title>,
-            dataIndex: 'enroll',
-            key: 'enroll',
-            render: (text, record) => {
-                return <Title style={{ fontSize: "16px", margin: 0, color: "#818181" }}>{record?.pdf}</Title>
-            }
-        },
-        {
-            title: <Title style={{ fontSize: "18px", margin: 0, color: "#166805", fontWeight: "600" }}></Title>,
-            render: (text, record) => {
-                return (
-                    <div>
-                        <img src={deleteIcon} />
-                        <Button style={{ margin: "0 0 0 20px" }} onClick={() => navigate("/view-all-committee")} className="add-cycle-btn">Add cycle</Button>
-                    </div>
-                )
-            }
-        },
-        {
-            title: <Title style={{ fontSize: "18px", margin: 0, color: "#166805", fontWeight: "600" }}></Title>,
-            render: (text, record) => {
-                return (
-                    <Button style={{ margin: "0 0 0 20px" }} onClick={() => navigate(`/verification-details/${record._id}`)} className="add-cycle-btn">View</Button>
                 )
             }
         },
