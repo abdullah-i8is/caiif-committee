@@ -114,11 +114,11 @@ function VerificationDetails() {
                                 <Input value={user?.contactNumber} />
                             </Form.Item>
                         </Col>
-                        <Col xs={24} sm={24} md={24} lg={24} xl={24} style={{ marginBottom: additionalDetail ? 30 : 0 }}>
+                        {user?.adminNotes && <Col xs={24} sm={24} md={24} lg={24} xl={24} style={{ marginBottom: additionalDetail ? 30 : 0 }}>
                             <Form.Item label={<Title style={{ fontSize: "16px", margin: 0, color: "#4E4E4E" }}>Notes</Title>}>
-                                {user?.adminNotes?.map((f) => <Input value={f} />)}
+                                {user?.adminNotes?.map((f) => <Input value={f} style={{ margin: "10px 0" }} />)}
                             </Form.Item>
-                        </Col>
+                        </Col>}
                         <Col xs={24} sm={24} md={24} lg={24} xl={24} style={{ marginBottom: additionalDetail ? 30 : 0 }}>
                             <Button onClick={() => setAdditionalDetail(true)} className="add-cycle-btn">Add Additional Detail</Button>
                         </Col>
