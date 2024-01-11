@@ -14,6 +14,7 @@ import {
     FloatButton,
     Form,
     Input,
+    Select,
 } from "antd";
 import {
     CarOutlined,
@@ -112,6 +113,21 @@ function Setup2() {
             render: (text, record) => {
                 return (
                     <Button style={{ margin: "0 0 0 20px" }} onClick={() => navigate(`/verification-details/${record._id}`)} className="add-cycle-btn">View</Button>
+                )
+            }
+        },
+        {
+            title: <Title style={{ fontSize: "18px", margin: 0, color: "#166805", fontWeight: "600" }}>Action</Title>,
+            render: (text, record) => {
+                return (
+                    <Select
+                        defaultValue="Select"
+                        style={{ width: "100%" }}
+                        options={[
+                            { value: "RECEIVED", label: "RECEIVED" },
+                            { value: "NOT RECEIVED", label: "NOT RECEIVED" }
+                        ]}
+                    />
                 )
             }
         },

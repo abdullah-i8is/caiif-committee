@@ -14,6 +14,7 @@ import {
   FloatButton,
   Form,
   Input,
+  Select,
 } from "antd";
 import {
   CarOutlined,
@@ -23,7 +24,7 @@ import { useNavigate } from "react-router-dom";
 import memberIcon from '../assets/images/member2.svg'
 import deleteIcon from '../assets/images/del-icon.svg'
 import StatisticsHeader from "../components/statistics/statisticsHeader";
-import { GetAdminCommittees } from "../middlewares/commitee";
+import { GetAdminCommittees, GetUserCommittees } from "../middlewares/commitee";
 import { setCommittees } from "../store/committeeSlice/committeeSlice";
 
 function Setup() {
@@ -38,19 +39,27 @@ function Setup() {
   const [details, setDetails] = useState([])
 
   useEffect(() => {
-    GetAdminCommittees(token)
-      .then((res) => {
-        const committee = res.data.allCommittees
-        dispatch(setCommittees([...committee.level1, ...committee.level2, ...committee.level3]))
-        if (res.status === 200) {
-          console.log(res);
-          setLoading(false)
-        }
-      })
-      .catch((err) => {
-        console.log(err);
-        setLoading(false)
-      })
+    if (user?.userType === "admin") {
+      GetAdminCommittees()
+        .then((res) => {
+          const committee = res.data.allCommittees
+          dispatch(setCommittees([...committee.level1, ...committee.level2, ...committee.level3]))
+        })
+        .catch((err) => {
+          console.log(err);
+        })
+    }
+    if (user?.userType === "user") {
+      GetUserCommittees()
+        .then((res) => {
+          console.log(res)
+          const committee = res.data.allCommittees
+          dispatch(setCommittees([...committee.level1, ...committee.level2, ...committee.level3]))
+        })
+        .catch((err) => {
+          console.log(err);
+        })
+    }
   }, [])
 
   const data2 = [
@@ -103,6 +112,30 @@ function Setup() {
         return <Title style={{ fontSize: "16px", margin: 0, color: "#818181" }}>{record?.committeeList?.length}</Title>
       }
     },
+
+    {
+      title: <Title style={{ fontSize: "18px", margin: 0, color: "#166805", fontWeight: "600" }}>Action</Title>,
+      render: (text, record) => {
+        return (
+          <Select
+            defaultValue="Select"
+            style={{ width: "100%" }}
+            options={[
+              { value: "RECEIVED", label: "RECEIVED" },
+              { value: "NOT RECEIVED", label: "NOT RECEIVED" }
+            ]}
+          />
+        )
+      }
+    },
+    {
+      title: <Title style={{ fontSize: "18px", margin: 0, color: "#166805", fontWeight: "600" }}>View</Title>,
+      render: (text, record) => {
+        return (
+          <Button onClick={() => navigate(`/verification-details/${record._id}`)} className="add-cycle-btn">View</Button>
+        )
+      }
+    },
   ];
 
   const column2 = [
@@ -139,24 +172,47 @@ function Setup() {
       }
     },
     {
-      title: <Title style={{ fontSize: "18px", margin: 0, color: "#166805", fontWeight: "600" }}>PDF’S</Title>,
-      dataIndex: 'enroll',
-      key: 'enroll',
-      render: (text, record) => {
-        return <Title style={{ fontSize: "16px", margin: 0, color: "#818181" }}>{record?.pdf}</Title>
-      }
-    },
-    {
-      title: <Title style={{ fontSize: "18px", margin: 0, color: "#166805", fontWeight: "600" }}></Title>,
+      title: <Title style={{ fontSize: "18px", margin: 0, color: "#166805", fontWeight: "600" }}>Action</Title>,
       render: (text, record) => {
         return (
-          <div>
-            <img src={deleteIcon} />
-            <Button style={{ margin: "0 0 0 20px" }} onClick={() => navigate("/view-all-committee")} className="add-cycle-btn">Add cycle</Button>
-          </div>
+          <Select
+            defaultValue="Select"
+            style={{ width: "100%" }}
+            options={[
+              { value: "RECEIVED", label: "RECEIVED" },
+              { value: "NOT RECEIVED", label: "NOT RECEIVED" }
+            ]}
+          />
         )
       }
     },
+    {
+      title: <Title style={{ fontSize: "18px", margin: 0, color: "#166805", fontWeight: "600" }}>View</Title>,
+      render: (text, record) => {
+        return (
+          <Button onClick={() => navigate(`/verification-details/${record._id}`)} className="add-cycle-btn">View</Button>
+        )
+      }
+    },
+    // {
+    //   title: <Title style={{ fontSize: "18px", margin: 0, color: "#166805", fontWeight: "600" }}>PDF’S</Title>,
+    //   dataIndex: 'enroll',
+    //   key: 'enroll',
+    //   render: (text, record) => {
+    //     return <Title style={{ fontSize: "16px", margin: 0, color: "#818181" }}>{record?.pdf}</Title>
+    //   }
+    // },
+    // {
+    //   title: <Title style={{ fontSize: "18px", margin: 0, color: "#166805", fontWeight: "600" }}></Title>,
+    //   render: (text, record) => {
+    //     return (
+    //       <div>
+    //         <img src={deleteIcon} />
+    //         <Button style={{ margin: "0 0 0 20px" }} onClick={() => navigate("/view-all-committee")} className="add-cycle-btn">Add cycle</Button>
+    //       </div>
+    //     )
+    //   }
+    // },
   ];
 
   console.log(committees);
