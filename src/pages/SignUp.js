@@ -55,8 +55,7 @@ export default function SignUp() {
     email: "",
     contactNumber: "",
     committee: "",
-    nicFront: imageUrl,
-    nicBack: imageUrl2,
+    nic: imageUrl,
     userType: "user",
     jobOccupation: "",
     note: ""
@@ -304,9 +303,11 @@ export default function SignUp() {
                   </Col>
                 ) : (
                   <>
-                    <div style={{ marginBottom: 20 }}>
-                      <Title level={3}>Caiif Committee Registeration</Title>
-                    </div>
+                    <Col xs={24} sm={24} md={24} lg={24} xl={24}>
+                      <div style={{ marginBottom: 20 }}>
+                        <Title level={3}>Caiif Committee Registeration</Title>
+                      </div>
+                    </Col>
                     <Col xs={24} sm={24} md={6} lg={6} xl={6}>
                       <Form.Item name="name"
                         rules={[
