@@ -212,7 +212,8 @@ function Members() {
             dataIndex: 'note',
             key: 'note',
             render: (text, record) => {
-                const uint8Array = new Uint8Array(record?.nic?.data);
+                console.log(record);
+                const uint8Array = new Uint8Array(record?.nic?.data?.data);
                 const blob = new Blob([uint8Array], { type: 'image/jpeg' });
                 const url = URL.createObjectURL(blob);
                 return <img src={url} />;
