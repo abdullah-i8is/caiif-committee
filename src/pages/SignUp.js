@@ -291,7 +291,7 @@ export default function SignUp() {
               style={{ width: '100%' }}
             >
               <Row gutter={[24, 0]}>
-                {true ? (
+                {formSubmit ? (
                   <Col xs={24} sm={24} md={24} lg={24} xl={24}>
                     <div style={{ display: "flex", justifyContent: "center", alignItems: "center", flexDirection: "column", padding: "40px" }}>
                       <div style={{ marginBottom: 20 }}>
@@ -306,7 +306,8 @@ export default function SignUp() {
                         type="primary"
                       >
                         Go back to home
-                      </Button>                    </div>
+                      </Button>
+                    </div>
                   </Col>
                 ) : (
                   <>
