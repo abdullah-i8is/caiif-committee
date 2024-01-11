@@ -212,7 +212,7 @@ export default function SignUp() {
         <img width={200} src={logo} alt="" />
       </div> */}
 
-      <div style={{ display: "flex", justifyContent: "center", alignItems: "center", height: '90vh', flexDirection: "column" }}>
+      <div style={{ display: "flex", justifyContent: "center", alignItems: "center", height: '90vh', flexDirection: "column", marginTop:"200px" }}>
         {/* <Title level={3} style={{ margin: "0 0 20px 0", color: '#166805', textAlign: "center", }}>REGISTER CAIIF COMMITTEE</Title> */}
         <Card>
           {/* {activeStep === 0 ? (
@@ -294,7 +294,7 @@ export default function SignUp() {
                   <Col xs={24} sm={24} md={24} lg={24} xl={24}>
                     <div style={{ display: "flex", justifyContent: "center", alignItems: "center", flexDirection: "column", padding: "40px" }}>
                       <div style={{ marginBottom: 20 }}>
-                        <Title level={3}>Account created successfully wait for admin approval...</Title>
+                        <Title level={3}>Account created successfully our team member will reach you soon...</Title>
                       </div>
                       <div>
                         <img width={60} src="https://upload.wikimedia.org/wikipedia/commons/thumb/3/3b/Eo_circle_green_checkmark.svg/1200px-Eo_circle_green_checkmark.svg.png" alt="" />
@@ -304,8 +304,8 @@ export default function SignUp() {
                 ) : (
                   <>
                     <Col xs={24} sm={24} md={24} lg={24} xl={24}>
-                      <div style={{ marginBottom: 20 }}>
-                        <Title level={3}>Caiif Committee Registeration</Title>
+                      <div style={{ marginBottom: 50 }}>
+                        <Title level={2} style={{ color: "green", fontWeight: "700" }}>CAIIF Committee Registeration</Title>
                       </div>
                     </Col>
                     <Col xs={24} sm={24} md={6} lg={6} xl={6}>
