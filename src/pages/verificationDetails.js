@@ -62,6 +62,7 @@ function VerificationDetails() {
             })
             if (response.status === 200) {
                 setLoading(false)
+                getUser()
                 setTimeout(() => {
                     navigate("/members")
                 }, 2000);
