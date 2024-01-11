@@ -113,7 +113,7 @@ function Setup2() {
                             { value: true, label: "RECEIVED" },
                             { value: false, label: "NOT RECEIVED" }
                         ]}
-                        value={record?.committeeList?.find(f => f.cid === params.id)?.received}
+                        // value={record?.committeeList?.find(f => f.cid === params.id)?.received}
                         onChange={(e) => handleChangeStatus(e, record._id)}
                     />
                 )
