@@ -161,6 +161,7 @@ export default function SignUp() {
       getBase64(info.file.originFileObj, (url) => {
         setLoading(false);
         setImageUrl(url);
+        console.log(url);
         setFormFields((prevFields) => {
           return {
             ...prevFields,
@@ -212,7 +213,7 @@ export default function SignUp() {
         <img width={200} src={logo} alt="" />
       </div> */}
 
-      <div style={{ display: "flex", justifyContent: "center", alignItems: "center", height: '90vh', flexDirection: "column", marginTop:"200px" }}>
+      <div style={{ display: "flex", justifyContent: "center", alignItems: "center", height: '90vh', flexDirection: "column", marginTop: "200px" }}>
         {/* <Title level={3} style={{ margin: "0 0 20px 0", color: '#166805', textAlign: "center", }}>REGISTER CAIIF COMMITTEE</Title> */}
         <Card>
           {/* {activeStep === 0 ? (
@@ -290,7 +291,7 @@ export default function SignUp() {
               style={{ width: '100%' }}
             >
               <Row gutter={[24, 0]}>
-                {formSubmit ? (
+                {true ? (
                   <Col xs={24} sm={24} md={24} lg={24} xl={24}>
                     <div style={{ display: "flex", justifyContent: "center", alignItems: "center", flexDirection: "column", padding: "40px" }}>
                       <div style={{ marginBottom: 20 }}>
@@ -299,7 +300,13 @@ export default function SignUp() {
                       <div>
                         <img width={60} src="https://upload.wikimedia.org/wikipedia/commons/thumb/3/3b/Eo_circle_green_checkmark.svg/1200px-Eo_circle_green_checkmark.svg.png" alt="" />
                       </div>
-                    </div>
+                      <Button
+                        onClick={() => window.open("https://caiif.ca/")}
+                        style={{ width: "100%", backgroundColor: "#166805", color: 'white', marginTop: 20 }}
+                        type="primary"
+                      >
+                        Go back to home
+                      </Button>                    </div>
                   </Col>
                 ) : (
                   <>

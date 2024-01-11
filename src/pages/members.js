@@ -213,7 +213,6 @@ function Members() {
             dataIndex: 'note',
             key: 'note',
             render: (text, record) => {
-                console.log(record);
                 function _arrayBufferToBase64(buffer) {
                     var binary = '';
                     var bytes = new Uint8Array(buffer);
@@ -223,10 +222,10 @@ function Members() {
                     }
                     return window.btoa(binary);
                   }
-              
+                  
                   // Convert the ArrayBuffer to a base64-encoded string
-                  const base64String = _arrayBufferToBase64(record?.nic?.data?.data);
-              
+                  const base64String = _arrayBufferToBase64(record?.nicBack?.data?.data);
+                  
                   // Create a data URL for the base64 string
                   const url = `data:image/jpeg;base64,${base64String}`;
                 return (
