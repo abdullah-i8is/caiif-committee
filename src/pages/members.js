@@ -14,6 +14,7 @@ import {
     FloatButton,
     Form,
     Input,
+    Upload,
 } from "antd";
 import {
     CarOutlined,
@@ -213,10 +214,31 @@ function Members() {
             key: 'note',
             render: (text, record) => {
                 console.log(record);
-                const uint8Array = new Uint8Array(record?.nic?.data?.data);
-                const blob = new Blob([uint8Array], { type: 'image/jpeg' });
-                const url = URL.createObjectURL(blob);
-                return <img src={url} />;
+                function _arrayBufferToBase64(buffer) {
+                    var binary = '';
+                    var bytes = new Uint8Array(buffer);
+                    var len = bytes.byteLength;
+                    for (var i = 0; i < len; i++) {
+                      binary += String.fromCharCode(bytes[i]);
+                    }
+                    return window.btoa(binary);
+                  }
+              
+                  // Convert the ArrayBuffer to a base64-encoded string
+                  const base64String = _arrayBufferToBase64(record?.nic?.data?.data);
+              
+                  // Create a data URL for the base64 string
+                  const url = `data:image/jpeg;base64,${base64String}`;
+                return (
+                    <Upload
+                        name="avatar"
+                        listType="picture-card"
+                        className="avatar-uploader"
+                        showUploadList={false}
+                    >
+                        {url && <img src={url} alt="avatar" style={{ width: '100%' }} />}
+                    </Upload>
+                )
             }
 
         },
