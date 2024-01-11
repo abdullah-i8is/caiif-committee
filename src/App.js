@@ -24,6 +24,7 @@ import axios from "axios";
 import { setCommittees } from "./store/committeeSlice/committeeSlice";
 import Setup2 from "./pages/Setup2";
 import NewPassword from "./pages/new-password";
+import PaymentHistory from "./pages/paymentHistory";
 
 function App() {
 
@@ -71,6 +72,7 @@ function App() {
             <Route path="/view-all-committee" element={token ? <Setup /> : <Navigate to="/sign-in" />} />
             <Route path="/verification-details/:id" element={token ? <VerificationDetails /> : <Navigate to="/sign-in" />} />
             <Route path="/committee-details" element={token ? <CommitteeDetails /> : <Navigate to="/sign-in" />} />
+            <Route path="/payment-history" element={token ? <PaymentHistory /> : <Navigate to="/sign-in" />} />
             <Route path="/profile" element={token ? <Profile /> : <Navigate to="/sign-in" />} />
           </Route>
           <Route path="*" element={<Navigate to="/" />} />

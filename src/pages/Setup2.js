@@ -351,7 +351,7 @@ function Setup2() {
     async function submitPaymentHistory() {
         setLoading2(true)
         try {
-            const response = await axios.get(`${API_URL}/admin/paymentRecord`, {
+            const response = await axios.post(`${API_URL}/admin/paymentRecord`, {
                 date: paymentHistoryDetails.date,
                 isPaid: paymentHistoryDetails.paidType,
                 paymentAmount: paymentHistoryDetails.paymentAmount,
@@ -369,6 +369,7 @@ function Setup2() {
     }
 
     console.log(committeeUsers);
+    console.log(committeeDetail);
     console.log(committeeUsers2);
     // console.log(paymentHistoryDetails);
     // console.log(committeeDetail);
@@ -465,7 +466,7 @@ function Setup2() {
                     <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: "20px" }}>
                         <Title style={{ color: "#166805", margin: 0 }} level={3}>Committee members list’s</Title>
                         <div style={{ display: "flex", alignItems: "center" }}>
-                            <Title style={{ color: "#166805", margin: "0 15px 0 0" }} level={3}>Available Members: {committeeUsers?.length > 0 ? committeeUsers?.length : 0}/{committeeDetail?.members?.length > 0 ? committeeDetail?.members?.length : 0}</Title>
+                            <Title style={{ color: "#166805", margin: "0 15px 0 0" }} level={3}>Available Members: {committeeUsers?.length > 0 ? committeeUsers?.length : 0}/{committeeDetail?.members > 0 ? committeeDetail?.members : 0}</Title>
                             <img width={40} src={memberIcon} />
                         </div>
                     </div>
@@ -513,10 +514,10 @@ function Setup2() {
           </Form> */}
                     <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: "20px", marginTop: "40px" }}>
                         <Title style={{ color: "#166805", margin: 0 }} level={3}>Committee Received</Title>
-                        <div style={{ display: "flex", alignItems: "center" }}>
+                        {/* <div style={{ display: "flex", alignItems: "center" }}>
                             <Title style={{ color: "#166805", margin: "0 15px 0 0" }} level={3}>Committee Remaining: 10/12</Title>
                             <img width={40} src={memberIcon} />
-                        </div>
+                        </div> */}
                     </div>
                     <Card className="my-card" style={{ marginBottom: "20px" }}>
                         <Table loading={loading} dataSource={committeeUsers2} columns={column} />

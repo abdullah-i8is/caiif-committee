@@ -176,8 +176,21 @@ function Sidenav({ color }) {
                 <span className="label">Total Committee</span>
               </NavLink>
             </Menu.Item>
+            <Menu.Item key="4">
+              <NavLink to="/payment-history">
+                <span
+                  className="icon"
+                  style={{
+                    background: page === "payment-history" ? color : "",
+                  }}
+                >
+                  {committee}
+                </span>
+                <span className="label">Payment History</span>
+              </NavLink>
+            </Menu.Item>
 
-            <Menu.Item key="4" onClick={handleLogout}>
+            <Menu.Item key="5" onClick={handleLogout}>
               <NavLink to="/sign-in">
                 <span
                   className="icon"
