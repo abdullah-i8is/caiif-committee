@@ -169,7 +169,7 @@ function Home() {
       dataIndex: 'startDate',
       key: 'startDate',
       render: (text, record) => {
-        return <Title style={{ fontSize: "16px", margin: 0, color: "#818181" }}>{record?.committee?.startDate}</Title>
+        return <Title style={{ fontSize: "16px", margin: 0, color: "#818181" }}>{new Date(record?.committee?.startDate).toLocaleDateString()}</Title>
       }
     },
     {
@@ -177,7 +177,7 @@ function Home() {
       dataIndex: 'endDate',
       key: 'endDate',
       render: (text, record) => {
-        return <Title style={{ fontSize: "16px", margin: 0, color: "#818181" }}>{record?.committee?.endDate}</Title>
+        return <Title style={{ fontSize: "16px", margin: 0, color: "#818181" }}>{new Date(record?.committee?.endDate).toLocaleDateString()}</Title>
       }
     },
     {
@@ -264,17 +264,21 @@ function Home() {
 
   return (
     <>
-      <StatisticsHeader approveMembers={approveMembers} user={user} committees={committees} />
+      {/* <StatisticsHeader approveMembers={approveMembers} user={user} committees={committees} enrolledCommittess={committees?.filter((com) => com?.committee?.userIds?.some((id) => id === user?._id))} /> */}
       <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: "20px" }}>
         <div>
           <Title style={{ color: "#166805", margin: 0 }} level={3}>Committee</Title>
         </div>
         <div>
-          {user?.userType === "admin" && <Button onClick={() => navigate("/committee-details")} className="view-all-btn">Create Committee</Button>}
-          <Button style={{ margin: "0 0 0 20px" }} onClick={() => navigate("/view-all-committee")} className="view-all-btn">View All</Button>
+          {user?.userType === "admin" && (
+            <>
+              <Button onClick={() => navigate("/committee-details")} className="view-all-btn">Create Committee</Button>
+              <Button style={{ margin: "0 0 0 20px" }} onClick={() => navigate("/view-all-committee")} className="view-all-btn">View All</Button>
+            </>
+          )}
         </div>
       </div>
-      <Card className="my-card">
+      <Card className="my-card" style={{ marginTop: 40 }}>
         <Table
           dataSource={user?.userType === "admin" ? committees : user?.userType === "user" ? committees?.filter((com) => com?.committee?.userIds?.some((id) => id === user?._id)) : null}
           columns={user?.userType === "admin" ? column : column2}

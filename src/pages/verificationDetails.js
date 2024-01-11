@@ -22,6 +22,7 @@ function VerificationDetails() {
     const [form] = Form.useForm();
     const [loading, setLoading] = useState(false)
     const [loading2, setLoading2] = useState(false)
+    const [additionalDetail, setAdditionalDetail] = useState(false)
     const navigate = useNavigate()
     const [formFields, setFormFields] = useState({})
     const token = useSelector((state) => state.common.token)
@@ -92,12 +93,7 @@ function VerificationDetails() {
             >
                 <Card>
                     <Row gutter={[24, 0]}>
-                        <Col xs={24} sm={24} md={12} lg={12} xl={12}>
-                            <Card className="my-card" style={{ border: "2px solid #166805", padding: "3px", marginBottom: 40 }}>
-                                <img src={cnicFront} style={{ borderRadius: "10px", width: "100%" }} />
-                            </Card>
-                        </Col>
-                        <Col xs={24} sm={24} md={12} lg={12} xl={12}>
+                        <Col xs={24} sm={24} md={24} lg={24} xl={24}>
                             <Card className="my-card" style={{ border: "2px solid #166805", padding: "3px", marginBottom: 40 }}>
                                 <img src={cnicFront} style={{ borderRadius: "10px", width: "100%" }} />
                             </Card>
@@ -117,6 +113,103 @@ function VerificationDetails() {
                                 <Input value={user?.contactNumber} />
                             </Form.Item>
                         </Col>
+                        <Col xs={24} sm={24} md={24} lg={24} xl={24} style={{ marginBottom: additionalDetail ? 30 : 0 }}>
+                            <Button onClick={() => setAdditionalDetail(true)} className="add-cycle-btn">Add Additional Detail</Button>
+                        </Col>
+                        {additionalDetail && (
+                            <>
+                                <Col xs={24} sm={24} md={12} lg={12} xl={12}>
+                                    <Form.Item name="bankBranchName" rules={[
+                                        {
+                                            required: true,
+                                            message: 'Please input your Bank Branch Name!',
+                                        },
+                                    ]} label={<Title style={{ fontSize: "16px", margin: 0, color: "#4E4E4E" }}>Bank Branch Name</Title>}>
+                                        <Input />
+                                    </Form.Item>
+                                </Col>
+                                <Col xs={24} sm={24} md={12} lg={12} xl={12}>
+                                    <Form.Item
+                                        name="accountNumber"
+                                        rules={[
+                                            {
+                                                required: true,
+                                                message: 'Please input your Account Number!',
+                                            },
+                                        ]} label={<Title style={{ fontSize: "16px", margin: 0, color: "#4E4E4E" }}>Bank Account Number</Title>}>
+                                        <Input />
+                                    </Form.Item>
+                                </Col>
+                                <Col xs={24} sm={24} md={12} lg={12} xl={12}>
+                                    <Form.Item
+                                        name="workAddress"
+                                        rules={[
+                                            {
+                                                required: true,
+                                                message: 'Please input your Work Address!',
+                                            },
+                                        ]}
+                                        label={<Title style={{ fontSize: "16px", margin: 0, color: "#4E4E4E" }}>Work Address</Title>}>
+                                        <Input />
+                                    </Form.Item>
+                                </Col>
+                                <Col xs={24} sm={24} md={12} lg={12} xl={12}>
+                                    <Form.Item
+                                        name="residentialAddress"
+                                        rules={[
+                                            {
+                                                required: true,
+                                                message: 'Please input your Residential Address!',
+                                            },
+                                        ]}
+                                        label={<Title style={{ fontSize: "16px", margin: 0, color: "#4E4E4E" }}>Residential Address</Title>}>
+                                        <Input />
+                                    </Form.Item>
+                                </Col>
+                                <Col xs={24} sm={24} md={12} lg={12} xl={12}>
+                                    <Form.Item
+                                        name="monthlyIncome"
+                                        rules={[
+                                            {
+                                                required: true,
+                                                message: 'Please input your Monthly Income!',
+                                            },
+                                        ]}
+                                        label={<Title style={{ fontSize: "16px", margin: 0, color: "#4E4E4E" }}>Monthly Income</Title>}>
+                                        <Input />
+                                    </Form.Item>
+                                </Col>
+                                <Col xs={24} sm={24} md={12} lg={12} xl={12}>
+                                    <Form.Item
+                                        name="emergencyContactRelation"
+                                        rules={[
+                                            {
+                                                required: true,
+                                                message: 'Please input your Emergency Contact Relation!',
+                                            },
+                                        ]}
+                                        label={<Title style={{ fontSize: "16px", margin: 0, color: "#4E4E4E" }}>Emergency Contact Relation</Title>}>
+                                        <Input />
+                                    </Form.Item>
+                                </Col>
+                                <Col xs={24} sm={24} md={12} lg={12} xl={12}>
+                                    <Form.Item
+                                        name="emergencyContact"
+                                        rules={[
+                                            {
+                                                required: true,
+                                                message: 'Please input your Emergency Contact!',
+                                            },
+                                        ]}
+                                        label={<Title style={{ fontSize: "16px", margin: 0, color: "#4E4E4E" }}>Emergency Contact</Title>}>
+                                        <Input />
+                                    </Form.Item>
+                                </Col>
+                                <Col xs={24} sm={24} md={24} lg={24} xl={24}>
+                                    <Button className="add-cycle-btn">Submit</Button>
+                                </Col>
+                            </>
+                        )}
                     </Row>
                 </Card>
             </Form>

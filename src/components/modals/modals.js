@@ -1,22 +1,34 @@
-import { Button, Modal } from 'antd'
+import React, { useState } from 'react';
+import { Button, Modal } from 'antd';
 
-const ModalComp = ({ children, title, modalOpen, setOpen, okText, width }) => {
+const ModalComp = ({ title, children, setShow, open, onClick, loading }) => {
     return (
         <>
             <Modal
-                htmlType="submit"
-                width={width}
                 title={title}
                 centered
-                open={modalOpen}
-                onOk={() => setOpen(false)}
-                onCancel={() => setOpen(false)}
-                okText={okText}
+                open={open}
+                onOk={onClick}
+                onCancel={setShow}
+                okText="Submit"
+                okButtonProps={{
+                    style: {
+                        backgroundColor: "#166805",
+                        color: "white",
+                        width: "100px",
+                    },
+                    loading: loading
+                }}
+                cancelButtonProps={{
+                    style: {
+                        width: "100px",
+                    },
+                }}
             >
                 {children}
             </Modal>
         </>
-    )
-}
+    );
+};
 
-export default ModalComp
+export default ModalComp;

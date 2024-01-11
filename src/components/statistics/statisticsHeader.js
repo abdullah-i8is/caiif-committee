@@ -10,7 +10,7 @@ import icon1 from '../../assets/images/member2.svg'
 import icon2 from '../../assets/images/enroll.svg'
 import icon3 from '../../assets/images/committee.svg'
 
-const StatisticsHeader = ({ approveMembers, user, committees }) => {
+const StatisticsHeader = ({ approveMembers, user, committees, enrolledCommittess }) => {
     const { Title, Text } = Typography;
     const arr = [
         { id: 1, title: "Total Members", description: approveMembers?.length ? approveMembers?.length : 0, icon: icon1 },
@@ -18,7 +18,7 @@ const StatisticsHeader = ({ approveMembers, user, committees }) => {
         { id: 3, title: "Add New Committee", description: committees?.length ? committees?.length : 0, icon: icon3 },
     ]
     const arr2 = [
-        { id: 1, title: "Total Enrolled Committee", description: 2, icon: icon1 },
+        { id: 1, title: "Total Enrolled Committee", description: enrolledCommittess?.length, icon: icon1 },
         { id: 2, title: "Total larger sum", description: 228000, icon: icon2 },
         { id: 3, title: "Total Amount Invested", description: 230000, icon: icon3 },
     ]

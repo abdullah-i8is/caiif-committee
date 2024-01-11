@@ -15,6 +15,7 @@ import {
     Form,
     Input,
     Select,
+    DatePicker,
 } from "antd";
 import {
     CarOutlined,
@@ -28,6 +29,9 @@ import axios from "axios";
 import { API_URL } from "../config/api";
 import { GetAdminCommittees, GetUserCommittees } from "../middlewares/commitee";
 import { setCommittees } from "../store/committeeSlice/committeeSlice";
+import ModalComp from "../components/modals/modals";
+import { GetAllMembers } from "../middlewares/members";
+import { setApproveMembers } from "../store/membersSlice/membersSlice";
 
 function Setup2() {
 
@@ -38,31 +42,21 @@ function Setup2() {
     const [committeeUsers, setCommitteeUsers] = useState([])
     const [committeeUsers2, setCommitteeUsers2] = useState([])
     const [committeeDetail, setCommitteeDetail] = useState(null)
+    const [paymentHistoryDetails, setPaymentHistoryDetails] = useState({
+        date: null,
+        paidType: "",
+        paymentAmount: "",
+        cid: null,
+    })
+    const [paymentHistory, setPaymentHistory] = useState([])
     const [loading, setLoading] = useState(false)
+    const [loading2, setLoading2] = useState(false)
+    const [showPaymentModal, setShowPaymentModal] = useState(false)
+    const [userId, setUserId] = useState(false)
     const committees = useSelector((state) => state.committees.committees)
     const token = useSelector((state) => state.common.token)
     const approveMembers = useSelector((state) => state.members.approveMembers)
     const dispatch = useDispatch()
-
-    const data = [
-        { username: "Hassan Soomro", email: "hassansoomro@i8is.com", phonenumber: "+92300000333", CNIC: "4230142301423", enroll: 3, },
-        { username: "Nisa Hoorain", email: "nisahoorain@i8is.com", phonenumber: "+92300000333", CNIC: "4230142301423", enroll: 4, },
-        { username: "Bilawal Soomro", email: "bilawalsoomro@i8is.com", phonenumber: "+92300000333", CNIC: "4230142301423", enroll: 1, },
-        { username: "Hayat Ahmed", email: "hayatahmed@i8is.com", phonenumber: "+92300000333", CNIC: "4230142301423", enroll: 2, },
-    ]
-    const data2 = [
-        { username: "Hassan Soomro", accountnumber: "4003830171874018", email: "hassansoomro@i8is.com", phonenumber: "+92300000333", CNIC: "4230142301423", pdf: "Upload Pdf" },
-        { username: "Nisa Hoorain", accountnumber: "4003830171874018", email: "nisahoorain@i8is.com", phonenumber: "+92300000333", CNIC: "4230142301423", pdf: "Upload Pdf" },
-        { username: "Bilawal Soomro", accountnumber: "4003830171874018", email: "bilawalsoomro@i8is.com", phonenumber: "+92300000333", CNIC: "4230142301423", pdf: "Upload Pdf" },
-        { username: "Hayat Ahmed", accountnumber: "4003830171874018", email: "hayatahmed@i8is.com", phonenumber: "+92300000333", CNIC: "4230142301423", pdf: "Upload Pdf" },
-    ]
-    const data3 = [
-        { username: "Hassan Soomro", accountnumber: "4003830171874018", email: "hassansoomro@i8is.com", phonenumber: "+92300000333", CNIC: "4230142301423", pdf: "Upload Pdf" },
-        { username: "Nisa Hoorain", accountnumber: "4003830171874018", email: "nisahoorain@i8is.com", phonenumber: "+92300000333", CNIC: "4230142301423", pdf: "Upload Pdf" },
-        { username: "Bilawal Soomro", accountnumber: "4003830171874018", email: "bilawalsoomro@i8is.com", phonenumber: "+92300000333", CNIC: "4230142301423", pdf: "Upload Pdf" },
-        { username: "Hayat Ahmed", accountnumber: "4003830171874018", email: "hayatahmed@i8is.com", phonenumber: "+92300000333", CNIC: "4230142301423", pdf: "Upload Pdf" },
-    ]
-    const [form] = Form.useForm();
 
     const column = [
         {
@@ -109,30 +103,49 @@ function Setup2() {
             }
         },
         {
-            title: <Title style={{ fontSize: "18px", margin: 0, color: "#166805", fontWeight: "600" }}></Title>,
-            render: (text, record) => {
-                return (
-                    <Button style={{ margin: "0 0 0 20px" }} onClick={() => navigate(`/verification-details/${record._id}`)} className="add-cycle-btn">View</Button>
-                )
-            }
-        },
-        {
-            title: <Title style={{ fontSize: "18px", margin: 0, color: "#166805", fontWeight: "600" }}>Action</Title>,
+            title: <Title style={{ fontSize: "18px", margin: 0, color: "#166805", fontWeight: "600" }}>Payment Status</Title>,
             render: (text, record) => {
                 return (
                     <Select
                         defaultValue="Select"
                         style={{ width: "100%" }}
                         options={[
-                            { value: "RECEIVED", label: "RECEIVED" },
-                            { value: "NOT RECEIVED", label: "NOT RECEIVED" }
+                            { value: true, label: "RECEIVED" },
+                            { value: false, label: "NOT RECEIVED" }
                         ]}
+                        value={record?.committeeList?.find(f => f.cid === params.id)?.received}
+                        onChange={(e) => handleChangeStatus(e, record._id)}
                     />
                 )
             }
         },
+        {
+            width: 250,
+            title: <Title style={{ fontSize: "18px", margin: 0, color: "#166805", fontWeight: "600" }}></Title>,
+            render: (text, record) => {
+                return (
+                    <>
+                        <Button onClick={() => navigate(`/verification-details/${record._id}`)} className="add-cycle-btn">View</Button>
+                        <Button
+                            style={{ margin: "0 0 0 10px" }}
+                            className="add-cycle-btn"
+                            onClick={() => {
+                                setShowPaymentModal(true)
+                                setUserId(record?._id)
+                                setPaymentHistoryDetails((prevDetails) => {
+                                    return {
+                                        ...prevDetails,
+                                        cid: record?._id
+                                    }
+                                })
+                            }}>
+                            Add payment history
+                        </Button>
+                    </>
+                )
+            }
+        },
     ];
-
     const column2 = [
         {
             title: <Title style={{ fontSize: "18px", margin: 0, color: "#166805", fontWeight: "600" }}>Name</Title>,
@@ -194,7 +207,6 @@ function Setup2() {
             }
         },
     ];
-
     const column3 = [
         {
             title: <Title style={{ fontSize: "18px", margin: 0, color: "#166805", fontWeight: "600" }}>Name</Title>,
@@ -236,14 +248,15 @@ function Setup2() {
                 return <Title style={{ fontSize: "16px", margin: 0, color: "#818181" }}>{record?.committeeList?.length}</Title>
             }
         },
+        {
+            title: <Title style={{ fontSize: "18px", margin: 0, color: "#166805", fontWeight: "600" }}>Status</Title>,
+            dataIndex: 'enroll',
+            key: 'enroll',
+            render: (text, record) => {
+                return <Title style={{ fontSize: "16px", margin: 0, color: "#818181" }}>{record?.committeeList[0].received === true ? "RECEIVED" : "NOT RECEIVED"}</Title>
+            }
+        },
     ];
-
-    // useEffect(() => {
-    //     const filterCommitteeUsers = approveMembers?.filter((approveUsers, index) => {
-    //         return approveUsers?.committeeList.some((committeeList) => committeeList.cid === params.id)
-    //     })
-    //     setCommitteeUsers(filterCommitteeUsers)
-    // }, [])
 
     async function fetchCommitteeUsers() {
         if (user?.userType === "admin") {
@@ -288,13 +301,21 @@ function Setup2() {
     useEffect(() => {
         fetchCommitteeUsers()
         if (user?.userType === "admin") {
-            GetAdminCommittees()
+            GetAdminCommittees(token)
                 .then((res) => {
                     const committee = res.data.allCommittees
                     dispatch(setCommittees([...committee.level1, ...committee.level2, ...committee.level3]))
                 })
                 .catch((err) => {
                     console.log(err);
+                })
+            GetAllMembers(token)
+                .then((res) => {
+                    console.log(res?.data);
+                    dispatch(setApproveMembers(res?.data?.users))
+                })
+                .catch((error) => {
+                    console.log(error);
                 })
         }
         if (user?.userType === "user") {
@@ -309,47 +330,142 @@ function Setup2() {
         }
     }, [params.id])
 
+    async function handleChangeStatus(status, id) {
+        console.log(status, id);
+        try {
+            const response = await axios.post(`${API_URL}/admin/receivedStatus/${id}`, {
+                received: status,
+                cId: committeeDetail._id
+            }, {
+                headers: { Authorization: "Bearer " + token }
+            })
+            if (response.status === 200) {
+                fetchCommitteeUsers()
+                console.log(response);
+            }
+        } catch (error) {
+            console.log(error);
+        }
+    }
+
+    async function submitPaymentHistory() {
+        setLoading2(true)
+        try {
+            const response = await axios.get(`${API_URL}/admin/paymentRecord`, {
+                date: paymentHistoryDetails.date,
+                isPaid: paymentHistoryDetails.paidType,
+                paymentAmount: paymentHistoryDetails.paymentAmount,
+                userId: userId,
+                cid: params.id,
+            }, {
+                headers: { Authorization: "Bearer " + token }
+            })
+            setLoading2(false)
+            console.log(response);
+        } catch (error) {
+            setLoading2(false)
+            console.log(error);
+        }
+    }
+
     console.log(committeeUsers);
     console.log(committeeUsers2);
+    // console.log(paymentHistoryDetails);
+    // console.log(committeeDetail);
 
     return (
         <>
-            <StatisticsHeader user={user} />
+            {showPaymentModal && (
+                <ModalComp setShow={() => setShowPaymentModal(false)} loading={loading2} onClick={submitPaymentHistory} title="Add Payment History" open={showPaymentModal}>
+                    <DatePicker
+                        placeholder="Payment Date"
+                        onChange={(e) => {
+                            setPaymentHistoryDetails((prevDetails) => {
+                                return {
+                                    ...prevDetails,
+                                    date: e
+                                }
+                            })
+                        }}
+                        style={{ width: "100%", height: "45px" }}
+                    />
+                    <br />
+                    <br />
+                    <Select
+                        defaultValue="Select"
+                        style={{ width: "100%" }}
+                        options={[
+                            { value: "TRANSFER", label: "TRANSFER" },
+                            { value: "RECIEVED", label: "RECIEVED" }
+                        ]}
+                        onChange={(e) => {
+                            setPaymentHistoryDetails((prevDetails) => {
+                                return {
+                                    ...prevDetails,
+                                    paidType: e
+                                }
+                            })
+                        }}
+                    />
+                    <br />
+                    <br />
+                    <Input
+                        placeholder="Amount"
+                        value={paymentHistoryDetails.paymentAmount}
+                        onChange={(e) => {
+                            setPaymentHistoryDetails((prevDetails) => {
+                                return {
+                                    ...prevDetails,
+                                    paymentAmount: Number(e.target.value)
+                                }
+                            })
+                        }} />
+                </ModalComp>
+            )}
+            {/* <StatisticsHeader user={user} approveMembers={approveMembers} /> */}
             {user.userType === "admin" ? (
                 <>
                     <Title style={{ color: "#166805", margin: "0 0 20px 0" }} level={3}>Committee Detail</Title>
                     <Card style={{ marginBottom: "20px" }}>
                         <Row gutter={[24, 0]}>
-                            <Col xs={24} sm={24} md={4} lg={4} xl={4}>
+                            <Col xs={24} sm={24} md={4} lg={3} xl={3}>
                                 <Title style={{ margin: 0 }} level={4}>Name</Title>
                                 <Title style={{ margin: 0, color: "grey", fontWeight: '500' }} level={5}>{committeeDetail?.name}</Title>
                             </Col>
-                            <Col xs={24} sm={24} md={4} lg={4} xl={4}>
+                            <Col xs={24} sm={24} md={4} lg={3} xl={3}>
                                 <Title style={{ margin: 0 }} level={4}>Cycle</Title>
                                 <Title style={{ margin: 0, color: "grey", fontWeight: '500' }} level={5}>{committeeDetail?.cycle?.type}</Title>
                             </Col>
-                            <Col xs={24} sm={24} md={4} lg={4} xl={4}>
+                            <Col xs={24} sm={24} md={4} lg={3} xl={3}>
                                 <Title style={{ margin: 0 }} level={4}>Duration</Title>
                                 <Title style={{ margin: 0, color: "grey", fontWeight: '500' }} level={5}>{committeeDetail?.cycle?.value}</Title>
                             </Col>
-                            <Col xs={24} sm={24} md={4} lg={4} xl={4}>
+                            <Col xs={24} sm={24} md={4} lg={3} xl={3}>
                                 <Title style={{ margin: 0 }} level={4}>Total Amount</Title>
                                 <Title style={{ margin: 0, color: "grey", fontWeight: '500' }} level={5}>{committeeDetail?.payment}</Title>
                             </Col>
-                            <Col xs={24} sm={24} md={4} lg={4} xl={4}>
+                            <Col xs={24} sm={24} md={4} lg={3} xl={3}>
                                 <Title style={{ margin: 0 }} level={4}>Payment</Title>
                                 <Title style={{ margin: 0, color: "grey", fontWeight: '500' }} level={5}>{committeeDetail?.amount}</Title>
                             </Col>
-                            <Col xs={24} sm={24} md={4} lg={4} xl={4}>
+                            <Col xs={24} sm={24} md={4} lg={3} xl={3}>
                                 <Title style={{ margin: 0 }} level={4}>Members</Title>
                                 <Title style={{ margin: 0, color: "grey", fontWeight: '500' }} level={5}>{committeeDetail?.members}</Title>
+                            </Col>
+                            <Col xs={24} sm={24} md={4} lg={3} xl={3}>
+                                <Title style={{ margin: 0 }} level={4}>Start Date</Title>
+                                <Title style={{ margin: 0, color: "grey", fontWeight: '500' }} level={5}>{new Date(committeeDetail?.startDate).toLocaleDateString()}</Title>
+                            </Col>
+                            <Col xs={24} sm={24} md={4} lg={3} xl={3}>
+                                <Title style={{ margin: 0 }} level={4}>End Date</Title>
+                                <Title style={{ margin: 0, color: "grey", fontWeight: '500' }} level={5}>{new Date(committeeDetail?.endDate).toLocaleDateString()}</Title>
                             </Col>
                         </Row>
                     </Card>
                     <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: "20px" }}>
                         <Title style={{ color: "#166805", margin: 0 }} level={3}>Committee members list’s</Title>
                         <div style={{ display: "flex", alignItems: "center" }}>
-                            <Title style={{ color: "#166805", margin: "0 15px 0 0" }} level={3}>Available Members: 3/12</Title>
+                            <Title style={{ color: "#166805", margin: "0 15px 0 0" }} level={3}>Available Members: {committeeUsers?.length > 0 ? committeeUsers?.length : 0}/{committeeDetail?.members?.length > 0 ? committeeDetail?.members?.length : 0}</Title>
                             <img width={40} src={memberIcon} />
                         </div>
                     </div>
@@ -403,7 +519,7 @@ function Setup2() {
                         </div>
                     </div>
                     <Card className="my-card" style={{ marginBottom: "20px" }}>
-                        <Table loading={loading} dataSource={committeeUsers2} columns={column2} />
+                        <Table loading={loading} dataSource={committeeUsers2} columns={column} />
                     </Card>
                 </>
             ) : (
@@ -411,36 +527,44 @@ function Setup2() {
                     <Title style={{ color: "#166805", margin: "0 0 20px 0" }} level={3}>Committee Detail</Title>
                     <Card style={{ marginBottom: "20px" }}>
                         <Row gutter={[24, 0]}>
-                            <Col xs={24} sm={24} md={4} lg={4} xl={4}>
+                            <Col xs={24} sm={24} md={4} lg={3} xl={3}>
                                 <Title style={{ margin: 0 }} level={4}>Name</Title>
                                 <Title style={{ margin: 0, color: "grey", fontWeight: '500' }} level={5}>{committeeDetail?.name}</Title>
                             </Col>
-                            <Col xs={24} sm={24} md={4} lg={4} xl={4}>
+                            <Col xs={24} sm={24} md={4} lg={3} xl={3}>
                                 <Title style={{ margin: 0 }} level={4}>Cycle</Title>
                                 <Title style={{ margin: 0, color: "grey", fontWeight: '500' }} level={5}>{committeeDetail?.cycle?.type}</Title>
                             </Col>
-                            <Col xs={24} sm={24} md={4} lg={4} xl={4}>
+                            <Col xs={24} sm={24} md={4} lg={3} xl={3}>
                                 <Title style={{ margin: 0 }} level={4}>Duration</Title>
                                 <Title style={{ margin: 0, color: "grey", fontWeight: '500' }} level={5}>{committeeDetail?.cycle?.value}</Title>
                             </Col>
-                            <Col xs={24} sm={24} md={4} lg={4} xl={4}>
+                            <Col xs={24} sm={24} md={4} lg={3} xl={3}>
                                 <Title style={{ margin: 0 }} level={4}>Total Amount</Title>
                                 <Title style={{ margin: 0, color: "grey", fontWeight: '500' }} level={5}>{committeeDetail?.payment}</Title>
                             </Col>
-                            <Col xs={24} sm={24} md={4} lg={4} xl={4}>
+                            <Col xs={24} sm={24} md={4} lg={3} xl={3}>
                                 <Title style={{ margin: 0 }} level={4}>Payment</Title>
                                 <Title style={{ margin: 0, color: "grey", fontWeight: '500' }} level={5}>{committeeDetail?.amount}</Title>
                             </Col>
-                            <Col xs={24} sm={24} md={4} lg={4} xl={4}>
+                            <Col xs={24} sm={24} md={4} lg={3} xl={3}>
                                 <Title style={{ margin: 0 }} level={4}>Members</Title>
                                 <Title style={{ margin: 0, color: "grey", fontWeight: '500' }} level={5}>{committeeDetail?.members}</Title>
+                            </Col>
+                            <Col xs={24} sm={24} md={4} lg={3} xl={3}>
+                                <Title style={{ margin: 0 }} level={4}>Start Date</Title>
+                                <Title style={{ margin: 0, color: "grey", fontWeight: '500' }} level={5}>{new Date(committeeDetail?.startDate).toLocaleDateString()}</Title>
+                            </Col>
+                            <Col xs={24} sm={24} md={4} lg={3} xl={3}>
+                                <Title style={{ margin: 0 }} level={4}>End Date</Title>
+                                <Title style={{ margin: 0, color: "grey", fontWeight: '500' }} level={5}>{new Date(committeeDetail?.endDate).toLocaleDateString()}</Title>
                             </Col>
                         </Row>
                     </Card>
                     <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: "20px" }}>
                         <Title style={{ color: "#166805", margin: 0 }} level={3}>Committee members</Title>
                         <div style={{ display: "flex", alignItems: "center" }}>
-                            <Title style={{ color: "#166805", margin: "0 15px 0 0" }} level={3}>Available Members: 3/12</Title>
+                            <Title style={{ color: "#166805", margin: "0 15px 0 0" }} level={3}>Available Members: {committeeUsers?.length}/{committeeDetail?.members}</Title>
                             <img width={40} src={memberIcon} />
                         </div>
                     </div>

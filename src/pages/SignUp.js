@@ -13,7 +13,7 @@ import {
   Select
 } from "antd";
 
-import logo from '../assets/images/caiif-logo-2.svg'
+import logo from '../assets/images/caiif-logo.svg'
 import loginImg from '../assets/images/login-img.svg'
 import denyIcon from '../assets/images/deny.svg'
 import cnicFront from '../assets/images/cnic-front.png'
@@ -57,6 +57,7 @@ export default function SignUp() {
     nicFront: imageUrl,
     nicBack: imageUrl2,
     userType: "user",
+    jobOccupation: "",
     note: ""
     // password: "",
     // userType: "customer",
@@ -73,8 +74,7 @@ export default function SignUp() {
 
   const onFinish = (values) => {
     console.log("Success:", values);
-    if (values?.name || values?.email || values?.contactNumber || values?.committee || values?.duration || values?.monthlyPayment) {
-      // setActiveStep((prevActiveStep) => prevActiveStep + 1);
+    if (values?.name || values?.email || values?.contactNumber || values?.committee || values?.duration || values?.monthlyPayment || values?.jobOccupation) {
       setFormFields((prevFields) => {
         return {
           ...prevFields,
@@ -82,37 +82,12 @@ export default function SignUp() {
           name: values.name,
           email: values.email,
           contactNumber: values.contactNumber,
+          jobOccupation: values?.jobOccupation,
           committee: values?.committee,
-          note: values?.committeeNote
+          note: values?.committeeNote,
         }
       })
     }
-    // if (
-    //   values?.bankName ||
-    //   values?.bankBranchName ||
-    //   values?.accountNumber ||
-    //   values?.workAddress ||
-    //   values?.residentialAddress ||
-    //   values?.monthlyIncome ||
-    //   values?.jobOccupation ||
-    //   values?.emergencyContactRelation ||
-    //   values?.emergencyContact
-    // ) {
-    //   setFormFields((prevFields) => {
-    //     return {
-    //       ...prevFields,
-    //       bankName: values.bankName,
-    //       bankBranchName: values.bankBranchName,
-    //       accountNumber: values.accountNumber,
-    //       workAddress: values.workAddress,
-    //       residentialAddress: values.residentialAddress,
-    //       monthlyIncome: values.monthlyIncome,
-    //       jobOccupation: values.jobOccupation,
-    //       emergencyContactRelation: values.emergencyContactRelation,
-    //       emergencyContact: values.emergencyContact,
-    //     }
-    //   })
-    // }
   };
 
   const onFinishFailed = (errorInfo) => {
@@ -157,64 +132,38 @@ export default function SignUp() {
     }
   }, [formFields])
 
-  const getBase64 = (img, callback) => {
-    const reader = new FileReader();
-    reader.addEventListener('load', () => callback(reader.result));
-    reader.readAsDataURL(img);
-  };
+  // const getBase64 = (img, callback) => {
+  //   const reader = new FileReader();
+  //   reader.addEventListener('load', () => callback(reader.result));
+  //   reader.readAsDataURL(img);
+  // };
 
-  const handleChange = (info) => {
-    if (info.file.status === 'uploading') {
-      setLoading(true);
-      return;
-    }
-    if (info.file.status === 'done') {
-      console.log(info);
-      getBase64(info.file.originFileObj, (url) => {
-        setLoading(false);
-        setImageUrl(url);
-        setFormFields((prevFields) => {
-          return {
-            ...prevFields,
-            nicFront: url
-          }
-        })
-      });
-    }
-  };
+  // const handleChange = (info) => {
+  //   if (info.file.status === 'uploading') {
+  //     setLoading(true);
+  //     return;
+  //   }
+  //   if (info.file.status === 'done') {
+  //     console.log(info);
+  //     getBase64(info.file.originFileObj, (url) => {
+  //       setLoading(false);
+  //       setImageUrl(url);
+  //       setFormFields((prevFields) => {
+  //         return {
+  //           ...prevFields,
+  //           nicFront: url
+  //         }
+  //       })
+  //     });
+  //   }
+  // };
 
-  const handleChange2 = (info) => {
-    if (info.file.status === 'uploading') {
-      setLoading(true);
-      return;
-    }
-    if (info.file.status === 'done') {
-      getBase64(info.file.originFileObj, (url) => {
-        setLoading(false);
-        setImageUrl2(url);
-        setFormFields((prevFields) => {
-          return {
-            ...prevFields,
-            nicBack: url
-          }
-        })
-      });
-    }
-  };
-
-  const uploadButton = (
-    <button style={{ border: 0, background: 'none' }} type="button">
-      {loading ? <LoadingOutlined /> : <PlusOutlined />}
-      <div style={{ marginTop: 8 }}>Upload</div>
-    </button>
-  );
-
-  const uploadButton2 = (
-    <button style={{ border: 0, background: 'none' }} type="button">
-      {loading ? <LoadingOutlined /> : <PlusOutlined />}
-      <div style={{ marginTop: 8 }}>Upload</div>
-    </button>
-  );
+  // const uploadButton = (
+  //   <button style={{ border: 0, background: 'none' }} type="button">
+  //     {loading ? <LoadingOutlined /> : <PlusOutlined />}
+  //     <div style={{ marginTop: 8 }}>Upload</div>
+  //   </button>
+  // );
 
   useEffect(() => {
     GetUserCommittees()
@@ -250,11 +199,10 @@ export default function SignUp() {
         <img width={200} src={logo} alt="" />
       </div> */}
 
-      <div style={{ display: "flex", justifyContent: "center", alignItems: "center", height: '90vh' }}>
+      <div style={{ display: "flex", justifyContent: "center", alignItems: "center", height: '90vh', flexDirection: "column" }}>
+        {/* <Title level={3} style={{ margin: "0 0 20px 0", color: '#166805', textAlign: "center", }}>REGISTER CAIIF COMMITTEE</Title> */}
         <Card>
-          <div>
-            <div style={{ margin: "0" }}>
-              {/* {activeStep === 0 ? (
+          {/* {activeStep === 0 ? (
                 <div className={activeStep === 0 ? 'step-form__step--active' : ''}>
                   <Form
                     name="basic"
@@ -316,47 +264,33 @@ export default function SignUp() {
                   </Form>
                 </div>
               ) : "" */}
-              <div>
-                <Form
-                  form={form}
-                  layout="vertical"
-                  name="basic"
-                  initialValues={{ remember: true }}
-                  onFinish={onFinish}
-                  onFinishFailed={onFinishFailed}
-                  className="row-col"
-                  style={{ width: '861px' }}
-                >
-                  <Row gutter={[24, 0]}>
-                    {formSubmit ? (
-                      <Col xs={24} sm={24} md={24} lg={24} xl={24}>
-                        <div style={{ display: "flex", justifyContent: "center", alignItems: "center", flexDirection: "column", padding: "40px" }}>
-                          <div style={{ marginBottom: 20 }}>
-                            <Title level={3}>Account created successfully verifying your account...</Title>
-                          </div>
-                          <div>
-                            <img width={60} src="https://upload.wikimedia.org/wikipedia/commons/thumb/3/3b/Eo_circle_green_checkmark.svg/1200px-Eo_circle_green_checkmark.svg.png" alt="" />
-                          </div>
-                        </div>
-                      </Col>
-                    ) : (
-                      <>
-                        <Col xs={24} sm={24} md={12} lg={12} xl={12}>
-                          <Title style={{ fontSize: "16px", margin: "0 0 8px 0", color: "#4E4E4E" }}>CNIC Front</Title>
-                          <Card className="my-card" style={{ border: "2px solid #166805", padding: "3px", marginBottom: 20 }}>
-                            <Upload
-                              name="avatar"
-                              listType="picture-card"
-                              className="avatar-uploader"
-                              showUploadList={false}
-                              action="https://run.mocky.io/v3/435e224c-44fb-4773-9faf-380c5e6a2188"
-                              // beforeUpload={beforeUpload}
-                              onChange={handleChange}
-                            >
-                              {imageUrl ? <img src={imageUrl} alt="avatar" style={{ borderRadius: "10px", width: "100%", height: '150px', objectFit: "cover" }} /> : uploadButton}</Upload>
-                          </Card>
-                        </Col>
-                        <Col xs={24} sm={24} md={12} lg={12} xl={12}>
+          <div style={{ margin: "0 50px" }}>
+            <img style={{ marginBottom: 70, display: "block", margin: "0 auto" }} width={300} src={logo} />
+            <Form
+              form={form}
+              layout="vertical"
+              name="basic"
+              initialValues={{ remember: true }}
+              onFinish={onFinish}
+              onFinishFailed={onFinishFailed}
+              className="row-col"
+              style={{ width: '100%' }}
+            >
+              <Row gutter={[24, 0]}>
+                {formSubmit ? (
+                  <Col xs={24} sm={24} md={24} lg={24} xl={24}>
+                    <div style={{ display: "flex", justifyContent: "center", alignItems: "center", flexDirection: "column", padding: "40px" }}>
+                      <div style={{ marginBottom: 20 }}>
+                        <Title level={3}>Account created successfully verifying your account...</Title>
+                      </div>
+                      <div>
+                        <img width={60} src="https://upload.wikimedia.org/wikipedia/commons/thumb/3/3b/Eo_circle_green_checkmark.svg/1200px-Eo_circle_green_checkmark.svg.png" alt="" />
+                      </div>
+                    </div>
+                  </Col>
+                ) : (
+                  <>
+                    {/* <Col xs={24} sm={24} md={12} lg={12} xl={12}>
                           <Title style={{ fontSize: "16px", margin: "0 0 8px 0", color: "#4E4E4E" }}>CNIC Back</Title>
                           <Card className="my-card" style={{ border: "2px solid #166805", padding: "3px", marginBottom: 20 }}>
                             <Upload
@@ -370,102 +304,130 @@ export default function SignUp() {
                             >
                               {imageUrl2 ? <img src={imageUrl2} alt="avatar" style={{ borderRadius: "10px", width: "100%", height: '150px', objectFit: "cover" }} /> : uploadButton2}</Upload>
                           </Card>
-                        </Col>
-                        <Col xs={24} sm={24} md={8} lg={8} xl={8}>
-                          <Form.Item name="name"
-                            rules={[
-                              {
-                                required: true,
-                                message: 'Please input your Name !',
-                              },
-                            ]}
-                            label={<Title style={{ fontSize: "16px", margin: 0, color: "#4E4E4E" }}>Name</Title>}>
-                            <Input value={formFields.name} />
-                          </Form.Item>
-                        </Col>
-                        <Col xs={24} sm={24} md={8} lg={8} xl={8}>
-                          <Form.Item name="email"
-                            rules={[
-                              {
-                                required: true,
-                                message: 'Please input your Email !',
-                              },
-                            ]}
-                            label={<Title style={{ fontSize: "16px", margin: 0, color: "#4E4E4E" }}>Email</Title>}>
-                            <Input />
-                          </Form.Item>
-                        </Col>
-                        <Col xs={24} sm={24} md={8} lg={8} xl={8}>
-                          <Form.Item name="contactNumber"
-                            rules={[
-                              {
-                                required: true,
-                                message: 'Please input your Phone Number !',
-                              },
-                            ]}
-                            label={<Title style={{ fontSize: "16px", margin: 0, color: "#4E4E4E" }}>Phone Number</Title>}>
-                            <Input />
-                          </Form.Item>
-                        </Col>
-                        <Col xs={24} sm={24} md={6} lg={6} xl={6}>
-                          <Form.Item name="committee"
-                            rules={[
-                              {
-                                required: true,
-                                message: 'Please select your Committee !',
-                              },
-                            ]}
-                            label={<Title style={{ fontSize: "16px", margin: 0, color: "#4E4E4E" }}>Committee</Title>}>
-                            <Select
-                              defaultValue="Select"
-                              style={{ width: "100%" }}
-                              options={state?.map(f => {
-                                return { value: f?.committee._id, label: f?.committee.name }
-                              })}
-                              onChange={(e) => setCommitteeId(e)}
-                            />
-                          </Form.Item>
-                        </Col>
-                        <Col xs={24} sm={24} md={6} lg={6} xl={6}>
-                          <Form.Item
-                            label={<Title style={{ fontSize: "16px", margin: 0, color: "#4E4E4E" }}>Duration</Title>}>
-                            <Input disabled={true} value={monthDuration} />
-                          </Form.Item>
-                        </Col>
-                        <Col xs={24} sm={24} md={6} lg={6} xl={6}>
-                          <Form.Item
-                            label={<Title style={{ fontSize: "16px", margin: 0, color: "#4E4E4E" }}>Total Amount</Title>}>
-                            <Input disabled={true} value={totalAmount} />
-                          </Form.Item>
-                        </Col>
-                        <Col xs={24} sm={24} md={6} lg={6} xl={6}>
-                          <Form.Item
-                            label={<Title style={{ fontSize: "16px", margin: 0, color: "#4E4E4E" }}>Monthly Payment</Title>}>
-                            <Input disabled={true} value={monthlyPayment} />
-                          </Form.Item>
-                        </Col>
-                        <Col xs={24} sm={24} md={24} lg={24} xl={24}>
-                          <Form.Item name="committeeNote"
-                            label={<Title style={{ fontSize: "16px", margin: 0, color: "#4E4E4E" }}>Note</Title>}>
-                            <Input.TextArea style={{ height: "100px" }} />
-                          </Form.Item>
-                        </Col>
-                        <Col xs={24} sm={24} md={24} lg={24} xl={24}>
-                          {success !== "" && <Title style={{ fontSize: "16px", margin: "0 0 20px 0", color: status === true ? "green" : "red" }}>{success}</Title>}
-                        </Col>
-                        <Col xs={24} sm={24} md={24} lg={4} xl={4}>
-                          <Button
-                            loading={loading}
-                            style={{ width: "100%", backgroundColor: "#166805", color: 'white' }}
-                            type="primary"
-                            htmlType="submit"
-                          >
-                            SUBMIT
-                          </Button>
-                        </Col>
-                      </>
-                    )}
-                    {/* <Col xs={24} sm={24} md={12} lg={12} xl={12}>
+                        </Col> */}
+                    <Col xs={24} sm={24} md={6} lg={6} xl={6}>
+                      <Form.Item name="name"
+                        rules={[
+                          {
+                            required: true,
+                            message: 'Please input your Name !',
+                          },
+                        ]}
+                        label={<Title style={{ fontSize: "16px", margin: 0, color: "#4E4E4E" }}>Name</Title>}>
+                        <Input value={formFields.name} />
+                      </Form.Item>
+                    </Col>
+                    <Col xs={24} sm={24} md={6} lg={6} xl={6}>
+                      <Form.Item name="email"
+                        rules={[
+                          {
+                            required: true,
+                            message: 'Please input your Email !',
+                          },
+                        ]}
+                        label={<Title style={{ fontSize: "16px", margin: 0, color: "#4E4E4E" }}>Email</Title>}>
+                        <Input />
+                      </Form.Item>
+                    </Col>
+                    <Col xs={24} sm={24} md={6} lg={6} xl={6}>
+                      <Form.Item name="contactNumber"
+                        rules={[
+                          {
+                            required: true,
+                            message: 'Please input your Phone Number !',
+                          },
+                        ]}
+                        label={<Title style={{ fontSize: "16px", margin: 0, color: "#4E4E4E" }}>Phone Number</Title>}>
+                        <Input />
+                      </Form.Item>
+                    </Col>
+                    <Col xs={24} sm={24} md={6} lg={6} xl={6}>
+                      <Form.Item name="jobOccupation"
+                        rules={[
+                          {
+                            required: true,
+                            message: 'Please input your Job Occupation !',
+                          },
+                        ]}
+                        label={<Title style={{ fontSize: "16px", margin: 0, color: "#4E4E4E" }}>Job Occupation</Title>}>
+                        <Input />
+                      </Form.Item>
+                    </Col>
+                    <Col xs={24} sm={24} md={6} lg={6} xl={6}>
+                      <Form.Item name="committee"
+                        rules={[
+                          {
+                            required: true,
+                            message: 'Please select your Committee !',
+                          },
+                        ]}
+                        label={<Title style={{ fontSize: "16px", margin: 0, color: "#4E4E4E" }}>Committee</Title>}>
+                        <Select
+                          defaultValue="Select"
+                          style={{ width: "100%" }}
+                          options={state?.map(f => {
+                            return { value: f?.committee._id, label: f?.committee.name }
+                          })}
+                          onChange={(e) => setCommitteeId(e)}
+                        />
+                      </Form.Item>
+                    </Col>
+                    <Col xs={24} sm={24} md={6} lg={6} xl={6}>
+                      <Form.Item
+                        label={<Title style={{ fontSize: "16px", margin: 0, color: "#4E4E4E" }}>Duration</Title>}>
+                        <Input disabled={true} value={monthDuration} />
+                      </Form.Item>
+                    </Col>
+                    <Col xs={24} sm={24} md={6} lg={6} xl={6}>
+                      <Form.Item
+                        label={<Title style={{ fontSize: "16px", margin: 0, color: "#4E4E4E" }}>Total Amount</Title>}>
+                        <Input disabled={true} value={totalAmount} />
+                      </Form.Item>
+                    </Col>
+                    <Col xs={24} sm={24} md={6} lg={6} xl={6}>
+                      <Form.Item
+                        label={<Title style={{ fontSize: "16px", margin: 0, color: "#4E4E4E" }}>Monthly Payment</Title>}>
+                        <Input disabled={true} value={monthlyPayment} />
+                      </Form.Item>
+                    </Col>
+                    <Col xs={24} sm={24} md={24} lg={24} xl={24}>
+                      <Form.Item name="committeeNote"
+                        label={<Title style={{ fontSize: "16px", margin: 0, color: "#4E4E4E" }}>Note</Title>}>
+                        <Input.TextArea style={{ height: "100px" }} />
+                      </Form.Item>
+                    </Col>
+                    <Col xs={24} sm={24} md={4} lg={4} xl={4}>
+                      <Title style={{ fontSize: "16px", margin: "0 0 8px 0", color: "#4E4E4E" }}>ID</Title>
+                      <Form.Item name="CNIC">
+                        <input
+                          type="file"
+                          onChange={(e) => {
+                            setFormFields((prevFields) => {
+                              return {
+                                ...prevFields,
+                                nicFront: e.target.files[0]
+                              }
+                            })
+                          }}
+                        />
+                      </Form.Item>
+                    </Col>
+                    <Col xs={24} sm={24} md={24} lg={24} xl={24}>
+                      {success !== "" && <Title style={{ fontSize: "16px", margin: "0 0 20px 0", color: status === true ? "green" : "red" }}>{success}</Title>}
+                    </Col>
+                    <Col xs={24} sm={24} md={24} lg={4} xl={4}>
+                      <Button
+                        loading={loading}
+                        style={{ width: "100%", backgroundColor: "#166805", color: 'white' }}
+                        type="primary"
+                        htmlType="submit"
+                      >
+                        SUBMIT
+                      </Button>
+                    </Col>
+                  </>
+                )}
+                {/* <Col xs={24} sm={24} md={12} lg={12} xl={12}>
                         <Fo
                         rm.Item name="bankBranchName" rules={[
                           {
@@ -476,7 +438,7 @@ export default function SignUp() {
                           <Input />
                         </Form.Item>
                       </Col> */}
-                    {/* <Col xs={24} sm={24} md={12} lg={12} xl={12}>
+                {/* <Col xs={24} sm={24} md={12} lg={12} xl={12}>
                         <Form.Item
                           name="accountNumber"
                           rules={[
@@ -488,7 +450,7 @@ export default function SignUp() {
                           <Input />
                         </Form.Item>
                       </Col> */}
-                    {/* <Col xs={24} sm={24} md={12} lg={12} xl={12}>
+                {/* <Col xs={24} sm={24} md={12} lg={12} xl={12}>
                         <Form.Item
                           name="workAddress"
                           rules={[
@@ -501,7 +463,7 @@ export default function SignUp() {
                           <Input />
                         </Form.Item>
                       </Col> */}
-                    {/* <Col xs={24} sm={24} md={12} lg={12} xl={12}>
+                {/* <Col xs={24} sm={24} md={12} lg={12} xl={12}>
                         <Form.Item
                           name="residentialAddress"
                           rules={[
@@ -514,7 +476,7 @@ export default function SignUp() {
                           <Input />
                         </Form.Item>
                       </Col> */}
-                    {/* <Col xs={24} sm={24} md={12} lg={12} xl={12}>
+                {/* <Col xs={24} sm={24} md={12} lg={12} xl={12}>
                         <Form.Item
                           name="monthlyIncome"
                           rules={[
@@ -527,7 +489,7 @@ export default function SignUp() {
                           <Input />
                         </Form.Item>
                       </Col> */}
-                    {/* <Col xs={24} sm={24} md={12} lg={12} xl={12}>
+                {/* <Col xs={24} sm={24} md={12} lg={12} xl={12}>
                         <Form.Item
                           name="jobOccupation"
                           rules={[
@@ -540,7 +502,7 @@ export default function SignUp() {
                           <Input />
                         </Form.Item>
                       </Col> */}
-                    {/* <Col xs={24} sm={24} md={12} lg={12} xl={12}>
+                {/* <Col xs={24} sm={24} md={12} lg={12} xl={12}>
                         <Form.Item
                           name="emergencyContactRelation"
                           rules={[
@@ -553,7 +515,7 @@ export default function SignUp() {
                           <Input />
                         </Form.Item>
                       </Col> */}
-                    {/* <Col xs={24} sm={24} md={12} lg={12} xl={12}>
+                {/* <Col xs={24} sm={24} md={12} lg={12} xl={12}>
                         <Form.Item
                           name="emergencyContact"
                           rules={[
@@ -566,17 +528,15 @@ export default function SignUp() {
                           <Input />
                         </Form.Item>
                       </Col> */}
-                  </Row>
-                </Form>
-              </div>
-            </div>
-            {/* {activeStep === 0 && (
+              </Row>
+            </Form>
+          </div>
+          {/* {activeStep === 0 && (
               <div style={{ margin: "0 30px" }}>
                 <img src={loginImg} />
               </div>
             )} */}
-          </div >
-        </Card >
+        </Card>
       </div >
     </div >
   );
