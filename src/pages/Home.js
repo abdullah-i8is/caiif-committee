@@ -140,6 +140,7 @@ function Home() {
       dataIndex: 'name',
       key: 'name',
       render: (text, record, index) => {
+        console.log(record);
         return <Title style={{ fontSize: "18px", margin: 0 }}>{record?.committee?.name}</Title>
       }
     },
@@ -185,7 +186,15 @@ function Home() {
       dataIndex: 'cycle',
       key: 'cycle',
       render: (text, record) => {
-        return <Title style={{ fontSize: "16px", margin: 0, color: "#818181" }}>{record?.committee?.cycle}</Title>
+        return <Title style={{ fontSize: "16px", margin: 0, color: "#818181" }}>{record?.committee?.cycle?.type}</Title>
+      }
+    },
+    {
+      title: <Title style={{ fontSize: "18px", margin: 0, color: "#166805", fontWeight: "600" }}>Cycle Duration</Title>,
+      dataIndex: 'cycle',
+      key: 'cycle',
+      render: (text, record) => {
+        return <Title style={{ fontSize: "16px", margin: 0, color: "#818181" }}>{record?.committee?.cycle?.value}</Title>
       }
     },
     // {
