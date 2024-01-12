@@ -225,12 +225,12 @@ export default function SignUp() {
     <div>
 
       {/* <div style={{ width: "100%", backgroundColor: "#166805", padding: "20px" }} onClick={() => navigate("/sign-in")}>
-        <img width={200} src={logo} alt="" />
       </div> */}
 
-      <div style={{ display: "flex", justifyContent: "center", alignItems: "center", height: '90vh', flexDirection: "column", marginTop: "200px" }}>
+      <div style={{ display: "flex", justifyContent: "center", alignItems: "center", flexDirection: "column" }}>
         {/* <Title level={3} style={{ margin: "0 0 20px 0", color: '#166805', textAlign: "center", }}>REGISTER CAIIF COMMITTEE</Title> */}
         <Card>
+          <img style={{ display: "block", margin: "0 auto 30px auto" }} width={200} src={logo} alt="" />
           {/* {activeStep === 0 ? (
                 <div className={activeStep === 0 ? 'step-form__step--active' : ''}>
                   <Form
