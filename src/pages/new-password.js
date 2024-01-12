@@ -31,7 +31,7 @@ export default function NewPassword() {
     const params = useParams()
     const dispatch = useDispatch()
     const navigate = useNavigate()
-    const [err, setErr] = useState(null);
+    const [err, setErr] = useState("");
     const [message, setMessage] = useState(null);
     const [userId, setUserId] = useState(null);
     const [loading, setLoading] = useState(false);
