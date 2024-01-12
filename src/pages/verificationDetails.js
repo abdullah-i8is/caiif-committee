@@ -27,7 +27,7 @@ function VerificationDetails() {
     const [commitee, setCommittee] = useState()
     const [note, setNote] = useState("");
 
-    const { id } = useParams()
+    const { id, cid } = useParams()
 
     async function getUser() {
         try {
