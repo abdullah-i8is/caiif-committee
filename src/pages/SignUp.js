@@ -104,25 +104,17 @@ export default function SignUp() {
         ...formFields
       })
       if (response.status === 200) {
-        if (response.data.message === "request entity too large") {
-          setLoading(false)
-          setFormSubmit(false)
-          setStatus(response.data.success)
-          setSuccess(response.data.message)
-        }
-        else {
-          setLoading(false)
-          setFormSubmit(true)
-          setStatus(response.data.success)
-          setSuccess(response.data.message)
-        }
+        setLoading(false)
+        setFormSubmit(true)
+        setStatus(response?.data?.success)
+        setSuccess(response?.data?.message)
         console.log(response);
       }
     } catch (error) {
       setFormSubmit(false)
       setLoading(false)
-      setStatus(error.response.data.success)
-      setSuccess(error.response.data.message)
+      setStatus(error?.response?.data?.success)
+      setSuccess(error?.response?.data?.message)
       console.log(error);
     }
   }

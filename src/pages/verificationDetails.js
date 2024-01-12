@@ -79,6 +79,7 @@ function VerificationDetails() {
 
     console.log(user);
     console.log(commitee);
+    console.log(id);
 
     return (
         <>
