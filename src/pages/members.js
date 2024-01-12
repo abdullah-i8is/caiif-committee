@@ -229,19 +229,6 @@ function Members() {
             dataIndex: 'note',
             key: 'note',
             render: (text, record) => {
-                function _arrayBufferToBase64(buffer) {
-                    var binary = '';
-                    var bytes = new Uint8Array(buffer);
-                    var len = bytes.byteLength;
-                    for (var i = 0; i < len; i++) {
-                        binary += String.fromCharCode(bytes[i]);
-                    }
-                    return window.btoa(binary);
-                }
-                const base64String = _arrayBufferToBase64(record?.nicBack?.data?.data);
-                const url = `data:image/jpeg;base64,${base64String}`;
-                console.log(base64String);
-                console.log(url);
                 return (
                     <Upload
                         name="avatar"
@@ -249,7 +236,7 @@ function Members() {
                         className="avatar-uploader"
                         showUploadList={false}
                     >
-                        {url && <img src={url} alt="avatar" style={{ width: '100%' }} />}
+                        <img src={record?.nic} alt="avatar" style={{ width: '100%' }} />
                     </Upload>
                 )
             }
