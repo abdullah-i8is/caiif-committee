@@ -1,7 +1,7 @@
 import { Menu, Button } from "antd";
 import { useDispatch, useSelector } from "react-redux";
 import { NavLink, useLocation } from "react-router-dom";
-import logo from '../../assets/images/caiif-logo.svg'
+import logo from '../../assets/images/circle.svg'
 import { setToken } from "../../store/commonSlice/commonSlice";
 import { setUser } from "../../store/authSlice/authSlice";
 
