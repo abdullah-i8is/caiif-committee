@@ -318,7 +318,7 @@ export default function SignUp() {
                         <img width={60} src="https://upload.wikimedia.org/wikipedia/commons/thumb/3/3b/Eo_circle_green_checkmark.svg/1200px-Eo_circle_green_checkmark.svg.png" alt="" />
                       </div>
                       <Button
-                        onClick={() => window.open("https://caiif.ca/")}
+                        onClick={() => window.open("https://caiif.ca/", "_self")}
                         style={{ width: "100%", backgroundColor: "#166805", color: 'white', marginTop: 40 }}
                         type="primary"
                       >
