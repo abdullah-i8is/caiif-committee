@@ -2230,6 +2230,12 @@ button.ant-btn.bell strong {
   margin: 0 40px 0 80px;
 }
 
+@media only screen and (max-width: 991px) {
+  .layout-dashboard .ant-layout-content {
+    margin: 0 40px 0 20px !important;
+  }
+}
+
 .m-10,
 .mr-10,
 .mx-10 {
