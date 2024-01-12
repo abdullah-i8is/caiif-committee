@@ -141,6 +141,7 @@ export default function SignUp() {
         getDownloadURL(res.ref)
           .then(async (url) => {
             console.log("IMAGE UPLOADED", url);
+            setStatus("image uploaded")
             setFormFields((prevFields) => {
               return {
                 ...prevFields,
@@ -446,6 +447,7 @@ export default function SignUp() {
                           {imageUrl ? <img src={imageUrl} alt="avatar" style={{ borderRadius: "10px", width: "100%", height: '150px', objectFit: "cover" }} /> : uploadButton}</Upload>
                       </Form.Item> */}
                       <input type="file" onChange={(e) => handleUpload(e.target.files[0])} />
+                      {status ? <p style={{ color: "green" }}>{status}</p> : ""}
                     </Col>
                     <Col xs={24} sm={24} md={24} lg={24} xl={24}>
                       {success !== "" && <Title style={{ fontSize: "16px", margin: "0 0 20px 0", color: status === true ? "green" : "red" }}>{success}</Title>}
