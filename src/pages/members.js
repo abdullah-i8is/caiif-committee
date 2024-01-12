@@ -272,7 +272,7 @@ function Members() {
         try {
             const response = await axios.post(`${API_URL}/admin/approveAccount/${id}`, {
                 approve: type === "APPROVE" ? true : false,
-                cid: cid
+                cId: cid
             }, {
                 headers: {
                     Authorization: "Bearer " + token
