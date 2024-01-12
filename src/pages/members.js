@@ -137,7 +137,7 @@ function Members() {
             key: 'note',
             render: (text, record) => {
                 return (
-                    <img src={record?.nic} alt="avatar" style={{ width: '100%' }} />
+                    <img src={record?.nic} alt="avatar" style={{ width: '100px' }} />
                 )
             }
         },
@@ -162,7 +162,7 @@ function Members() {
                             loading={userId === record._id ? loading : false}
                             style={{ margin: "0 0 0 10px", width: "100px" }}
                             onClick={() => {
-                                handleApprove(record._id, "APPROVE")
+                                handleApprove(record._id, record?.committeeList?.length > 0 && record?.committeeList[0]?.cid, "APPROVE")
                                 setUserId(record._id)
                             }}
                             className="add-cycle-btn">
@@ -240,7 +240,7 @@ function Members() {
             key: 'note',
             render: (text, record) => {
                 return (
-                    <img src={record?.nic} alt="avatar" style={{ width: '100%' }} />
+                    <img src={record?.nic} alt="avatar" style={{ width: '100px' }} />
                 )
             }
         },
@@ -266,12 +266,13 @@ function Members() {
         // },
     ];
 
-    async function handleApprove(id, type) {
+    async function handleApprove(id, cid, type) {
         setLoading(type === "APPROVE" ? true : false)
         setLoading2(type === "DECLINE" ? true : false)
         try {
             const response = await axios.post(`${API_URL}/admin/approveAccount/${id}`, {
-                approve: type === "APPROVE" ? true : false
+                approve: type === "APPROVE" ? true : false,
+                cid: cid
             }, {
                 headers: {
                     Authorization: "Bearer " + token

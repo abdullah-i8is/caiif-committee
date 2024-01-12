@@ -9,7 +9,7 @@ function Sidenav({ color }) {
 
   const { pathname } = useLocation();
   const page = pathname.replace("/", "");
-
+  
   const dashboard = [
     <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 18 18" fill="none">
       <path d="M0.0224609 10.0031H7.9812V0.0546875H0.0224609V10.0031ZM0.0224609 17.9619H7.9812V11.9928H0.0224609V17.9619ZM9.97089 17.9619H17.9296V8.01343H9.97089V17.9619ZM9.97089 0.0546875V6.02374H17.9296V0.0546875H9.97089Z" fill="white" />
