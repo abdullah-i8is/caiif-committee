@@ -132,6 +132,17 @@ function Members() {
             }
         },
         {
+            title: <Title style={{ fontSize: "18px", margin: 0, color: "#166805", fontWeight: "600" }}>ID</Title>,
+            dataIndex: 'note',
+            key: 'note',
+            render: (text, record) => {
+                return (
+                    <img src={record?.nic} alt="avatar" style={{ width: '100%' }} />
+                )
+            }
+
+        },
+        {
             width: "200px",
             title: <Title style={{ fontSize: "18px", margin: 0, color: "#166805", fontWeight: "600" }}>Action</Title>,
             render: (text, record) => {
@@ -230,17 +241,9 @@ function Members() {
             key: 'note',
             render: (text, record) => {
                 return (
-                    <Upload
-                        name="avatar"
-                        listType="picture-card"
-                        className="avatar-uploader"
-                        showUploadList={false}
-                    >
-                        <img src={record?.nic} alt="avatar" style={{ width: '100%' }} />
-                    </Upload>
+                    <img src={record?.nic} alt="avatar" style={{ width: '100%' }} />
                 )
             }
-
         },
         {
             title: <Title style={{ fontSize: "18px", margin: 0, color: "#166805", fontWeight: "600" }}></Title>,

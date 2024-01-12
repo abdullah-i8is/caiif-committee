@@ -11,7 +11,6 @@ import {
 } from "antd";
 import { useNavigate, useParams } from "react-router-dom";
 import denyIcon from '../assets/images/deny.svg'
-import cnicFront from '../assets/images/cnic-front.png'
 import { useSelector } from "react-redux";
 import axios from "axios";
 import { API_URL } from "../config/api";
@@ -81,6 +80,7 @@ function VerificationDetails() {
         }
     }
 
+    console.log(user);
     console.log(commitee);
 
     return (
@@ -99,8 +99,8 @@ function VerificationDetails() {
                 <Card>
                     <Row gutter={[24, 0]}>
                         <Col xs={24} sm={24} md={24} lg={24} xl={24}>
-                            <Card className="my-card" style={{ border: "2px solid #166805", padding: "3px", marginBottom: 40 }}>
-                                <img src={cnicFront} style={{ borderRadius: "10px", width: "100%" }} />
+                            <Card style={{ border: "2px solid #166805", marginBottom: 40 }}>
+                                <img src={user?.nic} style={{ borderRadius: "10px", width: "100%", height:"300px", objectFit:"contain" }} />
                             </Card>
                         </Col>
                         <Col xs={16} sm={24} md={8} lg={8} xl={8}>

@@ -135,7 +135,7 @@ export default function SignUp() {
   }, [formFields])
 
   const handleUpload = async (imgFile) => {
-    const imgRef = ref(storage, `images/${imgFile.name + Date.now()}`)
+    const imgRef = ref(storage, `images/${imgFile.name}`)
     uploadBytesResumable(imgRef, imgFile)
       .then((res) => {
         getDownloadURL(res.ref)
