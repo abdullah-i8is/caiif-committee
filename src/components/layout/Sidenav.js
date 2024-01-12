@@ -74,12 +74,7 @@ function Sidenav({ color }) {
       <div style={{ display: "flex", alignItems: "center", marginBottom: "60px" }}>
         <div>
           <img style={{
-            borderRadius: "100px",
-            border: "2px solid #166805",
-            width: 80,
-            height: 80,
-            objectFit: "cover"
-          }} src={user?.imageUrl} alt="" />
+          }} src={logo} alt="" />
         </div>
         <div style={{ marginLeft: "20px" }}>
           <p style={{ margin: 0, color: "#166805", fontWeight: "700", fontSize: "18px" }}>{user?.name}</p>
