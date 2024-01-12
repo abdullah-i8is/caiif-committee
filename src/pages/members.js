@@ -130,14 +130,7 @@ function Members() {
             render: (text, record) => {
                 return (
                     <Tooltip placement="top" title={record?.note === "" || !record?.note ? "N/A" : record.note}>
-                        <Title style={{
-                            fontSize: "16px", margin: 0,
-                            color: "#818181",
-                            whiteSpace: "nowrap",
-                            overflow: "hidden",
-                            textOverflow: "ellipsis",
-                            width: "100px !important",
-                        }}>{record?.note === "" || !record?.note ? "N/A" : record.note}</Title>
+                        <Title className="note-text">{record?.note === "" || !record?.note ? "N/A" : record.note}</Title>
                     </Tooltip>
                 )
             }
@@ -244,14 +237,7 @@ function Members() {
             render: (text, record) => {
                 return (
                     <Tooltip placement="top" title={record?.note === "" || !record?.note ? "N/A" : record.note}>
-                        <Title style={{
-                            fontSize: "16px", margin: 0,
-                            color: "#818181",
-                            whiteSpace: "nowrap",
-                            overflow: "hidden",
-                            textOverflow: "ellipsis",
-                            width: "100px !important",
-                        }}>{record?.note === "" || !record?.note ? "N/A" : record.note}</Title>
+                        <Title className="note-text">{record?.note === "" || !record?.note ? "N/A" : record.note}</Title>
                     </Tooltip>
                 )
             }
