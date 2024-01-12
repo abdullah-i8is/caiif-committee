@@ -140,7 +140,6 @@ function Members() {
                     <img src={record?.nic} alt="avatar" style={{ width: '100%' }} />
                 )
             }
-
         },
         {
             width: "200px",
