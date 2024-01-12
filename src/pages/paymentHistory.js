@@ -62,7 +62,8 @@ function PaymentHistory() {
             dataIndex: 'amount',
             key: 'amount',
             render: (text, record) => {
-                return <Title style={{ fontSize: "16px", margin: 0, color: "#818181" }}>{record?.isPaid}</Title>
+                console.log(record);
+                return <Title style={{ fontSize: "16px", margin: 0, color: "#818181" }}>BILL PAID</Title>
             }
         },
         {
