@@ -21,11 +21,11 @@ function VerificationDetails() {
     const { Title, Text } = Typography;
     const [form] = Form.useForm();
     const [loading, setLoading] = useState(false)
-    const [loading2, setLoading2] = useState(false)
     const [additionalDetail, setAdditionalDetail] = useState(false)
     const navigate = useNavigate()
     const token = useSelector((state) => state.common.token)
     const [user, setUser] = useState()
+    const [commitee, setCommittee] = useState()
     const [note, setNote] = useState("");
 
     const { id } = useParams()
@@ -40,6 +40,13 @@ function VerificationDetails() {
             if (response.status === 200) {
                 console.log(response);
                 setUser(response.data.user)
+                try {
+                    const res = await axios.get(`${API_URL}/user/committeeById/${response.data.user?.committeeList[0]?.cid}`)
+                    setCommittee(res?.data?.data?.committee)
+                    console.log(res);
+                } catch (error) {
+                    console.log(error);
+                }
             }
         } catch (error) {
             console.log(error);
@@ -74,6 +81,8 @@ function VerificationDetails() {
         }
     }
 
+    console.log(commitee);
+
     return (
         <>
             <div style={{ marginBottom: "20px", marginTop: "50px" }}>
@@ -94,7 +103,7 @@ function VerificationDetails() {
                                 <img src={cnicFront} style={{ borderRadius: "10px", width: "100%" }} />
                             </Card>
                         </Col>
-                        <Col xs={24} sm={24} md={8} lg={8} xl={8}>
+                        <Col xs={16} sm={24} md={8} lg={8} xl={8}>
                             <Form.Item label={<Title style={{ fontSize: "16px", margin: 0, color: "#4E4E4E" }}>Name</Title>}>
                                 <Input value={user?.name} />
                             </Form.Item>
@@ -109,12 +118,17 @@ function VerificationDetails() {
                                 <Input value={user?.contactNumber} />
                             </Form.Item>
                         </Col>
-                        <Col xs={24} sm={24} md={24} lg={24} xl={24}>
-                            <Form.Item label={<Title style={{ fontSize: "16px", margin: 0, color: "#4E4E4E" }}>Phone Number</Title>}>
-                                <Input value={user?.contactNumber} />
+                        <Col xs={24} sm={24} md={12} lg={12} xl={12}>
+                            <Form.Item label={<Title style={{ fontSize: "16px", margin: 0, color: "#4E4E4E" }}>Job Occupation</Title>}>
+                                <Input value={user?.jobOccupation} />
                             </Form.Item>
                         </Col>
-                        {user?.adminNotes && <Col xs={24} sm={24} md={24} lg={24} xl={24} style={{ marginBottom: additionalDetail ? 30 : 0 }}>
+                        <Col xs={24} sm={24} md={12} lg={12} xl={12}>
+                            <Form.Item label={<Title style={{ fontSize: "16px", margin: 0, color: "#4E4E4E" }}>Committee</Title>}>
+                                <Input value={commitee?.name} />
+                            </Form.Item>
+                        </Col>
+                        {user?.adminNotes?.length > 0 && <Col xs={24} sm={24} md={24} lg={24} xl={24} style={{ marginBottom: additionalDetail ? 30 : 0 }}>
                             <Form.Item label={<Title style={{ fontSize: "16px", margin: 0, color: "#4E4E4E" }}>Notes</Title>}>
                                 {user?.adminNotes?.map((f) => <Input value={f} style={{ margin: "10px 0" }} />)}
                             </Form.Item>

@@ -26,6 +26,8 @@ import { useNavigate, useParams } from "react-router-dom";
 import { GetUserCommittees } from "../middlewares/commitee";
 import { setCommittees } from "../store/committeeSlice/committeeSlice";
 import { useDispatch, useSelector } from "react-redux";
+import { storage } from "../config/firebase";
+import { getDownloadURL, ref, uploadBytesResumable } from "firebase/storage";
 
 const { Title } = Typography;
 const { Header, Footer, Content } = Layout;
@@ -55,7 +57,7 @@ export default function SignUp() {
     email: "",
     contactNumber: "",
     committee: "",
-    nic: imageUrl,
+    nic: "",
     userType: "user",
     jobOccupation: "",
     note: ""
@@ -132,6 +134,26 @@ export default function SignUp() {
     }
   }, [formFields])
 
+  const handleUpload = async (imgFile) => {
+    const imgRef = ref(storage, `images/${imgFile.name}`)
+    uploadBytesResumable(imgRef, imgFile)
+      .then((res) => {
+        getDownloadURL(res.ref)
+          .then(async (url) => {
+            console.log("IMAGE UPLOADED", url);
+            setFormFields((prevFields) => {
+              return {
+                ...prevFields,
+                nic: url
+              }
+            })
+          })
+          .catch((err) => {
+            console.log("IMAGE UPLOAD ERROR", err);
+          })
+      })
+  }
+
   // async function getCommittee() {
   //   try {
   //     const response = await axios.get(`${API_URL}/user/committeeById/${params.id}`)
@@ -145,39 +167,39 @@ export default function SignUp() {
   //   getCommittee()
   // }, [params.id])
 
-  const getBase64 = (img, callback) => {
-    const reader = new FileReader();
-    reader.addEventListener('load', () => callback(reader.result));
-    reader.readAsDataURL(img);
-  };
+  // const getBase64 = (img, callback) => {
+  //   const reader = new FileReader();
+  //   reader.addEventListener('load', () => callback(reader.result));
+  //   reader.readAsDataURL(img);
+  // };
 
-  const handleChange = (info) => {
-    if (info.file.status === 'uploading') {
-      setLoading(true);
-      return;
-    }
-    if (info.file.status === 'done') {
-      console.log(info);
-      getBase64(info.file.originFileObj, (url) => {
-        setLoading(false);
-        setImageUrl(url);
-        console.log(url);
-        setFormFields((prevFields) => {
-          return {
-            ...prevFields,
-            nicFront: url
-          }
-        })
-      });
-    }
-  };
+  // const handleChange = (info) => {
+  //   if (info.file.status === 'uploading') {
+  //     setLoading(true);
+  //     return;
+  //   }
+  //   if (info.file.status === 'done') {
+  //     console.log(info);
+  //     getBase64(info.file.originFileObj, (url) => {
+  //       setLoading(false);
+  //       setImageUrl(url);
+  //       console.log(url);
+  //       setFormFields((prevFields) => {
+  //         return {
+  //           ...prevFields,
+  //           nicFront: url
+  //         }
+  //       })
+  //     });
+  //   }
+  // };
 
-  const uploadButton = (
-    <button style={{ border: 0, background: 'none' }} type="button">
-      {loading ? <LoadingOutlined /> : <PlusOutlined />}
-      <div style={{ marginTop: 8 }}>Upload</div>
-    </button>
-  );
+  // const uploadButton = (
+  //   <button style={{ border: 0, background: 'none' }} type="button">
+  //     {loading ? <LoadingOutlined /> : <PlusOutlined />}
+  //     <div style={{ marginTop: 8 }}>Upload</div>
+  //   </button>
+  // );
 
   useEffect(() => {
     GetUserCommittees()
@@ -294,15 +316,17 @@ export default function SignUp() {
                 {formSubmit ? (
                   <Col xs={24} sm={24} md={24} lg={24} xl={24}>
                     <div style={{ display: "flex", justifyContent: "center", alignItems: "center", flexDirection: "column", padding: "40px" }}>
-                      <div style={{ marginBottom: 20 }}>
-                        <Title level={3}>Account created successfully our team member will reach you soon...</Title>
+                      <div style={{ marginBottom: 20, textAlign: "center" }}>
+                        <Title level={1} style={{ color: '#166805' }}>Form Submitted</Title>
+                        <Title level={3}>Our Team Member Will Contact You Soon...</Title>
+                        <Title level={3}>+1 289-586-910</Title>
                       </div>
                       <div>
                         <img width={60} src="https://upload.wikimedia.org/wikipedia/commons/thumb/3/3b/Eo_circle_green_checkmark.svg/1200px-Eo_circle_green_checkmark.svg.png" alt="" />
                       </div>
                       <Button
                         onClick={() => window.open("https://caiif.ca/")}
-                        style={{ width: "100%", backgroundColor: "#166805", color: 'white', marginTop: 20 }}
+                        style={{ width: "100%", backgroundColor: "#166805", color: 'white', marginTop: 40 }}
                         type="primary"
                       >
                         Go back to home
@@ -409,7 +433,7 @@ export default function SignUp() {
                     </Col>
                     <Col xs={24} sm={24} md={2} lg={2} xl={2}>
                       <Title style={{ fontSize: "16px", margin: "0 0 8px 0", color: "#4E4E4E" }}>ID</Title>
-                      <Form.Item name="CNIC">
+                      {/* <Form.Item name="CNIC">
                         <Upload
                           name="avatar"
                           listType="picture-card"
@@ -420,7 +444,8 @@ export default function SignUp() {
                           onChange={handleChange}
                         >
                           {imageUrl ? <img src={imageUrl} alt="avatar" style={{ borderRadius: "10px", width: "100%", height: '150px', objectFit: "cover" }} /> : uploadButton}</Upload>
-                      </Form.Item>
+                      </Form.Item> */}
+                      <input type="file" onChange={(e) => handleUpload(e.target.files[0])} />
                     </Col>
                     <Col xs={24} sm={24} md={24} lg={24} xl={24}>
                       {success !== "" && <Title style={{ fontSize: "16px", margin: "0 0 20px 0", color: status === true ? "green" : "red" }}>{success}</Title>}

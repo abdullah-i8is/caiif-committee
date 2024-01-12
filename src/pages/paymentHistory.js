@@ -42,6 +42,14 @@ function PaymentHistory() {
 
     const column = [
         {
+            title: <Title style={{ fontSize: "18px", margin: 0, color: "#166805", fontWeight: "600" }}>Committee</Title>,
+            dataIndex: 'name',
+            key: 'name',
+            render: (text, record, index) => {
+                return <Title style={{ fontSize: "18px", margin: 0 }}>{record?.cid?.name}</Title>
+            }
+        },
+        {
             title: <Title style={{ fontSize: "18px", margin: 0, color: "#166805", fontWeight: "600" }}>Name</Title>,
             dataIndex: 'name',
             key: 'name',
@@ -68,6 +76,14 @@ function PaymentHistory() {
                         <Title style={{ fontSize: "16px", margin: "0 0 0 10px", color: "#818181" }}>{record?.paymentAmount}</Title>
                     </div>
                 )
+            }
+        },
+        {
+            title: <Title style={{ fontSize: "18px", margin: 0, color: "#166805", fontWeight: "600" }}>Date</Title>,
+            dataIndex: 'date',
+            key: 'date',
+            render: (text, record) => {
+                return <Title style={{ fontSize: "16px", margin: 0, color: "#818181" }}>{new Date(record?.date).toLocaleDateString()}</Title>
             }
         },
         // {

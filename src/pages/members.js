@@ -87,6 +87,14 @@ function Members() {
                 return <Title style={{ fontSize: "16px", margin: 0, color: "#818181" }}>{record?.contactNumber}</Title>
             }
         },
+        {
+            title: <Title style={{ fontSize: "18px", margin: 0, color: "#166805", fontWeight: "600" }}>Enrolled At</Title>,
+            dataIndex: 'contactNumber',
+            key: 'contactNumber',
+            render: (text, record) => {
+                return <Title style={{ fontSize: "16px", margin: 0, color: "#818181" }}>{new Date(record?.createdAt).toLocaleDateString()}</Title>
+            }
+        },
         // {
         //     title: <Title style={{ fontSize: "18px", margin: 0, color: "#166805", fontWeight: "600" }}>Tier</Title>,
         //     dataIndex: 'level',
@@ -189,6 +197,14 @@ function Members() {
                 return <Title style={{ fontSize: "16px", margin: 0, color: "#818181" }}>{record?.contactNumber}</Title>
             }
         },
+        {
+            title: <Title style={{ fontSize: "18px", margin: 0, color: "#166805", fontWeight: "600" }}>Enrolled At</Title>,
+            dataIndex: 'contactNumber',
+            key: 'contactNumber',
+            render: (text, record) => {
+                return <Title style={{ fontSize: "16px", margin: 0, color: "#818181" }}>{new Date(record?.createdAt).toLocaleDateString()}</Title>
+            }
+        },
         // {
         //     title: <Title style={{ fontSize: "18px", margin: 0, color: "#166805", fontWeight: "600" }}>Committee</Title>,
         //     dataIndex: 'name',
@@ -218,16 +234,14 @@ function Members() {
                     var bytes = new Uint8Array(buffer);
                     var len = bytes.byteLength;
                     for (var i = 0; i < len; i++) {
-                      binary += String.fromCharCode(bytes[i]);
+                        binary += String.fromCharCode(bytes[i]);
                     }
                     return window.btoa(binary);
-                  }
-                  
-                  // Convert the ArrayBuffer to a base64-encoded string
-                  const base64String = _arrayBufferToBase64(record?.nicBack?.data?.data);
-                  
-                  // Create a data URL for the base64 string
-                  const url = `data:image/jpeg;base64,${base64String}`;
+                }
+                const base64String = _arrayBufferToBase64(record?.nicBack?.data?.data);
+                const url = `data:image/jpeg;base64,${base64String}`;
+                console.log(base64String);
+                console.log(url);
                 return (
                     <Upload
                         name="avatar"

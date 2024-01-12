@@ -83,6 +83,14 @@ function Setup2() {
                 return <Title style={{ fontSize: "16px", margin: 0, color: "#818181" }}>{record?.contactNumber}</Title>
             }
         },
+        {
+            title: <Title style={{ fontSize: "18px", margin: 0, color: "#166805", fontWeight: "600" }}>Enrolled At</Title>,
+            dataIndex: 'contactNumber',
+            key: 'contactNumber',
+            render: (text, record) => {
+                return <Title style={{ fontSize: "16px", margin: 0, color: "#818181" }}>{new Date(record?.createdAt).toLocaleDateString()}</Title>
+            }
+        },
         // {
         //     title: <Title style={{ fontSize: "18px", margin: 0, color: "#166805", fontWeight: "600" }}>Committee</Title>,
         //     dataIndex: 'monthlyIncome',
@@ -393,7 +401,7 @@ function Setup2() {
                                 <Title style={{ margin: 0, color: "grey", fontWeight: '500' }} level={5}>{committeeDetail?.payment}</Title>
                             </Col>
                             <Col xs={24} sm={24} md={4} lg={3} xl={3}>
-                                <Title style={{ margin: 0 }} level={4}>Payment</Title>
+                                <Title style={{ margin: 0 }} level={4}>Monthly Payment</Title>
                                 <Title style={{ margin: 0, color: "grey", fontWeight: '500' }} level={5}>{committeeDetail?.amount}</Title>
                             </Col>
                             <Col xs={24} sm={24} md={4} lg={3} xl={3}>
@@ -410,7 +418,7 @@ function Setup2() {
                             </Col>
                         </Row>
                     </Card>
-                    <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: "20px" }}>
+                    <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center",marginTop: "80px", marginBottom: "20px" }}>
                         <Title style={{ color: "#166805", margin: 0 }} level={3}>Committee members list’s</Title>
                         <div style={{ display: "flex", alignItems: "center" }}>
                             <Title style={{ color: "#166805", margin: "0 15px 0 0" }} level={3}>Available Members: {committeeUsers?.length > 0 ? committeeUsers?.length : 0}/{committeeDetail?.members > 0 ? committeeDetail?.members : 0}</Title>
@@ -459,16 +467,16 @@ function Setup2() {
               </Row>
             </Card>
           </Form> */}
-                    <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: "20px", marginTop: "40px" }}>
+                    {/* <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: "20px", marginTop: "40px" }}>
                         <Title style={{ color: "#166805", margin: 0 }} level={3}>Committee Received</Title>
-                        {/* <div style={{ display: "flex", alignItems: "center" }}>
+                        <div style={{ display: "flex", alignItems: "center" }}>
                             <Title style={{ color: "#166805", margin: "0 15px 0 0" }} level={3}>Committee Remaining: 10/12</Title>
                             <img width={40} src={memberIcon} />
-                        </div> */}
+                        </div>
                     </div>
                     <Card className="my-card" style={{ marginBottom: "20px" }}>
                         <Table loading={loading} dataSource={committeeUsers2} columns={column} />
-                    </Card>
+                    </Card> */}
                 </>
             ) : (
                 <>
@@ -492,7 +500,7 @@ function Setup2() {
                                 <Title style={{ margin: 0, color: "grey", fontWeight: '500' }} level={5}>{committeeDetail?.payment}</Title>
                             </Col>
                             <Col xs={24} sm={24} md={4} lg={3} xl={3}>
-                                <Title style={{ margin: 0 }} level={4}>Payment</Title>
+                            <Title style={{ margin: 0 }} level={4}>Monthly Payment</Title>
                                 <Title style={{ margin: 0, color: "grey", fontWeight: '500' }} level={5}>{committeeDetail?.amount}</Title>
                             </Col>
                             <Col xs={24} sm={24} md={4} lg={3} xl={3}>
