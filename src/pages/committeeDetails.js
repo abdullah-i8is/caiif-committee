@@ -83,10 +83,10 @@ function CommitteeDetails() {
         setFormFields((prevFields) => {
             return {
                 ...prevFields,
-                amount: formFields.payment / formFields.members
+                amount: formFields.payment !== null && formFields.members !== null ? Math.ceil(formFields.payment / formFields.members) : 0
             }
         })
-    }, [formFields.payment])
+    }, [formFields.payment, formFields.members])
 
     function handleChange(field) {
         if (field.type === "cycle") {
