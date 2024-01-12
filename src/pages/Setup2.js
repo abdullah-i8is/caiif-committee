@@ -132,7 +132,7 @@ function Setup2() {
             dataIndex: 'enroll',
             key: 'enroll',
             render: (text, record) => {
-                return <Title style={{ fontSize: "16px", margin: 0, color: "#818181" }}>{record?.committeeList[0].received === true ? "RECEIVED" : "NOT RECEIVED"}</Title>
+                return <Title style={{ fontSize: "16px", margin: 0, color: "#818181" }}>{record?.committeeList ? record?.committeeList[0]?.received === true ? "RECEIVED" : "NOT RECEIVED" : ""}</Title>
             }
         },
         {
@@ -208,7 +208,7 @@ function Setup2() {
             dataIndex: 'enroll',
             key: 'enroll',
             render: (text, record) => {
-                return <Title style={{ fontSize: "16px", margin: 0, color: "#818181" }}>{record?.committeeList[0].received === true ? "RECEIVED" : "NOT RECEIVED"}</Title>
+                return <Title style={{ fontSize: "16px", margin: 0, color: "#818181" }}>{record?.committeeList ? record?.committeeList[0]?.received === true ? "RECEIVED" : "NOT RECEIVED" : ""}</Title>
             }
         },
     ];
