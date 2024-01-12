@@ -65,7 +65,7 @@ export default function NewPassword() {
                 setLoading(false)
                 setErr(response.data.message)
                 setTimeout(() => {
-                    navigate("/sign-in")
+                    window.open("https://caiif.ca/dashboard","_self")
                 }, 3000);
                 console.log(response);
             }
@@ -154,7 +154,7 @@ export default function NewPassword() {
                                         <Input.Password style={{ width: "300px" }} placeholder="Password" />
                                     </Form.Item>
 
-                                    {err !== null && <Title style={{ fontSize: "16px", margin: "0 0 20px 0", color: "red" }}>{err}</Title>}
+                                    {err && <Title style={{ fontSize: "16px", margin: "0 0 20px 0", color: "red" }}>{err}</Title>}
 
                                     <Form.Item>
                                         <Button
