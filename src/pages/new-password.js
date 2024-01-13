@@ -61,15 +61,15 @@ export default function NewPassword() {
                 newPassword: formFields.password,
                 userId: userId
             })
-            if (response.status === 200) {                
-                console.log(response);
+            if (response.status === 200) {
                 setLoading(false)
                 setErr(response.data.message)
+                console.log(response);
                 const token = response.data.token
                 const user = jwtDecode(token)
                 dispatch(setToken(token))
                 dispatch(setUser(user))
-                navigate("/")
+                window.open("https://caiif.ca/dashboard", "_self")
             }
         } catch (error) {
             setLoading(false)
