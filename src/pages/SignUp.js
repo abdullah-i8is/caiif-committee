@@ -221,13 +221,17 @@ export default function SignUp() {
   console.log(formFields);
   // console.log(monthDuration);
 
+  useEffect(() => {
+    console.log(params);
+  }, [params.cid])
+
   return (
     <div>
 
       {/* <div style={{ width: "100%", backgroundColor: "#166805", padding: "20px" }} onClick={() => navigate("/sign-in")}>
       </div> */}
 
-      <div style={{ display: "flex", justifyContent: "center", alignItems: "center", flexDirection: "column", height: formSubmit && "100vh",  }}>
+      <div style={{ display: "flex", justifyContent: "center", alignItems: "center", flexDirection: "column", height: formSubmit && "100vh", }}>
         {/* <Title level={3} style={{ margin: "0 0 20px 0", color: '#166805', textAlign: "center", }}>REGISTER CAIIF COMMITTEE</Title> */}
         <Card>
           {/* <img style={{ display: "block", margin: "0 auto 30px auto" }} width={200} src={logo} alt="" /> */}
@@ -328,10 +332,15 @@ export default function SignUp() {
                   </Col>
                 ) : (
                   <>
-                    <Col xs={24} sm={24} md={24} lg={24} xl={24}>
+                    <Col xs={24} sm={24} md={24} lg={24} xl={24} style={{ margin: "0 0 20px 0" }}>
                       <div style={{ marginBottom: 50 }}>
                         <Title level={2} style={{ color: "green", fontWeight: "700" }}>CAIIF Committee Registeration</Title>
                       </div>
+                      <Card>
+                        <div style={{ marginBottom: 50 }}>
+                          <Title level={4} style={{ color: "green", fontWeight: "700" }}></Title>
+                        </div>
+                      </Card>
                     </Col>
                     <Col xs={24} sm={24} md={6} lg={6} xl={6}>
                       <Form.Item name="name"
@@ -444,7 +453,24 @@ export default function SignUp() {
                     <Col xs={24} sm={24} md={24} lg={24} xl={24}>
                       {success !== "" && <Title style={{ fontSize: "16px", margin: "0 0 20px 0", color: status === true ? "green" : "red" }}>{success}</Title>}
                     </Col>
-                    <Col xs={24} sm={24} md={24} lg={4} xl={4}>
+                    <Col xs={24} sm={24} md={24} lg={24} xl={24} style={{margin:"40px 0 0 0"}}>
+                      <Title style={{ fontSize: "16px" }}>Terms & conditions.</Title>
+                    </Col>
+                    <Col xs={24} sm={24} md={24} lg={24} xl={24}>
+                      <Checkbox>
+                        <Title style={{ fontSize: "13px" }}>
+                          Enrollment confirms your eligibility and agreement to all CAIIF terms and conditions.
+                        </Title>
+                      </Checkbox>
+                    </Col>
+                    <Col xs={24} sm={24} md={24} lg={24} xl={24}>
+                      <Checkbox>
+                        <Title style={{ fontSize: "13px" }}>
+                          You agree to the 8-month commitment and fee structure based on committee membership.
+                        </Title>
+                      </Checkbox>
+                    </Col>
+                    <Col xs={24} sm={24} md={24} lg={3} xl={3} style={{ marginTop: 30 }}>
                       <Button
                         loading={loading}
                         style={{ width: "100%", backgroundColor: "#166805", color: 'white' }}

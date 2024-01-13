@@ -60,7 +60,11 @@ function VerificationDetails() {
         setLoading(true)
         try {
             const response = await axios.post(`${API_URL}/admin/additionalData/${id}`, {
-                adminNote: note
+                adminNote: note,
+                name: user?.name,
+                email: user?.email,
+                contactNumber: user?.contactNumber,
+                jobOccupation: user?.jobOccupation,
             }, {
                 headers: {
                     Authorization: "Bearer " + token
@@ -77,9 +81,18 @@ function VerificationDetails() {
         }
     }
 
+    const handleChange = async (value, name) => {
+        setUser((prevDetail) => {
+            return {
+                ...prevDetail,  
+                [name]: value
+            }
+        })
+    }
+
     console.log(user);
-    console.log(commitee);
-    console.log(id);
+    // console.log(commitee);
+    // console.log(id);
 
     return (
         <>
@@ -98,27 +111,27 @@ function VerificationDetails() {
                     <Row gutter={[24, 0]}>
                         <Col xs={24} sm={24} md={24} lg={24} xl={24}>
                             <Card style={{ border: "2px solid #166805", marginBottom: 40 }}>
-                                <img src={user?.nic} style={{ borderRadius: "10px", width: "100%", height:"300px", objectFit:"contain" }} />
+                                <img src={user?.nic} style={{ borderRadius: "10px", width: "100%", height: "300px", objectFit: "contain" }} />
                             </Card>
                         </Col>
                         <Col xs={16} sm={24} md={8} lg={8} xl={8}>
                             <Form.Item label={<Title style={{ fontSize: "16px", margin: 0, color: "#4E4E4E" }}>Name</Title>}>
-                                <Input value={user?.name} />
+                                <Input onChange={(e) => handleChange(e.target.value, "name")} value={user?.name} />
                             </Form.Item>
                         </Col>
                         <Col xs={24} sm={24} md={8} lg={8} xl={8}>
                             <Form.Item label={<Title style={{ fontSize: "16px", margin: 0, color: "#4E4E4E" }}>Email Address</Title>}>
-                                <Input value={user?.email} />
+                                <Input onChange={(e) => handleChange(e.target.value, "email")} value={user?.email} />
                             </Form.Item>
                         </Col>
                         <Col xs={24} sm={24} md={8} lg={8} xl={8}>
                             <Form.Item label={<Title style={{ fontSize: "16px", margin: 0, color: "#4E4E4E" }}>Phone Number</Title>}>
-                                <Input value={user?.contactNumber} />
+                                <Input onChange={(e) => handleChange(e.target.value, "contactNumber")} value={user?.contactNumber} />
                             </Form.Item>
                         </Col>
                         <Col xs={24} sm={24} md={12} lg={12} xl={12}>
                             <Form.Item label={<Title style={{ fontSize: "16px", margin: 0, color: "#4E4E4E" }}>Job Occupation</Title>}>
-                                <Input value={user?.jobOccupation} />
+                                <Input onChange={(e) => handleChange(e.target.value, "jobOccupation")} value={user?.jobOccupation} />
                             </Form.Item>
                         </Col>
                         <Col xs={24} sm={24} md={12} lg={12} xl={12}>
