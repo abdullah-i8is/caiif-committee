@@ -47,6 +47,7 @@ function Setup2() {
         paidType: "",
         paymentAmount: "",
         cid: null,
+        note: ""
     })
     const [paymentHistory, setPaymentHistory] = useState([])
     const [loading, setLoading] = useState(false)
@@ -376,6 +377,20 @@ function Setup2() {
                                 }
                             })
                         }} />
+                    <br />
+                    <br />
+                    <Input
+                        placeholder="Note"
+                        value={paymentHistoryDetails.note}
+                        onChange={(e) => {
+                            setPaymentHistoryDetails((prevDetails) => {
+                                return {
+                                    ...prevDetails,
+                                    note: e.target.value
+                                }
+                            })
+                        }}
+                    />
                 </ModalComp>
             )}
             {/* <StatisticsHeader user={user} approveMembers={approveMembers} /> */}
@@ -418,7 +433,7 @@ function Setup2() {
                             </Col>
                         </Row>
                     </Card>
-                    <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center",marginTop: "80px", marginBottom: "20px" }}>
+                    <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginTop: "80px", marginBottom: "20px" }}>
                         <Title style={{ color: "#166805", margin: 0 }} level={3}>Committee members list’s</Title>
                         <div style={{ display: "flex", alignItems: "center" }}>
                             <Title style={{ color: "#166805", margin: "0 15px 0 0" }} level={3}>Available Members: {committeeUsers?.length > 0 ? committeeUsers?.length : 0}/{committeeDetail?.members > 0 ? committeeDetail?.members : 0}</Title>
@@ -500,7 +515,7 @@ function Setup2() {
                                 <Title style={{ margin: 0, color: "grey", fontWeight: '500' }} level={5}>{committeeDetail?.payment}</Title>
                             </Col>
                             <Col xs={24} sm={24} md={4} lg={3} xl={3}>
-                            <Title style={{ margin: 0 }} level={4}>Monthly Payment</Title>
+                                <Title style={{ margin: 0 }} level={4}>Monthly Payment</Title>
                                 <Title style={{ margin: 0, color: "grey", fontWeight: '500' }} level={5}>{committeeDetail?.amount}</Title>
                             </Col>
                             <Col xs={24} sm={24} md={4} lg={3} xl={3}>
