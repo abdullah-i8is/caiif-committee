@@ -440,7 +440,7 @@ export default function SignUp() {
                         <DatePicker style={{ width: "100%" }} />
                       </Form.Item>
                     </Col>
-                    <Col xs={24} sm={24} md={6} lg={6} xl={6}>
+                    <Col xs={24} sm={24} md={6} lg={4} xl={4}>
                       <Form.Item
                         rules={[
                           {
@@ -460,22 +460,28 @@ export default function SignUp() {
                         <Input disabled={true} value={commitee?.name} />
                       </Form.Item>
                     </Col>
-                    <Col xs={24} sm={24} md={6} lg={6} xl={6}>
+                    <Col xs={24} sm={24} md={6} lg={4} xl={4}>
                       <Form.Item
                         label={<Title style={{ fontSize: "16px", margin: 0, color: "#4E4E4E" }}>Duration</Title>}>
                         <Input disabled={true} value={monthDuration} />
                       </Form.Item>
                     </Col>
-                    <Col xs={24} sm={24} md={6} lg={6} xl={6}>
+                    <Col xs={24} sm={24} md={6} lg={4} xl={4}>
                       <Form.Item
                         label={<Title style={{ fontSize: "16px", margin: 0, color: "#4E4E4E" }}>Total Amount</Title>}>
                         <Input disabled={true} value={commitee?.payment} />
                       </Form.Item>
                     </Col>
-                    <Col xs={24} sm={24} md={6} lg={6} xl={6}>
+                    <Col xs={24} sm={24} md={6} lg={4} xl={4}>
                       <Form.Item
                         label={<Title style={{ fontSize: "16px", margin: 0, color: "#4E4E4E" }}>Monthly Payment</Title>}>
                         <Input disabled={true} value={commitee?.amount} />
+                      </Form.Item>
+                    </Col>
+                    <Col xs={24} sm={24} md={6} lg={8} xl={8}>
+                      <Form.Item
+                        label={<Title style={{ fontSize: "16px", margin: 0, color: "#4E4E4E" }}>Start Date</Title>}>
+                        <Input disabled={true} value={new Date(commitee?.startDate).toLocaleDateString()} />
                       </Form.Item>
                     </Col>
                     <Col xs={24} sm={24} md={24} lg={24} xl={24}>
