@@ -8,6 +8,7 @@ import {
     Button,
     Form,
     Input,
+    notification,
 } from "antd";
 import { useNavigate, useParams } from "react-router-dom";
 import denyIcon from '../assets/images/deny.svg'
@@ -26,7 +27,21 @@ function VerificationDetails() {
     const [user, setUser] = useState()
     const [commitee, setCommittee] = useState()
     const [note, setNote] = useState("");
-
+    const [api, contextHolder] = notification.useNotification();
+    const openNotification = (placement, message) => {
+        api.success({
+            message: `Notification`,
+            description: message,
+            placement,
+        });
+        if (message === "network error") {
+            api.error({
+                message: `Notification`,
+                description: "network error",
+                placement,
+            });
+        }
+    };
     const { id, cid } = useParams()
 
     async function getUser() {
@@ -72,6 +87,7 @@ function VerificationDetails() {
             })
             if (response.status === 200) {
                 setLoading(false)
+                notification("topRight", "Profile update successfully")
                 getUser()
                 console.log(response);
             }
