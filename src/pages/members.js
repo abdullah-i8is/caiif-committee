@@ -47,6 +47,21 @@ function Members() {
     const [hotelBudget, setHotelBudget] = useState(0)
     const dispatch = useDispatch()
     const user = useSelector((state) => state.auth.user)
+    const [api, contextHolder] = notification.useNotification();
+    const openNotification = (placement, message) => {
+        api.success({
+            message: `Notification`,
+            description: message,
+            placement,
+        });
+        if (message === "network error") {
+            api.error({
+                message: `Notification`,
+                description: "network error",
+                placement,
+            });
+        }
+    };
 
     const data = [
         { username: "Hassan Soomro", email: "hassansoomro@i8is.com", amount: 4230142301423, phonenumber: "+92300000333", CNIC: 4230142301423, enroll: 3, },
@@ -290,16 +305,18 @@ function Members() {
                 console.log(response);
                 setLoading(false)
                 setLoading2(false)
+                openNotification("topRight", type === "APPROVE" ? "Account Approved Successfully" : "Account Block Successfully")
                 GetAllMembers(token)
-                    .then((res) => {
-                        console.log(res?.data);
-                        dispatch(setApproveMembers(res?.data?.users))
-                    })
-                    .catch((error) => {
-                        console.log(error);
-                    })
+                .then((res) => {
+                    console.log(res?.data);
+                    dispatch(setApproveMembers(res?.data?.users))
+                })
+                .catch((error) => {
+                    console.log(error);
+                })
             }
         } catch (error) {
+            openNotification("topRight", "network error")
             setLoading(false)
             setLoading2(false)
             console.log(error);

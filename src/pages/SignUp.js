@@ -345,7 +345,7 @@ export default function SignUp() {
                       </div>
                       <Button
                         onClick={() => window.open("https://caiif.ca/")}
-                        style={{ width: "100%", backgroundColor: "#166805", color: 'white', marginTop: 40 }}
+                        style={{ width: "200px", backgroundColor: "#166805", color: 'white', marginTop: 40 }}
                         type="primary"
                       >
                         Go back to home

@@ -58,9 +58,6 @@ function Setup2() {
     const token = useSelector((state) => state.common.token)
     const approveMembers = useSelector((state) => state.members.approveMembers)
     const dispatch = useDispatch()
-    const Context = React.createContext({
-        name: 'Default',
-    });
     const [api, contextHolder] = notification.useNotification();
     const openNotification = (placement, message) => {
         if (message === "Fields are required") {
