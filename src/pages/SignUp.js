@@ -224,7 +224,7 @@ export default function SignUp() {
       const yearsDiff = endDateObj.getUTCFullYear() - startDateObj.getUTCFullYear();
       const monthsDiff = endDateObj.getUTCMonth() - startDateObj.getUTCMonth();
       const totalMonths = yearsDiff * 12 + monthsDiff;
-      setMonthDuration(totalMonths)
+      setMonthDuration(totalMonths + 1)
       setFormFields((prevFields) => {
         return {
           ...prevFields,
@@ -337,7 +337,7 @@ export default function SignUp() {
                     <div style={{ display: "flex", justifyContent: "center", alignItems: "center", flexDirection: "column", padding: "40px" }}>
                       <div style={{ marginBottom: 20, textAlign: "center" }}>
                         <Title level={1} style={{ color: '#166805' }}>Form Submitted</Title>
-                        <Title level={3}>Our Team Member Will Contact You Soon...</Title>
+                        <Title level={3}>Our team will be in touch shortly. Thank you for your patience.</Title>
                         <Title level={3}>+1 289-586-910</Title>
                       </div>
                       <div>
