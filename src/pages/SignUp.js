@@ -10,7 +10,8 @@ import {
   Checkbox,
   Col,
   Row,
-  Select
+  Select,
+  DatePicker
 } from "antd";
 
 import logo from '../assets/images/caiif-logo.svg'
@@ -58,15 +59,16 @@ export default function SignUp() {
     second: false,
   });
   const [formFields, setFormFields] = useState({
-    cId: commitee?._id,
+    cId: "",
     name: "",
     email: "",
     contactNumber: "",
-    committee: commitee?._id,
+    committee: "",
     nic: "",
     userType: "user",
     jobOccupation: "",
-    note: ""
+    note: "",
+    interestedDate: null
     // password: "",
     // userType: "customer",
     // bankName: "",
@@ -90,8 +92,8 @@ export default function SignUp() {
           email: values.email,
           contactNumber: values.contactNumber,
           jobOccupation: values?.jobOccupation,
-          committee: values?.committee,
           note: values?.committeeNote,
+          interestedDate: values?.interestedDate
         }
       })
     }
@@ -124,12 +126,12 @@ export default function SignUp() {
     }
   }
 
-  // useEffect(() => {
-  //   if (formFields.name !== "" || formFields.email !== "" || formFields.contactNumber !== "" || formFields.committee !== "") {
-  //     handleSignup()
-  //     console.log("bhai mein nahi chaloonga");
-  //   }
-  // }, [formFields])
+  useEffect(() => {
+    if (formFields.name && formFields.email && formFields.contactNumber && formFields.jobOccupation && formFields.interestedDate) {
+      handleSignup()
+      console.log("bhai mein nahi chaloonga");
+    }
+  }, [formFields])
 
   const handleUpload = async (imgFile) => {
     setUploading(true)
@@ -213,19 +215,23 @@ export default function SignUp() {
       })
   }, [])
 
-  useEffect(() => {
-    const startDateObj = new Date(commitee?.startDate);
-    const endDateObj = new Date(commitee?.endDate);
-    const yearsDiff = endDateObj.getUTCFullYear() - startDateObj.getUTCFullYear();
-    const monthsDiff = endDateObj.getUTCMonth() - startDateObj.getUTCMonth();
-    const totalMonths = yearsDiff * 12 + monthsDiff;
-    setMonthDuration(totalMonths)
-  }, [commitee])
-
   async function getCommittee() {
     try {
       const response = await axios.get(`${API_URL}/user/committeeById/${params.cid}`)
       setCommittee(response?.data?.data?.committee)
+      const startDateObj = new Date(response?.data?.data?.committee?.startDate);
+      const endDateObj = new Date(response?.data?.data?.committee?.endDate);
+      const yearsDiff = endDateObj.getUTCFullYear() - startDateObj.getUTCFullYear();
+      const monthsDiff = endDateObj.getUTCMonth() - startDateObj.getUTCMonth();
+      const totalMonths = yearsDiff * 12 + monthsDiff;
+      setMonthDuration(totalMonths)
+      setFormFields((prevFields) => {
+        return {
+          ...prevFields,
+          cId: response?.data?.data?.committee?._id,
+          committee: response?.data?.data?.committee?._id,
+        }
+      })
       console.log(response);
     } catch (error) {
       console.log(error);
@@ -239,6 +245,7 @@ export default function SignUp() {
 
   console.log(commitee);
   console.log(monthDuration);
+  console.log(formFields);
 
   return (
     <div>
@@ -373,7 +380,7 @@ export default function SignUp() {
                         </Title>
                       ) : null}
                     </Col>
-                    <Col xs={24} sm={24} md={6} lg={6} xl={6}>
+                    <Col xs={24} sm={24} md={6} lg={4} xl={4}>
                       <Form.Item name="name"
                         rules={[
                           {
@@ -385,7 +392,7 @@ export default function SignUp() {
                         <Input value={formFields.name} />
                       </Form.Item>
                     </Col>
-                    <Col xs={24} sm={24} md={6} lg={6} xl={6}>
+                    <Col xs={24} sm={24} md={6} lg={4} xl={4}>
                       <Form.Item name="email"
                         rules={[
                           {
@@ -397,7 +404,7 @@ export default function SignUp() {
                         <Input />
                       </Form.Item>
                     </Col>
-                    <Col xs={24} sm={24} md={6} lg={6} xl={6}>
+                    <Col xs={24} sm={24} md={6} lg={4} xl={4}>
                       <Form.Item name="contactNumber"
                         rules={[
                           {
@@ -409,7 +416,7 @@ export default function SignUp() {
                         <Input />
                       </Form.Item>
                     </Col>
-                    <Col xs={24} sm={24} md={6} lg={6} xl={6}>
+                    <Col xs={24} sm={24} md={6} lg={4} xl={4}>
                       <Form.Item name="jobOccupation"
                         rules={[
                           {
@@ -419,6 +426,18 @@ export default function SignUp() {
                         ]}
                         label={<Title style={{ fontSize: "16px", margin: 0, color: "#4E4E4E" }}>Job Occupation</Title>}>
                         <Input />
+                      </Form.Item>
+                    </Col>
+                    <Col xs={24} sm={24} md={6} lg={8} xl={8}>
+                      <Form.Item name="interestedDate"
+                        rules={[
+                          {
+                            required: true,
+                            message: 'Please input your Interested Date !',
+                          },
+                        ]}
+                        label={<Title style={{ fontSize: "16px", margin: 0, color: "#4E4E4E" }}>Interested Date</Title>}>
+                        <DatePicker style={{ width: "100%" }} />
                       </Form.Item>
                     </Col>
                     <Col xs={24} sm={24} md={6} lg={6} xl={6}>
@@ -518,7 +537,7 @@ export default function SignUp() {
                     </Col>
                     <Col xs={24} sm={24} md={24} lg={3} xl={3} style={{ marginTop: 30 }}>
                       <Button
-                        disabled={termsCondition.first && termsCondition.second}
+                        disabled={termsCondition.first && termsCondition.second ? false : true}
                         loading={loading}
                         style={{ width: "100%", backgroundColor: termsCondition.first && termsCondition.second ? "#166805" : !termsCondition.first || !termsCondition.second ? "grey" : "", color: 'white' }}
                         type="primary"
