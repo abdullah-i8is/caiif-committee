@@ -69,6 +69,7 @@ export default function NewPassword() {
                 const user = jwtDecode(token)
                 dispatch(setToken(token))
                 dispatch(setUser(user))
+                navigate("/")
             }
         } catch (error) {
             setLoading(false)
