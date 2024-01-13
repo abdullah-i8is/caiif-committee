@@ -307,13 +307,13 @@ function Members() {
                 setLoading2(false)
                 openNotification("topRight", type === "APPROVE" ? "Account Approved Successfully" : "Account Block Successfully")
                 GetAllMembers(token)
-                .then((res) => {
-                    console.log(res?.data);
-                    dispatch(setApproveMembers(res?.data?.users))
-                })
-                .catch((error) => {
-                    console.log(error);
-                })
+                    .then((res) => {
+                        console.log(res?.data);
+                        dispatch(setApproveMembers(res?.data?.users))
+                    })
+                    .catch((error) => {
+                        console.log(error);
+                    })
             }
         } catch (error) {
             openNotification("topRight", "network error")
@@ -366,6 +366,7 @@ function Members() {
 
     return (
         <>
+            {contextHolder}
             {/* <StatisticsHeader approveMembers={approveMembers} committees={committees} user={loginUser} />
             <div style={{ marginBottom: "20px" }}>
                 <Title style={{ color: "#166805", margin: 0 }} level={3}>Approval members Request</Title>
