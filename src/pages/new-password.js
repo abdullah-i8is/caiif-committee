@@ -8,6 +8,7 @@ import {
     Form,
     Input,
     Checkbox,
+    notification,
 } from "antd";
 
 import logo from '../assets/images/caiif-logo-2.svg'
@@ -40,6 +41,14 @@ export default function NewPassword() {
         password: "",
     });
     const isVerified = useSelector((state) => state.auth.isVerified)
+    const [api, contextHolder] = notification.useNotification();
+    const openNotification = () => {
+        api.success({
+            message: `Notification`,
+            description: "Password updated successfully",
+            placement: "topRight",
+        });
+    };
 
     const onFinish = (values) => {
         console.log("Success:", values);
@@ -69,6 +78,7 @@ export default function NewPassword() {
                 const user = jwtDecode(token)
                 dispatch(setToken(token))
                 dispatch(setUser(user))
+                openNotification()
                 window.open("https://caiif.ca/dashboard", "_self")
             }
         } catch (error) {
@@ -112,7 +122,7 @@ export default function NewPassword() {
 
     return (
         <div>
-
+            {contextHolder}
             <div style={{ width: "100%", backgroundColor: "#166805", padding: "20px" }}>
                 <img width={200} src={logo} alt="" />
             </div>
