@@ -278,7 +278,6 @@ function Home() {
   }, [user])
 
   console.log(committees);
-  console.log(user);
 
   return (
     <>
