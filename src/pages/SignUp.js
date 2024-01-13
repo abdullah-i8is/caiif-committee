@@ -53,6 +53,10 @@ export default function SignUp() {
   const [imageUrl, setImageUrl] = useState("");
   const [imageUrl2, setImageUrl2] = useState("");
   const [commitee, setCommittee] = useState(null);
+  const [termsCondition, setTermsCondition] = useState({
+    first: false,
+    second: false,
+  });
   const [formFields, setFormFields] = useState({
     cId: commitee?._id,
     name: "",
@@ -489,14 +493,24 @@ export default function SignUp() {
                       <Title style={{ fontSize: "16px" }}>Terms & conditions.</Title>
                     </Col>
                     <Col xs={24} sm={24} md={24} lg={24} xl={24}>
-                      <Checkbox>
+                      <Checkbox onChange={(e) => setTermsCondition((prevCondition) => {
+                        return {
+                          ...prevCondition,
+                          first: e.target.checked
+                        }
+                      })} checked={termsCondition.first}>
                         <Title style={{ fontSize: "13px" }}>
                           Enrollment confirms your eligibility and agreement to all CAIIF terms and conditions.
                         </Title>
                       </Checkbox>
                     </Col>
                     <Col xs={24} sm={24} md={24} lg={24} xl={24}>
-                      <Checkbox>
+                      <Checkbox onChange={(e) => setTermsCondition((prevCondition) => {
+                        return {
+                          ...prevCondition,
+                          second: e.target.checked
+                        }
+                      })} checked={termsCondition.second}>
                         <Title style={{ fontSize: "13px" }}>
                           You agree to the 8-month commitment and fee structure based on committee membership.
                         </Title>
@@ -504,8 +518,9 @@ export default function SignUp() {
                     </Col>
                     <Col xs={24} sm={24} md={24} lg={3} xl={3} style={{ marginTop: 30 }}>
                       <Button
+                        disabled={termsCondition.first && termsCondition.second}
                         loading={loading}
-                        style={{ width: "100%", backgroundColor: "#166805", color: 'white' }}
+                        style={{ width: "100%", backgroundColor: termsCondition.first && termsCondition.second ? "#166805" : !termsCondition.first || !termsCondition.second ? "grey" : "", color: 'white' }}
                         type="primary"
                         htmlType="submit"
                       >
