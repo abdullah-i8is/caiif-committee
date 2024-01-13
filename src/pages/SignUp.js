@@ -20,7 +20,7 @@ import cnicFront from '../assets/images/cnic-front.png'
 import axios from "axios";
 import { API_URL } from "../config/api";
 
-import { LoadingOutlined, PlusOutlined } from '@ant-design/icons';
+import { LoadingOutlined, PlusOutlined, UploadOutlined } from '@ant-design/icons';
 import { message, Upload } from 'antd';
 import { useNavigate, useParams } from "react-router-dom";
 import { GetUserCommittees } from "../middlewares/commitee";
@@ -43,6 +43,7 @@ export default function SignUp() {
   const [success, setSuccess] = useState("");
   const [status, setStatus] = useState(null);
   const [loading, setLoading] = useState(false);
+  const [uploading, setUploading] = useState(false);
   const [formSubmit, setFormSubmit] = useState(false);
   const [activeStep, setActiveStep] = useState(0);
   const [monthDuration, setMonthDuration] = useState(0);
@@ -51,12 +52,13 @@ export default function SignUp() {
   const [committeeId, setCommitteeId] = useState(null);
   const [imageUrl, setImageUrl] = useState("");
   const [imageUrl2, setImageUrl2] = useState("");
+  const [commitee, setCommittee] = useState(null);
   const [formFields, setFormFields] = useState({
-    cId: "",
+    cId: commitee?._id,
     name: "",
     email: "",
     contactNumber: "",
-    committee: "",
+    committee: commitee?._id,
     nic: "",
     userType: "user",
     jobOccupation: "",
@@ -76,11 +78,10 @@ export default function SignUp() {
 
   const onFinish = (values) => {
     console.log("Success:", values);
-    if (values?.name || values?.email || values?.contactNumber || values?.committee || values?.duration || values?.monthlyPayment || values?.jobOccupation) {
+    if (values?.name || values?.email || values?.contactNumber || values?.jobOccupation) {
       setFormFields((prevFields) => {
         return {
           ...prevFields,
-          cId: committeeId,
           name: values.name,
           email: values.email,
           contactNumber: values.contactNumber,
@@ -119,14 +120,15 @@ export default function SignUp() {
     }
   }
 
-  useEffect(() => {
-    if (formFields.name !== "" || formFields.email !== "" || formFields.contactNumber !== "" || formFields.committee !== "") {
-      handleSignup()
-      console.log("bhai mein nahi chaloonga");
-    }
-  }, [formFields])
+  // useEffect(() => {
+  //   if (formFields.name !== "" || formFields.email !== "" || formFields.contactNumber !== "" || formFields.committee !== "") {
+  //     handleSignup()
+  //     console.log("bhai mein nahi chaloonga");
+  //   }
+  // }, [formFields])
 
   const handleUpload = async (imgFile) => {
+    setUploading(true)
     const imgRef = ref(storage, `images/${imgFile.name}`)
     uploadBytesResumable(imgRef, imgFile)
       .then((res) => {
@@ -134,6 +136,7 @@ export default function SignUp() {
           .then(async (url) => {
             console.log("IMAGE UPLOADED", url);
             setStatus("image uploaded")
+            setUploading(false)
             setFormFields((prevFields) => {
               return {
                 ...prevFields,
@@ -142,6 +145,7 @@ export default function SignUp() {
             })
           })
           .catch((err) => {
+            setUploading(false)
             console.log("IMAGE UPLOAD ERROR", err);
           })
       })
@@ -206,24 +210,31 @@ export default function SignUp() {
   }, [])
 
   useEffect(() => {
-    const findCommittee = state?.find((f) => f.committee._id === committeeId)
-    const startDateObj = new Date(findCommittee?.committee.startDate);
-    const endDateObj = new Date(findCommittee?.committee.endDate);
+    const startDateObj = new Date(commitee?.startDate);
+    const endDateObj = new Date(commitee?.endDate);
     const yearsDiff = endDateObj.getUTCFullYear() - startDateObj.getUTCFullYear();
     const monthsDiff = endDateObj.getUTCMonth() - startDateObj.getUTCMonth();
     const totalMonths = yearsDiff * 12 + monthsDiff;
     setMonthDuration(totalMonths)
-    setMonthlyPayment(findCommittee?.committee?.amount)
-    setTotalAmount(findCommittee?.committee?.payment)
-  }, [committeeId])
+  }, [commitee])
 
-  // console.log(state);
-  console.log(formFields);
-  // console.log(monthDuration);
+  async function getCommittee() {
+    try {
+      const response = await axios.get(`${API_URL}/user/committeeById/${params.cid}`)
+      setCommittee(response?.data?.data?.committee)
+      console.log(response);
+    } catch (error) {
+      console.log(error);
+    }
+  }
 
   useEffect(() => {
     console.log(params);
+    getCommittee()
   }, [params.cid])
+
+  console.log(commitee);
+  console.log(monthDuration);
 
   return (
     <div>
@@ -332,15 +343,31 @@ export default function SignUp() {
                   </Col>
                 ) : (
                   <>
-                    <Col xs={24} sm={24} md={24} lg={24} xl={24} style={{ margin: "0 0 20px 0" }}>
-                      <div style={{ marginBottom: 50 }}>
+                    <Col xs={24} sm={24} md={24} lg={24} xl={24} style={{ margin: "0 0 50px 0" }}>
+                      <div style={{ margin: "20px 0" }}>
                         <Title level={2} style={{ color: "green", fontWeight: "700" }}>CAIIF Committee Registeration</Title>
                       </div>
-                      <Card>
-                        <div style={{ marginBottom: 50 }}>
-                          <Title level={4} style={{ color: "green", fontWeight: "700" }}></Title>
-                        </div>
-                      </Card>
+                      {commitee?.payment === "1000" ? (
+                        <Title level={5} style={{ color: "green", fontWeight: "600", margin: "0" }}>
+                          Ideal for beginners, this committee offers a supportive environment to learn and grow within Islamic financial principles. Members can expect to build a foundational investment portfolio with minimized risks and consistent guidance.
+                          <br />
+                          This committee operates over an 8-month period. CAIIF charges a 3% fee for the first four members, which reduces to 2% for the 5th and 6th members. The last two members are exempt from these charges.
+                        </Title>
+
+                      ) : commitee?.payment === "3000" ? (
+
+                        <Title level={5} style={{ color: "green", fontWeight: "600", margin: "0" }}>
+                          Aimed at investors seeking intermediate-level involvement, this committee emphasizes diversified investment strategies and portfolio expansion, balancing risk and reward efficiently.
+                          <br />
+                          This committee operates over an 8-month period. CAIIF charges a 3% fee for the first four members, which reduces to 2% for the 5th and 6th members. The last two members are exempt from these charges.
+                        </Title>
+                      ) : commitee?.payment === "5000" ? (
+                        <Title level={5} style={{ color: "green", fontWeight: "600", margin: "0" }}>
+                          This is for advanced investors focused on significant capital growth. It offers opportunities in sophisticated investment strategies, leveraging the expertise of seasoned investors and Islamic financial principles.
+                          <br />
+                          This committee operates over an 8-month period. CAIIF charges a 3% fee for the first four members, which reduces to 2% for the 5th and 6th members. The last two members are exempt from these charges.
+                        </Title>
+                      ) : null}
                     </Col>
                     <Col xs={24} sm={24} md={6} lg={6} xl={6}>
                       <Form.Item name="name"
@@ -391,7 +418,7 @@ export default function SignUp() {
                       </Form.Item>
                     </Col>
                     <Col xs={24} sm={24} md={6} lg={6} xl={6}>
-                      <Form.Item name="committee"
+                      <Form.Item
                         rules={[
                           {
                             required: true,
@@ -399,14 +426,15 @@ export default function SignUp() {
                           },
                         ]}
                         label={<Title style={{ fontSize: "16px", margin: 0, color: "#4E4E4E" }}>Committee</Title>}>
-                        <Select
+                        {/* <Select
                           defaultValue="Select"
                           style={{ width: "100%" }}
                           options={state?.map(f => {
                             return { value: f?.committee._id, label: f?.committee.name }
                           })}
                           onChange={(e) => setCommitteeId(e)}
-                        />
+                        /> */}
+                        <Input disabled={true} value={commitee?.name} />
                       </Form.Item>
                     </Col>
                     <Col xs={24} sm={24} md={6} lg={6} xl={6}>
@@ -418,13 +446,13 @@ export default function SignUp() {
                     <Col xs={24} sm={24} md={6} lg={6} xl={6}>
                       <Form.Item
                         label={<Title style={{ fontSize: "16px", margin: 0, color: "#4E4E4E" }}>Total Amount</Title>}>
-                        <Input disabled={true} value={totalAmount} />
+                        <Input disabled={true} value={commitee?.payment} />
                       </Form.Item>
                     </Col>
                     <Col xs={24} sm={24} md={6} lg={6} xl={6}>
                       <Form.Item
                         label={<Title style={{ fontSize: "16px", margin: 0, color: "#4E4E4E" }}>Monthly Payment</Title>}>
-                        <Input disabled={true} value={monthlyPayment} />
+                        <Input disabled={true} value={commitee?.amount} />
                       </Form.Item>
                     </Col>
                     <Col xs={24} sm={24} md={24} lg={24} xl={24}>
@@ -433,7 +461,7 @@ export default function SignUp() {
                         <Input.TextArea style={{ height: "100px" }} />
                       </Form.Item>
                     </Col>
-                    <Col xs={24} sm={24} md={2} lg={2} xl={2} style={{ marginBottom: 20 }}>
+                    <Col xs={24} sm={24} md={2} lg={2} xl={2} style={{ marginBottom: 10 }}>
                       <Title style={{ fontSize: "16px", margin: "0 0 8px 0", color: "#4E4E4E" }}>ID</Title>
                       {/* <Form.Item name="CNIC">
                         <Upload
@@ -447,13 +475,17 @@ export default function SignUp() {
                         >
                           {imageUrl ? <img src={imageUrl} alt="avatar" style={{ borderRadius: "10px", width: "100%", height: '150px', objectFit: "cover" }} /> : uploadButton}</Upload>
                       </Form.Item> */}
-                      <input type="file" onChange={(e) => handleUpload(e.target.files[0])} />
-                      {status ? <p style={{ color: "green" }}>{status}</p> : ""}
+                      {/* <input type="file" onChange={(e) => handleUpload(e.target.files[0])} /> */}
+                      <Upload showUploadList={false} name="file" onChange={(e) => handleUpload(e.file.originFileObj)}>
+                        <Button loading={uploading} icon={<UploadOutlined />}>Upload NIC</Button>
+                      </Upload>
+                      {formFields?.nic ? <img style={{ width: "100% !important", margin: "20px 0 0 0", borderRadius: "5px" }} src={formFields?.nic} /> : ""}
+                      {/* {status ? <p style={{ color: "green", fontSize: "20px", fontWeight: "700" }}>{status}</p> : ""} */}
                     </Col>
                     <Col xs={24} sm={24} md={24} lg={24} xl={24}>
                       {success !== "" && <Title style={{ fontSize: "16px", margin: "0 0 20px 0", color: status === true ? "green" : "red" }}>{success}</Title>}
                     </Col>
-                    <Col xs={24} sm={24} md={24} lg={24} xl={24} style={{margin:"40px 0 0 0"}}>
+                    <Col xs={24} sm={24} md={24} lg={24} xl={24} style={{ margin: "40px 0 0 0" }}>
                       <Title style={{ fontSize: "16px" }}>Terms & conditions.</Title>
                     </Col>
                     <Col xs={24} sm={24} md={24} lg={24} xl={24}>

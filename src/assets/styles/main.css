@@ -3126,11 +3126,11 @@ th.ant-table-cell h1 {
   margin: 5px 0 20px 0;
 }
 
-.ant-upload-select {
-  width: 100% !important;
-  height: 150px !important;
-  margin-bottom: 0 !important;
-}
+  /* .ant-upload-select {
+    width: 100% !important;
+    height: 150px !important;
+    margin-bottom: 0 !important;
+  } */
 
 .note-text {
   font-size: 16px !important;
