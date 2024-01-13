@@ -61,7 +61,7 @@ export default function NewPassword() {
                 newPassword: formFields.password,
                 userId: userId
             })
-            if (response.status === 200) {
+            if (response.status === 200) {                
                 setLoading(false)
                 setErr(response.data.message)
                 const token = response.data.token

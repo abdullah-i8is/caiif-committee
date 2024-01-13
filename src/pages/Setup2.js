@@ -1,4 +1,4 @@
-import { useEffect, useLayoutEffect, useState } from "react";
+import React, { useEffect, useLayoutEffect, useState } from "react";
 
 import {
     Card,
@@ -58,6 +58,26 @@ function Setup2() {
     const token = useSelector((state) => state.common.token)
     const approveMembers = useSelector((state) => state.members.approveMembers)
     const dispatch = useDispatch()
+    const Context = React.createContext({
+        name: 'Default',
+    });
+    const [api, contextHolder] = notification.useNotification();
+    const openNotification = (placement, message) => {
+        if (message === "Fields are required") {
+            api.error({
+                message: `Notification`,
+                description: message,
+                placement,
+            });
+        }
+        else {
+            api.success({
+                message: `Notification`,
+                description: message,
+                placement,
+            });
+        }
+    };
 
     const column = [
         {
@@ -305,22 +325,32 @@ function Setup2() {
     }
 
     async function submitPaymentHistory() {
-        setLoading2(true)
-        try {
-            const response = await axios.post(`${API_URL}/admin/paymentRecord`, {
-                date: paymentHistoryDetails.date,
-                isPaid: paymentHistoryDetails.paidType,
-                paymentAmount: paymentHistoryDetails.paymentAmount,
-                userId: userId,
-                cid: params.id,
-            }, {
-                headers: { Authorization: "Bearer " + token }
-            })
-            setLoading2(false)
-            console.log(response);
-        } catch (error) {
-            setLoading2(false)
-            console.log(error);
+        if (paymentHistoryDetails.date || paymentHistoryDetails.paidType || paymentHistoryDetails.paymentAmount) {
+            setLoading2(true)
+            try {
+                const response = await axios.post(`${API_URL}/admin/paymentRecord`, {
+                    date: paymentHistoryDetails.date,
+                    isPaid: paymentHistoryDetails.paidType,
+                    paymentAmount: paymentHistoryDetails.paymentAmount,
+                    userId: userId,
+                    cid: params.id,
+                }, {
+                    headers: { Authorization: "Bearer " + token }
+                })
+                if (response.status === 200) {
+                    console.log(response);
+                    setLoading2(false)
+                    setShowPaymentModal(false)
+                    openNotification("topRight", "Payment Added Successfully")
+                }
+            } catch (error) {
+                setLoading2(false)
+                console.log(error);
+            }
+        }
+        else {
+            setShowPaymentModal(true)
+            openNotification("topRight", "Fields are required")
         }
     }
 
@@ -332,6 +362,7 @@ function Setup2() {
 
     return (
         <>
+            {contextHolder}
             {showPaymentModal && (
                 <ModalComp setShow={() => setShowPaymentModal(false)} loading={loading2} onClick={submitPaymentHistory} title="Add Payment History" open={showPaymentModal}>
                     <DatePicker
