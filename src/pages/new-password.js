@@ -62,17 +62,13 @@ export default function NewPassword() {
                 userId: userId
             })
             if (response.status === 200) {                
+                console.log(response);
                 setLoading(false)
                 setErr(response.data.message)
                 const token = response.data.token
                 const user = jwtDecode(token)
-                console.log(response);
                 dispatch(setToken(token))
                 dispatch(setUser(user))
-                setTimeout(() => {
-                    window.open("https://caiif.ca/dashboard","_self")
-                }, 3000);
-                console.log(response);
             }
         } catch (error) {
             setLoading(false)
