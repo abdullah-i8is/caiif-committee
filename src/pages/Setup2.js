@@ -332,6 +332,7 @@ function Setup2() {
                     date: paymentHistoryDetails.date,
                     isPaid: paymentHistoryDetails.paidType,
                     paymentAmount: paymentHistoryDetails.paymentAmount,
+                    note: paymentHistoryDetails?.note,
                     userId: userId,
                     cid: params.id,
                 }, {
@@ -341,16 +342,25 @@ function Setup2() {
                     console.log(response);
                     setLoading2(false)
                     setShowPaymentModal(false)
+                    setPaymentHistoryDetails({
+                        date: null,
+                        paidType: "",
+                        paymentAmount: "",
+                        cid: null,
+                        note: ""
+                    })
                     openNotification("topRight", "Payment Added Successfully")
                 }
             } catch (error) {
                 setLoading2(false)
                 console.log(error);
             }
+            return null
         }
         else {
             setShowPaymentModal(true)
             openNotification("topRight", "Fields are required")
+            return null
         }
     }
 
