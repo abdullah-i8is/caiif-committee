@@ -165,7 +165,7 @@ function Home() {
       dataIndex: 'amount',
       key: 'amount',
       render: (text, record) => {
-        return <Title style={{ fontSize: "16px", margin: 0, color: "#818181" }}>$ {record?.committee?.amount}</Title>
+        return <Title style={{ fontSize: "16px", margin: 0, color: "#818181" }}>$ {record?.committee?.payment}</Title>
       }
     },
     {
@@ -231,7 +231,7 @@ function Home() {
       dataIndex: 'payment',
       key: 'payment',
       render: (text, record) => {
-        return <Title style={{ fontSize: "16px", margin: 0, color: "#818181" }}>{record?.committee?.payment}</Title>
+        return <Title style={{ fontSize: "16px", margin: 0, color: "#818181" }}>{record?.committee?.amount}</Title>
       }
     },
     {

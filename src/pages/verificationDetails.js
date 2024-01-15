@@ -174,6 +174,11 @@ function VerificationDetails() {
                             </Form.Item>
                         </Col>
                         <Col xs={24} sm={24} md={12} lg={12} xl={12}>
+                            <Form.Item label={<Title style={{ fontSize: "16px", margin: 0, color: "#4E4E4E" }}>Interested Date</Title>}>
+                                <Input value={commitee?.interestedDate} />
+                            </Form.Item>
+                        </Col>
+                        <Col xs={24} sm={24} md={12} lg={12} xl={12}>
                             <Form.Item label={<Title style={{ fontSize: "16px", margin: 0, color: "#4E4E4E" }}>Select Committee</Title>}>
                                 <Select
                                     defaultValue="Select Committee"
