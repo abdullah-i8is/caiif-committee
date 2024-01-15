@@ -29,6 +29,7 @@ import { setCommittees } from "../store/committeeSlice/committeeSlice";
 import { useDispatch, useSelector } from "react-redux";
 import { storage } from "../config/firebase";
 import { getDownloadURL, ref, uploadBytesResumable } from "firebase/storage";
+import moment from "moment";
 
 const { Title } = Typography;
 const { Header, Footer, Content } = Layout;
@@ -93,7 +94,6 @@ export default function SignUp() {
           contactNumber: values.contactNumber,
           jobOccupation: values?.jobOccupation,
           note: values?.committeeNote,
-          interestedDate: values?.interestedDate
         }
       })
     }
@@ -437,7 +437,20 @@ export default function SignUp() {
                           },
                         ]}
                         label={<Title style={{ fontSize: "16px", margin: 0, color: "#4E4E4E" }}>Interested Date</Title>}>
-                        <DatePicker picker="month" style={{ width: "100%" }} />
+                        <DatePicker
+                          picker="month"
+                          style={{ width: "100%" }}
+                          onChange={(date, dateString) => {
+                            const month = moment(dateString).month() + 1;
+                            const year = moment(dateString).year();
+                            setFormFields((prevFields) => {
+                              return {
+                                ...prevFields,
+                                interestedDate: Number(month) + "/" + Number(year)
+                              }
+                            })
+                          }}
+                        />
                       </Form.Item>
                     </Col>
                     <Col xs={24} sm={24} md={6} lg={4} xl={4}>
