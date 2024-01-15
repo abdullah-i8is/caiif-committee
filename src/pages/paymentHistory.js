@@ -42,6 +42,14 @@ function PaymentHistory() {
 
     const column = [
         {
+            title: <Title style={{ fontSize: "18px", margin: 0, color: "#166805", fontWeight: "600" }}>Date</Title>,
+            dataIndex: 'date',
+            key: 'date',
+            render: (text, record) => {
+                return <Title style={{ fontSize: "16px", margin: 0, color: "#818181" }}>{new Date(record?.date).toLocaleDateString()}</Title>
+            }
+        },
+        {
             title: <Title style={{ fontSize: "18px", margin: 0, color: "#166805", fontWeight: "600" }}>Committee</Title>,
             dataIndex: 'name',
             key: 'name',
@@ -58,12 +66,20 @@ function PaymentHistory() {
             }
         },
         {
+            title: <Title style={{ fontSize: "18px", margin: 0, color: "#166805", fontWeight: "600" }}>Email</Title>,
+            dataIndex: 'email',
+            key: 'email',
+            render: (text, record, index) => {
+                return <Title style={{ fontSize: "18px", margin: 0 }}>{record?.userId?.email}</Title>
+            }
+        },
+        {
             title: <Title style={{ fontSize: "18px", margin: 0, color: "#166805", fontWeight: "600" }}>Payment Status</Title>,
             dataIndex: 'amount',
             key: 'amount',
             render: (text, record) => {
                 console.log(record);
-                return <Title style={{ fontSize: "16px", margin: 0, color: "#818181" }}>BILL PAID</Title>
+                return <Title style={{ fontSize: "16px", margin: 0, color: "#818181" }}>{record?.isPaid}</Title>
             }
         },
         {
@@ -73,18 +89,9 @@ function PaymentHistory() {
             render: (text, record) => {
                 return (
                     <div style={{ display: "flex", alignItems: "center" }}>
-                        <img width={30} src={memberIcon} />
-                        <Title style={{ fontSize: "16px", margin: "0 0 0 10px", color: "#818181" }}>{record?.paymentAmount}</Title>
+                        <Title style={{ fontSize: "16px", margin: 0, color: "#818181" }}>$ {record?.paymentAmount}</Title>
                     </div>
                 )
-            }
-        },
-        {
-            title: <Title style={{ fontSize: "18px", margin: 0, color: "#166805", fontWeight: "600" }}>Date</Title>,
-            dataIndex: 'date',
-            key: 'date',
-            render: (text, record) => {
-                return <Title style={{ fontSize: "16px", margin: 0, color: "#818181" }}>{record?.date}</Title>
             }
         },
         {
@@ -95,6 +102,14 @@ function PaymentHistory() {
                 return <Title style={{ fontSize: "16px", margin: 0, color: "#818181" }}>{record?.note}</Title>
             }
         },
+        {
+            title: <Title style={{ fontSize: "18px", margin: 0, color: "#166805", fontWeight: "600" }}></Title>,
+            render: (text, record) => {
+                return (
+                    <Button style={{ margin: "0 0 0 20px" }} onClick={() => navigate(`/verification-details/${record?.userId?._id}`)} className="add-cycle-btn">View</Button>
+                )
+            }
+        },
         // {
         //   title: <Title style={{ fontSize: "18px", margin: 0, color: "#166805", fontWeight: "600" }}>Available</Title>,
         //   dataIndex: 'available',
@@ -103,7 +118,7 @@ function PaymentHistory() {
         //     return (
         //       <div style={{ display: "flex", alignItems: "center" }}>
         //         <img width={30} src={memberIcon} />
-        //         <Title style={{ fontSize: "16px", margin: "0 0 0 10px", color: "#818181" }}>{record?.committeeDetails?.committee?.available}</Title>
+        //         <Title style={{ fontSize: "16px", margin: 0, color: "#818181" }}>{record?.committeeDetails?.committee?.available}</Title>
         //       </div>
         //     )
         //   }

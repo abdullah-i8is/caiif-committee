@@ -43,7 +43,7 @@ function Setup2() {
     const [committeeUsers2, setCommitteeUsers2] = useState([])
     const [committeeDetail, setCommitteeDetail] = useState(null)
     const [paymentHistoryDetails, setPaymentHistoryDetails] = useState({
-        date: "",
+        date: null,
         paidType: "",
         paymentAmount: "",
         cid: null,
@@ -169,7 +169,8 @@ function Setup2() {
                                 setPaymentHistoryDetails((prevDetails) => {
                                     return {
                                         ...prevDetails,
-                                        cid: record?._id
+                                        cid: record?._id,
+                                        paymentAmount: committeeDetail?.amount
                                     }
                                 })
                             }}>
@@ -433,7 +434,7 @@ function Setup2() {
             {contextHolder}
             {showPaymentModal && (
                 <ModalComp setShow={() => setShowPaymentModal(false)} loading={loading2} onClick={submitPaymentHistory} title="Add Payment History" open={showPaymentModal}>
-                    {/* <DatePicker
+                    <DatePicker
                         placeholder="Payment Date"
                         onChange={(e) => {
                             setPaymentHistoryDetails((prevDetails) => {
@@ -444,8 +445,8 @@ function Setup2() {
                             })
                         }}
                         style={{ width: "100%", height: "45px" }}
-                    /> */}
-                    <Select
+                    />
+                    {/* <Select
                         defaultValue="Select date"
                         style={{ width: "100%" }}
                         options={dateRanges?.map((range, index) => ({ value: `${range.start} - ${range.end}`, label: `${range.start} - ${range.end}` }))}
@@ -458,15 +459,14 @@ function Setup2() {
                                 }
                             })
                         }}
-                    />
+                    /> */}
                     <br />
                     <br />
                     <Select
                         defaultValue="Select"
                         style={{ width: "100%" }}
                         options={[
-                            { value: "TRANSFER", label: "TRANSFER" },
-                            { value: "RECIEVED", label: "RECIEVED" }
+                            { value: "BILL PAID", label: "BILL PAID" },
                         ]}
                         onChange={(e) => {
                             setPaymentHistoryDetails((prevDetails) => {

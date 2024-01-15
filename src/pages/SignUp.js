@@ -224,7 +224,7 @@ export default function SignUp() {
       const yearsDiff = endDateObj.getUTCFullYear() - startDateObj.getUTCFullYear();
       const monthsDiff = endDateObj.getUTCMonth() - startDateObj.getUTCMonth();
       const totalMonths = yearsDiff * 12 + monthsDiff;
-      setMonthDuration(totalMonths + 1)
+      setMonthDuration(totalMonths)
       setFormFields((prevFields) => {
         return {
           ...prevFields,
@@ -437,7 +437,7 @@ export default function SignUp() {
                           },
                         ]}
                         label={<Title style={{ fontSize: "16px", margin: 0, color: "#4E4E4E" }}>Interested Date</Title>}>
-                        <DatePicker style={{ width: "100%" }} />
+                        <DatePicker picker="month" style={{ width: "100%" }} />
                       </Form.Item>
                     </Col>
                     <Col xs={24} sm={24} md={6} lg={4} xl={4}>
@@ -478,10 +478,16 @@ export default function SignUp() {
                         <Input disabled={true} value={commitee?.amount} />
                       </Form.Item>
                     </Col>
-                    <Col xs={24} sm={24} md={6} lg={8} xl={8}>
+                    <Col xs={24} sm={24} md={6} lg={4} xl={4}>
                       <Form.Item
                         label={<Title style={{ fontSize: "16px", margin: 0, color: "#4E4E4E" }}>Start Date</Title>}>
                         <Input disabled={true} value={new Date(commitee?.startDate).toLocaleDateString()} />
+                      </Form.Item>
+                    </Col>
+                    <Col xs={24} sm={24} md={6} lg={4} xl={4}>
+                      <Form.Item
+                        label={<Title style={{ fontSize: "16px", margin: 0, color: "#4E4E4E" }}>Start Date</Title>}>
+                        <Input disabled={true} value={new Date(commitee?.endDate).toLocaleDateString()} />
                       </Form.Item>
                     </Col>
                     <Col xs={24} sm={24} md={24} lg={24} xl={24}>

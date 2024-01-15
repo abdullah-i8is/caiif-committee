@@ -43,6 +43,22 @@ function Home() {
 
   const column = [
     {
+      title: <Title style={{ fontSize: "18px", margin: 0, color: "#166805", fontWeight: "600" }}>Start Date</Title>,
+      dataIndex: 'startDate',
+      key: 'startDate',
+      render: (text, record) => {
+        return <Title style={{ fontSize: "16px", margin: 0, color: "#818181" }}>{new Date(record?.committeeDetails?.committee?.startDate).toLocaleDateString()}</Title>
+      }
+    },
+    {
+      title: <Title style={{ fontSize: "18px", margin: 0, color: "#166805", fontWeight: "600" }}>End Date</Title>,
+      dataIndex: 'endDate',
+      key: 'endDate',
+      render: (text, record) => {
+        return <Title style={{ fontSize: "16px", margin: 0, color: "#818181" }}>{new Date(record?.committeeDetails?.committee?.endDate).toLocaleDateString()}</Title>
+      }
+    },
+    {
       title: <Title style={{ fontSize: "18px", margin: 0, color: "#166805", fontWeight: "600" }}>Name</Title>,
       dataIndex: 'name',
       key: 'name',
@@ -59,6 +75,14 @@ function Home() {
       }
     },
     {
+      title: <Title style={{ fontSize: "18px", margin: 0, color: "#166805", fontWeight: "600" }}>Payment</Title>,
+      dataIndex: 'payment',
+      key: 'payment',
+      render: (text, record) => {
+        return <Title style={{ fontSize: "16px", margin: 0, color: "#818181" }}>$ {record?.committeeDetails?.committee?.payment}</Title>
+      }
+    },
+    {
       title: <Title style={{ fontSize: "18px", margin: 0, color: "#166805", fontWeight: "600" }}>Members</Title>,
       dataIndex: 'members',
       key: 'members',
@@ -69,22 +93,6 @@ function Home() {
             <Title style={{ fontSize: "16px", margin: "0 0 0 10px", color: "#818181" }}>{record?.committeeDetails?.committee?.members}</Title>
           </div>
         )
-      }
-    },
-    {
-      title: <Title style={{ fontSize: "18px", margin: 0, color: "#166805", fontWeight: "600" }}>Start Date</Title>,
-      dataIndex: 'startDate',
-      key: 'startDate',
-      render: (text, record) => {
-        return <Title style={{ fontSize: "16px", margin: 0, color: "#818181" }}>{new Date(record?.committeeDetails?.committee?.startDate).toLocaleDateString()}</Title>
-      }
-    },
-    {
-      title: <Title style={{ fontSize: "18px", margin: 0, color: "#166805", fontWeight: "600" }}>End Date</Title>,
-      dataIndex: 'endDate',
-      key: 'endDate',
-      render: (text, record) => {
-        return <Title style={{ fontSize: "16px", margin: 0, color: "#818181" }}>{new Date(record?.committeeDetails?.committee?.endDate).toLocaleDateString()}</Title>
       }
     },
     {
@@ -116,14 +124,6 @@ function Home() {
     //     )
     //   }
     // },
-    {
-      title: <Title style={{ fontSize: "18px", margin: 0, color: "#166805", fontWeight: "600" }}>Payment</Title>,
-      dataIndex: 'payment',
-      key: 'payment',
-      render: (text, record) => {
-        return <Title style={{ fontSize: "16px", margin: 0, color: "#818181" }}>{record?.committeeDetails?.committee?.payment}</Title>
-      }
-    },
     // {
     //   title: <Title style={{ fontSize: "18px", margin: 0, color: "#166805", fontWeight: "600" }}>Payment</Title>,
     //   dataIndex: 'payment',

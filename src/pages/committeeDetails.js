@@ -9,7 +9,8 @@ import {
     Form,
     Input,
     Select,
-    DatePicker
+    DatePicker,
+    notification
 } from "antd";
 import { useNavigate } from "react-router-dom";
 import { API_URL } from "../config/api";
@@ -37,6 +38,21 @@ function CommitteeDetails() {
         endDate: null,
         members: null,
     });
+    const [api, contextHolder] = notification.useNotification();
+    const openNotification = (placement, message) => {
+        api.success({
+            message: `Notification`,
+            description: message,
+            placement,
+        });
+        if (message === "network error") {
+            api.error({
+                message: `Notification`,
+                description: "network error",
+                placement,
+            });
+        }
+    };
     const token = useSelector((state) => state.common.token)
 
     const onFinish = (values) => {
@@ -62,12 +78,14 @@ function CommitteeDetails() {
                     console.log(response);
                     setLoading(false)
                     setErr(response.data.message)
+                    openNotification("topRight", "Committee created successfully")
                     setTimeout(() => {
                         navigate("/")
                     }, 2000);
                 }
             } catch (error) {
                 setLoading(false)
+                openNotification("topRight", "network error")
                 setErr(error.response.data.message)
                 console.log(error);
             }
@@ -103,8 +121,15 @@ function CommitteeDetails() {
         else {
             setFormFields((prevFields) => {
                 if (field.type === "startDate") {
-                    const endDate = moment(field.value).set('date', 1).add(formFields.members, 'months');
+                    const startDate = moment(field.value);
+                    const adjustedMonths = formFields.cycle.type === "Bi-weekly" ? formFields.members / 2 : formFields.members;
+                    const endDate = startDate.clone().add(adjustedMonths, 'months').date(0).endOf('month');
+                    console.log({ startDate });
+                    console.log({ adjustedMonths });
+                    console.log({ endDate });
                     form.setFieldsValue({ endDate });
+                    // const endDate = moment(field.value).set('date', 0).add(formFields.members, 'months');
+                    // form.setFieldsValue({ endDate });
                     return {
                         ...prevFields,
                         [field.type]: field.value,
@@ -130,6 +155,7 @@ function CommitteeDetails() {
 
     return (
         <>
+            {contextHolder}
             <Form
                 form={form}
                 layout="vertical"
