@@ -84,7 +84,7 @@ function PaymentHistory() {
             dataIndex: 'date',
             key: 'date',
             render: (text, record) => {
-                return <Title style={{ fontSize: "16px", margin: 0, color: "#818181" }}>{new Date(record?.date).toLocaleDateString()}</Title>
+                return <Title style={{ fontSize: "16px", margin: 0, color: "#818181" }}>{record?.date}</Title>
             }
         },
         {

@@ -43,7 +43,7 @@ function Setup2() {
     const [committeeUsers2, setCommitteeUsers2] = useState([])
     const [committeeDetail, setCommitteeDetail] = useState(null)
     const [paymentHistoryDetails, setPaymentHistoryDetails] = useState({
-        date: null,
+        date: "",
         paidType: "",
         paymentAmount: "",
         cid: null,
@@ -367,12 +367,73 @@ function Setup2() {
     // console.log(paymentHistoryDetails);
     // console.log(committeeDetail);
 
+    const [dateRanges, setDateRanges] = useState([]);
+
+    useEffect(() => {
+        if (committeeDetail?.cycle?.type === "Monthly") {
+            const calculateDateRanges = () => {
+                const start = new Date(committeeDetail?.startDate);
+                const end = new Date(committeeDetail?.endDate);
+                const calculatedDateRanges = [];
+                while (start <= end) {
+                    const rangeStart = new Date(start);
+                    const daysInMonth = new Date(start.getFullYear(), start.getMonth() + 1, 0).getDate();
+                    const rangeEnd = new Date(start);
+                    rangeEnd.setDate(daysInMonth);
+                    calculatedDateRanges.push({
+                        start: rangeStart.toLocaleDateString(),
+                        end: rangeEnd.toLocaleDateString(),
+                    });
+                    start.setDate(1); // Move to the beginning of the next month
+                    start.setMonth(start.getMonth() + 1);
+                }
+                setDateRanges(calculatedDateRanges);
+            };
+            calculateDateRanges();
+        }
+        else {
+
+            const calculateDateRanges = () => {
+                const start = new Date(committeeDetail?.startDate);
+                const end = new Date(committeeDetail?.endDate);
+                const calculatedDateRanges = [];
+
+                while (start <= end) {
+                    const rangeStart1 = new Date(start);
+                    const rangeEnd1 = new Date(start);
+                    rangeEnd1.setDate(15); // Set the day to the 15th
+
+                    calculatedDateRanges.push({
+                        start: rangeStart1.toLocaleDateString(),
+                        end: rangeEnd1.toLocaleDateString(),
+                    });
+
+                    const rangeStart2 = new Date(start);
+                    const daysInMonth = new Date(start.getFullYear(), start.getMonth() + 1, 0).getDate();
+                    const rangeEnd2 = new Date(start);
+                    rangeEnd2.setDate(daysInMonth);
+
+                    calculatedDateRanges.push({
+                        start: rangeEnd1.toLocaleDateString(),
+                        end: rangeEnd2.toLocaleDateString(),
+                    });
+
+                    start.setDate(1); // Move to the beginning of the next month
+                    start.setMonth(start.getMonth() + 1);
+                }
+
+                setDateRanges(calculatedDateRanges);
+            };
+            calculateDateRanges();
+        }
+    }, [committeeDetail?.startDate, committeeDetail?.endDate]);
+
     return (
         <>
             {contextHolder}
             {showPaymentModal && (
                 <ModalComp setShow={() => setShowPaymentModal(false)} loading={loading2} onClick={submitPaymentHistory} title="Add Payment History" open={showPaymentModal}>
-                    <DatePicker
+                    {/* <DatePicker
                         placeholder="Payment Date"
                         onChange={(e) => {
                             setPaymentHistoryDetails((prevDetails) => {
@@ -383,6 +444,20 @@ function Setup2() {
                             })
                         }}
                         style={{ width: "100%", height: "45px" }}
+                    /> */}
+                    <Select
+                        defaultValue="Select date"
+                        style={{ width: "100%" }}
+                        options={dateRanges?.map((range, index) => ({ value: `${range.start} - ${range.end}`, label: `${range.start} - ${range.end}` }))}
+                        onChange={(e) => {
+                            console.log(e);
+                            setPaymentHistoryDetails((prevDetails) => {
+                                return {
+                                    ...prevDetails,
+                                    date: e
+                                }
+                            })
+                        }}
                     />
                     <br />
                     <br />

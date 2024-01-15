@@ -87,7 +87,7 @@ function VerificationDetails() {
             })
             if (response.status === 200) {
                 setLoading(false)
-                notification("topRight", "Profile update successfully")
+                openNotification("topRight", "Profile update successfully")
                 getUser()
                 console.log(response);
             }
