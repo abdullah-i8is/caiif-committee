@@ -224,7 +224,7 @@ export default function SignUp() {
       const yearsDiff = endDateObj.getUTCFullYear() - startDateObj.getUTCFullYear();
       const monthsDiff = endDateObj.getUTCMonth() - startDateObj.getUTCMonth();
       const totalMonths = yearsDiff * 12 + monthsDiff;
-      setMonthDuration(totalMonths)
+      setMonthDuration(totalMonths + 1)
       setFormFields((prevFields) => {
         return {
           ...prevFields,
