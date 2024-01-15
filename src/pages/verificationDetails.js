@@ -9,23 +9,28 @@ import {
     Form,
     Input,
     notification,
+    Select,
 } from "antd";
 import { useNavigate, useParams } from "react-router-dom";
 import denyIcon from '../assets/images/deny.svg'
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import axios from "axios";
 import { API_URL } from "../config/api";
+import { GetAdminCommittees } from "../middlewares/commitee";
+import { setCommittees } from "../store/committeeSlice/committeeSlice";
 
 function VerificationDetails() {
 
     const { Title, Text } = Typography;
     const [form] = Form.useForm();
+    const dispatch = useDispatch();
     const [loading, setLoading] = useState(false)
     const [additionalDetail, setAdditionalDetail] = useState(false)
     const navigate = useNavigate()
     const token = useSelector((state) => state.common.token)
     const [user, setUser] = useState()
     const [commitee, setCommittee] = useState()
+    const state = useSelector((state) => state)
     const [note, setNote] = useState("");
     const [api, contextHolder] = notification.useNotification();
     const openNotification = (placement, message) => {
@@ -69,6 +74,15 @@ function VerificationDetails() {
 
     useEffect(() => {
         getUser()
+        GetAdminCommittees(token)
+            .then((res) => {
+                console.log(res);
+                const committee = res.data.allCommittees
+                dispatch(setCommittees([...committee.level1, ...committee.level2, ...committee.level3]))
+            })
+            .catch((err) => {
+                console.log(err);
+            })
     }, [id])
 
     async function handleSubmit() {
@@ -80,6 +94,7 @@ function VerificationDetails() {
                 email: user?.email,
                 contactNumber: user?.contactNumber,
                 jobOccupation: user?.jobOccupation,
+                cId: user?.cId
             }, {
                 headers: {
                     Authorization: "Bearer " + token
@@ -109,6 +124,8 @@ function VerificationDetails() {
     console.log(user);
     // console.log(commitee);
     // console.log(id);
+
+    console.log(state?.committees?.committees);
 
     return (
         <>
@@ -154,6 +171,16 @@ function VerificationDetails() {
                         <Col xs={24} sm={24} md={12} lg={12} xl={12}>
                             <Form.Item label={<Title style={{ fontSize: "16px", margin: 0, color: "#4E4E4E" }}>Committee</Title>}>
                                 <Input value={commitee?.name} />
+                            </Form.Item>
+                        </Col>
+                        <Col xs={24} sm={24} md={12} lg={12} xl={12}>
+                            <Form.Item label={<Title style={{ fontSize: "16px", margin: 0, color: "#4E4E4E" }}>Select Committee</Title>}>
+                                <Select
+                                    defaultValue="Select Committee"
+                                    style={{ width: "100%" }}
+                                    options={state?.committees?.committees?.map((opt) => ({ value: opt?.committeeDetails?.committee?._id, label: opt?.committeeDetails?.committee?.name }))}
+                                    onChange={(e) => handleChange(e, "cId")}
+                                />
                             </Form.Item>
                         </Col>
                         {user?.adminNotes?.length > 0 && <Col xs={24} sm={24} md={24} lg={24} xl={24} style={{ marginBottom: additionalDetail ? 30 : 0 }}>

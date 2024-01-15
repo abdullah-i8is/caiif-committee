@@ -389,7 +389,7 @@ export default function SignUp() {
                           },
                         ]}
                         label={<Title style={{ fontSize: "16px", margin: 0, color: "#4E4E4E" }}>Name</Title>}>
-                        <Input value={formFields.name} />
+                        <Input placeholder="Name" value={formFields.name} />
                       </Form.Item>
                     </Col>
                     <Col xs={24} sm={24} md={6} lg={4} xl={4}>
@@ -401,7 +401,7 @@ export default function SignUp() {
                           },
                         ]}
                         label={<Title style={{ fontSize: "16px", margin: 0, color: "#4E4E4E" }}>Email</Title>}>
-                        <Input />
+                        <Input placeholder="Email" />
                       </Form.Item>
                     </Col>
                     <Col xs={24} sm={24} md={6} lg={4} xl={4}>
@@ -413,7 +413,7 @@ export default function SignUp() {
                           },
                         ]}
                         label={<Title style={{ fontSize: "16px", margin: 0, color: "#4E4E4E" }}>Phone Number</Title>}>
-                        <Input />
+                        <Input placeholder="Phone Number" />
                       </Form.Item>
                     </Col>
                     <Col xs={24} sm={24} md={6} lg={4} xl={4}>
@@ -425,7 +425,7 @@ export default function SignUp() {
                           },
                         ]}
                         label={<Title style={{ fontSize: "16px", margin: 0, color: "#4E4E4E" }}>Job Occupation</Title>}>
-                        <Input />
+                        <Input placeholder="Job Occupation" />
                       </Form.Item>
                     </Col>
                     <Col xs={24} sm={24} md={6} lg={8} xl={8}>
@@ -506,7 +506,7 @@ export default function SignUp() {
                     <Col xs={24} sm={24} md={24} lg={24} xl={24}>
                       <Form.Item name="committeeNote"
                         label={<Title style={{ fontSize: "16px", margin: 0, color: "#4E4E4E" }}>Note</Title>}>
-                        <Input.TextArea style={{ height: "100px" }} />
+                        <Input.TextArea placeholder="Note" style={{ height: "100px" }} />
                       </Form.Item>
                     </Col>
                     <Col xs={24} sm={24} md={2} lg={2} xl={2} style={{ marginBottom: 10 }}>

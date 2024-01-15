@@ -30,7 +30,7 @@ import axios from "axios";
 import { API_URL } from "../config/api";
 import { SpinnerCircular } from "spinners-react";
 import { setCommittees } from "../store/committeeSlice/committeeSlice";
-import { GetAdminCommittees, GetUserCommittees } from "../middlewares/commitee";
+import { GetAdminCommittees, GetUserCommittees, GetUserallCommittees } from "../middlewares/commitee";
 
 
 function Home() {
@@ -42,6 +42,14 @@ function Home() {
   const [loading, setLoading] = useState(false)
 
   const column = [
+    {
+      title: <Title style={{ fontSize: "18px", margin: 0, color: "#166805", fontWeight: "600" }}>Committee ID</Title>,
+      dataIndex: 'uniqueId',
+      key: 'uniqueId',
+      render: (text, record, index) => {
+        return <Title style={{ fontSize: "18px", margin: 0 }}>{record?.committeeDetails?.committee?.uniqueId}</Title>
+      }
+    },
     {
       title: <Title style={{ fontSize: "18px", margin: 0, color: "#166805", fontWeight: "600" }}>Name</Title>,
       dataIndex: 'name',
@@ -261,13 +269,13 @@ function Home() {
     }
     if (user?.userType === "user") {
       setLoading(true)
-      GetUserCommittees(token)
+      GetUserallCommittees(token)
         .then((res) => {
           if (res.status === 200) {
             console.log(res);
             setLoading(false)
-            const committee = res.data.allCommittees
-            dispatch(setCommittees([...committee.level1, ...committee.level2, ...committee.level3]))
+            const committee = res.data.data.committees
+            dispatch(setCommittees(committee))
           }
         })
         .catch((err) => {

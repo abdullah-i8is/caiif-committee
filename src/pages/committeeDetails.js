@@ -37,6 +37,7 @@ function CommitteeDetails() {
         startDate: null,
         endDate: null,
         members: null,
+        uniqueId: ""
     });
     const [api, contextHolder] = notification.useNotification();
     const openNotification = (placement, message) => {
@@ -121,19 +122,50 @@ function CommitteeDetails() {
         else {
             setFormFields((prevFields) => {
                 if (field.type === "startDate") {
-                    const startDate = moment(field.value);
-                    const adjustedMonths = formFields.cycle.type === "Bi-weekly" ? formFields.members / 2 : formFields.members;
-                    const endDate = startDate.clone().add(adjustedMonths, 'months').date(0).endOf('month');
-                    console.log({ startDate });
-                    console.log({ adjustedMonths });
-                    console.log({ endDate });
-                    form.setFieldsValue({ endDate });
-                    // const endDate = moment(field.value).set('date', 0).add(formFields.members, 'months');
+                    // const startDate = moment(field.value);
+                    // const adjustedMonths = formFields.cycle.type === "Bi-weekly" ? formFields.members / 2 : formFields.members;
+                    // const endDate = startDate.clone().add(adjustedMonths, 'months').date(0).endOf('month');
+                    // console.log({ startDate });
+                    // console.log({ adjustedMonths });
+                    // console.log({ endDate });
                     // form.setFieldsValue({ endDate });
-                    return {
-                        ...prevFields,
-                        [field.type]: field.value,
-                        endDate: endDate,
+                    if (formFields.cycle.type === "Monthly") {
+                        const member = formFields?.members;
+                        const start_date_str = field?.value;
+                        const start_date = new Date(start_date_str);
+                        const end_date = new Date(start_date);
+                        end_date.setMonth(end_date.getMonth() + member);
+                        end_date.setDate(0);
+                        const month = String(end_date.getMonth() + 1).padStart(2, '0');
+                        const day = String(end_date.getDate()).padStart(2, '0');
+                        const year = end_date.getFullYear();
+                        const end_date_str = `${month}-${day}-${year}`;
+                        console.log("Start Date:", new Date(start_date_str));
+                        console.log("End Date:", new Date(end_date_str));
+                        return {
+                            ...prevFields,
+                            [field.type]: new Date(field?.value),
+                            endDate: end_date_str,
+                        };
+                    }
+                    if (formFields.cycle.type === "Bi-weekly") {
+                        const member = formFields?.members / 2;
+                        const start_date_str = field?.value;
+                        const start_date = new Date(start_date_str);
+                        const end_date = new Date(start_date);
+                        end_date.setMonth(end_date.getMonth() + member);
+                        end_date.setDate(0);
+                        const month = String(end_date.getMonth() + 1).padStart(2, '0');
+                        const day = String(end_date.getDate()).padStart(2, '0');
+                        const year = end_date.getFullYear();
+                        const end_date_str = `${month}-${day}-${year}`;
+                        console.log("Start Date:", new Date(start_date_str));
+                        console.log("End Date:", new Date(end_date_str));
+                        return {
+                            ...prevFields,
+                            [field.type]: new Date(field?.value),
+                            endDate: end_date_str,
+                        };
                     }
                 }
                 if (field.type === "payment" || field.type === "members") {
@@ -152,6 +184,8 @@ function CommitteeDetails() {
         }
         console.log(field);
     }
+
+    console.log(formFields);
 
     return (
         <>
@@ -187,14 +221,30 @@ function CommitteeDetails() {
                                 rules={[
                                     {
                                         required: true,
-                                        message: 'Please input your Name!',
+                                        message: 'Please input committee ID!',
+                                    },
+                                ]}
+                                name="uniqueId"
+                                label={<Title style={{ fontSize: "16px", margin: 0, color: "#4E4E4E" }}>ID</Title>}>
+                                <Input
+                                    onChange={(e) => handleChange({ value: e, type: "uniqueId" })}
+                                    placeholder="Committee ID"
+                                />
+                            </Form.Item>
+                        </Col>
+                        <Col xs={24} sm={24} md={12} lg={12} xl={12}>
+                            <Form.Item
+                                rules={[
+                                    {
+                                        required: true,
+                                        message: 'Please input committee Name!',
                                     },
                                 ]}
                                 name="name"
                                 label={<Title style={{ fontSize: "16px", margin: 0, color: "#4E4E4E" }}>Committee Name</Title>}>
                                 <Input
                                     onChange={(e) => handleChange({ value: e, type: "name" })}
-                                    placeholder="New Title"
+                                    placeholder="Committee Name"
                                 />
                             </Form.Item>
                         </Col>
@@ -295,9 +345,8 @@ function CommitteeDetails() {
                                         message: 'Please input your End Date!',
                                     },
                                 ]}
-                                name="endDate"
                             >
-                                <DatePicker style={{ width: "100%", height: "45px" }} />
+                                <Input value={formFields.endDate} />
                             </Form.Item>
                         </Col>
                         <Col xs={24} sm={24} md={12} lg={12} xl={12} style={{ marginTop: "24px" }}>

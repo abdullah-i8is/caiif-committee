@@ -24,3 +24,16 @@ export const GetUserCommittees = async (token) => {
         console.log(error);
     }
 }
+
+export const GetUserallCommittees = async (token) => {
+    try {
+        const response = await axios.get(`${API_URL}/user/userCommittee`, {
+            headers: {
+                Authorization: "Bearer " + token
+            }
+        })
+        return response
+    } catch (error) {
+        console.log(error);
+    }
+}
