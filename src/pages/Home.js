@@ -59,7 +59,7 @@ function Home() {
       }
     },
     {
-      title: <Title style={{ fontSize: "18px", margin: 0, color: "#166805", fontWeight: "600" }}>Amount</Title>,
+      title: <Title style={{ fontSize: "18px", margin: 0, color: "#166805", fontWeight: "600" }}>Payment</Title>,
       dataIndex: 'amount',
       key: 'amount',
       render: (text, record) => {
@@ -67,7 +67,7 @@ function Home() {
       }
     },
     {
-      title: <Title style={{ fontSize: "18px", margin: 0, color: "#166805", fontWeight: "600" }}>Payment</Title>,
+      title: <Title style={{ fontSize: "18px", margin: 0, color: "#166805", fontWeight: "600" }}>Amount</Title>,
       dataIndex: 'payment',
       key: 'payment',
       render: (text, record) => {

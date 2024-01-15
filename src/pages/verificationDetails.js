@@ -125,7 +125,6 @@ function VerificationDetails() {
     // console.log(commitee);
     // console.log(id);
 
-    console.log(state?.committees?.committees);
 
     return (
         <>
@@ -148,19 +147,24 @@ function VerificationDetails() {
                                 <img src={user?.nic} style={{ borderRadius: "10px", width: "100%", height: "300px", objectFit: "contain" }} />
                             </Card>
                         </Col>
-                        <Col xs={16} sm={24} md={8} lg={8} xl={8}>
+                        <Col xs={16} sm={24} md={6} lg={6} xl={6}>
                             <Form.Item label={<Title style={{ fontSize: "16px", margin: 0, color: "#4E4E4E" }}>Name</Title>}>
                                 <Input onChange={(e) => handleChange(e.target.value, "name")} value={user?.name} />
                             </Form.Item>
                         </Col>
-                        <Col xs={24} sm={24} md={8} lg={8} xl={8}>
+                        <Col xs={24} sm={24} md={6} lg={6} xl={6}>
                             <Form.Item label={<Title style={{ fontSize: "16px", margin: 0, color: "#4E4E4E" }}>Email Address</Title>}>
                                 <Input onChange={(e) => handleChange(e.target.value, "email")} value={user?.email} />
                             </Form.Item>
                         </Col>
-                        <Col xs={24} sm={24} md={8} lg={8} xl={8}>
+                        <Col xs={24} sm={24} md={6} lg={6} xl={6}>
                             <Form.Item label={<Title style={{ fontSize: "16px", margin: 0, color: "#4E4E4E" }}>Phone Number</Title>}>
                                 <Input onChange={(e) => handleChange(e.target.value, "contactNumber")} value={user?.contactNumber} />
+                            </Form.Item>
+                        </Col>
+                        <Col xs={24} sm={24} md={6} lg={6} xl={6}>
+                            <Form.Item label={<Title style={{ fontSize: "16px", margin: 0, color: "#4E4E4E" }}>Interested Date</Title>}>
+                                <Input value={user?.interestedDate} />
                             </Form.Item>
                         </Col>
                         <Col xs={24} sm={24} md={12} lg={12} xl={12}>
@@ -171,11 +175,6 @@ function VerificationDetails() {
                         <Col xs={24} sm={24} md={12} lg={12} xl={12}>
                             <Form.Item label={<Title style={{ fontSize: "16px", margin: 0, color: "#4E4E4E" }}>Committee</Title>}>
                                 <Input value={commitee?.name} />
-                            </Form.Item>
-                        </Col>
-                        <Col xs={24} sm={24} md={12} lg={12} xl={12}>
-                            <Form.Item label={<Title style={{ fontSize: "16px", margin: 0, color: "#4E4E4E" }}>Interested Date</Title>}>
-                                <Input value={commitee?.interestedDate} />
                             </Form.Item>
                         </Col>
                         <Col xs={24} sm={24} md={12} lg={12} xl={12}>
