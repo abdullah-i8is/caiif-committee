@@ -103,6 +103,7 @@ export default function NewPassword() {
             }
         } catch (error) {
             setLoading2(false)
+            setMessage(error?.response?.data?.message)
             console.log(error);
         }
     }
