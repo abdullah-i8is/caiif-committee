@@ -169,6 +169,7 @@ function PaymentHistory() {
                     dataSource={data}
                     columns={column}
                     loading={loading}
+                    pagination={false}
                 />
             </Card>
         </>

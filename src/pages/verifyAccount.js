@@ -45,6 +45,7 @@ export default function VerifyAccount() {
       console.log(response);
     } catch (error) {
       setLoading(false)
+      setMessage(error?.response?.data?.message === "Invalid invite link" ? "Link Expired" : "network error")
       console.log(error);
     }
   }

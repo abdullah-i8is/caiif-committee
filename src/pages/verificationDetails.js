@@ -74,6 +74,19 @@ function VerificationDetails() {
 
     useEffect(() => {
         getUser()
+        GetAdminCommittees(token)
+            .then((res) => {
+                const committee = res.data.allCommittees
+                dispatch(setCommittees([...committee.level1, ...committee.level2, ...committee.level3]))
+                if (res.status === 200) {
+                    console.log(res);
+                    setLoading(false)
+                }
+            })
+            .catch((err) => {
+                console.log(err);
+                setLoading(false)
+            })
     }, [id])
 
     async function handleSubmit() {
@@ -99,6 +112,11 @@ function VerificationDetails() {
             }
         } catch (error) {
             setLoading(false)
+            api.error({
+                message: `Notification`,
+                description: error?.response?.data?.message,
+                placement:"topRight",
+            });
             console.log(error);
         }
     }
@@ -110,12 +128,22 @@ function VerificationDetails() {
                 [name]: value
             }
         })
+        if (name === "cId") {
+            console.log(value);
+            const findCom = state?.committees?.committees?.find((f) => f?.committeeDetails?.committee._id === value)
+            console.log(findCom?.committeeDetails?.committee);
+            setCommittee(findCom?.committeeDetails?.committee)
+            setUser((prevDetail) => {
+                return {
+                    ...prevDetail,
+                    [name]: findCom?.committeeDetails?.committee?._id
+                }
+            })
+        }
     }
 
     console.log(user);
-    // console.log(commitee);
-    // console.log(id);
-
+    console.log(commitee);
 
     return (
         <>
@@ -138,45 +166,69 @@ function VerificationDetails() {
                                 <img src={user?.nic} style={{ borderRadius: "10px", width: "100%", height: "300px", objectFit: "contain" }} />
                             </Card>
                         </Col>
-                        <Col xs={16} sm={24} md={6} lg={6} xl={6}>
+                        <Col xs={16} sm={24} md={6} lg={12} xl={12}>
                             <Form.Item label={<Title style={{ fontSize: "16px", margin: 0, color: "#4E4E4E" }}>Name</Title>}>
                                 <Input onChange={(e) => handleChange(e.target.value, "name")} value={user?.name} />
                             </Form.Item>
                         </Col>
-                        <Col xs={24} sm={24} md={6} lg={6} xl={6}>
+                        <Col xs={24} sm={24} md={6} lg={12} xl={12}>
                             <Form.Item label={<Title style={{ fontSize: "16px", margin: 0, color: "#4E4E4E" }}>Email Address</Title>}>
                                 <Input onChange={(e) => handleChange(e.target.value, "email")} value={user?.email} />
                             </Form.Item>
                         </Col>
-                        <Col xs={24} sm={24} md={6} lg={6} xl={6}>
+                        <Col xs={24} sm={24} md={6} lg={8} xl={8}>
                             <Form.Item label={<Title style={{ fontSize: "16px", margin: 0, color: "#4E4E4E" }}>Phone Number</Title>}>
                                 <Input onChange={(e) => handleChange(e.target.value, "contactNumber")} value={user?.contactNumber} />
                             </Form.Item>
                         </Col>
-                        <Col xs={24} sm={24} md={6} lg={6} xl={6}>
+                        <Col xs={24} sm={24} md={6} lg={8} xl={8}>
                             <Form.Item label={<Title style={{ fontSize: "16px", margin: 0, color: "#4E4E4E" }}>Interested Date</Title>}>
                                 <Input value={user?.interestedDate} />
                             </Form.Item>
                         </Col>
-                        <Col xs={24} sm={24} md={12} lg={12} xl={12}>
+                        <Col xs={24} sm={24} md={6} lg={8} xl={8}>
                             <Form.Item label={<Title style={{ fontSize: "16px", margin: 0, color: "#4E4E4E" }}>Job Occupation</Title>}>
                                 <Input onChange={(e) => handleChange(e.target.value, "jobOccupation")} value={user?.jobOccupation} />
                             </Form.Item>
                         </Col>
-                        <Col xs={24} sm={24} md={12} lg={12} xl={12}>
-                            <Form.Item label={<Title style={{ fontSize: "16px", margin: 0, color: "#4E4E4E" }}>Committee</Title>}>
-                                <Input disabled={user?.approve === true ? true : false} value={commitee?.name} />
-                            </Form.Item>
-                        </Col>
-                        <Col xs={24} sm={24} md={12} lg={12} xl={12}>
+                        {user?.approve === false && <Col xs={24} sm={24} md={12} lg={24} xl={24}>
                             <Form.Item label={<Title style={{ fontSize: "16px", margin: 0, color: "#4E4E4E" }}>Select Committee</Title>}>
                                 <Select
-                                    disabled={user?.approve === true ? true : false}
                                     defaultValue="Select Committee"
                                     style={{ width: "100%" }}
                                     options={state?.committees?.committees?.map((opt) => ({ value: opt?.committeeDetails?.committee?._id, label: opt?.committeeDetails?.committee?.name }))}
                                     onChange={(e) => handleChange(e, "cId")}
                                 />
+                            </Form.Item>
+                        </Col>}
+                        <Col xs={24} sm={24} md={12} lg={4} xl={4}>
+                            <Form.Item label={<Title style={{ fontSize: "16px", margin: 0, color: "#4E4E4E" }}>Committee</Title>}>
+                                <Input disabled={user?.approve === true ? true : false} value={commitee?.name} />
+                            </Form.Item>
+                        </Col>
+                        <Col xs={24} sm={24} md={12} lg={4} xl={4}>
+                            <Form.Item label={<Title style={{ fontSize: "16px", margin: 0, color: "#4E4E4E" }}>Payment</Title>}>
+                                <Input disabled={user?.approve === true ? true : false} value={`$ ${commitee?.amount}`} />
+                            </Form.Item>
+                        </Col>
+                        <Col xs={24} sm={24} md={12} lg={4} xl={4}>
+                            <Form.Item label={<Title style={{ fontSize: "16px", margin: 0, color: "#4E4E4E" }}>Amount</Title>}>
+                                <Input disabled={user?.approve === true ? true : false} value={`$ ${commitee?.payment}`} />
+                            </Form.Item>
+                        </Col>
+                        <Col xs={24} sm={24} md={12} lg={4} xl={4}>
+                            <Form.Item label={<Title style={{ fontSize: "16px", margin: 0, color: "#4E4E4E" }}>Members</Title>}>
+                                <Input disabled={user?.approve === true ? true : false} value={commitee?.members} />
+                            </Form.Item>
+                        </Col>
+                        <Col xs={24} sm={24} md={12} lg={4} xl={4}>
+                            <Form.Item label={<Title style={{ fontSize: "16px", margin: 0, color: "#4E4E4E" }}>Start Date</Title>}>
+                                <Input disabled={user?.approve === true ? true : false} value={new Date(commitee?.startDate).toLocaleDateString()} />
+                            </Form.Item>
+                        </Col>
+                        <Col xs={24} sm={24} md={12} lg={4} xl={4}>
+                            <Form.Item label={<Title style={{ fontSize: "16px", margin: 0, color: "#4E4E4E" }}>End Date</Title>}>
+                                <Input disabled={user?.approve === true ? true : false} value={new Date(commitee?.endDate).toLocaleDateString()} />
                             </Form.Item>
                         </Col>
                         {user?.adminNotes?.length > 0 && <Col xs={24} sm={24} md={24} lg={24} xl={24} style={{ marginBottom: additionalDetail ? 30 : 0 }}>
@@ -184,12 +236,28 @@ function VerificationDetails() {
                                 {user?.adminNotes?.map((f) => <Input value={f} style={{ margin: "10px 0" }} />)}
                             </Form.Item>
                         </Col>}
-                        <Col xs={24} sm={24} md={24} lg={24} xl={24} style={{ marginBottom: additionalDetail ? 30 : 0 }}>
+                        {/* <Col xs={24} sm={24} md={24} lg={24} xl={24} style={{ marginBottom: additionalDetail ? 30 : 0 }}>
                             <Button onClick={() => setAdditionalDetail(true)} className="add-cycle-btn">Add Additional Detail</Button>
+                        </Col> */}
+                        <Col xs={24} sm={24} md={12} lg={12} xl={12}>
+                            <Form.Item
+                                name="note"
+                                rules={[
+                                    {
+                                        required: true,
+                                        message: 'Please input your Note!',
+                                    },
+                                ]}
+                                label={<Title style={{ fontSize: "16px", margin: 0, color: "#4E4E4E" }}>Note</Title>}>
+                                <Input.TextArea value={note} onChange={(e) => setNote(e.target.value)} />
+                            </Form.Item>
                         </Col>
-                        {additionalDetail && (
-                            <>
-                                {/* <Col xs={24} sm={24} md={12} lg={12} xl={12}>
+                        <Col xs={24} sm={24} md={24} lg={24} xl={24}>
+                            <Button loading={loading} onClick={handleSubmit} className="add-cycle-btn">Submit</Button>
+                        </Col>
+                        {/* {additionalDetail && ( */}
+                        {/* <> */}
+                        {/* <Col xs={24} sm={24} md={12} lg={12} xl={12}>
                                     <Form.Item name="bankBranchName" rules={[
                                         {
                                             required: true,
@@ -199,7 +267,7 @@ function VerificationDetails() {
                                         <Input onChange={(e) => handleChange(e.target.value, "bankBranchName")} />
                                     </Form.Item>
                                 </Col> */}
-                                {/* <Col xs={24} sm={24} md={12} lg={12} xl={12}>
+                        {/* <Col xs={24} sm={24} md={12} lg={12} xl={12}>
                                     <Form.Item
                                         name="accountNumber"
                                         rules={[
@@ -211,7 +279,7 @@ function VerificationDetails() {
                                         <Input onChange={(e) => handleChange(e.target.value, "bankBranchName")} />
                                     </Form.Item>
                                 </Col> */}
-                                {/* <Col xs={24} sm={24} md={12} lg={12} xl={12}>
+                        {/* <Col xs={24} sm={24} md={12} lg={12} xl={12}>
                                     <Form.Item
                                         name="workAddress"
                                         rules={[
@@ -224,7 +292,7 @@ function VerificationDetails() {
                                         <Input />
                                     </Form.Item>
                                 </Col> */}
-                                {/* <Col xs={24} sm={24} md={12} lg={12} xl={12}>
+                        {/* <Col xs={24} sm={24} md={12} lg={12} xl={12}>
                                     <Form.Item
                                         name="residentialAddress"
                                         rules={[
@@ -237,7 +305,7 @@ function VerificationDetails() {
                                         <Input />
                                     </Form.Item>
                                 </Col> */}
-                                {/* <Col xs={24} sm={24} md={12} lg={12} xl={12}>
+                        {/* <Col xs={24} sm={24} md={12} lg={12} xl={12}>
                                     <Form.Item
                                         name="monthlyIncome"
                                         rules={[
@@ -250,7 +318,7 @@ function VerificationDetails() {
                                         <Input />
                                     </Form.Item>
                                 </Col> */}
-                                {/* <Col xs={24} sm={24} md={12} lg={12} xl={12}>
+                        {/* <Col xs={24} sm={24} md={12} lg={12} xl={12}>
                                     <Form.Item
                                         name="emergencyContactRelation"
                                         rules={[
@@ -263,7 +331,7 @@ function VerificationDetails() {
                                         <Input />
                                     </Form.Item>
                                 </Col> */}
-                                {/* <Col xs={24} sm={24} md={12} lg={12} xl={12}>
+                        {/* <Col xs={24} sm={24} md={12} lg={12} xl={12}>
                                     <Form.Item
                                         name="emergencyContact"
                                         rules={[
@@ -276,24 +344,9 @@ function VerificationDetails() {
                                         <Input />
                                     </Form.Item>
                                 </Col> */}
-                                <Col xs={24} sm={24} md={12} lg={12} xl={12}>
-                                    <Form.Item
-                                        name="note"
-                                        rules={[
-                                            {
-                                                required: true,
-                                                message: 'Please input your Note!',
-                                            },
-                                        ]}
-                                        label={<Title style={{ fontSize: "16px", margin: 0, color: "#4E4E4E" }}>Note</Title>}>
-                                        <Input.TextArea value={note} onChange={(e) => setNote(e.target.value)} />
-                                    </Form.Item>
-                                </Col>
-                                <Col xs={24} sm={24} md={24} lg={24} xl={24}>
-                                    <Button loading={loading} onClick={handleSubmit} className="add-cycle-btn">Submit</Button>
-                                </Col>
-                            </>
-                        )}
+
+                        {/* </>
+                        )} */}
                     </Row>
                 </Card>
             </Form>

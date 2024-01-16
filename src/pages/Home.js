@@ -308,6 +308,7 @@ function Home() {
           dataSource={committees}
           columns={user?.userType === "admin" ? column : column2}
           loading={loading}
+          pagination={false}
         />
       </Card>
     </>

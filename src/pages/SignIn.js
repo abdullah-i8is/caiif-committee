@@ -69,7 +69,7 @@ export default function SignIn() {
         }
       } catch (error) {
         setLoading(false)
-        setErr(error.response.data.message)
+        setErr(error?.response?.data?.message)
         console.log(error);
       }
     }

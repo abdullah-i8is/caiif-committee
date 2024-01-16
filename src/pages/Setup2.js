@@ -554,7 +554,7 @@ function Setup2() {
                         </div>
                     </div>
                     <Card className="my-card" style={{ marginBottom: "20px" }}>
-                        <Table loading={loading} dataSource={committeeUsers} columns={column} />
+                        <Table pagination={false} loading={loading} dataSource={committeeUsers} columns={column} />
                     </Card>
                     {/* <Form
             form={form}
@@ -653,7 +653,7 @@ function Setup2() {
                         </div>
                     </div>
                     <Card className="my-card" style={{ marginBottom: "20px" }}>
-                        <Table loading={loading} dataSource={committeeUsers} columns={column3} />
+                        <Table pagination={false} loading={loading} dataSource={committeeUsers} columns={column3} />
                     </Card>
                 </>
             )}

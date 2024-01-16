@@ -387,13 +387,13 @@ function Members() {
                 <Title style={{ color: "#166805", margin: 0 }} level={3}>Approval members Request</Title>
             </div>
             <Card className="my-card" style={{ marginBottom: "20px" }}>
-                <Table loading={loading3} dataSource={approveMembers?.filter((user) => user.approve === false)} columns={column} />
+                <Table pagination={false} loading={loading3} dataSource={approveMembers?.filter((user) => user.approve === false)} columns={column} />
             </Card>
             <div style={{ marginBottom: "20px", marginTop: "40px" }}>
                 <Title style={{ color: "#166805", margin: 0 }} level={3}>Approved members</Title>
             </div>
             <Card className="my-card" style={{ marginBottom: "20px" }}>
-                <Table loading={loading3} dataSource={approveMembers?.filter((user) => user.approve === true)} columns={column2} />
+                <Table pagination={false} loading={loading3} dataSource={approveMembers?.filter((user) => user.approve === true)} columns={column2} />
             </Card>
         </>
     );

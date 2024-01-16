@@ -349,7 +349,7 @@ function CommitteeDetails() {
                                 <Input value={formFields.endDate} />
                             </Form.Item>
                         </Col>
-                        <Col xs={24} sm={24} md={12} lg={12} xl={12} style={{ marginTop: "24px" }}>
+                        <Col xs={24} sm={24} md={12} lg={12} xl={12}>
                             <div style={{ display: "flex", justifyContent: "space-between", marginBottom: "8px" }}>
                                 <div>
                                     <Title style={{ fontSize: "16px", margin: 0, color: "#4E4E4E" }}>Amount per month</Title>

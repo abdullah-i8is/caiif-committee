@@ -367,22 +367,19 @@ export default function SignUp() {
                       </div>
                       {commitee?.payment === "1000" ? (
                         <Title level={5} style={{ color: "green", fontWeight: "600", margin: "0" }}>
-                          Ideal for beginners, this committee offers a supportive environment to learn and grow within Islamic financial principles. Members can expect to build a foundational investment portfolio with minimized risks and consistent guidance.
-                          <br />
+
                           This committee operates over an 8-month period. CAIIF charges a 3% fee for the first four members, which reduces to 2% for the 5th and 6th members. The last two members are exempt from these charges.
                         </Title>
 
                       ) : commitee?.payment === "3000" ? (
 
                         <Title level={5} style={{ color: "green", fontWeight: "600", margin: "0" }}>
-                          Aimed at investors seeking intermediate-level involvement, this committee emphasizes diversified investment strategies and portfolio expansion, balancing risk and reward efficiently.
-                          <br />
+
                           This committee operates over an 8-month period. CAIIF charges a 3% fee for the first four members, which reduces to 2% for the 5th and 6th members. The last two members are exempt from these charges.
                         </Title>
                       ) : commitee?.payment === "5000" ? (
                         <Title level={5} style={{ color: "green", fontWeight: "600", margin: "0" }}>
-                          This is for advanced investors focused on significant capital growth. It offers opportunities in sophisticated investment strategies, leveraging the expertise of seasoned investors and Islamic financial principles.
-                          <br />
+
                           This committee operates over an 8-month period. CAIIF charges a 3% fee for the first four members, which reduces to 2% for the 5th and 6th members. The last two members are exempt from these charges.
                         </Title>
                       ) : null}
@@ -483,6 +480,15 @@ export default function SignUp() {
                                 committee: e,
                               }
                             })
+                            const findCom = state?.find((f) => f?.committee._id === e)
+                            console.log(findCom?.committee);
+                            setCommittee(findCom?.committee)
+                            const startDateObj = new Date(findCom?.committee?.startDate);
+                            const endDateObj = new Date(findCom?.committee?.endDate);
+                            const yearsDiff = endDateObj.getUTCFullYear() - startDateObj.getUTCFullYear();
+                            const monthsDiff = endDateObj.getUTCMonth() - startDateObj.getUTCMonth();
+                            const totalMonths = yearsDiff * 12 + monthsDiff;
+                            setMonthDuration(totalMonths + 1)
                           }}
                         />
                       </Form.Item>
