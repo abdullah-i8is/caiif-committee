@@ -124,6 +124,11 @@ export default function SignUp() {
       setLoading(false)
       setStatus(error?.response?.data?.success)
       setSuccess(error?.response?.data?.message)
+      api.error({
+        message: `Notification`,
+        description: error?.response?.data?.message ? error?.response?.data?.message : "network error",
+        placement: "topRight",
+      });
       console.log(error);
     }
   }
