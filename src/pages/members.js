@@ -298,7 +298,7 @@ function Members() {
                 console.log(response);
                 setLoading(false)
                 setLoading2(false)
-                openNotification("topRight", type === "APPROVE" ? "Account Approved Successfully" : "Account Deleted Successfully")
+                // openNotification("topRight", type === "APPROVE" ? "Account Approved Successfully" : "Account Deleted Successfully")
                 api.success({
                     message: `Notification`,
                     description: response?.data?.message,
