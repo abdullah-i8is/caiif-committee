@@ -241,7 +241,7 @@ function VerificationDetails() {
                                 <Input disabled={user?.approve === true ? true : false} value={new Date(commitee?.endDate).toLocaleDateString()} />
                             </Form.Item>
                         </Col>
-                        <Col xs={24} sm={24} md={12} lg={12} xl={12}>
+                        {user?.adminNotes?.length > 0 && <Col xs={24} sm={24} md={12} lg={12} xl={12}>
                             <Form.Item
                                 name="note"
                                 rules={[
@@ -253,7 +253,7 @@ function VerificationDetails() {
                                 label={<Title style={{ fontSize: "16px", margin: 0, color: "#4E4E4E" }}>Note</Title>}>
                                 <Input.TextArea value={note} onChange={(e) => setNote(e.target.value)} />
                             </Form.Item>
-                        </Col>
+                        </Col>}
                         {user?.adminNotes?.length > 0 && <Col xs={24} sm={24} md={24} lg={24} xl={24} style={{ marginBottom: 0 }}>
                             <Form.Item label={<Title style={{ fontSize: "16px", margin: 0, color: "#4E4E4E" }}>Notes</Title>}>
                                 {user?.adminNotes?.map((f) => f === "" ? null : <Input value={f} style={{ margin: "10px 0" }} />)}
