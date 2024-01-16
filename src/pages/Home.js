@@ -305,7 +305,7 @@ function Home() {
       </div>
       <Card className="my-card" style={{ marginTop: 40 }}>
         <Table
-          dataSource={user?.userType === "admin" ? committees : user?.userType === "user" ? committees?.filter((com) => com?.committee?.userIds?.some((id) => id === user?._id)) : null}
+          dataSource={committees}
           columns={user?.userType === "admin" ? column : column2}
           loading={loading}
         />

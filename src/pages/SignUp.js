@@ -11,7 +11,8 @@ import {
   Col,
   Row,
   Select,
-  DatePicker
+  DatePicker,
+  notification
 } from "antd";
 
 import logo from '../assets/images/caiif-logo.svg'
@@ -82,6 +83,7 @@ export default function SignUp() {
     // emergencyContactRelation: "",
     // emergencyContact: "",
   });
+  const [api, contextHolder] = notification.useNotification();
 
   const onFinish = (values) => {
     console.log("Success:", values);
@@ -235,6 +237,11 @@ export default function SignUp() {
       console.log(response);
     } catch (error) {
       console.log(error);
+      api.error({
+        message: `Notification`,
+        description: error?.response?.data?.message ? error?.response?.data?.message : "network error",
+        placement: "topRight",
+      });
     }
   }
 
@@ -249,7 +256,7 @@ export default function SignUp() {
 
   return (
     <div>
-
+      {contextHolder}
       {/* <div style={{ width: "100%", backgroundColor: "#166805", padding: "20px" }} onClick={() => navigate("/sign-in")}>
       </div> */}
 
@@ -461,15 +468,34 @@ export default function SignUp() {
                             message: 'Please select your Committee !',
                           },
                         ]}
-                        label={<Title style={{ fontSize: "16px", margin: 0, color: "#4E4E4E" }}>Committee</Title>}>
-                        {/* <Select
+                        label={<Title style={{ fontSize: "16px", margin: 0, color: "#4E4E4E" }}>Select Committee</Title>}>
+                        <Select
                           defaultValue="Select"
                           style={{ width: "100%" }}
                           options={state?.map(f => {
                             return { value: f?.committee._id, label: f?.committee.name }
                           })}
-                          onChange={(e) => setCommitteeId(e)}
-                        /> */}
+                          onChange={(e) => {
+                            setFormFields((prevFields) => {
+                              return {
+                                ...prevFields,
+                                cId: e,
+                                committee: e,
+                              }
+                            })
+                          }}
+                        />
+                      </Form.Item>
+                    </Col>
+                    <Col xs={24} sm={24} md={6} lg={4} xl={4}>
+                      <Form.Item
+                        rules={[
+                          {
+                            required: true,
+                            message: 'Please select your Committee !',
+                          },
+                        ]}
+                        label={<Title style={{ fontSize: "16px", margin: 0, color: "#4E4E4E" }}>Committee</Title>}>
                         <Input disabled={true} value={commitee?.name} />
                       </Form.Item>
                     </Col>

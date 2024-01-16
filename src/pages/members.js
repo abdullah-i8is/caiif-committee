@@ -54,13 +54,6 @@ function Members() {
             description: message,
             placement,
         });
-        if (message === "network error") {
-            api.error({
-                message: `Notification`,
-                description: "network error",
-                placement,
-            });
-        }
     };
 
     const data = [
@@ -306,6 +299,11 @@ function Members() {
                 setLoading(false)
                 setLoading2(false)
                 openNotification("topRight", type === "APPROVE" ? "Account Approved Successfully" : "Account Block Successfully")
+                api.success({
+                    message: `Notification`,
+                    description: response?.data?.message,
+                    placement:"topRight",
+                });
                 GetAllMembers(token)
                     .then((res) => {
                         console.log(res?.data);
@@ -316,10 +314,14 @@ function Members() {
                     })
             }
         } catch (error) {
-            openNotification("topRight", "network error")
             setLoading(false)
             setLoading2(false)
             console.log(error);
+            api.error({
+                message: `Notification`,
+                description: error?.response?.data?.message ? error?.response?.data?.message : "network error",
+                placement:"topRight",
+            });
         }
     }
 

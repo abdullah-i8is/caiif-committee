@@ -74,15 +74,6 @@ function VerificationDetails() {
 
     useEffect(() => {
         getUser()
-        GetAdminCommittees(token)
-            .then((res) => {
-                console.log(res);
-                const committee = res.data.allCommittees
-                dispatch(setCommittees([...committee.level1, ...committee.level2, ...committee.level3]))
-            })
-            .catch((err) => {
-                console.log(err);
-            })
     }, [id])
 
     async function handleSubmit() {
@@ -174,12 +165,13 @@ function VerificationDetails() {
                         </Col>
                         <Col xs={24} sm={24} md={12} lg={12} xl={12}>
                             <Form.Item label={<Title style={{ fontSize: "16px", margin: 0, color: "#4E4E4E" }}>Committee</Title>}>
-                                <Input value={commitee?.name} />
+                                <Input disabled={user?.approve === true ? true : false} value={commitee?.name} />
                             </Form.Item>
                         </Col>
                         <Col xs={24} sm={24} md={12} lg={12} xl={12}>
                             <Form.Item label={<Title style={{ fontSize: "16px", margin: 0, color: "#4E4E4E" }}>Select Committee</Title>}>
                                 <Select
+                                    disabled={user?.approve === true ? true : false}
                                     defaultValue="Select Committee"
                                     style={{ width: "100%" }}
                                     options={state?.committees?.committees?.map((opt) => ({ value: opt?.committeeDetails?.committee?._id, label: opt?.committeeDetails?.committee?.name }))}
