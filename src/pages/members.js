@@ -168,7 +168,7 @@ function Members() {
                             style={{ margin: "0 0 0 10px", width: "100px" }}
                             className="deny-btn">
                             <img width={15} src={denyIcon} style={{ margin: "0 5px 0 0" }} />
-                            Deny
+                            Delete
                         </Button>
                         <Button
                             loading={userId === record._id ? loading : false}
@@ -298,7 +298,7 @@ function Members() {
                 console.log(response);
                 setLoading(false)
                 setLoading2(false)
-                openNotification("topRight", type === "APPROVE" ? "Account Approved Successfully" : "Account Block Successfully")
+                openNotification("topRight", type === "APPROVE" ? "Account Approved Successfully" : "Account Deleted Successfully")
                 api.success({
                     message: `Notification`,
                     description: response?.data?.message,
