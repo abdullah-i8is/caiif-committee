@@ -410,7 +410,7 @@ export default function SignUp() {
                           },
                         ]}
                         label={<Title style={{ fontSize: "16px", margin: 0, color: "#4E4E4E" }}>Email</Title>}>
-                        <Input placeholder="Email" />
+                        <Input type="email" placeholder="Email" />
                       </Form.Item>
                     </Col>
                     <Col xs={24} sm={24} md={6} lg={4} xl={4}>
