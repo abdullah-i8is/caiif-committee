@@ -441,7 +441,7 @@ export default function SignUp() {
                       <Form.Item name="interestedDate"
                         rules={[
                           {
-                            required: true,
+                            required: false,
                             message: 'Please input your Interested Date !',
                           },
                         ]}
