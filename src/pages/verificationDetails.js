@@ -201,6 +201,16 @@ function VerificationDetails() {
                                 />
                             </Form.Item>
                         </Col>}
+                        {/* <Col xs={24} sm={24} md={12} lg={4} xl={4}>
+                            <Form.Item label={<Title style={{ fontSize: "16px", margin: 0, color: "#4E4E4E" }}>Committee Number</Title>}>
+                                <Input disabled={user?.approve === true ? true : false} onChange={(e) => setCommittee((prevDetail) => {
+                                    return {
+                                        ...prevDetail,
+                                        commiteeNumber: e.target.value
+                                    }
+                                })} value={commitee?.commiteeNumber} />
+                            </Form.Item>
+                        </Col> */}
                         <Col xs={24} sm={24} md={12} lg={4} xl={4}>
                             <Form.Item label={<Title style={{ fontSize: "16px", margin: 0, color: "#4E4E4E" }}>Committee</Title>}>
                                 <Input disabled={user?.approve === true ? true : false} value={commitee?.name} />
@@ -236,7 +246,7 @@ function VerificationDetails() {
                                 name="note"
                                 rules={[
                                     {
-                                        required: true,
+                                        required: false,
                                         message: 'Please input your Note!',
                                     },
                                 ]}
