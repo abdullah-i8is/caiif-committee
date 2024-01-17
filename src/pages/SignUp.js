@@ -84,6 +84,7 @@ export default function SignUp() {
     // emergencyContact: "",
   });
   const [api, contextHolder] = notification.useNotification();
+  const [step, setStep] = useState(1);
 
   const onFinish = (values) => {
     console.log("Success:", values);
@@ -255,6 +256,15 @@ export default function SignUp() {
     getCommittee()
   }, [params.cid])
 
+  const { RangePicker } = DatePicker;
+  const onChange = (value, dateString) => {
+    console.log('Selected Time: ', value);
+    console.log('Formatted Selected Time: ', dateString);
+  };
+  const onOk = (value) => {
+    console.log('onOk: ', value);
+  };
+
   console.log(commitee);
   console.log(monthDuration);
   console.log(formFields);
@@ -267,7 +277,7 @@ export default function SignUp() {
 
       <div style={{ display: "flex", justifyContent: "center", alignItems: "center", flexDirection: "column", height: formSubmit && "100vh", }}>
         {/* <Title level={3} style={{ margin: "0 0 20px 0", color: '#166805', textAlign: "center", }}>REGISTER CAIIF COMMITTEE</Title> */}
-        <Card>
+        <Card style={{ height: step === 2 && "100vh" }}>
           {/* <img style={{ display: "block", margin: "0 auto 30px auto" }} width={200} src={logo} alt="" /> */}
           {/* {activeStep === 0 ? (
                 <div className={activeStep === 0 ? 'step-form__step--active' : ''}>
@@ -332,7 +342,6 @@ export default function SignUp() {
                 </div>
               ) : "" */}
           <div style={{ margin: "0 50px" }}>
-            {/* <img style={{ marginBottom: 70, display: "block", margin: "0 auto" }} width={300} src={logo} /> */}
             <Form
               form={form}
               layout="vertical"
@@ -343,8 +352,8 @@ export default function SignUp() {
               className="row-col"
               style={{ width: '100%' }}
             >
-              <Row gutter={[24, 0]}>
-                {formSubmit ? (
+              {formSubmit ? (
+                <Row gutter={[24, 0]} type="flex" justify="center" align="middle">
                   <Col xs={24} sm={24} md={24} lg={24} xl={24}>
                     <div style={{ display: "flex", justifyContent: "center", alignItems: "center", flexDirection: "column", padding: "40px" }}>
                       <div style={{ marginBottom: 20, textAlign: "center" }}>
@@ -364,80 +373,304 @@ export default function SignUp() {
                       </Button>
                     </div>
                   </Col>
-                ) : (
-                  <>
+                </Row>
+              ) : (
+                <>
+
+                  <Row gutter={[24, 0]}>
                     <Col xs={24} sm={24} md={24} lg={24} xl={24} style={{ margin: "0 0 50px 0" }}>
                       <div style={{ margin: "20px 0" }}>
-                        <Title level={2} style={{ color: "green", fontWeight: "700" }}>CAIIF Committee Registeration</Title>
+                        {/* <Title level={2} style={{ color: "green", fontWeight: "700" }}>CAIIF Committee Registeration</Title> */}
+                        <div style={{ display: "flex", alignItems: "center", marginBottom: 40 }}>
+                          <img width={200} src={logo} />
+                          <Title level={1} className="signup-title">Committee</Title>
+                        </div>
+                        <Title level={2} style={{ color: "green", fontWeight: "700" }}>Apply for {commitee?.name}</Title>
+                        <Title level={5} style={{ color: "green", fontWeight: "600", margin: "0" }}>
+                          This committee operates over an 8-month period. CAIIF charges a 3% fee for the first four members, which reduces to 2% for the 5th and 6th members. The last two members are exempt from these charges.
+                          The committee comprises a dynamic group of individuals, each bringing a unique perspective to the table. The membership structure involves a tiered fee system, encouraging participation and recognizing the contributions of each member.
+                        </Title>
+                        <Card style={{ background: "linear-gradient(300deg, #0c3903, #166805)", marginTop: 30, width:"100%" }}>
+                          <div style={{ display: 'flex' }}>
+                            <div>
+                              <Title level={2} style={{ fontWeight: "700", margin: 0, color: "white", color: '#F2C649' }}>Cycle</Title>
+                              <Title level={4} style={{ fontWeight: "700", margin: 0, color: "white", color: 'white' }}>{commitee?.cycle?.type}</Title>
+                            </div>
+                            <div style={{ margin: "0 60px" }}>
+                              <Title level={2} style={{ fontWeight: "700", margin: 0, color: "white", color: '#F2C649' }}>Total Amount</Title>
+                              <Title level={4} style={{ fontWeight: "700", margin: 0, color: "white", color: 'white' }}>$ {commitee?.amount}</Title>
+                            </div>
+                            <div>
+                              <Title level={2} style={{ fontWeight: "700", margin: 0, color: "white", color: '#F2C649' }}>Monthly Payment</Title>
+                              <Title level={4} style={{ fontWeight: "700", margin: 0, color: "white", color: 'white' }}>$ {commitee?.payment}</Title>
+                            </div>
+                          </div>
+                        </Card>
                       </div>
-                      {commitee?.payment === "1000" ? (
-                        <Title level={5} style={{ color: "green", fontWeight: "600", margin: "0" }}>
-
-                          This committee operates over an 8-month period. CAIIF charges a 3% fee for the first four members, which reduces to 2% for the 5th and 6th members. The last two members are exempt from these charges.
-                        </Title>
-
-                      ) : commitee?.payment === "3000" ? (
-
-                        <Title level={5} style={{ color: "green", fontWeight: "600", margin: "0" }}>
-
-                          This committee operates over an 8-month period. CAIIF charges a 3% fee for the first four members, which reduces to 2% for the 5th and 6th members. The last two members are exempt from these charges.
-                        </Title>
-                      ) : commitee?.payment === "5000" ? (
-                        <Title level={5} style={{ color: "green", fontWeight: "600", margin: "0" }}>
-
-                          This committee operates over an 8-month period. CAIIF charges a 3% fee for the first four members, which reduces to 2% for the 5th and 6th members. The last two members are exempt from these charges.
-                        </Title>
-                      ) : null}
                     </Col>
-                    <Col xs={24} sm={24} md={6} lg={4} xl={4}>
-                      <Form.Item name="name"
-                        rules={[
-                          {
-                            required: true,
-                            message: 'Please input your Name !',
-                          },
-                        ]}
-                        label={<Title style={{ fontSize: "16px", margin: 0, color: "#4E4E4E" }}>Name</Title>}>
-                        <Input placeholder="Name" value={formFields.name} />
-                      </Form.Item>
-                    </Col>
-                    <Col xs={24} sm={24} md={6} lg={4} xl={4}>
-                      <Form.Item name="email"
-                        rules={[
-                          {
-                            required: true,
-                            message: 'Please input your Email !',
-                          },
-                        ]}
-                        label={<Title style={{ fontSize: "16px", margin: 0, color: "#4E4E4E" }}>Email</Title>}>
-                        <Input type="email" placeholder="Email" />
-                      </Form.Item>
-                    </Col>
-                    <Col xs={24} sm={24} md={6} lg={4} xl={4}>
-                      <Form.Item name="contactNumber"
-                        rules={[
-                          {
-                            required: true,
-                            message: 'Please input your Phone Number !',
-                          },
-                        ]}
-                        label={<Title style={{ fontSize: "16px", margin: 0, color: "#4E4E4E" }}>Phone Number</Title>}>
-                        <Input placeholder="Phone Number" />
-                      </Form.Item>
-                    </Col>
-                    <Col xs={24} sm={24} md={6} lg={4} xl={4}>
-                      <Form.Item name="jobOccupation"
-                        rules={[
-                          {
-                            required: true,
-                            message: 'Please input your Job Occupation !',
-                          },
-                        ]}
-                        label={<Title style={{ fontSize: "16px", margin: 0, color: "#4E4E4E" }}>Job Occupation</Title>}>
-                        <Input placeholder="Job Occupation" />
-                      </Form.Item>
-                    </Col>
-                    <Col xs={24} sm={24} md={6} lg={8} xl={8}>
+                  </Row>
+                  <Title level={2} style={{ color: "green", fontWeight: "600", margin: "0 0 60px 0", textAlign: "center" }}>
+                    {step === 1 ? "Personal Information" : step === 2 ? "Book an appoinment" : ""}
+                  </Title>
+                  <div style={{ display: "flex", justifyContent: "center", alignItems: 'center', flexDirection: "column" }}>
+                    <div style={{ width: "600px" }}>
+                      {step === 1 ? (
+                        <>
+                          <Form.Item name="name"
+                            rules={[
+                              {
+                                required: true,
+                                message: 'Please input your Name !',
+                              },
+                            ]}
+                            label={<Title style={{ fontSize: "16px", margin: 0, color: "#4E4E4E" }}>Name</Title>}>
+                            <Input style={{ width: "600px" }} placeholder="Name" value={formFields.name} />
+                          </Form.Item>
+                          <Form.Item name="email"
+                            rules={[
+                              {
+                                required: true,
+                                message: 'Please input your Email !',
+                              },
+                            ]}
+                            label={<Title style={{ fontSize: "16px", margin: 0, color: "#4E4E4E" }}>Email</Title>}>
+                            <Input style={{ width: "600px" }} type="email" placeholder="Test@example.com" />
+                          </Form.Item>
+                          <div style={{ display: "flex", alignItems: "center" }}>
+                            <Form.Item name="contactNumber"
+                              rules={[
+                                {
+                                  required: true,
+                                  message: 'Please input your Contact Number !',
+                                },
+                              ]}
+                              label={<Title style={{ fontSize: "16px", margin: 0, color: "#4E4E4E" }}>Contact Number</Title>}>
+                              <Input type="number" style={{ width: "300px" }} placeholder="Contact Number" />
+                            </Form.Item>
+                            <Form.Item name="emergencyContact"
+                              rules={[
+                                {
+                                  required: true,
+                                  message: 'Please input your Emergency Contact Number !',
+                                },
+                              ]}
+                              label={<Title style={{ fontSize: "16px", margin: 0, color: "#4E4E4E" }}>Emergency Contact Number</Title>}>
+                              <Input type="number" style={{ width: "300px" }} placeholder="Emergency Contact Number" />
+                            </Form.Item>
+                          </div>
+                          <Form.Item name="CNIC"
+                            rules={[
+                              {
+                                required: true,
+                                message: 'Please input your CNIC !',
+                              },
+                            ]}
+                            label={<Title style={{ fontSize: "16px", margin: 0, color: "#4E4E4E" }}>CNIC</Title>}>
+                            <Input type="number" style={{ width: "600px" }} placeholder="CNIC" />
+                          </Form.Item>
+                          <div style={{ display: "flex", alignItems: "center" }}>
+                            <Form.Item name="name"
+                              rules={[
+                                {
+                                  required: true,
+                                  message: 'Please input your Residential Address !',
+                                },
+                              ]}
+                              label={<Title style={{ fontSize: "16px", margin: 0, color: "#4E4E4E" }}>Residential Address</Title>}>
+                              <Input style={{ width: "300px" }} placeholder="Residential Address" value={formFields.name} />
+                            </Form.Item>
+                            <Form.Item
+                              rules={[
+                                {
+                                  required: true,
+                                  message: 'Please select your Residential Status !',
+                                },
+                              ]}
+                              label={<Title style={{ fontSize: "16px", margin: 0, color: "#4E4E4E" }}>Residential Status</Title>}>
+                              <Select
+                                defaultValue="Select Residential Status"
+                                style={{ width: "300px" }}
+                                options={[
+                                  { value: 'ownsHome', label: 'Owns Home' },
+                                  { value: 'rents', label: 'Rents' },
+                                  { value: 'livingWithFamily', label: 'Living with Family' },
+                                  { value: 'studentHousing', label: 'Student Housing' },
+                                  { value: 'temporaryAccommodation', label: 'Temporary Accommodation' },
+                                ]}
+                                onChange={(e) => {
+                                  setFormFields((prevFields) => {
+                                    return {
+                                      ...prevFields,
+                                      residentialStatus: e,
+                                    }
+                                  })
+                                }}
+                              />
+                            </Form.Item>
+                          </div>
+                          <div style={{ display: "flex", alignItems: "center" }}>
+                            <Form.Item name="grossAnnualIncome"
+                              rules={[
+                                {
+                                  required: true,
+                                  message: 'Please input your Gross Annual Income !',
+                                },
+                              ]}
+                              label={<Title style={{ fontSize: "16px", margin: 0, color: "#4E4E4E" }}>Gross Annual Income</Title>}>
+                              <Input style={{ width: "300px" }} placeholder="Gross Annual Income" value={formFields.name} />
+                            </Form.Item>
+                            <Form.Item
+                              rules={[
+                                {
+                                  required: true,
+                                  message: 'Please select your Source Of Income !',
+                                },
+                              ]}
+                              label={<Title style={{ fontSize: "16px", margin: 0, color: "#4E4E4E" }}>Source Of Income</Title>}>
+                              <Select
+                                defaultValue="Select Source Of Income"
+                                style={{ width: "300px" }}
+                                options={[
+                                  { value: 'employment', label: 'Employment' },
+                                  { value: 'selfEmployment', label: 'Self-Employment' },
+                                  { value: 'freelance', label: 'Freelance' },
+                                  { value: 'businessOwner', label: 'Business Owner' },
+                                  { value: 'investment', label: 'Investment' },
+                                  { value: 'retirement', label: 'Retirement' },
+                                  { value: 'rentalIncome', label: 'Rental Income' },
+                                  { value: 'governmentAssistance', label: 'Government Assistance' },
+                                  { value: 'other', label: 'Other' },
+                                ]}
+                                onChange={(e) => {
+                                  setFormFields((prevFields) => {
+                                    return {
+                                      ...prevFields,
+                                      sourceOfIncome: e,
+                                    }
+                                  })
+                                }}
+                              />
+                            </Form.Item>
+                          </div>
+                          <Form.Item
+                            rules={[
+                              {
+                                required: true,
+                                message: 'Please select your Employment Status !',
+                              },
+                            ]}
+                            label={<Title style={{ fontSize: "16px", margin: 0, color: "#4E4E4E" }}>Employment Status</Title>}>
+                            <Select
+                              defaultValue="Select Employment Status"
+                              style={{ width: "600px" }}
+                              options={[
+                                { value: 'fullTime', label: 'Full-Time' },
+                                { value: 'partTime', label: 'Part-Time' },
+                                { value: 'contract', label: 'Contract' },
+                                { value: 'temporary', label: 'Temporary' },
+                                { value: 'intern', label: 'Intern' },
+                                { value: 'freelancer', label: 'Freelancer' },
+                                { value: "selfEmployed", label: "Self-Employed" },
+                                { value: "unEmployed", label: "Un-Employed" },
+                              ]}
+                              onChange={(e) => {
+                                setFormFields((prevFields) => {
+                                  return {
+                                    ...prevFields,
+                                    employmentStatus: e,
+                                  }
+                                })
+                              }}
+                            />
+                          </Form.Item>
+                          <Form.Item name="jobOccupation"
+                            rules={[
+                              {
+                                required: true,
+                                message: 'Please input your Job Occupation !',
+                              },
+                            ]}
+                            label={<Title style={{ fontSize: "16px", margin: 0, color: "#4E4E4E" }}>Occupation</Title>}>
+                            <Input style={{ width: "600px" }} placeholder="Occupation" />
+                          </Form.Item>
+                          <div style={{ display: "flex", justifyContent: "center", alignItems: 'center', flexDirection: "column" }}>
+                            <div style={{ width: "600px" }}>
+                              <Title style={{ fontSize: "16px", margin: "0 0 8px 0", color: "#4E4E4E" }}>ID</Title>
+                              <Upload showUploadList={false} name="file" onChange={(e) => handleUpload(e.file.originFileObj)}>
+                                <Button loading={uploading} icon={<UploadOutlined />}>Upload NIC</Button>
+                              </Upload>
+                              {formFields?.nic ? <img style={{ width: "100% !important", margin: "20px 0 0 0", borderRadius: "5px" }} src={formFields?.nic} /> : ""}
+                            </div>
+                            <div style={{ width: "600px", margin: "25px 0" }}>
+                              <Title style={{ fontSize: "16px" }}>Terms & conditions.</Title>
+                              <Checkbox style={{ margin: 0 }} onChange={(e) => setTermsCondition((prevCondition) => {
+                                return {
+                                  ...prevCondition,
+                                  first: e.target.checked
+                                }
+                              })} checked={termsCondition.first}>
+                                <Title style={{ fontSize: "13px" }}>
+                                  Enrollment confirms your eligibility and agreement to all CAIIF terms and conditions.
+                                </Title>
+                              </Checkbox>
+                              <Checkbox style={{ margin: 0 }} onChange={(e) => setTermsCondition((prevCondition) => {
+                                return {
+                                  ...prevCondition,
+                                  second: e.target.checked
+                                }
+                              })} checked={termsCondition.second}>
+                                <Title style={{ fontSize: "13px" }}>
+                                  You agree to the 8-month commitment and fee structure based on committee membership.
+                                </Title>
+                              </Checkbox>
+                            </div>
+                            <div style={{ width: "600px" }}>
+                            </div>
+                            <div style={{ width: "600px" }}>
+                              <Button
+                                onClick={() => setStep(step + 1)}
+                                disabled={termsCondition.first && termsCondition.second ? false : true}
+                                loading={loading}
+                                style={{ width: "100%", backgroundColor: termsCondition.first && termsCondition.second ? "#166805" : !termsCondition.first || !termsCondition.second ? "grey" : "", color: 'white' }}
+                                type="primary"
+                              >
+                                Next
+                              </Button>
+                            </div>
+                          </div>
+                        </>
+                      ) : step === 2 ? (
+                        <>
+                          <div style={{ display: "flex", justifyContent: "center", alignItems: 'center', flexDirection: "column" }}>
+                            <div style={{ width: "600px" }}>
+                              <Title style={{ fontSize: "16px", margin: "0 0 8px 0", color: "#4E4E4E" }}>Select Date & Time</Title>
+                              <DatePicker style={{ width: '100%' }} showTime onChange={onChange} onOk={onOk} />
+                            </div>
+                            <div style={{ width: "600px", marginTop: 40 }}>
+                              <Button
+                                disabled={termsCondition.first && termsCondition.second ? false : true}
+                                loading={loading}
+                                style={{ width: "100%", backgroundColor: termsCondition.first && termsCondition.second ? "#166805" : !termsCondition.first || !termsCondition.second ? "grey" : "", color: 'white' }}
+                                type="primary"
+                                htmlType="submit"
+                              >
+                                SUBMIT
+                              </Button>
+                            </div>
+                          </div>
+                        </>
+                      ) : ""}
+                    </div>
+                  </div>
+
+                  {/* <Col xs={24} sm={24} md={24} lg={24} xl={24}>
+                    {success !== "" && <Title style={{ fontSize: "16px", margin: "0 0 20px 0", color: status === true ? "green" : "red" }}>{success}</Title>}
+                  </Col> */}
+
+                  {/* </Col> */}
+                  {/* <Col xs={24} sm={24} md={24} lg={24} xl={24}> */}
+                  {/* </Col> */}
+                  {/* <Col xs={24} sm={24} md={8} lg={8} xl={8}>
                       <Form.Item name="interestedDate"
                         rules={[
                           {
@@ -461,8 +694,8 @@ export default function SignUp() {
                           }}
                         />
                       </Form.Item>
-                    </Col>
-                    <Col xs={24} sm={24} md={6} lg={4} xl={4}>
+                    </Col> */}
+                  {/* <Col xs={24} sm={24} md={8} lg={8} xl={8}>
                       <Form.Item
                         rules={[
                           {
@@ -498,7 +731,7 @@ export default function SignUp() {
                         />
                       </Form.Item>
                     </Col>
-                    <Col xs={24} sm={24} md={6} lg={4} xl={4}>
+                    <Col xs={24} sm={24} md={8} lg={8} xl={8}>
                       <Form.Item
                         rules={[
                           {
@@ -510,10 +743,10 @@ export default function SignUp() {
                         <Input disabled={true} value={commitee?.name} />
                       </Form.Item>
                     </Col>
-                    <Col xs={24} sm={24} md={6} lg={4} xl={4}>
+                    <Col xs={24} sm={24} md={8} lg={8} xl={8}>
                       <Form.Item
                         label={<Title style={{ fontSize: "16px", margin: 0, color: "#4E4E4E" }}>Duration</Title>}>
-                        <Input disabled={true} value={monthDuration} />
+                        <Input disabled={true} value={`${monthDuration} months`} />
                       </Form.Item>
                     </Col>
                     <Col xs={24} sm={24} md={6} lg={4} xl={4}>
@@ -527,8 +760,8 @@ export default function SignUp() {
                         label={<Title style={{ fontSize: "16px", margin: 0, color: "#4E4E4E" }}>Monthly Payment</Title>}>
                         <Input disabled={true} value={commitee?.amount} />
                       </Form.Item>
-                    </Col>
-                    <Col xs={24} sm={24} md={6} lg={4} xl={4}>
+                    </Col> */}
+                  {/* <Col xs={24} sm={24} md={6} lg={4} xl={4}>
                       <Form.Item
                         label={<Title style={{ fontSize: "16px", margin: 0, color: "#4E4E4E" }}>Start Date</Title>}>
                         <Input disabled={true} value={new Date(commitee?.startDate).toLocaleDateString()} />
@@ -539,78 +772,18 @@ export default function SignUp() {
                         label={<Title style={{ fontSize: "16px", margin: 0, color: "#4E4E4E" }}>Start Date</Title>}>
                         <Input disabled={true} value={new Date(commitee?.endDate).toLocaleDateString()} />
                       </Form.Item>
-                    </Col>
-                    <Col xs={24} sm={24} md={24} lg={24} xl={24}>
-                      <Form.Item name="committeeNote"
-                        label={<Title style={{ fontSize: "16px", margin: 0, color: "#4E4E4E" }}>Note</Title>}>
-                        <Input.TextArea placeholder="Note" style={{ height: "100px" }} />
-                      </Form.Item>
-                    </Col>
-                    <Col xs={24} sm={24} md={2} lg={2} xl={2} style={{ marginBottom: 10 }}>
-                      <Title style={{ fontSize: "16px", margin: "0 0 8px 0", color: "#4E4E4E" }}>ID</Title>
-                      {/* <Form.Item name="CNIC">
-                        <Upload
-                          name="avatar"
-                          listType="picture-card"
-                          className="avatar-uploader"
-                          showUploadList={false}
-                          action="https://run.mocky.io/v3/435e224c-44fb-4773-9faf-380c5e6a2188"
-                          // beforeUpload={beforeUpload}
-                          onChange={handleChange}
-                        >
-                          {imageUrl ? <img src={imageUrl} alt="avatar" style={{ borderRadius: "10px", width: "100%", height: '150px', objectFit: "cover" }} /> : uploadButton}</Upload>
-                      </Form.Item> */}
-                      {/* <input type="file" onChange={(e) => handleUpload(e.target.files[0])} /> */}
-                      <Upload showUploadList={false} name="file" onChange={(e) => handleUpload(e.file.originFileObj)}>
-                        <Button loading={uploading} icon={<UploadOutlined />}>Upload NIC</Button>
-                      </Upload>
-                      {formFields?.nic ? <img style={{ width: "100% !important", margin: "20px 0 0 0", borderRadius: "5px" }} src={formFields?.nic} /> : ""}
-                      {/* {status ? <p style={{ color: "green", fontSize: "20px", fontWeight: "700" }}>{status}</p> : ""} */}
-                    </Col>
-                    <Col xs={24} sm={24} md={24} lg={24} xl={24}>
-                      {success !== "" && <Title style={{ fontSize: "16px", margin: "0 0 20px 0", color: status === true ? "green" : "red" }}>{success}</Title>}
-                    </Col>
-                    <Col xs={24} sm={24} md={24} lg={24} xl={24} style={{ margin: "40px 0 0 0" }}>
-                      <Title style={{ fontSize: "16px" }}>Terms & conditions.</Title>
-                    </Col>
-                    <Col xs={24} sm={24} md={24} lg={24} xl={24}>
-                      <Checkbox onChange={(e) => setTermsCondition((prevCondition) => {
-                        return {
-                          ...prevCondition,
-                          first: e.target.checked
-                        }
-                      })} checked={termsCondition.first}>
-                        <Title style={{ fontSize: "13px" }}>
-                          Enrollment confirms your eligibility and agreement to all CAIIF terms and conditions.
-                        </Title>
-                      </Checkbox>
-                    </Col>
-                    <Col xs={24} sm={24} md={24} lg={24} xl={24}>
-                      <Checkbox onChange={(e) => setTermsCondition((prevCondition) => {
-                        return {
-                          ...prevCondition,
-                          second: e.target.checked
-                        }
-                      })} checked={termsCondition.second}>
-                        <Title style={{ fontSize: "13px" }}>
-                          You agree to the 8-month commitment and fee structure based on committee membership.
-                        </Title>
-                      </Checkbox>
-                    </Col>
-                    <Col xs={24} sm={24} md={24} lg={3} xl={3} style={{ marginTop: 30 }}>
-                      <Button
-                        disabled={termsCondition.first && termsCondition.second ? false : true}
-                        loading={loading}
-                        style={{ width: "100%", backgroundColor: termsCondition.first && termsCondition.second ? "#166805" : !termsCondition.first || !termsCondition.second ? "grey" : "", color: 'white' }}
-                        type="primary"
-                        htmlType="submit"
-                      >
-                        SUBMIT
-                      </Button>
-                    </Col>
-                  </>
-                )}
-                {/* <Col xs={24} sm={24} md={12} lg={12} xl={12}>
+                    </Col> */}
+                  {/* <Col xs={24} sm={24} md={24} lg={24} xl={24}>
+                    <Form.Item name="committeeNote"
+                      label={<Title style={{ fontSize: "16px", margin: 0, color: "#4E4E4E" }}>Note</Title>}>
+                      <Input.TextArea placeholder="Note" style={{ height: "100px" }} />
+                    </Form.Item>
+                  </Col> */}
+
+                  {/* </Row> */}
+                </>
+              )}
+              {/* <Col span={8}>
                         <Fo
                         rm.Item name="bankBranchName" rules={[
                           {
@@ -621,7 +794,7 @@ export default function SignUp() {
                           <Input />
                         </Form.Item>
                       </Col> */}
-                {/* <Col xs={24} sm={24} md={12} lg={12} xl={12}>
+              {/* <Col span={8}>
                         <Form.Item
                           name="accountNumber"
                           rules={[
@@ -633,7 +806,7 @@ export default function SignUp() {
                           <Input />
                         </Form.Item>
                       </Col> */}
-                {/* <Col xs={24} sm={24} md={12} lg={12} xl={12}>
+              {/* <Col span={8}>
                         <Form.Item
                           name="workAddress"
                           rules={[
@@ -646,7 +819,7 @@ export default function SignUp() {
                           <Input />
                         </Form.Item>
                       </Col> */}
-                {/* <Col xs={24} sm={24} md={12} lg={12} xl={12}>
+              {/* <Col span={8}>
                         <Form.Item
                           name="residentialAddress"
                           rules={[
@@ -659,7 +832,7 @@ export default function SignUp() {
                           <Input />
                         </Form.Item>
                       </Col> */}
-                {/* <Col xs={24} sm={24} md={12} lg={12} xl={12}>
+              {/* <Col span={8}>
                         <Form.Item
                           name="monthlyIncome"
                           rules={[
@@ -672,7 +845,7 @@ export default function SignUp() {
                           <Input />
                         </Form.Item>
                       </Col> */}
-                {/* <Col xs={24} sm={24} md={12} lg={12} xl={12}>
+              {/* <Col span={8}>
                         <Form.Item
                           name="jobOccupation"
                           rules={[
@@ -685,7 +858,7 @@ export default function SignUp() {
                           <Input />
                         </Form.Item>
                       </Col> */}
-                {/* <Col xs={24} sm={24} md={12} lg={12} xl={12}>
+              {/* <Col span={8}>
                         <Form.Item
                           name="emergencyContactRelation"
                           rules={[
@@ -698,7 +871,7 @@ export default function SignUp() {
                           <Input />
                         </Form.Item>
                       </Col> */}
-                {/* <Col xs={24} sm={24} md={12} lg={12} xl={12}>
+              {/* <Col span={8}>
                         <Form.Item
                           name="emergencyContact"
                           rules={[
@@ -711,7 +884,6 @@ export default function SignUp() {
                           <Input />
                         </Form.Item>
                       </Col> */}
-              </Row>
             </Form>
           </div>
           {/* {activeStep === 0 && (
