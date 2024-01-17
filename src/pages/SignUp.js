@@ -390,7 +390,7 @@ export default function SignUp() {
                           This committee operates over an 8-month period. CAIIF charges a 3% fee for the first four members, which reduces to 2% for the 5th and 6th members. The last two members are exempt from these charges.
                           The committee comprises a dynamic group of individuals, each bringing a unique perspective to the table. The membership structure involves a tiered fee system, encouraging participation and recognizing the contributions of each member.
                         </Title>
-                        <Card style={{ background: "#008A00", marginTop: 30, width:"100%" }}>
+                        <Card className="my-card2" style={{ background: "#166805", marginTop: 30, width:"100%" }}>
                           <div style={{ display: 'flex' }}>
                             <div>
                               <Title level={3} style={{ fontWeight: "700", margin: 0, color: '#F2C649' }}>Cycle</Title>

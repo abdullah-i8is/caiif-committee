@@ -3156,3 +3156,7 @@ th.ant-table-cell h1 {
 .committee-content {
   font-family: 'Playfair Display', serif !important;
 }
+
+.my-card2 .ant-card-body {
+  padding: 10px 20px;
+}
