@@ -381,10 +381,10 @@ export default function SignUp() {
                     <Col xs={24} sm={24} md={24} lg={24} xl={24} style={{ margin: "0 0 50px 0" }}>
                       <div style={{ margin: "20px 0" }}>
                         {/* <Title level={2} style={{ color: "green", fontWeight: "700" }}>CAIIF Committee Registeration</Title> */}
-                        <div style={{ display: "flex", alignItems: "center", marginBottom: 40 }}>
+                        {/* <div style={{ display: "flex", alignItems: "center", marginBottom: 40 }}>
                           <img width={200} src={logo} />
                           <Title level={1} className="signup-title">Committee</Title>
-                        </div>
+                        </div> */}
                         <Title level={2} style={{ color: "green", fontWeight: "700" }}>Apply for {commitee?.name}</Title>
                         <Title level={5} style={{ color: "green", fontWeight: "600", margin: "0" }}>
                           This committee operates over an 8-month period. CAIIF charges a 3% fee for the first four members, which reduces to 2% for the 5th and 6th members. The last two members are exempt from these charges.
@@ -508,6 +508,16 @@ export default function SignUp() {
                               />
                             </Form.Item>
                           </div>
+                          <Form.Item name="jobOccupation"
+                            rules={[
+                              {
+                                required: true,
+                                message: 'Please input your Job Occupation !',
+                              },
+                            ]}
+                            label={<Title style={{ fontSize: "16px", margin: 0, color: "#4E4E4E" }}>Occupation</Title>}>
+                            <Input style={{ width: "600px" }} placeholder="Occupation" />
+                          </Form.Item>
                           <div style={{ display: "flex", alignItems: "center" }}>
                             <Form.Item name="grossAnnualIncome"
                               rules={[
@@ -582,16 +592,6 @@ export default function SignUp() {
                                 })
                               }}
                             />
-                          </Form.Item>
-                          <Form.Item name="jobOccupation"
-                            rules={[
-                              {
-                                required: true,
-                                message: 'Please input your Job Occupation !',
-                              },
-                            ]}
-                            label={<Title style={{ fontSize: "16px", margin: 0, color: "#4E4E4E" }}>Occupation</Title>}>
-                            <Input style={{ width: "600px" }} placeholder="Occupation" />
                           </Form.Item>
                           <div style={{ display: "flex", justifyContent: "center", alignItems: 'center', flexDirection: "column" }}>
                             <div style={{ width: "600px" }}>
