@@ -390,19 +390,19 @@ export default function SignUp() {
                           This committee operates over an 8-month period. CAIIF charges a 3% fee for the first four members, which reduces to 2% for the 5th and 6th members. The last two members are exempt from these charges.
                           The committee comprises a dynamic group of individuals, each bringing a unique perspective to the table. The membership structure involves a tiered fee system, encouraging participation and recognizing the contributions of each member.
                         </Title>
-                        <Card style={{ background: "linear-gradient(300deg, #0c3903, #166805)", marginTop: 30, width:"100%" }}>
+                        <Card style={{ background: "#008A00", marginTop: 30, width:"100%" }}>
                           <div style={{ display: 'flex' }}>
                             <div>
-                              <Title level={2} style={{ fontWeight: "700", margin: 0, color: "white", color: '#F2C649' }}>Cycle</Title>
-                              <Title level={4} style={{ fontWeight: "700", margin: 0, color: "white", color: 'white' }}>{commitee?.cycle?.type}</Title>
+                              <Title level={3} style={{ fontWeight: "700", margin: 0, color: '#F2C649' }}>Cycle</Title>
+                              <Title level={4} style={{ fontWeight: "700", margin: 0, color: "white" }}>{commitee?.cycle?.type}</Title>
                             </div>
                             <div style={{ margin: "0 60px" }}>
-                              <Title level={2} style={{ fontWeight: "700", margin: 0, color: "white", color: '#F2C649' }}>Total Amount</Title>
-                              <Title level={4} style={{ fontWeight: "700", margin: 0, color: "white", color: 'white' }}>$ {commitee?.amount}</Title>
+                              <Title level={3} style={{ fontWeight: "700", margin: 0, color: '#F2C649' }}>Total Amount</Title>
+                              <Title level={4} style={{ fontWeight: "700", margin: 0, color: "white" }}>$ {commitee?.amount}</Title>
                             </div>
                             <div>
-                              <Title level={2} style={{ fontWeight: "700", margin: 0, color: "white", color: '#F2C649' }}>Monthly Payment</Title>
-                              <Title level={4} style={{ fontWeight: "700", margin: 0, color: "white", color: 'white' }}>$ {commitee?.payment}</Title>
+                              <Title level={3} style={{ fontWeight: "700", margin: 0, color: '#F2C649' }}>Monthly Payment</Title>
+                              <Title level={4} style={{ fontWeight: "700", margin: 0, color: "white" }}>$ {commitee?.payment}</Title>
                             </div>
                           </div>
                         </Card>
