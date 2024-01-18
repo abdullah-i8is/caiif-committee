@@ -422,15 +422,15 @@ export default function SignUp() {
                           <div style={{ display: 'flex' }}>
                             <div>
                               <Title level={3} style={{ fontWeight: "700", margin: 0, color: '#F2C649' }}>Cycle</Title>
-                              <Title level={4} style={{ fontWeight: "700", margin: 0, color: "white" }}>{commitee?.cycle?.type}</Title>
+                              <Title level={4} style={{ fontWeight: "700", margin: 0, color: "white" }}>Monthly</Title>
                             </div>
                             <div style={{ margin: "0 60px" }}>
                               <Title level={3} style={{ fontWeight: "700", margin: 0, color: '#F2C649' }}>Monthly Payment</Title>
-                              <Title level={4} style={{ fontWeight: "700", margin: 0, color: "white" }}>$ {commitee?.amount}</Title>
+                              <Title level={4} style={{ fontWeight: "700", margin: 0, color: "white" }}>$ 100</Title>
                             </div>
                             <div>
                               <Title level={3} style={{ fontWeight: "700", margin: 0, color: '#F2C649' }}>Total Amount</Title>
-                              <Title level={4} style={{ fontWeight: "700", margin: 0, color: "white" }}>$ {commitee?.payment}</Title>
+                              <Title level={4} style={{ fontWeight: "700", margin: 0, color: "white" }}>$ 1000</Title>
                             </div>
                           </div>
                         </Card>

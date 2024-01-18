@@ -420,17 +420,17 @@ export default function SignUp2() {
                         </Title>
                         <Card className="my-card2" style={{ background: "#166805", marginTop: 30, width: "100%" }}>
                           <div style={{ display: 'flex' }}>
-                            <div>
+                          <div>
                               <Title level={3} style={{ fontWeight: "700", margin: 0, color: '#F2C649' }}>Cycle</Title>
-                              <Title level={4} style={{ fontWeight: "700", margin: 0, color: "white" }}>{commitee?.cycle?.type}</Title>
+                              <Title level={4} style={{ fontWeight: "700", margin: 0, color: "white" }}>Monthly</Title>
                             </div>
                             <div style={{ margin: "0 60px" }}>
                               <Title level={3} style={{ fontWeight: "700", margin: 0, color: '#F2C649' }}>Monthly Payment</Title>
-                              <Title level={4} style={{ fontWeight: "700", margin: 0, color: "white" }}>$ {commitee?.amount}</Title>
+                              <Title level={4} style={{ fontWeight: "700", margin: 0, color: "white" }}>$ 375</Title>
                             </div>
                             <div>
                               <Title level={3} style={{ fontWeight: "700", margin: 0, color: '#F2C649' }}>Total Amount</Title>
-                              <Title level={4} style={{ fontWeight: "700", margin: 0, color: "white" }}>$ {commitee?.payment}</Title>
+                              <Title level={4} style={{ fontWeight: "700", margin: 0, color: "white" }}>$ 3000</Title>
                             </div>
                           </div>
                         </Card>
