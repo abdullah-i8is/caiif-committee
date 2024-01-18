@@ -61,7 +61,9 @@ function App() {
         </div>
       ) : ( */}
         <Routes>
-          <Route path="/sign-up/:cid" exact element={!token ? <SignUp /> : <Navigate to="/" />} />
+          <Route path="/sign-up1/:cid" exact element={!token ? <SignUp /> : <Navigate to="/" />} />
+          <Route path="/sign-up2/:cid" exact element={!token ? <SignUp /> : <Navigate to="/" />} />
+          <Route path="/sign-up3/:cid" exact element={!token ? <SignUp /> : <Navigate to="/" />} />
           <Route path="/sign-in" exact element={!token ? <SignIn /> : <Navigate to="/" />} />
           <Route path="/new-password/:id/:email" exact element={<NewPassword />} />
           <Route path="/create-account/:id/:email" element={<VerifyAccount />} />
