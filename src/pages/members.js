@@ -170,7 +170,7 @@ function Members() {
                         <Button
                             loading={userId === record._id ? loading2 : false}
                             onClick={() => {
-                                handleApprove(record._id, "DECLINE")
+                                handleApprove(record._id, record?.committeeList?.length > 0 && record?.committeeList[0]?.cid, "DECLINE")
                                 setUserId(record._id)
                             }}
                             style={{ margin: "0 0 0 10px", width: "100px" }}
