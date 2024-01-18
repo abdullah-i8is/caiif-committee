@@ -129,7 +129,6 @@ export default function SignUp() {
       formFields.jobOccupation === "" ||
       formFields.firstName === "" ||
       formFields.lastName === "" ||
-      formFields.contactNumber === "" ||
       formFields.emergencyContact === "" ||
       formFields.sin === "" ||
       formFields.nic === "" ||
@@ -142,7 +141,7 @@ export default function SignUp() {
       formFields.address2 === "" ||
       formFields.city === "" ||
       formFields.province === "" ||
-      formFields.postalCode !== ""
+      formFields.postalCode === ""
     ) {
       api.error({
         message: `Notification`,
