@@ -189,6 +189,38 @@ function VerificationDetails() {
                 }
             })
         }
+        if (name === "employmentStatus") {
+            setUser((prevDetail) => {
+                return {
+                    ...prevDetail,
+                    [name]: value,
+                }
+            })
+        }
+        if (name === "residentialStatus") {
+            setUser((prevDetail) => {
+                return {
+                    ...prevDetail,
+                    [name]: value,
+                }
+            })
+        }
+        if (name === "sourceOfIncome") {
+            setUser((prevDetail) => {
+                return {
+                    ...prevDetail,
+                    [name]: value,
+                }
+            })
+        }
+        if (name === "province") {
+            setUser((prevDetail) => {
+                return {
+                    ...prevDetail,
+                    [name]: value,
+                }
+            })
+        }
     }
 
     console.log(user);
@@ -263,7 +295,7 @@ function VerificationDetails() {
                         <Col xs={24} sm={24} md={6} lg={6} xl={4}>
                             <Form.Item label={<Title style={{ fontSize: "16px", margin: 0, color: "#4E4E4E" }}>Province</Title>}>
                                 <Select
-                                    defaultValue={user?.province}
+                                    value={user?.province}
                                     options={[
                                         { value: 'AB', label: 'Alberta' },
                                         { value: 'BC', label: 'British Columbia' },
@@ -306,7 +338,7 @@ function VerificationDetails() {
                         <Col xs={24} sm={24} md={6} lg={6} xl={8}>
                             <Form.Item label={<Title style={{ fontSize: "16px", margin: 0, color: "#4E4E4E" }}>Residential Status</Title>}>
                                 <Select
-                                    defaultValue={user?.residentialStatus}
+                                    value={user?.residentialStatus}
                                     options={[
                                         { value: 'ownsHome', label: 'Owns Home' },
                                         { value: 'rents', label: 'Rents' },
@@ -321,7 +353,7 @@ function VerificationDetails() {
                         <Col xs={24} sm={24} md={6} lg={6} xl={8}>
                             <Form.Item label={<Title style={{ fontSize: "16px", margin: 0, color: "#4E4E4E" }}>Employed Status</Title>}>
                                 <Select
-                                    defaultValue={user?.employmentStatus}
+                                    value={user?.employmentStatus}
                                     options={[
                                         { value: 'fullTime', label: 'Full-Time' },
                                         { value: 'partTime', label: 'Part-Time' },
@@ -339,7 +371,7 @@ function VerificationDetails() {
                         <Col xs={24} sm={24} md={6} lg={6} xl={8}>
                             <Form.Item label={<Title style={{ fontSize: "16px", margin: 0, color: "#4E4E4E" }}>Source Of Income</Title>}>
                                 <Select
-                                    defaultValue={user?.sourceOfIncome}
+                                    value={user?.sourceOfIncome}
                                     options={[
                                         { value: 'employment', label: 'Employment' },
                                         { value: 'selfEmployment', label: 'Self-Employment' },
@@ -462,7 +494,7 @@ function VerificationDetails() {
                         {user?.approve === false && <Col xs={24} sm={24} md={12} lg={24} xl={24}>
                             <Form.Item label={<Title style={{ fontSize: "16px", margin: 0, color: "#4E4E4E" }}>Select Committee</Title>}>
                                 <Select
-                                    defaultValue="Select Committee"
+                                    value="Select Committee"
                                     style={{ width: "100%" }}
                                     options={state?.committees?.committees?.map((opt) => ({ value: opt?.committeeDetails?.committee?._id, label: opt?.committeeDetails?.committee?.name }))}
                                     onChange={(e) => handleChange(e, "cId")}
