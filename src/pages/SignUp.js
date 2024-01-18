@@ -539,26 +539,28 @@ export default function SignUp() {
                         rules={[
                           {
                             required: true,
-                            message: 'Please input your Email !',
+                            message: 'Please input your Email!',
                           },
                         ]}
-                        label={<Title style={{ fontSize: "16px", margin: 0, color: "#4E4E4E" }}>Email</Title>}>
+                        label={<Title style={{ fontSize: '16px', margin: 0, color: '#4E4E4E' }}>Email</Title>}
+                      >
                         <Input
-                          style={{ width: "600px" }}
+                          style={{ width: '600px' }}
                           type="email"
                           placeholder="Test@example.com"
                           onChange={(e) => {
-                            setFieldName({ type: "email", value: e.target.value })
+                            setFieldName({ type: 'email', value: e.target.value });
                             setFormFields((prevFields) => {
                               return {
                                 ...prevFields,
-                                email: e.target.value
-                              }
+                                email: e.target.value,
+                              };
                             });
                           }}
                           value={formFields.email}
                         />
                       </Form.Item>
+
                       <div style={{ display: "flex", alignItems: "center" }}>
                         <Form.Item
                           required={true}

@@ -3160,3 +3160,7 @@ th.ant-table-cell h1 {
 .my-card2 .ant-card-body {
   padding: 10px 20px;
 }
+
+.ant-btn-sm {
+  height: 100% !important;
+}
