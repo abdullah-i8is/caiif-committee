@@ -463,7 +463,7 @@ export default function SignUp() {
                             </div>
                             <div style={{ margin: "0 30px" }}>
                               <Title level={4} style={{ fontWeight: "700", margin: 0, color: '#F2C649' }}>Monthly Payment</Title>
-                              <Title level={4} style={{ fontWeight: "700", margin: 0, color: "white" }}>$ 100</Title>
+                              <Title level={4} style={{ fontWeight: "700", margin: 0, color: "white" }}>$ 125</Title>
                             </div>
                             <div>
                               <Title level={4} style={{ fontWeight: "700", margin: 0, color: '#F2C649' }}>Total Amount</Title>
