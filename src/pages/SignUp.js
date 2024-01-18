@@ -877,9 +877,10 @@ export default function SignUp() {
                           <Input onChange={(e) => {
                             setFieldName({ type: "grossAnnualIncome", value: e.target.value })
                             setFormFields((prevFields) => {
+                              const value = e.target.value.replace(/[^0-9]/g, '');
                               return {
                                 ...prevFields,
-                                grossAnnualIncome: e.target.value
+                                grossAnnualIncome: value
                               }
                             });
                           }} style={{ width: "300px" }} placeholder="Gross Annual Income" value={formFields.grossAnnualIncome} />
