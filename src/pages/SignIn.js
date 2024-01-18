@@ -36,7 +36,7 @@ export default function SignIn() {
     email: "",
     password: "",
   });
-  const [width,setWidth] = useState(0)
+  const [width, setWidth] = useState(0)
 
   const onFinish = (values) => {
     console.log("Success:", values);
@@ -100,17 +100,17 @@ export default function SignIn() {
     const handleResize = () => {
       setWidth(window.innerWidth);
     };
-  
+
     // Add event listener
     window.addEventListener("resize", handleResize);
-  
+
     // Remove event listener when the component unmounts
     return () => {
       window.removeEventListener("resize", handleResize);
     };
   }, []);
-  
-  
+
+
   useEffect(() => {
     if (formFields.email !== "" || formFields.password !== "") {
       handleSignin()
@@ -131,7 +131,7 @@ export default function SignIn() {
       <div>
         <Card>
           <div style={{ display: "flex", justifyContent: "center", alignItems: "center", }}>
-            <div style={{ margin: "0 30px" }}>  
+            <div style={{ margin: "0 30px" }}>
               <Form
                 form={form}
                 layout="vertical"
@@ -166,6 +166,9 @@ export default function SignIn() {
                   name="password">
                   <Input.Password style={{ width: "300px" }} placeholder="Password" />
                 </Form.Item>
+
+
+                <Title onClick={() => navigate("/reset-password")} style={{ fontSize: "16px", margin: "0 0 20px 0", color: "#166805", cursor: "pointer", textDecoration: "underline" }}>forget password ?</Title>
 
                 {err !== null && <Title style={{ fontSize: "16px", margin: "0 0 20px 0", color: "red" }}>{err}</Title>}
 

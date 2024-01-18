@@ -32,6 +32,9 @@ function VerificationDetails() {
     const [commitee, setCommittee] = useState()
     const state = useSelector((state) => state)
     const [note, setNote] = useState("");
+    const [myNotes, setMyNotes] = useState([
+        { note: "" }
+    ]);
     const [api, contextHolder] = notification.useNotification();
     const openNotification = (placement, message) => {
         api.success({
@@ -115,7 +118,7 @@ function VerificationDetails() {
             api.error({
                 message: `Notification`,
                 description: error?.response?.data?.message,
-                placement:"topRight",
+                placement: "topRight",
             });
             console.log(error);
         }
@@ -144,6 +147,7 @@ function VerificationDetails() {
 
     console.log(user);
     console.log(commitee);
+    console.log(myNotes);
 
     return (
         <>
@@ -162,35 +166,135 @@ function VerificationDetails() {
                 <Card>
                     <Row gutter={[24, 0]}>
                         <Col xs={24} sm={24} md={24} lg={24} xl={24}>
-                            <Card style={{ border: "2px solid #166805", marginBottom: 40 }}>
-                                <img src={user?.nic} style={{ borderRadius: "10px", width: "100%", height: "300px", objectFit: "contain" }} />
+                            <Card style={{ border: "2px solid #166805", marginBottom: 40, width: "50%" }}>
+                                <img src={user?.nic} style={{ borderRadius: "10px", width: "100%", height: "150px", objectFit: "contain" }} />
                             </Card>
                         </Col>
-                        <Col xs={16} sm={24} md={6} lg={12} xl={12}>
-                            <Form.Item label={<Title style={{ fontSize: "16px", margin: 0, color: "#4E4E4E" }}>Name</Title>}>
-                                <Input onChange={(e) => handleChange(e.target.value, "name")} value={user?.name} />
+                        <Col xs={16} sm={24} md={6} lg={6} xl={4}>
+                            <Form.Item label={<Title style={{ fontSize: "16px", margin: 0, color: "#4E4E4E" }}>First Name</Title>}>
+                                <Input onChange={(e) => handleChange(e.target.value, "name")} value={user?.firstName} />
                             </Form.Item>
                         </Col>
-                        <Col xs={24} sm={24} md={6} lg={12} xl={12}>
+                        <Col xs={16} sm={24} md={6} lg={6} xl={4}>
+                            <Form.Item label={<Title style={{ fontSize: "16px", margin: 0, color: "#4E4E4E" }}>Last Name</Title>}>
+                                <Input onChange={(e) => handleChange(e.target.value, "name")} value={user?.lastName} />
+                            </Form.Item>
+                        </Col>
+                        <Col xs={24} sm={24} md={6} lg={6} xl={4}>
                             <Form.Item label={<Title style={{ fontSize: "16px", margin: 0, color: "#4E4E4E" }}>Email Address</Title>}>
                                 <Input onChange={(e) => handleChange(e.target.value, "email")} value={user?.email} />
                             </Form.Item>
                         </Col>
-                        <Col xs={24} sm={24} md={6} lg={8} xl={8}>
+                        <Col xs={24} sm={24} md={6} lg={6} xl={4}>
                             <Form.Item label={<Title style={{ fontSize: "16px", margin: 0, color: "#4E4E4E" }}>Phone Number</Title>}>
                                 <Input onChange={(e) => handleChange(e.target.value, "contactNumber")} value={user?.contactNumber} />
                             </Form.Item>
                         </Col>
-                        <Col xs={24} sm={24} md={6} lg={8} xl={8}>
-                            <Form.Item label={<Title style={{ fontSize: "16px", margin: 0, color: "#4E4E4E" }}>Interested Date</Title>}>
-                                <Input value={user?.interestedDate} />
+                        <Col xs={24} sm={24} md={6} lg={6} xl={4}>
+                            <Form.Item label={<Title style={{ fontSize: "16px", margin: 0, color: "#4E4E4E" }}>Date Of Birth</Title>}>
+                                <Input onChange={(e) => handleChange(e.target.value, "contactNumber")} value={new Date(user?.DOB).toLocaleDateString()} />
                             </Form.Item>
                         </Col>
-                        <Col xs={24} sm={24} md={6} lg={8} xl={8}>
+                        <Col xs={24} sm={24} md={6} lg={6} xl={4}>
+                            <Form.Item label={<Title style={{ fontSize: "16px", margin: 0, color: "#4E4E4E" }}>Sin</Title>}>
+                                <Input onChange={(e) => handleChange(e.target.value, "sin")} value={user?.sin} />
+                            </Form.Item>
+                        </Col>
+
+                        <Col xs={24} sm={24} md={6} lg={6} xl={4}>
+                            <Form.Item label={<Title style={{ fontSize: "16px", margin: 0, color: "#4E4E4E" }}>City</Title>}>
+                                <Input onChange={(e) => handleChange(e.target.value, "city")} value={user?.city} />
+                            </Form.Item>
+                        </Col>
+                        <Col xs={24} sm={24} md={6} lg={6} xl={4}>
+                            <Form.Item label={<Title style={{ fontSize: "16px", margin: 0, color: "#4E4E4E" }}>Province</Title>}>
+                                <Input onChange={(e) => handleChange(e.target.value, "province")} value={user?.province} />
+                            </Form.Item>
+                        </Col>
+                        <Col xs={24} sm={24} md={6} lg={6} xl={4}>
+                            <Form.Item label={<Title style={{ fontSize: "16px", margin: 0, color: "#4E4E4E" }}>Postal Code</Title>}>
+                                <Input onChange={(e) => handleChange(e.target.value, "postalCode")} value={user?.postalCode} />
+                            </Form.Item>
+                        </Col>
+                        <Col xs={24} sm={24} md={6} lg={6} xl={8}>
+                            <Form.Item label={<Title style={{ fontSize: "16px", margin: 0, color: "#4E4E4E" }}>Address</Title>}>
+                                <Input onChange={(e) => handleChange(e.target.value, "address1")} value={user?.address1} />
+                            </Form.Item>
+                        </Col>
+                        <Col xs={24} sm={24} md={6} lg={6} xl={8}>
+                            <Form.Item label={<Title style={{ fontSize: "16px", margin: 0, color: "#4E4E4E" }}>Street Address</Title>}>
+                                <Input onChange={(e) => handleChange(e.target.value, "address2")} value={user?.address2} />
+                            </Form.Item>
+                        </Col>
+                        <Col xs={24} sm={24} md={6} lg={6} xl={8}>
+                            <Form.Item label={<Title style={{ fontSize: "16px", margin: 0, color: "#4E4E4E" }}>Residential Address</Title>}>
+                                <Input onChange={(e) => handleChange(e.target.value, "residentialAddress")} value={user?.residentialAddress} />
+                            </Form.Item>
+                        </Col>
+                        <Col xs={24} sm={24} md={6} lg={6} xl={8}>
+                            <Form.Item label={<Title style={{ fontSize: "16px", margin: 0, color: "#4E4E4E" }}>Residential Status</Title>}>
+                                <Input onChange={(e) => handleChange(e.target.value, "residentialStatus")} value={user?.residentialStatus} />
+                            </Form.Item>
+                        </Col>
+                        <Col xs={24} sm={24} md={6} lg={6} xl={8}>
+                            <Form.Item label={<Title style={{ fontSize: "16px", margin: 0, color: "#4E4E4E" }}>Employed Status</Title>}>
+                                <Input onChange={(e) => handleChange(e.target.value, "employmentStatus")} value={user?.employmentStatus} />
+                            </Form.Item>
+                        </Col>
+                        <Col xs={24} sm={24} md={6} lg={6} xl={8}>
+                            <Form.Item label={<Title style={{ fontSize: "16px", margin: 0, color: "#4E4E4E" }}>Source Of Income</Title>}>
+                                <Input onChange={(e) => handleChange(e.target.value, "sourceOfIncome")} value={user?.sourceOfIncome} />
+                            </Form.Item>
+                        </Col>
+                        <Col xs={24} sm={24} md={6} lg={6} xl={8}>
+                            <Form.Item label={<Title style={{ fontSize: "16px", margin: 0, color: "#4E4E4E" }}>Gross Annual Income</Title>}>
+                                <Input onChange={(e) => handleChange(e.target.value, "grossAnnualIncome")} value={user?.grossAnnualIncome} />
+                            </Form.Item>
+                        </Col>
+
+                        <Col xs={24} sm={24} md={6} lg={6} xl={4}>
                             <Form.Item label={<Title style={{ fontSize: "16px", margin: 0, color: "#4E4E4E" }}>Job Occupation</Title>}>
                                 <Input onChange={(e) => handleChange(e.target.value, "jobOccupation")} value={user?.jobOccupation} />
                             </Form.Item>
                         </Col>
+
+                        <Col xs={24} sm={24} md={24} lg={24} xl={24} style={{ marginBottom: 20 }}>
+                            <Button onClick={() => {
+                                setMyNotes((prevDetail) => {
+                                    return [...prevDetail, { note: "" }]
+                                })
+                            }} className="add-cycle-btn">Add note</Button>
+                        </Col>
+
+                        {myNotes?.map((note, index) => (
+                            <Col xs={24} sm={24} md={24} lg={24} xl={24} key={index}>
+                                <Form.Item
+                                    name={`note[${index}]`}
+                                    rules={[
+                                        {
+                                            required: false,
+                                            message: 'Please input your Note!',
+                                        },
+                                    ]}
+                                    label={<Title style={{ fontSize: "16px", margin: 0, color: "#4E4E4E" }}>Note</Title>}
+                                >
+                                    <Input.TextArea
+                                        onChange={(e) => {
+                                            setMyNotes((prevNotes) => {
+                                                const newArr = [...prevNotes];
+                                                newArr[index] = {
+                                                    note: e.target.value,
+                                                };
+                                                return newArr;
+                                            });
+                                        }}
+                                        value={note?.note}
+                                    />
+                                </Form.Item>
+                            </Col>
+                        ))}
+
+
                         {user?.approve === false && <Col xs={24} sm={24} md={12} lg={24} xl={24}>
                             <Form.Item label={<Title style={{ fontSize: "16px", margin: 0, color: "#4E4E4E" }}>Select Committee</Title>}>
                                 <Select
@@ -241,19 +345,7 @@ function VerificationDetails() {
                                 <Input disabled={user?.approve === true ? true : false} value={new Date(commitee?.endDate).toLocaleDateString()} />
                             </Form.Item>
                         </Col>
-                        {user?.adminNotes?.length > 0 && <Col xs={24} sm={24} md={12} lg={12} xl={12}>
-                            <Form.Item
-                                name="note"
-                                rules={[
-                                    {
-                                        required: false,
-                                        message: 'Please input your Note!',
-                                    },
-                                ]}
-                                label={<Title style={{ fontSize: "16px", margin: 0, color: "#4E4E4E" }}>Note</Title>}>
-                                <Input.TextArea value={note} onChange={(e) => setNote(e.target.value)} />
-                            </Form.Item>
-                        </Col>}
+
                         {user?.adminNotes?.length > 0 && <Col xs={24} sm={24} md={24} lg={24} xl={24} style={{ marginBottom: 0 }}>
                             <Form.Item label={<Title style={{ fontSize: "16px", margin: 0, color: "#4E4E4E" }}>Notes</Title>}>
                                 {user?.adminNotes?.map((f) => f === "" ? null : <Input value={f} style={{ margin: "10px 0" }} />)}

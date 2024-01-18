@@ -27,6 +27,7 @@ import SignUp2 from "./pages/signup2";
 import SignUp3 from "./pages/signup3";
 import NewPassword from "./pages/new-password";
 import PaymentHistory from "./pages/paymentHistory";
+import ResetPassword from "./pages/resetPassword";
 
 function App() {
 
@@ -69,6 +70,7 @@ function App() {
           <Route path="/sign-in" exact element={!token ? <SignIn /> : <Navigate to="/" />} />
           <Route path="/new-password/:id/:email" exact element={<NewPassword />} />
           <Route path="/create-account/:id/:email" element={<VerifyAccount />} />
+          <Route path="/reset-password" element={<ResetPassword />} />
           <Route path="/" element={<Main />}>
             <Route path="/" element={token ? <Home /> : <Navigate to="/sign-in" />} />
             <Route path="/members" element={token ? <Members /> : <Navigate to="/sign-in" />} />

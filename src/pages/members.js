@@ -208,6 +208,7 @@ function Members() {
             dataIndex: 'name',
             key: 'name',
             render: (text, record, index) => {
+                console.log(record);
                 return <Title style={{ fontSize: "18px", margin: 0, color: "#166805", fontWeight: "600" }}>{record?.firstName}</Title>
             }
         },
