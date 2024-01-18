@@ -541,6 +541,14 @@ export default function SignUp() {
                             required: true,
                             message: 'Please input your Email!',
                           },
+                          {
+                            type: 'email',
+                            message: 'The input is not a valid email!',
+                          },
+                          {
+                            pattern: /^[^\s@]+@[^\s@]+\.[^\s@]+$/,
+                            message: 'Please enter a valid email address!',
+                          },
                         ]}
                         label={<Title style={{ fontSize: '16px', margin: 0, color: '#4E4E4E' }}>Email</Title>}
                       >
