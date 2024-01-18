@@ -262,7 +262,25 @@ function VerificationDetails() {
                         </Col>
                         <Col xs={24} sm={24} md={6} lg={6} xl={4}>
                             <Form.Item label={<Title style={{ fontSize: "16px", margin: 0, color: "#4E4E4E" }}>Province</Title>}>
-                                <Input onChange={(e) => handleChange(e.target.value, "province")} value={user?.province} />
+                                <Select
+                                    defaultValue={user?.province}
+                                    options={[
+                                        { value: 'AB', label: 'Alberta' },
+                                        { value: 'BC', label: 'British Columbia' },
+                                        { value: 'MB', label: 'Manitoba' },
+                                        { value: 'NB', label: 'New Brunswick' },
+                                        { value: 'NL', label: 'Newfoundland and Labrador' },
+                                        { value: 'NS', label: 'Nova Scotia' },
+                                        { value: 'NT', label: 'Northwest Territories' },
+                                        { value: 'NU', label: 'Nunavut' },
+                                        { value: 'ON', label: 'Ontario' },
+                                        { value: 'PE', label: 'Prince Edward Island' },
+                                        { value: 'QC', label: 'Quebec' },
+                                        { value: 'SK', label: 'Saskatchewan' },
+                                        { value: 'YT', label: 'Yukon' },
+                                    ]}
+                                    onChange={(e) => handleChange(e, "province")}
+                                />
                             </Form.Item>
                         </Col>
                         <Col xs={24} sm={24} md={6} lg={6} xl={4}>
@@ -287,17 +305,54 @@ function VerificationDetails() {
                         </Col>
                         <Col xs={24} sm={24} md={6} lg={6} xl={8}>
                             <Form.Item label={<Title style={{ fontSize: "16px", margin: 0, color: "#4E4E4E" }}>Residential Status</Title>}>
-                                <Input onChange={(e) => handleChange(e.target.value, "residentialStatus")} value={user?.residentialStatus} />
+                                <Select
+                                    defaultValue={user?.residentialStatus}
+                                    options={[
+                                        { value: 'ownsHome', label: 'Owns Home' },
+                                        { value: 'rents', label: 'Rents' },
+                                        { value: 'livingWithFamily', label: 'Living with Family' },
+                                        { value: 'studentHousing', label: 'Student Housing' },
+                                        { value: 'temporaryAccommodation', label: 'Temporary Accommodation' },
+                                    ]}
+                                    onChange={(e) => handleChange(e, "residentialStatus")}
+                                />
                             </Form.Item>
                         </Col>
                         <Col xs={24} sm={24} md={6} lg={6} xl={8}>
                             <Form.Item label={<Title style={{ fontSize: "16px", margin: 0, color: "#4E4E4E" }}>Employed Status</Title>}>
-                                <Input onChange={(e) => handleChange(e.target.value, "employmentStatus")} value={user?.employmentStatus} />
+                                <Select
+                                    defaultValue={user?.employmentStatus}
+                                    options={[
+                                        { value: 'fullTime', label: 'Full-Time' },
+                                        { value: 'partTime', label: 'Part-Time' },
+                                        { value: 'contract', label: 'Contract' },
+                                        { value: 'temporary', label: 'Temporary' },
+                                        { value: 'intern', label: 'Intern' },
+                                        { value: 'freelancer', label: 'Freelancer' },
+                                        { value: "selfEmployed", label: "Self-Employed" },
+                                        { value: "unEmployed", label: "Un-Employed" },
+                                    ]}
+                                    onChange={(e) => handleChange(e, "employmentStatus")}
+                                />
                             </Form.Item>
                         </Col>
                         <Col xs={24} sm={24} md={6} lg={6} xl={8}>
                             <Form.Item label={<Title style={{ fontSize: "16px", margin: 0, color: "#4E4E4E" }}>Source Of Income</Title>}>
-                                <Input onChange={(e) => handleChange(e.target.value, "sourceOfIncome")} value={user?.sourceOfIncome} />
+                                <Select
+                                    defaultValue={user?.sourceOfIncome}
+                                    options={[
+                                        { value: 'employment', label: 'Employment' },
+                                        { value: 'selfEmployment', label: 'Self-Employment' },
+                                        { value: 'freelance', label: 'Freelance' },
+                                        { value: 'businessOwner', label: 'Business Owner' },
+                                        { value: 'investment', label: 'Investment' },
+                                        { value: 'retirement', label: 'Retirement' },
+                                        { value: 'rentalIncome', label: 'Rental Income' },
+                                        { value: 'governmentAssistance', label: 'Government Assistance' },
+                                        { value: 'other', label: 'Other' },
+                                    ]}
+                                    onChange={(e) => handleChange(e, "sourceOfIncome")}
+                                />
                             </Form.Item>
                         </Col>
                         <Col xs={24} sm={24} md={6} lg={6} xl={8}>
