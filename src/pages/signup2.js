@@ -103,7 +103,6 @@ export default function SignUp2() {
         contactNumber: values?.contactNumber,
         emergencyContact: values?.emergencyContact,
         sin: values?.sin,
-        nic: values?.nic,
         residentialAddress: values?.residentialAddress,
         residentialStatus: values?.residentialStatus,
         grossAnnualIncome: values?.grossAnnualIncome,
