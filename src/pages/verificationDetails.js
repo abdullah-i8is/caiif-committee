@@ -10,6 +10,7 @@ import {
     Input,
     notification,
     Select,
+    DatePicker
 } from "antd";
 import { useNavigate, useParams } from "react-router-dom";
 import denyIcon from '../assets/images/deny.svg'
@@ -18,6 +19,7 @@ import axios from "axios";
 import { API_URL } from "../config/api";
 import { GetAdminCommittees } from "../middlewares/commitee";
 import { setCommittees } from "../store/committeeSlice/committeeSlice";
+import moment from 'moment'
 
 function VerificationDetails() {
 
@@ -96,12 +98,29 @@ function VerificationDetails() {
         setLoading(true)
         try {
             const response = await axios.post(`${API_URL}/admin/additionalData/${id}`, {
-                adminNote: note,
-                name: user?.name,
+                cId: user?.cId,
+                firstName: user?.firstName,
+                lastName: user?.lastName,
                 email: user?.email,
                 contactNumber: user?.contactNumber,
                 jobOccupation: user?.jobOccupation,
-                cId: user?.cId
+                contactNumber: user?.contactNumber,
+                sin: user?.sin,
+                residentialAddress: user?.residentialAddress,
+                residentialStatus: user?.residentialStatus,
+                grossAnnualIncome: user?.grossAnnualIncome,
+                sourceOfIncome: user?.sourceOfIncome,
+                employmentStatus: user?.employmentStatus,
+                appointment: {
+                    date: user?.appointment?.date,
+                },
+                DOB: user?.appointment?.DOB,
+                address1: user?.address1,
+                address2: user?.address2,
+                city: user?.city,
+                province: user?.province,
+                postalCode: user?.postalCode,
+                adminNote: user?.adminNotes,
             }, {
                 headers: {
                     Authorization: "Bearer " + token
@@ -125,6 +144,7 @@ function VerificationDetails() {
     }
 
     const handleChange = async (value, name) => {
+        console.log(value, name);
         setUser((prevDetail) => {
             return {
                 ...prevDetail,
@@ -143,11 +163,37 @@ function VerificationDetails() {
                 }
             })
         }
+        if (name === "DOB") {
+            setUser((prevDetail) => {
+                return {
+                    ...prevDetail,
+                    [name]: value
+                }
+            })
+        }
+        if (name === "DOB") {
+            setUser((prevDetail) => {
+                return {
+                    ...prevDetail,
+                    [name]: value
+                }
+            })
+        }
+        if (name === "appointment") {
+            setUser((prevDetail) => {
+                return {
+                    ...prevDetail,
+                    appointment: {
+                        date: value,
+                    },
+                }
+            })
+        }
     }
 
     console.log(user);
-    console.log(commitee);
-    console.log(myNotes);
+    // console.log(commitee);
+    // console.log(myNotes);
 
     return (
         <>
@@ -172,12 +218,12 @@ function VerificationDetails() {
                         </Col>
                         <Col xs={16} sm={24} md={6} lg={6} xl={4}>
                             <Form.Item label={<Title style={{ fontSize: "16px", margin: 0, color: "#4E4E4E" }}>First Name</Title>}>
-                                <Input onChange={(e) => handleChange(e.target.value, "name")} value={user?.firstName} />
+                                <Input onChange={(e) => handleChange(e.target.value, "firstName")} value={user?.firstName} />
                             </Form.Item>
                         </Col>
                         <Col xs={16} sm={24} md={6} lg={6} xl={4}>
                             <Form.Item label={<Title style={{ fontSize: "16px", margin: 0, color: "#4E4E4E" }}>Last Name</Title>}>
-                                <Input onChange={(e) => handleChange(e.target.value, "name")} value={user?.lastName} />
+                                <Input onChange={(e) => handleChange(e.target.value, "lastName")} value={user?.lastName} />
                             </Form.Item>
                         </Col>
                         <Col xs={24} sm={24} md={6} lg={6} xl={4}>
@@ -191,8 +237,16 @@ function VerificationDetails() {
                             </Form.Item>
                         </Col>
                         <Col xs={24} sm={24} md={6} lg={6} xl={4}>
+                            <Form.Item label={<Title style={{ fontSize: "16px", margin: 0, color: "#4E4E4E" }}>DOB</Title>}>
+                                <Input value={new Date(user?.DOB).toLocaleDateString()} />
+                            </Form.Item>
+                        </Col>
+                        <Col xs={24} sm={24} md={6} lg={6} xl={4}>
                             <Form.Item label={<Title style={{ fontSize: "16px", margin: 0, color: "#4E4E4E" }}>Date Of Birth</Title>}>
-                                <Input onChange={(e) => handleChange(e.target.value, "contactNumber")} value={new Date(user?.DOB).toLocaleDateString()} />
+                                <DatePicker
+                                    onChange={(date) => handleChange(date, "DOB")}
+                                    inputReadOnly={true}
+                                />
                             </Form.Item>
                         </Col>
                         <Col xs={24} sm={24} md={6} lg={6} xl={4}>
@@ -258,42 +312,97 @@ function VerificationDetails() {
                             </Form.Item>
                         </Col>
 
+                        <Col xs={24} sm={24} md={6} lg={6} xl={4}>
+                            <Form.Item label={<Title style={{ fontSize: "16px", margin: 0, color: "#4E4E4E" }}>Appointment</Title>}>
+                                <Input value={new Date(user?.appointment?.date).toLocaleDateString()} />
+                            </Form.Item>
+                        </Col>
+
+                        <Col xs={24} sm={24} md={6} lg={6} xl={4}>
+                            <Form.Item label={<Title style={{ fontSize: "16px", margin: 0, color: "#4E4E4E" }}>Select Appointment</Title>}>
+                                <DatePicker
+                                    showTime={{
+                                        format: 'h A', // 12-hour format with AM/PM
+                                        minuteStep: 60, // Set minuteStep to 60 to hide minutes
+                                    }}
+                                    format="YYYY-MM-DD h A" // 12-hour format with only hours and AM/PM
+                                    style={{ width: '100%' }}
+                                    onChange={(date) => handleChange(date, "appointment")}
+                                    inputReadOnly={true}
+                                    disabledDate={(current) => {
+                                        const dayOfWeek = current.day();
+                                        if (dayOfWeek === 0 || dayOfWeek === 6) {
+                                            return true;
+                                        }
+                                        const currentYear = moment().year();
+                                        const currentMonth = moment().month();
+                                        const currentDay = moment().date();
+                                        const isPreviousYear = current.year() < currentYear;
+                                        const isCurrentYear = current.year() === currentYear;
+                                        const isPastDateInCurrentYear = isCurrentYear && (
+                                            (current.month() < currentMonth) ||
+                                            (current.month() === currentMonth && current.date() < currentDay)
+                                        );
+                                        return isPreviousYear || isPastDateInCurrentYear;
+                                    }}
+                                // renderExtraFooter={() => (
+                                //     <div>
+                                //         <span>Selected Date: {user?.appointment?.date ? user?.appointment?.date.format('YYYY-MM-DD HH') : 'None'}</span>
+                                //     </div>
+                                // )}
+                                />
+                            </Form.Item>
+                        </Col>
+
                         <Col xs={24} sm={24} md={24} lg={24} xl={24} style={{ marginBottom: 20 }}>
                             <Button onClick={() => {
-                                setMyNotes((prevDetail) => {
-                                    return [...prevDetail, { note: "" }]
+                                setUser((prevDetail) => {
+                                    return {
+                                        ...prevDetail,
+                                        adminNotes: [...prevDetail?.adminNotes, { note: "" }]
+                                    }
                                 })
                             }} className="add-cycle-btn">Add note</Button>
                         </Col>
 
-                        {myNotes?.map((note, index) => (
-                            <Col xs={24} sm={24} md={24} lg={24} xl={24} key={index}>
-                                <Form.Item
-                                    name={`note[${index}]`}
-                                    rules={[
-                                        {
-                                            required: false,
-                                            message: 'Please input your Note!',
-                                        },
-                                    ]}
-                                    label={<Title style={{ fontSize: "16px", margin: 0, color: "#4E4E4E" }}>Note</Title>}
-                                >
-                                    <Input.TextArea
-                                        onChange={(e) => {
-                                            setMyNotes((prevNotes) => {
-                                                const newArr = [...prevNotes];
-                                                newArr[index] = {
-                                                    note: e.target.value,
-                                                };
-                                                return newArr;
-                                            });
-                                        }}
-                                        value={note?.note}
-                                    />
-                                </Form.Item>
-                            </Col>
-                        ))}
-
+                        {user?.adminNotes?.map((note, index) => {
+                            return (
+                                <Col xs={24} sm={24} md={24} lg={24} xl={24} key={index}>
+                                    <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: 10 }}>
+                                        <Title style={{ fontSize: "16px", margin: 0, color: "#4E4E4E" }}>Note</Title>
+                                        <Button onClick={() => {
+                                            setUser((prevDetail) => {
+                                                return {
+                                                    ...prevDetail,
+                                                    adminNotes: prevDetail?.adminNotes?.filter((f) => f._id !== note?._id)
+                                                }
+                                            })
+                                        }} className="add-cycle-btn">Delete note</Button>
+                                    </div>
+                                    <Form.Item
+                                        rules={[
+                                            {
+                                                required: false,
+                                                message: 'Please input your Note!',
+                                            },
+                                        ]}
+                                    >
+                                        <Input.TextArea
+                                            onChange={(e) => {
+                                                setUser((prevUser) => {
+                                                    const newArr = [...prevUser?.adminNotes];
+                                                    newArr[index] = {
+                                                        note: e.target.value,
+                                                    };
+                                                    return { ...prevUser, adminNotes: newArr };
+                                                });
+                                            }}
+                                            value={note?.note}
+                                        />
+                                    </Form.Item>
+                                </Col>
+                            )
+                        })}
 
                         {user?.approve === false && <Col xs={24} sm={24} md={12} lg={24} xl={24}>
                             <Form.Item label={<Title style={{ fontSize: "16px", margin: 0, color: "#4E4E4E" }}>Select Committee</Title>}>
@@ -346,11 +455,6 @@ function VerificationDetails() {
                             </Form.Item>
                         </Col>
 
-                        {user?.adminNotes?.length > 0 && <Col xs={24} sm={24} md={24} lg={24} xl={24} style={{ marginBottom: 0 }}>
-                            <Form.Item label={<Title style={{ fontSize: "16px", margin: 0, color: "#4E4E4E" }}>Notes</Title>}>
-                                {user?.adminNotes?.map((f) => f === "" ? null : <Input value={f} style={{ margin: "10px 0" }} />)}
-                            </Form.Item>
-                        </Col>}
                         {/* <Col xs={24} sm={24} md={24} lg={24} xl={24} style={{ marginBottom: additionalDetail ? 30 : 0 }}>
                             <Button onClick={() => setAdditionalDetail(true)} className="add-cycle-btn">Add Additional Detail</Button>
                         </Col> */}
