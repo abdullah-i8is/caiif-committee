@@ -522,7 +522,7 @@ function Setup2() {
                             </Col>
                             <Col xs={24} sm={24} md={4} lg={3} xl={3}>
                                 <Title style={{ margin: 0 }} level={4}>Cycle Duration</Title>
-                                <Title style={{ margin: 0, color: "grey", fontWeight: '500' }} level={5}>{committeeDetail?.cycle?.value}</Title>
+                                <Title style={{ margin: 0, color: "grey", fontWeight: '500' }} level={5}>8 months</Title>
                             </Col>
                             <Col xs={24} sm={24} md={4} lg={3} xl={3}>
                                 <Title style={{ margin: 0 }} level={4}>Total Amount</Title>
@@ -621,7 +621,7 @@ function Setup2() {
                             </Col>
                             <Col xs={24} sm={24} md={4} lg={3} xl={3}>
                                 <Title style={{ margin: 0 }} level={4}>Cycle Duration</Title>
-                                <Title style={{ margin: 0, color: "grey", fontWeight: '500' }} level={5}>{committeeDetail?.cycle?.value}</Title>
+                                <Title style={{ margin: 0, color: "grey", fontWeight: '500' }} level={5}>8 months</Title>
                             </Col>
                             <Col xs={24} sm={24} md={4} lg={3} xl={3}>
                                 <Title style={{ margin: 0 }} level={4}>Total Amount</Title>
