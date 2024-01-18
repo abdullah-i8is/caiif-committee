@@ -450,7 +450,7 @@ export default function SignUp3() {
                           <img width={200} src={logo} />
                           <Title level={1} className="signup-title">Committee</Title>
                         </div> */}
-                        <Title level={2} style={{ color: "green", fontWeight: "700", margin: 0 }}>Daily Essentials</Title>
+                        <Title level={2} style={{ color: "green", fontWeight: "700", margin: 0 }}>Home Upgrade</Title>
                         {/* <Title level={2} style={{ color: "green", fontWeight: "700", margin: 0 }}>Apply for $ 1000 Committee</Title> */}
                         {/* <Title level={5} style={{ color: "green", fontWeight: "600", margin: "0" }}>
                           This committee operates over an 8-month period. CAIIF charges a 3% fee for the first four members, which reduces to 2% for the 5th and 6th members. The last two members are exempt from these charges. The membership structure involves a tiered fee system, encouraging participation and recognizing the contributions of each member.
