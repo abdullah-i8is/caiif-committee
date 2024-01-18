@@ -143,11 +143,19 @@ export default function SignUp() {
       formFields.province === "" ||
       formFields.postalCode === ""
     ) {
-      api.error({
-        message: `Notification`,
-        description: "Fields are required",
-        placement: "topRight",
+      const emptyFields = [];
+      Object.entries(formFields).forEach(([key, value]) => {
+        if (value === "") {
+          emptyFields.push(key);
+        }
       });
+      if (emptyFields.length > 0) {
+        api.error({
+          message: 'Notification',
+          description: `Fields (${emptyFields.join(', ')}) are required`,
+          placement: 'topRight',
+        });
+      }
     }
     else {
       setLoading(true)

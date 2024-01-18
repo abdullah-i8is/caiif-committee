@@ -78,7 +78,7 @@ export default function SignUp3() {
     sourceOfIncome: "",
     employmentStatus: "",
     appointment: {
-      date: { to: null, from: null },
+      date: null,
     },
     DOB: null,
     address1: "",
@@ -123,59 +123,95 @@ export default function SignUp3() {
   };
 
   const handleSignup = async () => {
-    setLoading(true)
-    setFormSubmit(false)
-    try {
-      const response = await axios.post(`${API_URL}/signup`, {
-        ...formFields
-      })
-      if (response.status === 200) {
-        setLoading(false)
-        setFormSubmit(true)
-        setStatus(response?.data?.success)
-        setSuccess(response?.data?.message)
-        console.log(response);
-      }
-    } catch (error) {
-      setFormSubmit(false)
-      setLoading(false)
-      setStatus(error?.response?.data?.success)
-      setSuccess(error?.response?.data?.message)
-      api.error({
-        message: `Notification`,
-        description: error?.response?.data?.message ? error?.response?.data?.message : "network error",
-        placement: "topRight",
+    if (
+      formFields.email === "" ||
+      formFields.contactNumber === "" ||
+      formFields.jobOccupation === "" ||
+      formFields.firstName === "" ||
+      formFields.lastName === "" ||
+      formFields.emergencyContact === "" ||
+      formFields.sin === "" ||
+      formFields.nic === "" ||
+      formFields.residentialAddress === "" ||
+      formFields.residentialStatus === "" ||
+      formFields.grossAnnualIncome === "" ||
+      formFields.sourceOfIncome === "" ||
+      formFields.employmentStatus === "" ||
+      formFields.address1 === "" ||
+      formFields.address2 === "" ||
+      formFields.city === "" ||
+      formFields.province === "" ||
+      formFields.postalCode === ""
+    ) {
+      const emptyFields = [];
+      Object.entries(formFields).forEach(([key, value]) => {
+        if (value === "") {
+          emptyFields.push(key);
+        }
       });
-      console.log(error);
+      if (emptyFields.length > 0) {
+        api.error({
+          message: 'Notification',
+          description: `Fields (${emptyFields.join(', ')}) are required`,
+          placement: 'topRight',
+        });
+      }
+    }
+    else {
+      setLoading(true)
+      setFormSubmit(false)
+      try {
+        const response = await axios.post(`${API_URL}/signup`, {
+          ...formFields
+        })
+        if (response.status === 200) {
+          setLoading(false)
+          setFormSubmit(true)
+          setStatus(response?.data?.success)
+          setSuccess(response?.data?.message)
+          console.log(response);
+        }
+      } catch (error) {
+        setFormSubmit(false)
+        setLoading(false)
+        setStatus(error?.response?.data?.success)
+        setSuccess(error?.response?.data?.message)
+        api.error({
+          message: `Notification`,
+          description: error?.response?.data?.message ? error?.response?.data?.message : "network error",
+          placement: "topRight",
+        });
+        console.log(error);
+      }
     }
   }
 
-  useEffect(() => {
-    if (
-      formFields.email !== "" &&
-      formFields.contactNumber !== "" &&
-      formFields.jobOccupation !== "" &&
-      formFields.firstName !== "" &&
-      formFields.lastName !== "" &&
-      formFields.contactNumber !== "" &&
-      formFields.emergencyContact !== "" &&
-      formFields.sin !== "" &&
-      formFields.nic !== "" &&
-      formFields.residentialAddress !== "" &&
-      formFields.residentialStatus !== "" &&
-      formFields.grossAnnualIncome !== "" &&
-      formFields.sourceOfIncome !== "" &&
-      formFields.employmentStatus !== "" &&
-      formFields.address1 !== "" &&
-      formFields.address2 !== "" &&
-      formFields.city !== "" &&
-      formFields.province !== "" &&
-      formFields.postalCode !== ""
-    ) {
-      handleSignup()
-      console.log("bhai mein nahi chaloonga");
-    }
-  }, [formFields])
+  // useEffect(() => {
+  //   if (
+  //     formFields.email !== "" &&
+  //     formFields.contactNumber !== "" &&
+  //     formFields.jobOccupation !== "" &&
+  //     formFields.firstName !== "" &&
+  //     formFields.lastName !== "" &&
+  //     formFields.contactNumber !== "" &&
+  //     formFields.emergencyContact !== "" &&
+  //     formFields.sin !== "" &&
+  //     formFields.nic !== "" &&
+  //     formFields.residentialAddress !== "" &&
+  //     formFields.residentialStatus !== "" &&
+  //     formFields.grossAnnualIncome !== "" &&
+  //     formFields.sourceOfIncome !== "" &&
+  //     formFields.employmentStatus !== "" &&
+  //     formFields.address1 !== "" &&
+  //     formFields.address2 !== "" &&
+  //     formFields.city !== "" &&
+  //     formFields.province !== "" &&
+  //     formFields.postalCode !== ""
+  //   ) {
+  //     handleSignup()
+  //     console.log("bhai mein nahi chaloonga");
+  //   }
+  // }, [formFields])
 
   const handleUpload = async (imgFile) => {
     setUploading(true)
@@ -414,23 +450,28 @@ export default function SignUp3() {
                           <img width={200} src={logo} />
                           <Title level={1} className="signup-title">Committee</Title>
                         </div> */}
-                        <Title level={2} style={{ color: "green", fontWeight: "700" }}>Apply for $ 5000 Committee</Title>
-                        <Title level={5} style={{ color: "green", fontWeight: "600", margin: "0" }}>
+                        <Title level={2} style={{ color: "green", fontWeight: "700", margin: 0 }}>Car</Title>
+                        {/* <Title level={2} style={{ color: "green", fontWeight: "700", margin: 0 }}>Apply for $ 1000 Committee</Title> */}
+                        {/* <Title level={5} style={{ color: "green", fontWeight: "600", margin: "0" }}>
                           This committee operates over an 8-month period. CAIIF charges a 3% fee for the first four members, which reduces to 2% for the 5th and 6th members. The last two members are exempt from these charges. The membership structure involves a tiered fee system, encouraging participation and recognizing the contributions of each member.
-                        </Title>
-                        <Card className="my-card2" style={{ background: "#166805", marginTop: 30, width: "100%" }}>
+                        </Title> */}
+                        <Card className="my-card2" style={{ background: "#166805", marginTop: 20, width: "100%" }}>
                           <div style={{ display: 'flex' }}>
                             <div>
-                              <Title level={3} style={{ fontWeight: "700", margin: 0, color: '#F2C649' }}>Cycle</Title>
+                              <Title level={4} style={{ fontWeight: "700", margin: 0, color: '#F2C649' }}>Cycle</Title>
                               <Title level={4} style={{ fontWeight: "700", margin: 0, color: "white" }}>Monthly</Title>
                             </div>
-                            <div style={{ margin: "0 60px" }}>
-                              <Title level={3} style={{ fontWeight: "700", margin: 0, color: '#F2C649' }}>Monthly Payment</Title>
-                              <Title level={4} style={{ fontWeight: "700", margin: 0, color: "white" }}>$ 625</Title>
+                            <div style={{ margin: "0 30px" }}>
+                              <Title level={4} style={{ fontWeight: "700", margin: 0, color: '#F2C649' }}>Monthly Payment</Title>
+                              <Title level={4} style={{ fontWeight: "700", margin: 0, color: "white" }}>$ 645</Title>
                             </div>
                             <div>
-                              <Title level={3} style={{ fontWeight: "700", margin: 0, color: '#F2C649' }}>Total Amount</Title>
+                              <Title level={4} style={{ fontWeight: "700", margin: 0, color: '#F2C649' }}>Total Amount</Title>
                               <Title level={4} style={{ fontWeight: "700", margin: 0, color: "white" }}>$ 5000</Title>
+                            </div>
+                            <div style={{ margin: "0 0 0 30px" }}>
+                              <Title level={4} style={{ fontWeight: "700", margin: 0, color: '#F2C649' }}>Term</Title>
+                              <Title level={4} style={{ fontWeight: "700", margin: 0, color: "white" }}>8 Months</Title>
                             </div>
                           </div>
                         </Card>
@@ -443,17 +484,30 @@ export default function SignUp3() {
                   <div style={{ display: "flex", justifyContent: "center", alignItems: 'center', flexDirection: "column" }}>
                     <div style={{ width: "600px" }}>
                       <div style={{ display: "flex", justifyContent: "center", alignItems: 'center' }}>
-                        <Form.Item name="firstName"
+                        <Form.Item
                           rules={[
                             {
                               required: true,
-                              message: 'Please input your First Name !',
+                              message: 'Please input your First Name!',
                             },
                           ]}
-                          label={<Title style={{ fontSize: "16px", margin: 0, color: "#4E4E4E" }}>First Name</Title>}>
-                          <Input style={{ width: "300px" }} placeholder="Name" value={formFields.firstName} />
+                          label={<Title style={{ fontSize: "16px", margin: 0, color: "#4E4E4E" }}>First Name</Title>}
+                        >
+                          <Input
+                            onChange={(e) => {
+                              setFormFields((prevFields) => {
+                                return {
+                                  ...prevFields,
+                                  firstName: e.target.value
+                                }
+                              });
+                            }}
+                            style={{ width: "300px" }}
+                            placeholder="Name"
+                            value={formFields.firstName}
+                          />
                         </Form.Item>
-                        <Form.Item name="lastName"
+                        <Form.Item
                           rules={[
                             {
                               required: true,
@@ -461,10 +515,22 @@ export default function SignUp3() {
                             },
                           ]}
                           label={<Title style={{ fontSize: "16px", margin: 0, color: "#4E4E4E" }}>Last Name</Title>}>
-                          <Input style={{ width: "300px" }} placeholder="Name" value={formFields.lastName} />
+                          <Input
+                            onChange={(e) => {
+                              setFormFields((prevFields) => {
+                                return {
+                                  ...prevFields,
+                                  lastName: e.target.value
+                                }
+                              });
+                            }}
+                            style={{ width: "300px" }}
+                            placeholder="Last Name"
+                            value={formFields.lastName}
+                          />
                         </Form.Item>
                       </div>
-                      <Form.Item name="email"
+                      <Form.Item
                         rules={[
                           {
                             required: true,
@@ -472,7 +538,20 @@ export default function SignUp3() {
                           },
                         ]}
                         label={<Title style={{ fontSize: "16px", margin: 0, color: "#4E4E4E" }}>Email</Title>}>
-                        <Input style={{ width: "600px" }} type="email" placeholder="Test@example.com" />
+                        <Input
+                          style={{ width: "600px" }}
+                          type="email"
+                          placeholder="Test@example.com"
+                          onChange={(e) => {
+                            setFormFields((prevFields) => {
+                              return {
+                                ...prevFields,
+                                email: e.target.value
+                              }
+                            });
+                          }}
+                          value={formFields.email}
+                        />
                       </Form.Item>
                       <div style={{ display: "flex", alignItems: "center" }}>
                         <Form.Item
@@ -485,24 +564,35 @@ export default function SignUp3() {
                           label={<Title style={{ fontSize: "16px", margin: 0, color: "#4E4E4E" }}>Contact Number</Title>}>
                           <Input value={formFields.contactNumber} onChange={(e) => {
                             if (e.target.value.length <= 11) {
+                              const value = e.target.value.replace(/[^0-9]/g, '');
                               setFormFields((prevFields) => {
                                 return {
                                   ...prevFields,
-                                  contactNumber: e.target.value
+                                  contactNumber: value
                                 }
                               });
                             }
-                          }} type="number" style={{ width: "300px" }} placeholder="Contact Number" />
+                          }} style={{ width: "300px" }} placeholder="Contact Number" />
                         </Form.Item>
-                        <Form.Item name="emergencyContact"
+                        <Form.Item
                           rules={[
                             {
                               required: true,
-                              message: 'Please input your Emergency Contact Number !',
+                              message: 'Please input your Secondary Contact Number !',
                             },
                           ]}
-                          label={<Title style={{ fontSize: "16px", margin: 0, color: "#4E4E4E" }}>Emergency Contact Number</Title>}>
-                          <Input type="number" style={{ width: "300px" }} placeholder="Emergency Contact Number" />
+                          label={<Title style={{ fontSize: "16px", margin: 0, color: "#4E4E4E" }}>Secondary Contact Number</Title>}>
+                          <Input value={formFields.emergencyContact} onChange={(e) => {
+                            if (e.target.value.length <= 11) {
+                              const value = e.target.value.replace(/[^0-9]/g, '');
+                              setFormFields((prevFields) => {
+                                return {
+                                  ...prevFields,
+                                  emergencyContact: value
+                                }
+                              });
+                            }
+                          }} style={{ width: "300px" }} placeholder="Secondary Contact Number" />
                         </Form.Item>
                       </div>
                       <div style={{ display: 'flex', alignItems: "center" }}>
@@ -516,14 +606,15 @@ export default function SignUp3() {
                           label={<Title style={{ fontSize: "16px", margin: 0, color: "#4E4E4E" }}>SIN</Title>}>
                           <Input value={formFields.sin} onChange={(e) => {
                             if (e.target.value.length <= 8) {
+                              const value = e.target.value.replace(/[^0-9]/g, '');
                               setFormFields((prevFields) => {
                                 return {
                                   ...prevFields,
-                                  sin: e.target.value
+                                  sin: value
                                 }
                               });
                             }
-                          }} type="number" style={{ width: "300px" }} placeholder="SIN" />
+                          }} style={{ width: "300px" }} placeholder="SIN" />
                         </Form.Item>
                         <Form.Item
                           rules={[
@@ -543,19 +634,19 @@ export default function SignUp3() {
                                 }
                               })
                             }}
+                            inputReadOnly={true}
                           />
                         </Form.Item>
                       </div>
                       <div style={{ display: 'flex', alignItems: "center" }}>
                         <Form.Item
-                        name="address1"
                           rules={[
                             {
                               required: true,
                               message: 'Please input your Address 1 !',
                             },
                           ]}
-                          label={<Title style={{ fontSize: "16px", margin: 0, color: "#4E4E4E" }}>Address 1</Title>}>
+                          label={<Title style={{ fontSize: "16px", margin: 0, color: "#4E4E4E" }}>Address</Title>}>
                           <Input value={formFields.address1} onChange={(e) => {
                             setFormFields((prevFields) => {
                               return {
@@ -563,32 +654,28 @@ export default function SignUp3() {
                                 address1: e.target.value
                               }
                             });
-                          }} style={{ width: "300px" }} placeholder="Address 1" />
+                          }} style={{ width: "300px" }} placeholder="Address" />
                         </Form.Item>
                         <Form.Item
-                        
-                        name="address2"
                           rules={[
                             {
                               required: true,
-                              message: 'Please input your Address 2 !',
+                              message: 'Please input your Street Address !',
                             },
                           ]}
-                          label={<Title style={{ fontSize: "16px", margin: 0, color: "#4E4E4E" }}>Address 2</Title>}>
-                          <Input value={formFields.address1} onChange={(e) => {
+                          label={<Title style={{ fontSize: "16px", margin: 0, color: "#4E4E4E" }}>Street Address</Title>}>
+                          <Input value={formFields.address2} onChange={(e) => {
                             setFormFields((prevFields) => {
                               return {
                                 ...prevFields,
                                 address2: e.target.value
                               }
                             });
-                          }} style={{ width: "300px" }} placeholder="Address 2" />
+                          }} style={{ width: "300px" }} placeholder="Street Address" />
                         </Form.Item>
                       </div>
                       <div style={{ display: 'flex', alignItems: "center" }}>
                         <Form.Item
-                        
-                        name="city"
                           rules={[
                             {
                               required: true,
@@ -596,7 +683,7 @@ export default function SignUp3() {
                             },
                           ]}
                           label={<Title style={{ fontSize: "16px", margin: 0, color: "#4E4E4E" }}>City</Title>}>
-                          <Input value={formFields.address1} onChange={(e) => {
+                          <Input value={formFields.city} onChange={(e) => {
                             setFormFields((prevFields) => {
                               return {
                                 ...prevFields,
@@ -606,28 +693,43 @@ export default function SignUp3() {
                           }} style={{ width: "300px" }} placeholder="City" />
                         </Form.Item>
                         <Form.Item
-                        
-                        name="province"
                           rules={[
                             {
                               required: true,
                               message: 'Please input your Provice !',
                             },
                           ]}
-                          label={<Title style={{ fontSize: "16px", margin: 0, color: "#4E4E4E" }}>Provice</Title>}>
-                          <Input value={formFields.province} onChange={(e) => {
-                            setFormFields((prevFields) => {
-                              return {
-                                ...prevFields,
-                                province: e.target.value
-                              }
-                            });
-                          }} style={{ width: "300px" }} placeholder="Provice" />
+                          label={<Title style={{ fontSize: "16px", margin: 0, color: "#4E4E4E" }}>Province</Title>}>
+                          <Select
+                            defaultValue="Select Province"
+                            style={{ width: "300px" }}
+                            options={[
+                              { value: 'AB', label: 'Alberta' },
+                              { value: 'BC', label: 'British Columbia' },
+                              { value: 'MB', label: 'Manitoba' },
+                              { value: 'NB', label: 'New Brunswick' },
+                              { value: 'NL', label: 'Newfoundland and Labrador' },
+                              { value: 'NS', label: 'Nova Scotia' },
+                              { value: 'NT', label: 'Northwest Territories' },
+                              { value: 'NU', label: 'Nunavut' },
+                              { value: 'ON', label: 'Ontario' },
+                              { value: 'PE', label: 'Prince Edward Island' },
+                              { value: 'QC', label: 'Quebec' },
+                              { value: 'SK', label: 'Saskatchewan' },
+                              { value: 'YT', label: 'Yukon' },
+                            ]}
+                            onChange={(e) => {
+                              setFormFields((prevFields) => {
+                                return {
+                                  ...prevFields,
+                                  province: e,
+                                }
+                              })
+                            }}
+                          />
                         </Form.Item>
                       </div>
                       <Form.Item
-                      
-                      name="postalCode"
                         rules={[
                           {
                             required: true,
@@ -635,17 +737,19 @@ export default function SignUp3() {
                           },
                         ]}
                         label={<Title style={{ fontSize: "16px", margin: 0, color: "#4E4E4E" }}>Postal Code</Title>}>
-                        <Input value={formFields.province} onChange={(e) => {
-                          setFormFields((prevFields) => {
-                            return {
-                              ...prevFields,
-                              postalCode: e.target.value
-                            }
-                          });
+                        <Input value={formFields.postalCode} onChange={(e) => {
+                          if (e.target.value.length <= 6) {
+                            setFormFields((prevFields) => {
+                              return {
+                                ...prevFields,
+                                postalCode: e.target.value
+                              }
+                            });
+                          }
                         }} style={{ width: "600px" }} placeholder="Postal Code" />
                       </Form.Item>
                       <div style={{ display: "flex", alignItems: "center" }}>
-                        <Form.Item name="residentialAddress"
+                        <Form.Item
                           rules={[
                             {
                               required: true,
@@ -653,10 +757,18 @@ export default function SignUp3() {
                             },
                           ]}
                           label={<Title style={{ fontSize: "16px", margin: 0, color: "#4E4E4E" }}>Residential Address</Title>}>
-                          <Input style={{ width: "300px" }} placeholder="Residential Address" value={formFields.residentialAddress} />
+                          <Input
+                            onChange={(e) => {
+                              setFormFields((prevFields) => {
+                                return {
+                                  ...prevFields,
+                                  residentialAddress: e.target.value
+                                }
+                              });
+                            }}
+                            style={{ width: "300px" }} placeholder="Residential Address" value={formFields.residentialAddress} />
                         </Form.Item>
                         <Form.Item
-                          name="residentialStatus"
                           rules={[
                             {
                               required: true,
@@ -685,7 +797,7 @@ export default function SignUp3() {
                           />
                         </Form.Item>
                       </div>
-                      <Form.Item name="jobOccupation"
+                      <Form.Item
                         rules={[
                           {
                             required: true,
@@ -693,7 +805,14 @@ export default function SignUp3() {
                           },
                         ]}
                         label={<Title style={{ fontSize: "16px", margin: 0, color: "#4E4E4E" }}>Occupation</Title>}>
-                        <Input style={{ width: "600px" }} placeholder="Occupation" />
+                        <Input onChange={(e) => {
+                          setFormFields((prevFields) => {
+                            return {
+                              ...prevFields,
+                              jobOccupation: e.target.value
+                            }
+                          });
+                        }} style={{ width: "600px" }} placeholder="Occupation" />
                       </Form.Item>
                       <div style={{ display: "flex", alignItems: "center" }}>
                         <Form.Item name="grossAnnualIncome"
@@ -704,10 +823,16 @@ export default function SignUp3() {
                             },
                           ]}
                           label={<Title style={{ fontSize: "16px", margin: 0, color: "#4E4E4E" }}>Gross Annual Income</Title>}>
-                          <Input style={{ width: "300px" }} placeholder="Gross Annual Income" value={formFields.grossAnnualIncome} />
+                          <Input onChange={(e) => {
+                            setFormFields((prevFields) => {
+                              return {
+                                ...prevFields,
+                                grossAnnualIncome: e.target.value
+                              }
+                            });
+                          }} style={{ width: "300px" }} placeholder="Gross Annual Income" value={formFields.grossAnnualIncome} />
                         </Form.Item>
                         <Form.Item
-                          name="sourceOfIncome"
                           rules={[
                             {
                               required: true,
@@ -741,7 +866,6 @@ export default function SignUp3() {
                         </Form.Item>
                       </div>
                       <Form.Item
-                        name="employmentStatus"
                         rules={[
                           {
                             required: true,
@@ -781,22 +905,46 @@ export default function SignUp3() {
                           {formFields?.nic ? <img style={{ width: "100% !important", margin: "20px 0 0 0", borderRadius: "5px" }} src={formFields?.nic} /> : ""}
                         </div>
                         <div style={{ width: "600px" }}>
-                          <Title style={{ fontSize: "16px", margin: "0 0 8px 0", color: "#4E4E4E" }}>Book an appointment</Title>
-                          <RangePicker
-                            showTime
+                          {/* <Title style={{ fontSize: "16px", margin: "0 0 8px 0", color: "#4E4E4E" }}></Title> */}
+                          <Title level={2} style={{ color: "green", fontWeight: "600", margin: "30px 0" }}>
+                            Appointment Details
+                          </Title>
+                          <Title style={{ fontSize: "16px", margin: "0 0 8px 0", color: "#4E4E4E" }}>Availability: Mon to Fri - 9am to 5am</Title>
+                          <DatePicker
+                            showTime={{ format: 'HH:mm', minuteStep: 15 }}
+                            format="HH:mm"
                             style={{ width: '100%' }}
                             onChange={(e) => {
                               setFormFields((prevFields) => {
                                 return {
                                   ...prevFields,
                                   appointment: {
-                                    date: {
-                                      from: e[0],
-                                      to: e[1],
-                                    }
+                                    date: e
                                   }
                                 }
                               })
+                            }}
+                            inputReadOnly={true}
+                            disabledDate={(current) => {
+                              // Disable Sundays (0) and Saturdays (6)
+                              const dayOfWeek = current.day();
+                              if (dayOfWeek === 0 || dayOfWeek === 6) {
+                                return true;
+                              }
+
+                              // Disable previous year dates
+                              const currentYear = moment().year();
+                              const currentMonth = moment().month();
+                              const currentDay = moment().date();
+
+                              const isPreviousYear = current.year() < currentYear;
+                              const isCurrentYear = current.year() === currentYear;
+                              const isPastDateInCurrentYear = isCurrentYear && (
+                                (current.month() < currentMonth) ||
+                                (current.month() === currentMonth && current.date() < currentDay)
+                              );
+
+                              return isPreviousYear || isPastDateInCurrentYear;
                             }}
                           />
                         </div>
@@ -827,11 +975,11 @@ export default function SignUp3() {
                         </div>
                         <div style={{ width: "600px" }}>
                           <Button
+                            onClick={handleSignup}
                             disabled={termsCondition.first && termsCondition.second ? false : true}
                             loading={loading}
                             style={{ width: "100%", backgroundColor: termsCondition.first && termsCondition.second ? "#166805" : !termsCondition.first || !termsCondition.second ? "grey" : "", color: 'white' }}
                             type="primary"
-                            htmlType="submit"
                           >
                             Submit
                           </Button>
