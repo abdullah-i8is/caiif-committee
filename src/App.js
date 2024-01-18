@@ -23,6 +23,8 @@ import { API_URL } from "./config/api";
 import axios from "axios";
 import { setCommittees } from "./store/committeeSlice/committeeSlice";
 import Setup2 from "./pages/Setup2";
+import SignUp2 from "./pages/signup2";
+import SignUp3 from "./pages/signup3";
 import NewPassword from "./pages/new-password";
 import PaymentHistory from "./pages/paymentHistory";
 
@@ -62,8 +64,8 @@ function App() {
       ) : ( */}
         <Routes>
           <Route path="/sign-up1/:cid" exact element={!token ? <SignUp /> : <Navigate to="/" />} />
-          <Route path="/sign-up2/:cid" exact element={!token ? <SignUp /> : <Navigate to="/" />} />
-          <Route path="/sign-up3/:cid" exact element={!token ? <SignUp /> : <Navigate to="/" />} />
+          <Route path="/sign-up2/:cid" exact element={!token ? <SignUp2 /> : <Navigate to="/" />} />
+          <Route path="/sign-up3/:cid" exact element={!token ? <SignUp3 /> : <Navigate to="/" />} />
           <Route path="/sign-in" exact element={!token ? <SignIn /> : <Navigate to="/" />} />
           <Route path="/new-password/:id/:email" exact element={<NewPassword />} />
           <Route path="/create-account/:id/:email" element={<VerifyAccount />} />
