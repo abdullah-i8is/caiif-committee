@@ -168,7 +168,7 @@ export default function SignIn() {
                 </Form.Item>
 
 
-                <Title onClick={() => navigate("/reset-password")} style={{ fontSize: "16px", margin: "0 0 20px 0", color: "#166805", cursor: "pointer", textDecoration: "underline" }}>forget password ?</Title>
+                <Title onClick={() => navigate("/reset-password")} style={{ fontSize: "16px", margin: "0 0 20px 0", color: "#166805", cursor: "pointer", textDecoration: "underline" }}>Forget password ?</Title>
 
                 {err !== null && <Title style={{ fontSize: "16px", margin: "0 0 20px 0", color: "red" }}>{err}</Title>}
 
