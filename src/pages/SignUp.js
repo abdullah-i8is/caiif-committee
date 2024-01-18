@@ -89,6 +89,7 @@ export default function SignUp() {
   });
   const [api, contextHolder] = notification.useNotification();
   const [step, setStep] = useState(1);
+  const [fieldName, setFieldName] = useState()
 
   const onFinish = (values) => {
     console.log("Success:", values);
@@ -143,19 +144,18 @@ export default function SignUp() {
       formFields.province === "" ||
       formFields.postalCode === ""
     ) {
-      const emptyFields = [];
       Object.entries(formFields).forEach(([key, value]) => {
         if (value === "") {
-          emptyFields.push(key);
+          api.error({
+            message: 'Notification',
+            description: `${key} is required`,
+            placement: {
+              top: 24,
+              right: 24,
+            },
+          });
         }
       });
-      if (emptyFields.length > 0) {
-        api.error({
-          message: 'Notification',
-          description: `Fields (${emptyFields.join(', ')}) are required`,
-          placement: 'topRight',
-        });
-      }
     }
     else {
       setLoading(true)
@@ -332,7 +332,7 @@ export default function SignUp() {
 
   // console.log(commitee);
   // console.log(monthDuration);
-  console.log(formFields);
+  console.log(fieldName);
 
   return (
     <div>
@@ -491,10 +491,12 @@ export default function SignUp() {
                               message: 'Please input your First Name!',
                             },
                           ]}
+                          required={true}
                           label={<Title style={{ fontSize: "16px", margin: 0, color: "#4E4E4E" }}>First Name</Title>}
                         >
                           <Input
                             onChange={(e) => {
+                              setFieldName({ type: "firstName", value: e.target.value })
                               setFormFields((prevFields) => {
                                 return {
                                   ...prevFields,
@@ -503,11 +505,12 @@ export default function SignUp() {
                               });
                             }}
                             style={{ width: "300px" }}
-                            placeholder="Name"
+                            placeholder="First Name"
                             value={formFields.firstName}
                           />
                         </Form.Item>
                         <Form.Item
+                          required={true}
                           rules={[
                             {
                               required: true,
@@ -517,6 +520,7 @@ export default function SignUp() {
                           label={<Title style={{ fontSize: "16px", margin: 0, color: "#4E4E4E" }}>Last Name</Title>}>
                           <Input
                             onChange={(e) => {
+                              setFieldName({ type: "lastName", value: e.target.value })
                               setFormFields((prevFields) => {
                                 return {
                                   ...prevFields,
@@ -531,6 +535,7 @@ export default function SignUp() {
                         </Form.Item>
                       </div>
                       <Form.Item
+                        required={true}
                         rules={[
                           {
                             required: true,
@@ -543,6 +548,7 @@ export default function SignUp() {
                           type="email"
                           placeholder="Test@example.com"
                           onChange={(e) => {
+                            setFieldName({ type: "email", value: e.target.value })
                             setFormFields((prevFields) => {
                               return {
                                 ...prevFields,
@@ -555,6 +561,7 @@ export default function SignUp() {
                       </Form.Item>
                       <div style={{ display: "flex", alignItems: "center" }}>
                         <Form.Item
+                          required={true}
                           rules={[
                             {
                               required: true,
@@ -563,6 +570,7 @@ export default function SignUp() {
                           ]}
                           label={<Title style={{ fontSize: "16px", margin: 0, color: "#4E4E4E" }}>Contact Number</Title>}>
                           <Input value={formFields.contactNumber} onChange={(e) => {
+                            setFieldName({ type: "contactNumber", value: e.target.value })
                             if (e.target.value.length <= 11) {
                               const value = e.target.value.replace(/[^0-9]/g, '');
                               setFormFields((prevFields) => {
@@ -583,6 +591,7 @@ export default function SignUp() {
                           ]}
                           label={<Title style={{ fontSize: "16px", margin: 0, color: "#4E4E4E" }}>Secondary Contact Number</Title>}>
                           <Input value={formFields.emergencyContact} onChange={(e) => {
+                            setFieldName({ type: "emergencyContact", value: e.target.value })
                             if (e.target.value.length <= 11) {
                               const value = e.target.value.replace(/[^0-9]/g, '');
                               setFormFields((prevFields) => {
@@ -597,6 +606,7 @@ export default function SignUp() {
                       </div>
                       <div style={{ display: 'flex', alignItems: "center" }}>
                         <Form.Item
+                          required={true}
                           rules={[
                             {
                               required: true,
@@ -605,6 +615,7 @@ export default function SignUp() {
                           ]}
                           label={<Title style={{ fontSize: "16px", margin: 0, color: "#4E4E4E" }}>SIN</Title>}>
                           <Input value={formFields.sin} onChange={(e) => {
+                            setFieldName({ type: "sin", value: e.target.value })
                             if (e.target.value.length <= 8) {
                               const value = e.target.value.replace(/[^0-9]/g, '');
                               setFormFields((prevFields) => {
@@ -617,6 +628,7 @@ export default function SignUp() {
                           }} style={{ width: "300px" }} placeholder="SIN" />
                         </Form.Item>
                         <Form.Item
+                          required={true}
                           rules={[
                             {
                               required: true,
@@ -627,6 +639,8 @@ export default function SignUp() {
                           <DatePicker
                             style={{ width: '300px' }}
                             onChange={(e) => {
+                              setFieldName({ type: "DOB", value: e })
+
                               setFormFields((prevFields) => {
                                 return {
                                   ...prevFields,
@@ -640,6 +654,8 @@ export default function SignUp() {
                       </div>
                       <div style={{ display: 'flex', alignItems: "center" }}>
                         <Form.Item
+                          required={true}
+
                           rules={[
                             {
                               required: true,
@@ -648,6 +664,7 @@ export default function SignUp() {
                           ]}
                           label={<Title style={{ fontSize: "16px", margin: 0, color: "#4E4E4E" }}>Address</Title>}>
                           <Input value={formFields.address1} onChange={(e) => {
+                            setFieldName({ type: "address1", value: e.target.value })
                             setFormFields((prevFields) => {
                               return {
                                 ...prevFields,
@@ -657,6 +674,8 @@ export default function SignUp() {
                           }} style={{ width: "300px" }} placeholder="Address" />
                         </Form.Item>
                         <Form.Item
+                          required={true}
+
                           rules={[
                             {
                               required: true,
@@ -665,6 +684,8 @@ export default function SignUp() {
                           ]}
                           label={<Title style={{ fontSize: "16px", margin: 0, color: "#4E4E4E" }}>Street Address</Title>}>
                           <Input value={formFields.address2} onChange={(e) => {
+
+                            setFieldName({ type: "address2", value: e.target.value })
                             setFormFields((prevFields) => {
                               return {
                                 ...prevFields,
@@ -676,6 +697,8 @@ export default function SignUp() {
                       </div>
                       <div style={{ display: 'flex', alignItems: "center" }}>
                         <Form.Item
+                          required={true}
+
                           rules={[
                             {
                               required: true,
@@ -684,6 +707,7 @@ export default function SignUp() {
                           ]}
                           label={<Title style={{ fontSize: "16px", margin: 0, color: "#4E4E4E" }}>City</Title>}>
                           <Input value={formFields.city} onChange={(e) => {
+                            setFieldName({ type: "city", value: e.target.value })
                             setFormFields((prevFields) => {
                               return {
                                 ...prevFields,
@@ -693,6 +717,8 @@ export default function SignUp() {
                           }} style={{ width: "300px" }} placeholder="City" />
                         </Form.Item>
                         <Form.Item
+                          required={true}
+
                           rules={[
                             {
                               required: true,
@@ -719,6 +745,7 @@ export default function SignUp() {
                               { value: 'YT', label: 'Yukon' },
                             ]}
                             onChange={(e) => {
+                              setFieldName({ type: "province", value: e })
                               setFormFields((prevFields) => {
                                 return {
                                   ...prevFields,
@@ -730,6 +757,8 @@ export default function SignUp() {
                         </Form.Item>
                       </div>
                       <Form.Item
+                        required={true}
+
                         rules={[
                           {
                             required: true,
@@ -739,6 +768,7 @@ export default function SignUp() {
                         label={<Title style={{ fontSize: "16px", margin: 0, color: "#4E4E4E" }}>Postal Code</Title>}>
                         <Input value={formFields.postalCode} onChange={(e) => {
                           if (e.target.value.length <= 6) {
+                            setFieldName({ type: "postalCode", value: e.target.value })
                             setFormFields((prevFields) => {
                               return {
                                 ...prevFields,
@@ -750,6 +780,8 @@ export default function SignUp() {
                       </Form.Item>
                       <div style={{ display: "flex", alignItems: "center" }}>
                         <Form.Item
+                          required={true}
+
                           rules={[
                             {
                               required: true,
@@ -759,6 +791,7 @@ export default function SignUp() {
                           label={<Title style={{ fontSize: "16px", margin: 0, color: "#4E4E4E" }}>Residential Address</Title>}>
                           <Input
                             onChange={(e) => {
+                              setFieldName({ type: "residentialAddress", value: e.target.value })
                               setFormFields((prevFields) => {
                                 return {
                                   ...prevFields,
@@ -769,6 +802,8 @@ export default function SignUp() {
                             style={{ width: "300px" }} placeholder="Residential Address" value={formFields.residentialAddress} />
                         </Form.Item>
                         <Form.Item
+                          required={true}
+
                           rules={[
                             {
                               required: true,
@@ -787,6 +822,7 @@ export default function SignUp() {
                               { value: 'temporaryAccommodation', label: 'Temporary Accommodation' },
                             ]}
                             onChange={(e) => {
+                              setFieldName({ type: "residentialStatus", value: e })
                               setFormFields((prevFields) => {
                                 return {
                                   ...prevFields,
@@ -798,6 +834,8 @@ export default function SignUp() {
                         </Form.Item>
                       </div>
                       <Form.Item
+                        required={true}
+
                         rules={[
                           {
                             required: true,
@@ -806,6 +844,7 @@ export default function SignUp() {
                         ]}
                         label={<Title style={{ fontSize: "16px", margin: 0, color: "#4E4E4E" }}>Occupation</Title>}>
                         <Input onChange={(e) => {
+                          setFieldName({ type: "jobOccupation", value: e.target.value })
                           setFormFields((prevFields) => {
                             return {
                               ...prevFields,
@@ -815,7 +854,9 @@ export default function SignUp() {
                         }} style={{ width: "600px" }} placeholder="Occupation" />
                       </Form.Item>
                       <div style={{ display: "flex", alignItems: "center" }}>
-                        <Form.Item name="grossAnnualIncome"
+                        <Form.Item
+                          required={true}
+
                           rules={[
                             {
                               required: true,
@@ -824,6 +865,7 @@ export default function SignUp() {
                           ]}
                           label={<Title style={{ fontSize: "16px", margin: 0, color: "#4E4E4E" }}>Gross Annual Income</Title>}>
                           <Input onChange={(e) => {
+                            setFieldName({ type: "grossAnnualIncome", value: e.target.value })
                             setFormFields((prevFields) => {
                               return {
                                 ...prevFields,
@@ -833,6 +875,7 @@ export default function SignUp() {
                           }} style={{ width: "300px" }} placeholder="Gross Annual Income" value={formFields.grossAnnualIncome} />
                         </Form.Item>
                         <Form.Item
+                          required={true}
                           rules={[
                             {
                               required: true,
@@ -855,6 +898,7 @@ export default function SignUp() {
                               { value: 'other', label: 'Other' },
                             ]}
                             onChange={(e) => {
+                              setFieldName({ type: "sourceOfIncome", value: e })
                               setFormFields((prevFields) => {
                                 return {
                                   ...prevFields,
@@ -866,6 +910,8 @@ export default function SignUp() {
                         </Form.Item>
                       </div>
                       <Form.Item
+                        required={true}
+
                         rules={[
                           {
                             required: true,
@@ -887,6 +933,7 @@ export default function SignUp() {
                             { value: "unEmployed", label: "Un-Employed" },
                           ]}
                           onChange={(e) => {
+                            setFieldName({ type: "employmentStatus", value: e })
                             setFormFields((prevFields) => {
                               return {
                                 ...prevFields,
@@ -915,6 +962,7 @@ export default function SignUp() {
                             format="HH:mm"
                             style={{ width: '100%' }}
                             onChange={(e) => {
+                              setFieldName({ type: "appointment", value: e })
                               setFormFields((prevFields) => {
                                 return {
                                   ...prevFields,
