@@ -958,11 +958,14 @@ export default function SignUp3() {
                           </Title>
                           <Title style={{ fontSize: "16px", margin: "0 0 8px 0", color: "#4E4E4E" }}>Availability: Mon to Fri - 9am to 5am</Title>
                           <DatePicker
-                            showTime={{ format: 'HH:mm', minuteStep: 15 }}
-                            format="HH:mm"
+                            showTime={{
+                              format: 'h A', // 12-hour format with AM/PM
+                              minuteStep: 60, // Set minuteStep to 60 to hide minutes
+                            }}
+                            format="YYYY-MM-DD h A" // 12-hour format with only hours and AM/PM
                             style={{ width: '100%' }}
                             onChange={(e) => {
-                              setFieldName({ type: "appointment", value: e })
+                              setFieldName({ type: "appointment", value: e });
                               setFormFields((prevFields) => {
                                 return {
                                   ...prevFields,
@@ -970,7 +973,7 @@ export default function SignUp3() {
                                     date: e
                                   }
                                 }
-                              })
+                              });
                             }}
                             inputReadOnly={true}
                             disabledDate={(current) => {
@@ -994,6 +997,11 @@ export default function SignUp3() {
 
                               return isPreviousYear || isPastDateInCurrentYear;
                             }}
+                            renderExtraFooter={() => (
+                              <div>
+                                <span>Selected Date: {formFields.appointment.date ? formFields.appointment.date.format('YYYY-MM-DD HH') : 'None'}</span>
+                              </div>
+                            )}
                           />
                         </div>
                         <div style={{ width: "600px", margin: "25px 0" }}>
