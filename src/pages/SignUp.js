@@ -55,6 +55,7 @@ export default function SignUp() {
   const [committeeId, setCommitteeId] = useState(null);
   const [imageUrl, setImageUrl] = useState("");
   const [imageUrl2, setImageUrl2] = useState("");
+  const [showManualEntry, setShowManualEntry] = useState(false);
   const [commitee, setCommittee] = useState(null);
   const [termsCondition, setTermsCondition] = useState({
     first: false,
@@ -80,7 +81,11 @@ export default function SignUp() {
     appointment: {
       date: null,
     },
-    DOB: null,
+    DOB: {
+      day: "",
+      month: "",
+      year: "",
+    },
     address1: "",
     address2: "",
     city: "",
@@ -187,33 +192,6 @@ export default function SignUp() {
     }
   }
 
-  // useEffect(() => {
-  //   if (
-  //     formFields.email !== "" &&
-  //     formFields.contactNumber !== "" &&
-  //     formFields.jobOccupation !== "" &&
-  //     formFields.firstName !== "" &&
-  //     formFields.lastName !== "" &&
-  //     formFields.contactNumber !== "" &&
-  //     formFields.emergencyContact !== "" &&
-  //     formFields.sin !== "" &&
-  //     formFields.nic !== "" &&
-  //     formFields.residentialAddress !== "" &&
-  //     formFields.residentialStatus !== "" &&
-  //     formFields.grossAnnualIncome !== "" &&
-  //     formFields.sourceOfIncome !== "" &&
-  //     formFields.employmentStatus !== "" &&
-  //     formFields.address1 !== "" &&
-  //     formFields.address2 !== "" &&
-  //     formFields.city !== "" &&
-  //     formFields.province !== "" &&
-  //     formFields.postalCode !== ""
-  //   ) {
-  //     handleSignup()
-  //     console.log("bhai mein nahi chaloonga");
-  //   }
-  // }, [formFields])
-
   const handleUpload = async (imgFile) => {
     setUploading(true)
     const imgRef = ref(storage, `images/${imgFile.name}`)
@@ -248,53 +226,6 @@ export default function SignUp() {
       window.removeEventListener("resize", handleResize);
     };
   }, []);
-
-  // async function getCommittee() {
-  //   try {
-  //     const response = await axios.get(`${API_URL}/user/committeeById/${params.id}`)
-  //     console.log(response);
-  //   } catch (error) {
-  //     console.log(error);
-  //   }
-  // }
-
-  // useEffect(() => {
-  //   getCommittee()
-  // }, [params.id])
-
-  // const getBase64 = (img, callback) => {
-  //   const reader = new FileReader();
-  //   reader.addEventListener('load', () => callback(reader.result));
-  //   reader.readAsDataURL(img);
-  // };
-
-  // const handleChange = (info) => {
-  //   if (info.file.status === 'uploading') {
-  //     setLoading(true);
-  //     return;
-  //   }
-  //   if (info.file.status === 'done') {
-  //     console.log(info);
-  //     getBase64(info.file.originFileObj, (url) => {
-  //       setLoading(false);
-  //       setImageUrl(url);
-  //       console.log(url);
-  //       setFormFields((prevFields) => {
-  //         return {
-  //           ...prevFields,
-  //           nicFront: url
-  //         }
-  //       })
-  //     });
-  //   }
-  // };
-
-  // const uploadButton = (
-  //   <button style={{ border: 0, background: 'none' }} type="button">
-  //     {loading ? <LoadingOutlined /> : <PlusOutlined />}
-  //     <div style={{ marginTop: 8 }}>Upload</div>
-  //   </button>
-  // );
 
   useEffect(() => {
     GetUserCommittees()
@@ -340,88 +271,13 @@ export default function SignUp() {
     getCommittee()
   }, [params.cid])
 
-  const { RangePicker } = DatePicker;
-
-  // console.log(commitee);
-  // console.log(monthDuration);
-  console.log(fieldName);
+  console.log(formFields);
 
   return (
     <div>
       {contextHolder}
-      {/* <div style={{ width: "100%", backgroundColor: "#166805", padding: "20px" }} onClick={() => navigate("/sign-in")}>
-      </div> */}
-
       <div style={{ display: "flex", justifyContent: "center", alignItems: width < 768 ? "flex-start" : "center", height: formSubmit && "100vh", }}>
-        {/* <Title level={3} style={{ margin: "0 0 20px 0", color: '#166805', textAlign: "center", }}>REGISTER CAIIF COMMITTEE</Title> */}
         <Card style={{ height: step === 2 && "100vh" }}>
-          {/* <img style={{ display: "block", margin: "0 auto 30px auto" }} width={200} src={logo} alt="" /> */}
-          {/* {activeStep === 0 ? (
-                <div className={activeStep === 0 ? 'step-form__step--active' : ''}>
-                  <Form
-                    name="basic"
-                    initialValues={{ remember: true }}
-                    onFinish={onFinish}
-                    onFinishFailed={onFinishFailed}
-                    className="row-col"
-                  >
-
-                    <Title level={3} style={{ margin: "0 0 20px 0", color: '#166805', textAlign: "center" }}>Sign Up</Title>
-
-                    <Form.Item name="name" rules={[
-                      {
-                        required: true,
-                        message: 'Please input your name!',
-                      },
-                    ]}>
-                      <Input                             style={{ width: width < 768 ? "300px" : "300px" }}
- placeholder="Name" />
-                    </Form.Item>
-
-                    <Form.Item name="phonenumber" rules={[
-                      {
-                        required: true,
-                        message: 'Please input your Phone Number!',
-                      },
-                    ]}>
-                      <Input                             style={{ width: width < 768 ? "300px" : "300px" }}
- placeholder="Phone Number" />
-                    </Form.Item>
-
-                    <Form.Item name="email" rules={[
-                      {
-                        required: true,
-                        message: 'Please input your email!',
-                      },
-                    ]}>
-                      <Input                             style={{ width: width < 768 ? "300px" : "300px" }}
- placeholder="Email" />
-                    </Form.Item>
-
-                    <Form.Item name="password" rules={[
-                      {
-                        required: true,
-                        message: 'Please input your password!',
-                      },
-                    ]}>
-                      <Input.Password                             style={{ width: width < 768 ? "300px" : "300px" }}
- placeholder="Password" />
-                    </Form.Item>
-
-                    <Form.Item>
-                      <Button
-                        onClick={onFinish}
-                        style={{ width: "100%", backgroundColor: "#166805", color: 'white' }}
-                        type="primary"
-                        htmlType="submit"
-                      >
-                        NEXT
-                      </Button>
-                    </Form.Item>
-
-                  </Form>
-                </div>
-              ) : "" */}
           <div style={{ margin: width < 768 ? 0 : "0 50px" }}>
             <Form
               form={form}
@@ -497,8 +353,8 @@ export default function SignUp() {
                   <Title level={2} style={{ color: "green", fontWeight: "600", margin: "0 0 60px 0", textAlign: "center" }}>
                     Personal Information
                   </Title>
-                  <div style={{ display: "flex", justifyContent: "center", alignItems: 'center', flexDirection: "column" }}>
-                    <div style={{ display: "flex", alignItems: "center", flexDirection: width < 768 ? "column" : "row" }}>
+                  <div style={{ display: "flex", justifyContent: "space-between", flexDirection: "column" }}>
+                    <div style={{ display: "flex", flexDirection: width < 768 ? "column" : "row", justifyContent: "space-between" }}>
                       <Form.Item
                         rules={[
                           {
@@ -507,7 +363,7 @@ export default function SignUp() {
                           },
                         ]}
                         required={true}
-                        label={<Title style={{ fontSize: "16px", margin: 0, color: "#4E4E4E" }}>First Name</Title>}
+                        label={<Title style={{ fontSize: "16px", margin: 0, color: "#4E4E4E" }}>First name</Title>}
                       >
                         <Input
                           onChange={(e) => {
@@ -519,7 +375,7 @@ export default function SignUp() {
                               }
                             });
                           }}
-                          style={{ width: width < 768 ? "300px" : "300px" }}
+                          style={{ width: width < 768 ? "100%" : "300px" }}
                           placeholder="First Name"
                           value={formFields.firstName}
                         />
@@ -532,7 +388,7 @@ export default function SignUp() {
                             message: 'Please input your Last Name !',
                           },
                         ]}
-                        label={<Title style={{ fontSize: "16px", margin: 0, color: "#4E4E4E" }}>Last Name</Title>}>
+                        label={<Title style={{ fontSize: "16px", margin: 0, color: "#4E4E4E" }}>Last name</Title>}>
                         <Input
                           onChange={(e) => {
                             setFieldName({ type: "lastName", value: e.target.value })
@@ -543,7 +399,7 @@ export default function SignUp() {
                               }
                             });
                           }}
-                          style={{ width: width < 768 ? "300px" : "300px" }}
+                          style={{ width: width < 768 ? "100%" : "300px" }}
 
                           placeholder="Last Name"
                           value={formFields.lastName}
@@ -566,12 +422,12 @@ export default function SignUp() {
                           message: 'Please enter a valid email address!',
                         },
                       ]}
-                      label={<Title style={{ fontSize: '16px', margin: 0, color: '#4E4E4E' }}>Email</Title>}
+                      label={<Title style={{ fontSize: '16px', margin: 0, color: '#4E4E4E' }}>E-mail</Title>}
                     >
                       <Input
-                        style={{ width: width < 768 ? "300px" : '600px' }}
+                        style={{ width: width < 768 ? "100%" : '100%' }}
                         type="email"
-                        placeholder="Test@example.com"
+                        placeholder="youremail@email.com"
                         onChange={(e) => {
                           setFieldName({ type: 'email', value: e.target.value });
                           setFormFields((prevFields) => {
@@ -585,7 +441,7 @@ export default function SignUp() {
                       />
                     </Form.Item>
 
-                    <div style={{ display: "flex", alignItems: "center", flexDirection: width < 768 ? "column" : "row" }}>
+                    <div style={{ display: "flex", flexDirection: width < 768 ? "column" : "row", justifyContent: "space-between" }}>
                       <Form.Item
                         required={true}
                         rules={[
@@ -594,20 +450,21 @@ export default function SignUp() {
                             message: 'Please input your Contact Number !',
                           },
                         ]}
-                        label={<Title style={{ fontSize: "16px", margin: 0, color: "#4E4E4E" }}>Contact Number</Title>}>
+                        label={<Title style={{ fontSize: "16px", margin: 0, color: "#4E4E4E" }}>Primary phone</Title>}>
                         <Input value={formFields.contactNumber} onChange={(e) => {
                           setFieldName({ type: "contactNumber", value: e.target.value })
                           if (e.target.value.length <= 11) {
                             const value = e.target.value.replace(/[^0-9]/g, '');
+                            const formattedValue = value.replace(/(\d{3})(\d{3})(\d{4})/, '($1) $2-$3');
                             setFormFields((prevFields) => {
                               return {
                                 ...prevFields,
-                                contactNumber: value
+                                contactNumber: formattedValue
                               }
                             });
                           }
-                        }} style={{ width: width < 768 ? "300px" : "300px" }}
-                          placeholder="Contact Number" />
+                        }} style={{ width: width < 768 ? "100%" : "300px" }}
+                          placeholder="(___)___-___" />
                       </Form.Item>
                       <Form.Item
                         rules={[
@@ -616,45 +473,51 @@ export default function SignUp() {
                             message: 'Please input your Secondary Contact Number !',
                           },
                         ]}
-                        label={<Title style={{ fontSize: "16px", margin: 0, color: "#4E4E4E" }}>Secondary Contact Number</Title>}>
+                        label={<Title style={{ fontSize: "16px", margin: 0, color: "#4E4E4E" }}>Secondary phone (optional)</Title>}>
                         <Input value={formFields.emergencyContact} onChange={(e) => {
                           setFieldName({ type: "emergencyContact", value: e.target.value })
                           if (e.target.value.length <= 11) {
                             const value = e.target.value.replace(/[^0-9]/g, '');
+                            const formattedValue = value.replace(/(\d{3})(\d{3})(\d{4})/, '($1) $2-$3');
                             setFormFields((prevFields) => {
                               return {
                                 ...prevFields,
-                                emergencyContact: value
+                                emergencyContact: formattedValue
                               }
                             });
                           }
-                        }} style={{ width: width < 768 ? "300px" : "300px" }}
-                          placeholder="Secondary Contact Number" />
+                        }} style={{ width: width < 768 ? "100%" : "300px" }}
+
+                          placeholder="(___)___-___" />
                       </Form.Item>
                     </div>
-                    <div style={{ display: 'flex', alignItems: "center", flexDirection: width < 768 ? "column" : "row" }}>
+                    <div style={{ display: 'flex', flexDirection: width < 768 ? "column" : "row", justifyContent: "space-between" }}>
                       <Form.Item
-                        required={true}
+                        style={{ marginRight: width < 768 ? 0 : 10 }}
                         rules={[
                           {
                             required: true,
                             message: 'Please input your SIN !',
                           },
                         ]}
-                        label={<Title style={{ fontSize: "16px", margin: 0, color: "#4E4E4E" }}>SIN</Title>}>
-                        <Input value={formFields.sin} onChange={(e) => {
-                          setFieldName({ type: "sin", value: e.target.value })
-                          if (e.target.value.length <= 8) {
-                            const value = e.target.value.replace(/[^0-9]/g, '');
-                            setFormFields((prevFields) => {
-                              return {
-                                ...prevFields,
-                                sin: value
-                              }
-                            });
-                          }
-                        }} style={{ width: width < 768 ? "300px" : "300px" }}
-                          placeholder="SIN" />
+                        label={<Title style={{ fontSize: "16px", margin: 0, color: "#4E4E4E" }}>Social insurance number (optional)</Title>}>
+                        <Input
+                          value={formFields.sin}
+                          onChange={(e) => {
+                            setFieldName({ type: "sin", value: e.target.value })
+                            if (e.target.value.length <= 8) {
+                              const value = e.target.value.replace(/[^0-9]/g, '');
+                              setFormFields((prevFields) => {
+                                return {
+                                  ...prevFields,
+                                  sin: value
+                                };
+                              });
+                            }
+                          }}
+                          style={{ width: width < 768 ? "100%" : "300px" }}
+                          placeholder="___-__-___"
+                        />
                       </Form.Item>
                       <Form.Item
                         required={true}
@@ -666,128 +529,64 @@ export default function SignUp() {
                         ]}
                         label={<Title style={{ fontSize: "16px", margin: 0, color: "#4E4E4E" }}>DOB</Title>}>
                         <DatePicker
-                          style={{ width: '300px' }}
-                          onChange={(e) => {
-                            setFieldName({ type: "DOB", value: e })
-
+                          style={{ width: '100px', height: "40px" }}
+                          picker="month"
+                          format="MM"
+                          placeholder="MM"
+                          onChange={(e, dateString) => {
+                            console.log(dateString);
                             setFormFields((prevFields) => {
                               return {
                                 ...prevFields,
-                                DOB: e
+                                DOB: {
+                                  ...prevFields.DOB,
+                                  day: dateString
+                                }
                               }
                             })
                           }}
-                          inputReadOnly={true}
                         />
-                      </Form.Item>
-                    </div>
-                    <div style={{ display: 'flex', alignItems: "center", flexDirection: width < 768 ? "column" : "row" }}>
-                      <Form.Item
-                        required={true}
-
-                        rules={[
-                          {
-                            required: true,
-                            message: 'Please input your Address 1 !',
-                          },
-                        ]}
-                        label={<Title style={{ fontSize: "16px", margin: 0, color: "#4E4E4E" }}>Address</Title>}>
-                        <Input value={formFields.address1} onChange={(e) => {
-                          setFieldName({ type: "address1", value: e.target.value })
-                          setFormFields((prevFields) => {
-                            return {
-                              ...prevFields,
-                              address1: e.target.value
-                            }
-                          });
-                        }} style={{ width: width < 768 ? "300px" : "300px" }}
-                          placeholder="Address" />
-                      </Form.Item>
-                      <Form.Item
-                        required={true}
-
-                        rules={[
-                          {
-                            required: true,
-                            message: 'Please input your Street Address !',
-                          },
-                        ]}
-                        label={<Title style={{ fontSize: "16px", margin: 0, color: "#4E4E4E" }}>Street Address</Title>}>
-                        <Input value={formFields.address2} onChange={(e) => {
-
-                          setFieldName({ type: "address2", value: e.target.value })
-                          setFormFields((prevFields) => {
-                            return {
-                              ...prevFields,
-                              address2: e.target.value
-                            }
-                          });
-                        }} style={{ width: width < 768 ? "300px" : "300px" }}
-                          placeholder="Street Address" />
-                      </Form.Item>
-                    </div>
-                    <div style={{ display: 'flex', alignItems: "center", flexDirection: width < 768 ? "column" : "row" }}>
-                      <Form.Item
-                        required={true}
-
-                        rules={[
-                          {
-                            required: true,
-                            message: 'Please input your City !',
-                          },
-                        ]}
-                        label={<Title style={{ fontSize: "16px", margin: 0, color: "#4E4E4E" }}>City</Title>}>
-                        <Input value={formFields.city} onChange={(e) => {
-                          setFieldName({ type: "city", value: e.target.value })
-                          setFormFields((prevFields) => {
-                            return {
-                              ...prevFields,
-                              city: e.target.value
-                            }
-                          });
-                        }} style={{ width: width < 768 ? "300px" : "300px" }}
-                          placeholder="City" />
-                      </Form.Item>
-                      <Form.Item
-                        required={true}
-
-                        rules={[
-                          {
-                            required: true,
-                            message: 'Please input your Provice !',
-                          },
-                        ]}
-                        label={<Title style={{ fontSize: "16px", margin: 0, color: "#4E4E4E" }}>Province</Title>}>
-                        <Select
-                          defaultValue="Select Province"
-                          style={{ width: width < 768 ? "300px" : "300px" }}
-
-                          options={[
-                            { value: 'AB', label: 'Alberta' },
-                            { value: 'BC', label: 'British Columbia' },
-                            { value: 'MB', label: 'Manitoba' },
-                            { value: 'NB', label: 'New Brunswick' },
-                            { value: 'NL', label: 'Newfoundland and Labrador' },
-                            { value: 'NS', label: 'Nova Scotia' },
-                            { value: 'NT', label: 'Northwest Territories' },
-                            { value: 'NU', label: 'Nunavut' },
-                            { value: 'ON', label: 'Ontario' },
-                            { value: 'PE', label: 'Prince Edward Island' },
-                            { value: 'QC', label: 'Quebec' },
-                            { value: 'SK', label: 'Saskatchewan' },
-                            { value: 'YT', label: 'Yukon' },
-                          ]}
-                          onChange={(e) => {
-                            setFieldName({ type: "province", value: e })
+                        <DatePicker
+                          style={{ width: '100px', height: "40px" }}
+                          picker="date"
+                          format="DD"
+                          placeholder="DD"
+                          onChange={(e, dateString) => {
+                            console.log(dateString);
                             setFormFields((prevFields) => {
                               return {
                                 ...prevFields,
-                                province: e,
+                                DOB: {
+                                  ...prevFields.DOB,
+                                  month: dateString
+                                }
+                              }
+                            })
+                          }}
+                        />
+                        <DatePicker
+                          style={{ width: '100px', height: "40px" }}
+                          picker="year"
+                          format="YYYY"
+                          placeholder="YYYY"
+                          onChange={(e, dateString) => {
+                            console.log(dateString);
+                            setFormFields((prevFields) => {
+                              return {
+                                ...prevFields,
+                                DOB: {
+                                  ...prevFields.DOB,
+                                  year: dateString
+                                }
                               }
                             })
                           }}
                         />
                       </Form.Item>
+                    </div>
+                    <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", marginBottom: 10 }}>
+                      <Title style={{ fontSize: "16px", margin: 0, color: "#4E4E4E" }}>Address 1 (no P.O. Box)</Title>
+                      <Title onClick={() => setShowManualEntry(true)} className="choose-manual-link" style={{ fontSize: "16px", margin: 0, color: "#038203", fontWeight: "400" }}>Choose manual entry</Title>
                     </div>
                     <Form.Item
                       required={true}
@@ -795,24 +594,135 @@ export default function SignUp() {
                       rules={[
                         {
                           required: true,
-                          message: 'Please input your Postal Code !',
+                          message: 'Please input your Address 1 !',
                         },
-                      ]}
-                      label={<Title style={{ fontSize: "16px", margin: 0, color: "#4E4E4E" }}>Postal Code</Title>}>
-                      <Input value={formFields.postalCode} onChange={(e) => {
-                        if (e.target.value.length <= 6) {
-                          setFieldName({ type: "postalCode", value: e.target.value })
-                          setFormFields((prevFields) => {
-                            return {
-                              ...prevFields,
-                              postalCode: e.target.value
-                            }
-                          });
-                        }
-                      }} style={{ width: width < 768 ? "300px" : '600px' }} placeholder="Postal Code" />
+                      ]}>
+                      <Input value={formFields.address1} onChange={(e) => {
+                        setFieldName({ type: "address1", value: e.target.value })
+                        setFormFields((prevFields) => {
+                          return {
+                            ...prevFields,
+                            address1: e.target.value
+                          }
+                        });
+                      }} style={{ width: width < 768 ? "100%" : "300px" }}
+
+                        placeholder="Address" />
                     </Form.Item>
-                    <div style={{ display: "flex", alignItems: "center", flexDirection: width < 768 ? "column" : "row" }}>
-                      <Form.Item
+                    {showManualEntry && (
+                      <>
+                        <Form.Item
+                          required={true}
+
+                          rules={[
+                            {
+                              required: true,
+                              message: 'Please input your Street Address !',
+                            },
+                          ]}
+                          label={<Title style={{ fontSize: "16px", margin: 0, color: "#4E4E4E" }}>Address 2</Title>}>
+                          <Input value={formFields.address2} onChange={(e) => {
+
+                            setFieldName({ type: "address2", value: e.target.value })
+                            setFormFields((prevFields) => {
+                              return {
+                                ...prevFields,
+                                address2: e.target.value
+                              }
+                            });
+                          }} style={{ width: width < 768 ? "300px" : "100%" }}
+                            placeholder="Street Address" />
+                        </Form.Item>
+                        <div style={{ display: 'flex', flexDirection: width < 768 ? "column" : "row" }}>
+                          <Form.Item
+                            style={{ marginRight: 10 }}
+                            required={true}
+
+                            rules={[
+                              {
+                                required: true,
+                                message: 'Please input your City !',
+                              },
+                            ]}
+                            label={<Title style={{ fontSize: "16px", margin: 0, color: "#4E4E4E" }}>City</Title>}>
+                            <Input value={formFields.city} onChange={(e) => {
+                              setFieldName({ type: "city", value: e.target.value })
+                              setFormFields((prevFields) => {
+                                return {
+                                  ...prevFields,
+                                  city: e.target.value
+                                }
+                              });
+                            }} style={{ width: width < 768 ? "300px" : "300px" }}
+                              placeholder="City" />
+                          </Form.Item>
+
+                          <Form.Item
+                            required={true}
+                            style={{ marginRight: 10 }}
+                            rules={[
+                              {
+                                required: true,
+                                message: 'Please input your Provice !',
+                              },
+                            ]}
+                            label={<Title style={{ fontSize: "16px", margin: 0, color: "#4E4E4E" }}>Province</Title>}>
+                            <Select
+                              defaultValue="Select Province"
+                              style={{ width: width < 768 ? "300px" : "100%" }}
+                              options={[
+                                { value: 'AB', label: 'Alberta' },
+                                { value: 'BC', label: 'British Columbia' },
+                                { value: 'MB', label: 'Manitoba' },
+                                { value: 'NB', label: 'New Brunswick' },
+                                { value: 'NL', label: 'Newfoundland and Labrador' },
+                                { value: 'NS', label: 'Nova Scotia' },
+                                { value: 'NT', label: 'Northwest Territories' },
+                                { value: 'NU', label: 'Nunavut' },
+                                { value: 'ON', label: 'Ontario' },
+                                { value: 'PE', label: 'Prince Edward Island' },
+                                { value: 'QC', label: 'Quebec' },
+                                { value: 'SK', label: 'Saskatchewan' },
+                                { value: 'YT', label: 'Yukon' },
+                              ]}
+                              onChange={(e) => {
+                                setFieldName({ type: "province", value: e })
+                                setFormFields((prevFields) => {
+                                  return {
+                                    ...prevFields,
+                                    province: e,
+                                  }
+                                })
+                              }}
+                            />
+                          </Form.Item>
+
+                          <Form.Item
+                            required={true}
+                            rules={[
+                              {
+                                required: true,
+                                message: 'Please input your Postal Code !',
+                              },
+                            ]}
+                            label={<Title style={{ fontSize: "16px", margin: 0, color: "#4E4E4E" }}>Postal Code</Title>}>
+                            <Input value={formFields.postalCode} onChange={(e) => {
+                              if (e.target.value.length <= 6) {
+                                setFieldName({ type: "postalCode", value: e.target.value })
+                                setFormFields((prevFields) => {
+                                  return {
+                                    ...prevFields,
+                                    postalCode: e.target.value
+                                  }
+                                });
+                              }
+                            }} style={{ width: width < 768 ? "300px" : "100%" }} placeholder="Postal Code" />
+                          </Form.Item>
+                        </div>
+
+                      </>
+                    )}
+                    {/* <Form.Item
                         required={true}
 
                         rules={[
@@ -834,40 +744,38 @@ export default function SignUp() {
                           }}
                           style={{ width: width < 768 ? "300px" : "300px" }}
                           placeholder="Residential Address" value={formFields.residentialAddress} />
-                      </Form.Item>
-                      <Form.Item
-                        required={true}
+                      </Form.Item> */}
+                    <Form.Item
+                      required={true}
 
-                        rules={[
-                          {
-                            required: true,
-                            message: 'Please select your Residential Status !',
-                          },
+                      rules={[
+                        {
+                          required: true,
+                          message: 'Please select your Residential Status !',
+                        },
+                      ]}
+                      label={<Title style={{ fontSize: "16px", margin: 0, color: "#4E4E4E" }}>Your residential status</Title>}>
+                      <Select
+                        defaultValue="Select Residential Status"
+                        style={{ width: width < 768 ? "100%" : "100%" }}
+                        options={[
+                          { value: 'ownsHome', label: 'Owns Home' },
+                          { value: 'rents', label: 'Rents' },
+                          { value: 'livingWithFamily', label: 'Living with Family' },
+                          { value: 'studentHousing', label: 'Student Housing' },
+                          { value: 'temporaryAccommodation', label: 'Temporary Accommodation' },
                         ]}
-                        label={<Title style={{ fontSize: "16px", margin: 0, color: "#4E4E4E" }}>Residential Status</Title>}>
-                        <Select
-                          defaultValue="Select Residential Status"
-                          style={{ width: width < 768 ? "300px" : "300px" }}
-
-                          options={[
-                            { value: 'ownsHome', label: 'Owns Home' },
-                            { value: 'rents', label: 'Rents' },
-                            { value: 'livingWithFamily', label: 'Living with Family' },
-                            { value: 'studentHousing', label: 'Student Housing' },
-                            { value: 'temporaryAccommodation', label: 'Temporary Accommodation' },
-                          ]}
-                          onChange={(e) => {
-                            setFieldName({ type: "residentialStatus", value: e })
-                            setFormFields((prevFields) => {
-                              return {
-                                ...prevFields,
-                                residentialStatus: e,
-                              }
-                            })
-                          }}
-                        />
-                      </Form.Item>
-                    </div>
+                        onChange={(e) => {
+                          setFieldName({ type: "residentialStatus", value: e })
+                          setFormFields((prevFields) => {
+                            return {
+                              ...prevFields,
+                              residentialStatus: e,
+                            }
+                          })
+                        }}
+                      />
+                    </Form.Item>
                     <Form.Item
                       required={true}
 
@@ -886,10 +794,11 @@ export default function SignUp() {
                             jobOccupation: e.target.value
                           }
                         });
-                      }} style={{ width: width < 768 ? "300px" : '600px' }} placeholder="Occupation" />
+                      }} style={{ width: width < 768 ? "100%" : "100%" }} placeholder="Occupation" />
                     </Form.Item>
-                    <div style={{ display: "flex", alignItems: "center", flexDirection: width < 768 ? "column" : "row" }}>
+                    <div style={{ display: "flex", flexDirection: width < 768 ? "column" : "row" }}>
                       <Form.Item
+                        style={{ marginRight: width < 768 ? 0 : 10 }}
                         required={true}
 
                         rules={[
@@ -898,7 +807,7 @@ export default function SignUp() {
                             message: 'Please input your Gross Annual Income !',
                           },
                         ]}
-                        label={<Title style={{ fontSize: "16px", margin: 0, color: "#4E4E4E" }}>Gross Annual Income</Title>}>
+                        label={<Title style={{ fontSize: "16px", margin: 0, color: "#4E4E4E" }}>Gross annual income</Title>}>
                         <Input onChange={(e) => {
                           setFieldName({ type: "grossAnnualIncome", value: e.target.value })
                           setFormFields((prevFields) => {
@@ -908,7 +817,7 @@ export default function SignUp() {
                               grossAnnualIncome: value
                             }
                           });
-                        }} style={{ width: width < 768 ? "300px" : "300px" }}
+                        }} style={{ width: width < 768 ? "100%" : "320px" }}
                           placeholder="Gross Annual Income" value={formFields.grossAnnualIncome} />
                       </Form.Item>
                       <Form.Item
@@ -919,10 +828,10 @@ export default function SignUp() {
                             message: 'Please select your Source Of Income !',
                           },
                         ]}
-                        label={<Title style={{ fontSize: "16px", margin: 0, color: "#4E4E4E" }}>Source Of Income</Title>}>
+                        label={<Title style={{ fontSize: "16px", margin: 0, color: "#4E4E4E" }}>Source of income</Title>}>
                         <Select
                           defaultValue="Select Source Of Income"
-                          style={{ width: width < 768 ? "300px" : "300px" }}
+                          style={{ width: width < 768 ? "100%" : "320px" }}
 
                           options={[
                             { value: 'employment', label: 'Employment' },
@@ -959,7 +868,7 @@ export default function SignUp() {
                       label={<Title style={{ fontSize: "16px", margin: 0, color: "#4E4E4E" }}>Employment Status</Title>}>
                       <Select
                         defaultValue="Select Employment Status"
-                        style={{ width: width < 768 ? "300px" : '600px' }}
+                        style={{ width: width < 768 ? "100%" : "100%" }}
                         options={[
                           { value: 'fullTime', label: 'Full-Time' },
                           { value: 'partTime', label: 'Part-Time' },
@@ -1303,13 +1212,8 @@ export default function SignUp() {
                       </Col> */}
             </Form>
           </div>
-          {/* {activeStep === 0 && (
-              <div style={{ margin: "0 30px" }}>
-                <img src={loginImg} />
-              </div>
-            )} */}
         </Card>
-      </div >
-    </div >
+      </div>
+    </div>
   );
 }
