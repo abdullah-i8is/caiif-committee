@@ -960,8 +960,8 @@ export default function SignUp() {
                           <Upload showUploadList={false} name="file" onChange={(e) => handleUpload(e.file.originFileObj)}>
                             <Button loading={uploading} icon={<UploadOutlined />}>Upload NIC</Button>
                           </Upload>
-                          {formFields?.nic ? <img style={{ width: "100% !important", margin: "20px 0 0 0", borderRadius: "5px" }} src={formFields?.nic} /> : ""}
                         </div>
+                        {formFields?.nic ? <img style={{ width: "100% !important", margin: "20px 0 0 0", borderRadius: "5px" }} src={formFields?.nic} /> : ""}
                         <div style={{ width: "600px" }}>
                           {/* <Title style={{ fontSize: "16px", margin: "0 0 8px 0", color: "#4E4E4E" }}></Title> */}
                           <Title level={2} style={{ color: "green", fontWeight: "600", margin: "30px 0" }}>
