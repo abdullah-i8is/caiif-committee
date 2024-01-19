@@ -64,20 +64,20 @@ function App() {
         </div>
       ) : ( */}
         <Routes>
-          <Route path="/sign-up1/:cid" exact element={!token ? <SignUp /> : <Navigate to="/" />} />
-          <Route path="/sign-up2/:cid" exact element={!token ? <SignUp2 /> : <Navigate to="/" />} />
-          <Route path="/sign-up3/:cid" exact element={!token ? <SignUp3 /> : <Navigate to="/" />} />
-          <Route path="/sign-in" exact element={!token ? <SignIn /> : <Navigate to="/" />} />
+          <Route path="/sign-up1/:cid" exact element={!token ? <SignUp /> : <Navigate to="/dashboard" />} />
+          <Route path="/sign-up2/:cid" exact element={!token ? <SignUp2 /> : <Navigate to="/dashboard" />} />
+          <Route path="/sign-up3/:cid" exact element={!token ? <SignUp3 /> : <Navigate to="/dashboard" />} />
+          <Route path="/sign-in" exact element={!token ? <SignIn /> : <Navigate to="/dashboard" />} />
           <Route path="/new-password/:id/:email" exact element={<NewPassword />} />
           <Route path="/create-account/:id/:email" element={<VerifyAccount />} />
           <Route path="/reset-password" element={<ResetPassword />} />
           <Route path="/" element={<Main />}>
-            <Route path="/" element={token ? <Home /> : <Navigate to="/sign-in" />} />
+            <Route path="/dashboard" element={token ? <Home /> : <Navigate to="/sign-in" />} />
             <Route path="/members" element={token ? <Members /> : <Navigate to="/sign-in" />} />
-            <Route path="/view-committee/:id" element={token ? <Setup2 /> : <Navigate to="/sign-in" />} />
+            <Route path="/dashboard/view-committee/:id" element={token ? <Setup2 /> : <Navigate to="/sign-in" />} />
             <Route path="/view-all-committee" element={token ? <Setup /> : <Navigate to="/sign-in" />} />
             <Route path="/members/verification-details/:id" element={token ? <VerificationDetails /> : <Navigate to="/sign-in" />} />
-            <Route path="/committee-details" element={token ? <CommitteeDetails /> : <Navigate to="/sign-in" />} />
+            <Route path="/dashboard/committee-details" element={token ? <CommitteeDetails /> : <Navigate to="/sign-in" />} />
             <Route path="/payment-history" element={token ? <PaymentHistory /> : <Navigate to="/sign-in" />} />
             <Route path="/profile" element={token ? <Profile /> : <Navigate to="/sign-in" />} />
           </Route>

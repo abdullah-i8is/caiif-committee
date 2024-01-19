@@ -144,7 +144,7 @@ function Home() {
       title: <Title style={{ fontSize: "18px", margin: 0, color: "#166805", fontWeight: "600" }}></Title>,
       render: (text, record) => {
         return (
-          <Button style={{ margin: "0 0 0 20px" }} onClick={() => navigate(`/view-committee/${record?.committeeDetails?.committee?._id}`)} className="add-cycle-btn">View</Button>
+          <Button style={{ margin: "0 0 0 20px" }} onClick={() => navigate(`/dashboard/view-committee/${record?.committeeDetails?.committee?._id}`)} className="add-cycle-btn">View</Button>
         )
       }
     },
@@ -238,7 +238,7 @@ function Home() {
       title: <Title style={{ fontSize: "18px", margin: 0, color: "#166805", fontWeight: "600" }}></Title>,
       render: (text, record) => {
         return (
-          <Button style={{ margin: "0 0 0 20px" }} onClick={() => navigate(`/view-committee/${record?.committee?._id}`)} className="add-cycle-btn">View</Button>
+          <Button style={{ margin: "0 0 0 20px" }} onClick={() => navigate(`/dashboard/view-committee/${record?.committee?._id}`)} className="add-cycle-btn">View</Button>
         )
       }
     },

@@ -60,7 +60,7 @@ function Sidenav({ color }) {
     dispatch(setUser(null))
   }
 
-  // console.log(user);
+  console.log(user);
 
   return (
     <>
@@ -87,7 +87,7 @@ function Sidenav({ color }) {
         {user?.userType === "user" ? (
           <>
             <Menu.Item key="1">
-              <NavLink to="/">
+              <NavLink to="/dashboard">
                 <span
                   className="icon"
                   style={{
