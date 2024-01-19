@@ -81,7 +81,7 @@ function CommitteeDetails() {
                     setErr(response.data.message)
                     openNotification("topRight", "Committee created successfully")
                     setTimeout(() => {
-                        navigate("/")
+                        navigate("/dashboard")
                     }, 2000);
                 }
             } catch (error) {
