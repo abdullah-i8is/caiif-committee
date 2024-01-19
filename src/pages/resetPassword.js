@@ -72,9 +72,6 @@ export default function ResetPassword() {
 
     return (
         <div>
-            <div style={{ width: "100%", backgroundColor: "#166805", padding: "20px" }}>
-                <img width={200} src={logo} alt="" />
-            </div>
             <div style={{ display: "flex", justifyContent: "center", alignItems: "center", height: "80vh" }}>
                 {emailSent === true ? (
                     <Card>
