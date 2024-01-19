@@ -131,7 +131,7 @@ function Sidenav({ color }) {
         ) : user?.userType === "admin" ? (
           <>
             <Menu.Item key="1">
-              <NavLink to="/">
+              <NavLink to="/dashboard">
                 <span
                   className="icon"
                   style={{
