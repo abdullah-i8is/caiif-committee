@@ -28,6 +28,7 @@ const { Header, Footer, Content } = Layout;
 export default function NewPassword() {
 
     const [form] = Form.useForm();
+    const [width, setWidth] = useState(0)
 
     const params = useParams()
     const dispatch = useDispatch()
@@ -118,6 +119,21 @@ export default function NewPassword() {
         handleVerify()
     }, [])
 
+    useEffect(() => {
+        setWidth(window.innerWidth);
+        const handleResize = () => {
+            setWidth(window.innerWidth);
+        };
+
+        // Add event listener
+        window.addEventListener("resize", handleResize);
+
+        // Remove event listener when the component unmounts
+        return () => {
+            window.removeEventListener("resize", handleResize);
+        };
+    }, []);
+
     console.log(params);
     console.log(isVerified);
 
@@ -182,9 +198,9 @@ export default function NewPassword() {
 
                                 </Form>
                             </div>
-                            <div style={{ margin: "0 30px" }}>
+                            {width > 768 && <div style={{ margin: "0 30px" }}>
                                 <img src={loginImg} />
-                            </div>
+                            </div>}
                         </div>
                     </Card>
                 )}
