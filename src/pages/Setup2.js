@@ -191,11 +191,19 @@ function Setup2() {
     ];
     const column3 = [
         {
-            title: <Title style={{ fontSize: "18px", margin: 0, color: "#166805", fontWeight: "600" }}>Name</Title>,
-            dataIndex: 'username',
-            key: 'username',
+            title: <Title style={{ fontSize: "18px", margin: 0, color: "#166805", fontWeight: "600" }}>First Name</Title>,
+            dataIndex: 'name',
+            key: 'name',
             render: (text, record, index) => {
-                return <Title style={{ fontSize: "18px", margin: 0, color: "#166805", fontWeight: "600" }}>{record?.name}</Title>
+                return <Title style={{ fontSize: "18px", margin: 0 }}>{record?.firstName}</Title>
+            }
+        },
+        {
+            title: <Title style={{ fontSize: "18px", margin: 0, color: "#166805", fontWeight: "600" }}>Last Name</Title>,
+            dataIndex: 'name',
+            key: 'name',
+            render: (text, record, index) => {
+                return <Title style={{ fontSize: "18px", margin: 0 }}>{record?.lastName}</Title>
             }
         },
         {

@@ -31,19 +31,19 @@ import ResetPassword from "./pages/resetPassword";
 
 function App() {
 
-  const [loading, setLoading] = useState(true)
+  // const [loading, setLoading] = useState(true)
   const token = useSelector((state) => state.common.token)
-  const user = useSelector((state) => state.auth.user)
-  const dispatch = useDispatch()
-  const location = useLocation()
-  const defaultOptions = {
-    loop: true,
-    autoplay: true,
-    animationData: animationData, // the animation data
-    rendererSettings: {
-      preserveAspectRatio: 'xMidYMid slice',
-    },
-  };
+  // const user = useSelector((state) => state.auth.user)
+  // const dispatch = useDispatch()
+  // const location = useLocation()
+  // const defaultOptions = {
+  //   loop: true,
+  //   autoplay: true,
+  //   animationData: animationData, // the animation data
+  //   rendererSettings: {
+  //     preserveAspectRatio: 'xMidYMid slice',
+  //   },
+  // };
 
   // useEffect(() => {
   //   setTimeout(() => {
