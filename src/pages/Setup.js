@@ -140,7 +140,7 @@ function Setup() {
       title: <Title style={{ fontSize: "18px", margin: 0, color: "#166805", fontWeight: "600" }}>View</Title>,
       render: (text, record) => {
         return (
-          <Button onClick={() => navigate(`/verification-details/${record._id}`)} className="add-cycle-btn">View</Button>
+          <Button onClick={() => navigate(`/members/verification-details/${record._id}`)} className="add-cycle-btn">View</Button>
         )
       }
     },
@@ -207,7 +207,7 @@ function Setup() {
       title: <Title style={{ fontSize: "18px", margin: 0, color: "#166805", fontWeight: "600" }}>View</Title>,
       render: (text, record) => {
         return (
-          <Button onClick={() => navigate(`/verification-details/${record._id}`)} className="add-cycle-btn">View</Button>
+          <Button onClick={() => navigate(`/members/verification-details/${record._id}`)} className="add-cycle-btn">View</Button>
         )
       }
     },

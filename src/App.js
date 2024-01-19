@@ -76,7 +76,7 @@ function App() {
             <Route path="/members" element={token ? <Members /> : <Navigate to="/sign-in" />} />
             <Route path="/view-committee/:id" element={token ? <Setup2 /> : <Navigate to="/sign-in" />} />
             <Route path="/view-all-committee" element={token ? <Setup /> : <Navigate to="/sign-in" />} />
-            <Route path="/verification-details/:id" element={token ? <VerificationDetails /> : <Navigate to="/sign-in" />} />
+            <Route path="/members/verification-details/:id" element={token ? <VerificationDetails /> : <Navigate to="/sign-in" />} />
             <Route path="/committee-details" element={token ? <CommitteeDetails /> : <Navigate to="/sign-in" />} />
             <Route path="/payment-history" element={token ? <PaymentHistory /> : <Navigate to="/sign-in" />} />
             <Route path="/profile" element={token ? <Profile /> : <Navigate to="/sign-in" />} />

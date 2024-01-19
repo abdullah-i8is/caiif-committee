@@ -167,7 +167,7 @@ function Setup2() {
             render: (text, record) => {
                 return (
                     <>
-                        <Button onClick={() => navigate(`/verification-details/${record._id}`)} className="add-cycle-btn">View</Button>
+                        <Button onClick={() => navigate(`/members/verification-details/${record._id}`)} className="add-cycle-btn">View</Button>
                         <Button
                             style={{ margin: "0 0 0 10px" }}
                             className="add-cycle-btn"
