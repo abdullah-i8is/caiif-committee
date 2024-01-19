@@ -77,7 +77,7 @@ function Sidenav({ color }) {
           }} src={logo} alt="" />
         </div>
         <div style={{ marginLeft: "20px" }}>
-          <p style={{ margin: 0, color: "#166805", fontWeight: "700", fontSize: "18px" }}>{user?.name}</p>
+          <p style={{ margin: 0, color: "#166805", fontWeight: "700", fontSize: "18px" }}>{user?.firstName + " " + user?.lastName}</p>
           <p style={{ margin: 0, color: "#F2C649", fontWeight: "700", fontSize: "18px" }}>{user?.userType}</p>
         </div>
       </div>
