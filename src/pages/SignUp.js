@@ -30,10 +30,12 @@ import { setCommittees } from "../store/committeeSlice/committeeSlice";
 import { useDispatch, useSelector } from "react-redux";
 import { storage } from "../config/firebase";
 import { getDownloadURL, ref, uploadBytesResumable } from "firebase/storage";
+
 import moment from "moment";
 
 const { Title } = Typography;
 const { Header, Footer, Content } = Layout;
+const { Option } = Select;
 
 export default function SignUp() {
 
@@ -61,6 +63,12 @@ export default function SignUp() {
     first: false,
     second: false,
   });
+  // Get the current year
+  const currentYear = new Date().getFullYear();
+
+  // Generate an array of years from 1924 to the current year
+  const years = Array.from({ length: currentYear - 1923 }, (_, index) => currentYear - index);
+
   const [formFields, setFormFields] = useState({
     cId: "",
     userType: "user",
@@ -140,13 +148,12 @@ export default function SignUp() {
       formFields.sourceOfIncome === "" ||
       formFields.employmentStatus === "" ||
       formFields.address1 === "" ||
-      formFields.address2 === "" ||
       formFields.city === "" ||
       formFields.province === "" ||
       formFields.postalCode === ""
     ) {
       Object.entries(formFields).forEach(([key, value]) => {
-        if ((value === "" || value === null || value === undefined) && key !== "emergencyContact" && key !== "sin") {
+        if ((value === "" || value === null || value === undefined) && key !== "emergencyContact" && key !== "sin" && key !== "address2") {
           api.error({
             message: 'Notification',
             description: `${key} is required`,
@@ -523,64 +530,72 @@ export default function SignUp() {
                           },
                         ]}
                         label={<Title style={{ fontSize: "16px", margin: 0, color: "#4E4E4E" }}>DOB</Title>}>
-                        <DatePicker
-                          style={{ width: '100px', height: "40px" }}
-                          picker="date"
-                          format="DD"
+                        <Select
+                          style={{ width: '100px', height: "40px", marginLeft: '4px' }}
                           placeholder="DD"
-                          onChange={(e, dateString) => {
-                            console.log(dateString);
-                            setFormFields((prevFields) => {
-                              return {
-                                ...prevFields,
-                                DOB: {
-                                  ...prevFields.DOB,
-                                  day: dateString
-                                }
+                          onChange={(value) => {
+                            setFormFields((prevFields) => ({
+                              ...prevFields,
+                              DOB: {
+                                ...prevFields.DOB,
+                                day: value
                               }
-                            })
+                            }));
                           }}
-                        />
-                        <DatePicker
-                          style={{ width: '100px', height: "40px" }}
-                          picker="month"
-                          format="MM"
+                        >
+                          {[...Array(31).keys()].map((day) => (
+                            <Option key={day + 1} value={day + 1}>
+                              {day + 1}
+                            </Option>
+                          ))}
+                        </Select>
+
+                        <Select
+                          style={{ width: '100px', height: "40px", marginLeft: '4px' }}
                           placeholder="MM"
-                          onChange={(e, dateString) => {
-                            console.log(dateString);
-                            setFormFields((prevFields) => {
-                              return {
-                                ...prevFields,
-                                DOB: {
-                                  ...prevFields.DOB,
-                                  month: dateString
-                                }
+                          onChange={(value) => {
+                            setFormFields((prevFields) => ({
+                              ...prevFields,
+                              DOB: {
+                                ...prevFields.DOB,
+                                month: value
                               }
-                            })
+                            }));
                           }}
-                        />
-                        <DatePicker
-                          style={{ width: '100px', height: "40px" }}
-                          picker="year"
-                          format="YYYY"
+                        >
+                          {Array.from({ length: 12 }, (_, index) => {
+                            const monthValue = index + 1;
+                            const monthName = new Date(2022, index, 1).toLocaleString('en-US', { month: 'short' }).toUpperCase();
+                            return (
+                              <Option key={monthValue} value={monthValue}>
+                                {monthName}
+                              </Option>
+                            );
+                          })}
+                        </Select>
+                        <Select
+                          style={{ width: '100px', height: "40px", marginLeft: '4px' }}
                           placeholder="YYYY"
-                          onChange={(e, dateString) => {
-                            console.log(dateString);
-                            setFormFields((prevFields) => {
-                              return {
-                                ...prevFields,
-                                DOB: {
-                                  ...prevFields.DOB,
-                                  year: dateString
-                                }
+                          onChange={(value) => {
+                            setFormFields((prevFields) => ({
+                              ...prevFields,
+                              DOB: {
+                                ...prevFields.DOB,
+                                year: value
                               }
-                            })
+                            }));
                           }}
-                        />
+                        >
+                          {years.map((year) => (
+                            <Option key={year} value={year}>
+                              {year}
+                            </Option>
+                          ))}
+                        </Select>
                       </Form.Item>
                     </div>
                     <Title onClick={() => setShowManualEntry(true)} className="choose-manual-link" style={{ fontSize: "16px", margin: 0, color: "#038203", fontWeight: "400", textAlign: "end" }}>Choose manual entry</Title>
-                    {!showManualEntry && <Form.Item
+                    <Form.Item
                       required={true}
                       rules={[
                         {
@@ -599,7 +614,7 @@ export default function SignUp() {
                         });
                       }} style={{ width: width < 768 ? "100%" : "100%" }}
                         placeholder="Address" />
-                    </Form.Item>}
+                    </Form.Item>
                     {showManualEntry && (
                       <>
                         <Form.Item
@@ -611,7 +626,7 @@ export default function SignUp() {
                               message: 'Please input your Street Address !',
                             },
                           ]}
-                          label={<Title style={{ fontSize: "16px", margin: 0, color: "#4E4E4E" }}>Street Address</Title>}>
+                          label={<Title style={{ fontSize: "16px", margin: 0, color: "#4E4E4E" }}>Street Address (optional)</Title>}>
                           <Input value={formFields.address2} onChange={(e) => {
 
                             setFieldName({ type: "address2", value: e.target.value })
@@ -884,8 +899,9 @@ export default function SignUp() {
                     <div style={{ textAlign: width < 768 ? "center" : "left" }}>
                       <div style={{ width: width < 768 ? "100%" : "600px", marginBottom: 20 }}>
                         <Title style={{ fontSize: "16px", margin: "0 0 8px 0", color: "#4E4E4E" }}>ID</Title>
+                        <p>Please Upload Your Id Card</p>
                         <Upload showUploadList={false} name="file" onChange={(e) => handleUpload(e.file.originFileObj)}>
-                          <Button loading={uploading} icon={<UploadOutlined />}>Upload NIC</Button>
+                          <Button loading={uploading} icon={<UploadOutlined />}>Upload ID</Button>
                         </Upload>
                       </div>
                       {formFields?.nic ? <img style={{ width: "100% !important", margin: "20px 0 0 0", borderRadius: "5px" }} src={formFields?.nic} /> : ""}

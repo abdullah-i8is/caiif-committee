@@ -140,13 +140,12 @@ export default function SignUp3() {
       formFields.sourceOfIncome === "" ||
       formFields.employmentStatus === "" ||
       formFields.address1 === "" ||
-      formFields.address2 === "" ||
       formFields.city === "" ||
       formFields.province === "" ||
       formFields.postalCode === ""
     ) {
       Object.entries(formFields).forEach(([key, value]) => {
-        if ((value === "" || value === null || value === undefined) && key !== "emergencyContact" && key !== "sin") {
+        if ((value === "" || value === null || value === undefined) && key !== "emergencyContact" && key !== "sin" && key !== "address2") {
           api.error({
             message: 'Notification',
             description: `${key} is required`,
@@ -580,11 +579,7 @@ export default function SignUp3() {
                       </Form.Item>
                     </div>
                     <Title onClick={() => setShowManualEntry(true)} className="choose-manual-link" style={{ fontSize: "16px", margin: 0, color: "#038203", fontWeight: "400", textAlign: "end" }}>Choose manual entry</Title>
-
-                    <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", marginBottom: 10 }}>
-                      {!showManualEntry && <Title style={{ fontSize: "16px", margin: 0, color: "#4E4E4E" }}>Address 1 (no P.O. Box)</Title>}
-                    </div>
-                    {!showManualEntry && <Form.Item
+                    <Form.Item
                        required={true}
                        rules={[
                          {
@@ -603,7 +598,7 @@ export default function SignUp3() {
                         });
                       }} style={{ width: width < 768 ? "100%" : "100%" }}
                         placeholder="Address" />
-                    </Form.Item>}
+                    </Form.Item>
                     {showManualEntry && (
                       <>
                         <Form.Item
@@ -615,7 +610,7 @@ export default function SignUp3() {
                               message: 'Please input your Street Address !',
                             },
                           ]}
-                          label={<Title style={{ fontSize: "16px", margin: 0, color: "#4E4E4E" }}>Street Address</Title>}>
+                          label={<Title style={{ fontSize: "16px", margin: 0, color: "#4E4E4E" }}>Street Address (optional)</Title>}>
                           <Input value={formFields.address2} onChange={(e) => {
 
                             setFieldName({ type: "address2", value: e.target.value })

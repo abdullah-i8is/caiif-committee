@@ -114,11 +114,12 @@ function VerificationDetails() {
                 appointment: {
                     date: user?.appointment?.date,
                 },
-                DOB: {
-                    day: user?.DOB?.day,
-                    month: user?.DOB?.month,
-                    year: user?.DOB?.year,
-                },
+                DOB: user?.DOB,
+                // DOB: {
+                //     day: user?.DOB?.day,
+                //     month: user?.DOB?.month,
+                //     year: user?.DOB?.year,
+                // },
                 address1: user?.address1,
                 address2: user?.address2,
                 city: user?.city,
@@ -256,73 +257,23 @@ function VerificationDetails() {
                                 <Input onChange={(e) => handleChange(e.target.value, "contactNumber")} value={user?.contactNumber} />
                             </Form.Item>
                         </Col>
+
                         <Col xs={24} sm={24} md={6} lg={6} xl={4}>
                             <Form.Item label={<Title style={{ fontSize: "16px", margin: 0, color: "#4E4E4E" }}>DOB</Title>}>
                                 <Input
-                                    onChange={(e) => handleChange(e.target.value, "contactNumber")}
-                                    value={dob}
+                                    onChange={(e) => {
+                                        setUser((prevDetail) => {
+                                            return {
+                                                ...prevDetail,
+                                                DOB: e.target.value,
+                                            };
+                                        });
+                                    }}
+                                    value={user?.DOB}
                                 />
                             </Form.Item>
                         </Col>
-                        <Col xs={24} sm={24} md={12} lg={12} xl={8}>
-                            <Form.Item label={<Title style={{ fontSize: "16px", margin: 0, color: "#4E4E4E" }}>DOB</Title>}>
-                                {/* <Input value={new Date(user?.DOB).toLocaleDateString()} /> */}
-                                <DatePicker
-                                    style={{ width: '100px', height: "40px" }}
-                                    picker="month"
-                                    format="MM"
-                                    placeholder="MM"
-                                    onChange={(e, dateString) => {
-                                        setUser((prevDetail) => {
-                                            return {
-                                                ...prevDetail,
-                                                DOB: {
-                                                    day: dateString,
-                                                    month: user?.DOB?.month,
-                                                    year: user?.DOB?.year
-                                                }
-                                            }
-                                        })
-                                    }}
-                                />
-                                <DatePicker
-                                    style={{ width: '100px', height: "40px" }}
-                                    picker="date"
-                                    format="DD"
-                                    placeholder="DD"
-                                    onChange={(e, dateString) => {
-                                        setUser((prevDetail) => {
-                                            return {
-                                                ...prevDetail,
-                                                DOB: {
-                                                    day: user?.DOB?.day,
-                                                    month: dateString,
-                                                    year: user?.DOB?.year,
-                                                }
-                                            }
-                                        })
-                                    }}
-                                />
-                                <DatePicker
-                                    style={{ width: '100px', height: "40px" }}
-                                    picker="year"
-                                    format="YYYY"
-                                    placeholder="YYYY"
-                                    onChange={(e, dateString) => {
-                                        setUser((prevDetail) => {
-                                            return {
-                                                ...prevDetail,
-                                                DOB: {
-                                                    day: user?.DOB?.day,
-                                                    month: user?.DOB?.month,
-                                                    year: dateString,
-                                                }
-                                            }
-                                        })
-                                    }}
-                                />
-                            </Form.Item>
-                        </Col>
+
                         {/* <Col xs={24} sm={24} md={6} lg={6} xl={4}>
                             <Form.Item label={<Title style={{ fontSize: "16px", margin: 0, color: "#4E4E4E" }}>Date Of Birth</Title>}>
                                 <DatePicker
