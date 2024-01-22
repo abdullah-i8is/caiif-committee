@@ -31,6 +31,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { storage } from "../config/firebase";
 import { getDownloadURL, ref, uploadBytesResumable } from "firebase/storage";
 import moment from "moment";
+const { Option } = Select;
 
 const { Title } = Typography;
 const { Header, Footer, Content } = Layout;
@@ -61,6 +62,12 @@ export default function SignUp2() {
     first: false,
     second: false,
   });
+    // Get the current year
+    const currentYear = new Date().getFullYear();
+
+    // Generate an array of years from 1924 to the current year
+    const years = Array.from({ length: currentYear - 1923 }, (_, index) => currentYear - index);
+
   const [formFields, setFormFields] = useState({
     cId: "",
     userType: "user",
@@ -138,14 +145,16 @@ export default function SignUp2() {
       formFields.residentialStatus === "" ||
       formFields.grossAnnualIncome === "" ||
       formFields.sourceOfIncome === "" ||
-      formFields.employmentStatus === "" ||
-      formFields.address1 === "" ||
-      formFields.city === "" ||
-      formFields.province === "" ||
-      formFields.postalCode === ""
+      formFields.employmentStatus === ""
+      // formFields.address1 === "" ||
+      // formFields.city === "" ||
+      // formFields.province === "" ||
+      // formFields.postalCode === "" ||
+      // formFields.address2 === ""
     ) {
+
       Object.entries(formFields).forEach(([key, value]) => {
-        if ((value === "" || value === null || value === undefined) && key !== "emergencyContact" && key !== "sin" && key !== "address2") {
+        if ((value === "" || value === null || value === undefined) && key !== "emergencyContact" && key !== "sin" ) {
           api.error({
             message: 'Notification',
             description: `${key} is required`,
@@ -156,6 +165,25 @@ export default function SignUp2() {
           });
         }
       });
+    }
+    // Check additional condition when address1 is not provided
+    if (!formFields.address1) {
+      const addressFields = ["city", "province", "postalCode", "address2"];
+
+      const emptyAddressField = addressFields.find(
+        (field) => !formFields[field]
+      );
+
+      if (emptyAddressField && emptyAddressField !== 'address1') {
+        api.error({
+          message: 'Notification',
+          description: `${emptyAddressField} is required.`,
+          placement: {
+            top: 24,
+            right: 24,
+          },
+        });
+      }
     }
     else {
       setLoading(true)
@@ -522,87 +550,91 @@ export default function SignUp2() {
                           },
                         ]}
                         label={<Title style={{ fontSize: "16px", margin: 0, color: "#4E4E4E" }}>DOB</Title>}>
-                        <DatePicker
-                          style={{ width: '100px', height: "40px" }}
-                          picker="date"
-                          format="DD"
+                        <Select
+                          style={{ width: '100px', height: "40px", marginLeft: '4px' }}
                           placeholder="DD"
-                          onChange={(e, dateString) => {
-                            console.log(dateString);
-                            setFormFields((prevFields) => {
-                              return {
-                                ...prevFields,
-                                DOB: {
-                                  ...prevFields.DOB,
-                                  day: dateString
-                                }
+                          onChange={(value) => {
+                            setFormFields((prevFields) => ({
+                              ...prevFields,
+                              DOB: {
+                                ...prevFields.DOB,
+                                day: value
                               }
-                            })
+                            }));
                           }}
-                        />
-                        <DatePicker
-                          style={{ width: '100px', height: "40px" }}
-                          picker="month"
-                          format="MM"
+                        >
+                          {[...Array(31).keys()].map((day) => (
+                            <Option key={day + 1} value={day + 1}>
+                              {day + 1}
+                            </Option>
+                          ))}
+                        </Select>
+
+                        <Select
+                          style={{ width: '100px', height: "40px", marginLeft: '4px' }}
                           placeholder="MM"
-                          onChange={(e, dateString) => {
-                            console.log(dateString);
-                            setFormFields((prevFields) => {
-                              return {
-                                ...prevFields,
-                                DOB: {
-                                  ...prevFields.DOB,
-                                  month: dateString
-                                }
+                          onChange={(value) => {
+                            setFormFields((prevFields) => ({
+                              ...prevFields,
+                              DOB: {
+                                ...prevFields.DOB,
+                                month: value
                               }
-                            })
+                            }));
                           }}
-                        />
-                        <DatePicker
-                          style={{ width: '100px', height: "40px" }}
-                          picker="year"
-                          format="YYYY"
+                        >
+                          {Array.from({ length: 12 }, (_, index) => {
+                            const monthValue = index + 1;
+                            const monthName = new Date(2022, index, 1).toLocaleString('en-US', { month: 'short' }).toUpperCase();
+                            return (
+                              <Option key={monthValue} value={monthValue}>
+                                {monthName}
+                              </Option>
+                            );
+                          })}
+                        </Select>
+                        <Select
+                          style={{ width: '100px', height: "40px", marginLeft: '4px' }}
                           placeholder="YYYY"
-                          onChange={(e, dateString) => {
-                            console.log(dateString);
-                            setFormFields((prevFields) => {
-                              return {
-                                ...prevFields,
-                                DOB: {
-                                  ...prevFields.DOB,
-                                  year: dateString
-                                }
+                          onChange={(value) => {
+                            setFormFields((prevFields) => ({
+                              ...prevFields,
+                              DOB: {
+                                ...prevFields.DOB,
+                                year: value
                               }
-                            })
+                            }));
                           }}
-                        />
+                        >
+                          {years.map((year) => (
+                            <Option key={year} value={year}>
+                              {year}
+                            </Option>
+                          ))}
+                        </Select>
                       </Form.Item>
                     </div>
                     <Title onClick={() => setShowManualEntry(true)} className="choose-manual-link" style={{ fontSize: "16px", margin: 0, color: "#038203", fontWeight: "400", textAlign: "end" }}>Choose manual entry</Title>
+                    {!showManualEntry && (
                     <Form.Item
                       required={true}
                       rules={[
                         {
-                          required: true,
                           message: 'Please input your Address 1 !',
                         },
                       ]}
                       label={<Title style={{ fontSize: "16px", margin: 0, color: "#4E4E4E" }}>Address 1 (no P.O. Box)</Title>}>
-                      <Input
-                        value={formFields.address1}
-                        onChange={(e) => {
-                          setFieldName({ type: "address1", value: e.target.value })
-                          setFormFields((prevFields) => {
-                            return {
-                              ...prevFields,
-                              address1: e.target.value
-                            }
-                          });
-                        }}
-                        style={{ width: width < 768 ? "100%" : "100%" }}
-                        placeholder="Address"
-                      />
-                    </Form.Item>
+                      <Input value={formFields.address1} onChange={(e) => {
+                        setFieldName({ type: "address1", value: e.target.value })
+                        setFormFields((prevFields) => {
+                          return {
+                            ...prevFields,
+                            address1: e.target.value
+                          }
+                        });
+                      }} style={{ width: width < 768 ? "100%" : "100%" }}
+                        placeholder="Address" />
+                    </Form.Item>)}
                     {showManualEntry && (
                       <>
                         <Form.Item
@@ -610,7 +642,6 @@ export default function SignUp2() {
 
                           rules={[
                             {
-                              required: true,
                               message: 'Please input your Street Address !',
                             },
                           ]}
@@ -630,11 +661,9 @@ export default function SignUp2() {
                         <div style={{ display: 'flex', flexDirection: width < 768 ? "column" : "row" }}>
                           <Form.Item
                             style={{ marginRight: 10 }}
-                            required={true}
 
                             rules={[
                               {
-                                required: true,
                                 message: 'Please input your City !',
                               },
                             ]}
@@ -652,11 +681,9 @@ export default function SignUp2() {
                           </Form.Item>
 
                           <Form.Item
-                            required={true}
                             style={{ marginRight: 10 }}
                             rules={[
                               {
-                                required: true,
                                 message: 'Please input your Provice !',
                               },
                             ]}
@@ -692,10 +719,8 @@ export default function SignUp2() {
                           </Form.Item>
 
                           <Form.Item
-                            required={true}
                             rules={[
                               {
-                                required: true,
                                 message: 'Please input your Postal Code !',
                               },
                             ]}
