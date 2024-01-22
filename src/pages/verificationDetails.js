@@ -212,8 +212,8 @@ function VerificationDetails() {
     }
 
     console.log(user);
-    // console.log(commitee);
-    // console.log(myNotes);
+    const date = user?.DOB?.day + "-" + user?.DOB?.month + "-" + user?.DOB?.year
+    const dob = new Date(date).toLocaleDateString()
 
     return (
         <>
@@ -254,6 +254,14 @@ function VerificationDetails() {
                         <Col xs={24} sm={24} md={6} lg={6} xl={4}>
                             <Form.Item label={<Title style={{ fontSize: "16px", margin: 0, color: "#4E4E4E" }}>Phone Number</Title>}>
                                 <Input onChange={(e) => handleChange(e.target.value, "contactNumber")} value={user?.contactNumber} />
+                            </Form.Item>
+                        </Col>
+                        <Col xs={24} sm={24} md={6} lg={6} xl={4}>
+                            <Form.Item label={<Title style={{ fontSize: "16px", margin: 0, color: "#4E4E4E" }}>DOB</Title>}>
+                                <Input
+                                    onChange={(e) => handleChange(e.target.value, "contactNumber")}
+                                    value={dob}
+                                />
                             </Form.Item>
                         </Col>
                         <Col xs={24} sm={24} md={12} lg={12} xl={8}>

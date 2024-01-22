@@ -525,7 +525,7 @@ export default function SignUp3() {
                         label={<Title style={{ fontSize: "16px", margin: 0, color: "#4E4E4E" }}>DOB</Title>}>
                         <DatePicker
                           style={{ width: '100px', height: "40px" }}
-                          picker="month"
+                          picker="date"
                           format="DD"
                           placeholder="DD"
                           onChange={(e, dateString) => {
@@ -543,7 +543,7 @@ export default function SignUp3() {
                         />
                         <DatePicker
                           style={{ width: '100px', height: "40px" }}
-                          picker="date"
+                          picker="month"
                           format="MM"
                           placeholder="MM"
                           onChange={(e, dateString) => {
