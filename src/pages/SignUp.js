@@ -98,29 +98,29 @@ export default function SignUp() {
 
   const onFinish = (values) => {
     console.log("Success:", values);
-    setFormFields((prevFields) => {
-      return {
-        ...prevFields,
-        email: values.email,
-        contactNumber: values.contactNumber,
-        jobOccupation: values?.jobOccupation,
-        firstName: values?.firstName,
-        lastName: values?.lastName,
-        contactNumber: values?.contactNumber,
-        emergencyContact: values?.emergencyContact,
-        sin: values?.sin,
-        nic: values?.nic,
-        residentialStatus: values?.residentialStatus,
-        grossAnnualIncome: values?.grossAnnualIncome,
-        sourceOfIncome: values?.sourceOfIncome,
-        employmentStatus: values?.employmentStatus,
-        address1: values?.address1,
-        address2: values?.address2,
-        city: values?.city,
-        province: values?.province,
-        postalCode: values?.postalCode,
-      }
-    })
+    // setFormFields((prevFields) => {
+    //   return {
+    //     ...prevFields,
+    //     email: values.email,
+    //     contactNumber: values.contactNumber,
+    //     jobOccupation: values?.jobOccupation,
+    //     firstName: values?.firstName,
+    //     lastName: values?.lastName,
+    //     contactNumber: values?.contactNumber,
+    //     emergencyContact: values?.emergencyContact,
+    //     sin: values?.sin,
+    //     nic: values?.nic,
+    //     residentialStatus: values?.residentialStatus,
+    //     grossAnnualIncome: values?.grossAnnualIncome,
+    //     sourceOfIncome: values?.sourceOfIncome,
+    //     employmentStatus: values?.employmentStatus,
+    //     address1: values?.address1,
+    //     address2: values?.address2,
+    //     city: values?.city,
+    //     province: values?.province,
+    //     postalCode: values?.postalCode,
+    //   }
+    // })
   };
 
   const onFinishFailed = (errorInfo) => {
@@ -134,8 +134,6 @@ export default function SignUp() {
       formFields.jobOccupation === "" ||
       formFields.firstName === "" ||
       formFields.lastName === "" ||
-      formFields.emergencyContact === "" ||
-      formFields.sin === "" ||
       formFields.nic === "" ||
       formFields.residentialStatus === "" ||
       formFields.grossAnnualIncome === "" ||
@@ -147,20 +145,8 @@ export default function SignUp() {
       formFields.province === "" ||
       formFields.postalCode === ""
     ) {
-      // Object.entries(formFields).forEach(([key, value]) => {
-      //   if (value === "" && key !== "email" || key !== "emergencyContact") {
-      //     api.error({
-      //       message: 'Notification',
-      //       description: `${key} is required`,
-      //       placement: {
-      //         top: 24,
-      //         right: 24,
-      //       },
-      //     });
-      //   }
-      // });
       Object.entries(formFields).forEach(([key, value]) => {
-        if ((value === "" || value === null) && key !== "email" && key !== "emergencyContact" && key !== "sin") {
+        if ((value === "" || value === null || value === undefined) && key !== "emergencyContact" && key !== "sin") {
           api.error({
             message: 'Notification',
             description: `${key} is required`,
@@ -540,8 +526,8 @@ export default function SignUp() {
                         <DatePicker
                           style={{ width: '100px', height: "40px" }}
                           picker="month"
-                          format="MM"
-                          placeholder="MM"
+                          format="DD"
+                          placeholder="DD"
                           onChange={(e, dateString) => {
                             console.log(dateString);
                             setFormFields((prevFields) => {
@@ -558,8 +544,8 @@ export default function SignUp() {
                         <DatePicker
                           style={{ width: '100px', height: "40px" }}
                           picker="date"
-                          format="DD"
-                          placeholder="DD"
+                          format="MM"
+                          placeholder="MM"
                           onChange={(e, dateString) => {
                             console.log(dateString);
                             setFormFields((prevFields) => {
@@ -593,19 +579,16 @@ export default function SignUp() {
                         />
                       </Form.Item>
                     </div>
-                    <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", marginBottom: 10 }}>
-                      <Title style={{ fontSize: "16px", margin: 0, color: "#4E4E4E" }}>Address 1 (no P.O. Box)</Title>
-                      <Title onClick={() => setShowManualEntry(true)} className="choose-manual-link" style={{ fontSize: "16px", margin: 0, color: "#038203", fontWeight: "400" }}>Choose manual entry</Title>
-                    </div>
-                    <Form.Item
+                    <Title onClick={() => setShowManualEntry(true)} className="choose-manual-link" style={{ fontSize: "16px", margin: 0, color: "#038203", fontWeight: "400", textAlign: "end" }}>Choose manual entry</Title>
+                    {!showManualEntry && <Form.Item
                       required={true}
-
                       rules={[
                         {
                           required: true,
                           message: 'Please input your Address 1 !',
                         },
-                      ]}>
+                      ]}
+                      label={<Title style={{ fontSize: "16px", margin: 0, color: "#4E4E4E" }}>Address 1 (no P.O. Box)</Title>}>
                       <Input value={formFields.address1} onChange={(e) => {
                         setFieldName({ type: "address1", value: e.target.value })
                         setFormFields((prevFields) => {
@@ -614,10 +597,9 @@ export default function SignUp() {
                             address1: e.target.value
                           }
                         });
-                      }} style={{ width: width < 768 ? "100%" : "300px" }}
-
+                      }} style={{ width: width < 768 ? "100%" : "100%" }}
                         placeholder="Address" />
-                    </Form.Item>
+                    </Form.Item>}
                     {showManualEntry && (
                       <>
                         <Form.Item
@@ -629,7 +611,7 @@ export default function SignUp() {
                               message: 'Please input your Street Address !',
                             },
                           ]}
-                          label={<Title style={{ fontSize: "16px", margin: 0, color: "#4E4E4E" }}>Address 2</Title>}>
+                          label={<Title style={{ fontSize: "16px", margin: 0, color: "#4E4E4E" }}>Street Address</Title>}>
                           <Input value={formFields.address2} onChange={(e) => {
 
                             setFieldName({ type: "address2", value: e.target.value })
