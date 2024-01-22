@@ -1,1 +1,0 @@
-export const API_URL = "https://expensive-pumps-calf.cyclic.app/api/v1";
