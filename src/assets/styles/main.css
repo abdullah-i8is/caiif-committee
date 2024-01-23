@@ -3173,3 +3173,8 @@ th.ant-table-cell h1 {
 .nic-image {
   width: 200px !important;
 }
+
+.ant-btn:hover {
+  color: white !important;
+  border: none !important;
+}
