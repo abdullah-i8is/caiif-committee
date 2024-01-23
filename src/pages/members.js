@@ -72,19 +72,11 @@ function Members() {
 
     const column = [
         {
-            title: <Title style={{ fontSize: "18px", margin: 0, color: "#166805", fontWeight: "600" }}>First Name</Title>,
+            title: <Title style={{ fontSize: "18px", margin: 0, color: "#166805", fontWeight: "600" }}>Name</Title>,
             dataIndex: 'name',
             key: 'name',
             render: (text, record, index) => {
-                return <Title style={{ fontSize: "18px", margin: 0, color: "#166805", fontWeight: "600" }}>{record?.firstName}</Title>
-            }
-        },
-        {
-            title: <Title style={{ fontSize: "18px", margin: 0, color: "#166805", fontWeight: "600" }}>Last Name</Title>,
-            dataIndex: 'name',
-            key: 'name',
-            render: (text, record, index) => {
-                return <Title style={{ fontSize: "18px", margin: 0, color: "#166805", fontWeight: "600" }}>{record?.lastName}</Title>
+                return <Title style={{ fontSize: "18px", margin: 0, color: "#166805", fontWeight: "600" }}>{record?.firstName + " " + record?.lastName}</Title>
             }
         },
         {
@@ -140,18 +132,6 @@ function Members() {
         //     }
         // },
         {
-            title: <Title style={{ fontSize: "18px", margin: 0, color: "#166805", fontWeight: "600" }}>Note</Title>,
-            dataIndex: 'note',
-            key: 'note',
-            render: (text, record) => {
-                return (
-                    <Tooltip placement="top" title={record?.note === "" || !record?.note ? "N/A" : record.note}>
-                        <Title className="note-text">{record?.note === "" || !record?.note ? "N/A" : record.note}</Title>
-                    </Tooltip>
-                )
-            }
-        },
-        {
             title: <Title style={{ fontSize: "18px", margin: 0, color: "#166805", fontWeight: "600" }}>ID</Title>,
             dataIndex: 'note',
             key: 'note',
@@ -204,20 +184,11 @@ function Members() {
 
     const column2 = [
         {
-            title: <Title style={{ fontSize: "18px", margin: 0, color: "#166805", fontWeight: "600" }}>First Name</Title>,
+            title: <Title style={{ fontSize: "18px", margin: 0, color: "#166805", fontWeight: "600" }}>Name</Title>,
             dataIndex: 'name',
             key: 'name',
             render: (text, record, index) => {
-                console.log(record);
-                return <Title style={{ fontSize: "18px", margin: 0, color: "#166805", fontWeight: "600" }}>{record?.firstName}</Title>
-            }
-        },
-        {
-            title: <Title style={{ fontSize: "18px", margin: 0, color: "#166805", fontWeight: "600" }}>Last Name</Title>,
-            dataIndex: 'name',
-            key: 'name',
-            render: (text, record, index) => {
-                return <Title style={{ fontSize: "18px", margin: 0, color: "#166805", fontWeight: "600" }}>{record?.lastName}</Title>
+                return <Title style={{ fontSize: "18px", margin: 0, color: "#166805", fontWeight: "600" }}>{record?.firstName + " " + record?.lastName}</Title>
             }
         },
         {
@@ -255,18 +226,6 @@ function Members() {
         //         return <Title style={{ fontSize: "16px", margin: 0, color: "#818181" }}>{res[0]?.committee?.name ? res[0]?.committee?.name : ""}</Title>
         //     }
         // },
-        {
-            title: <Title style={{ fontSize: "18px", margin: 0, color: "#166805", fontWeight: "600" }}>Note</Title>,
-            dataIndex: 'note',
-            key: 'note',
-            render: (text, record) => {
-                return (
-                    <Tooltip placement="top" title={record?.note === "" || !record?.note ? "N/A" : record.note}>
-                        <Title className="note-text">{record?.note === "" || !record?.note ? "N/A" : record.note}</Title>
-                    </Tooltip>
-                )
-            }
-        },
         {
             title: <Title style={{ fontSize: "18px", margin: 0, color: "#166805", fontWeight: "600" }}>ID</Title>,
             dataIndex: 'note',
@@ -319,7 +278,7 @@ function Members() {
                 api.success({
                     message: `Notification`,
                     description: response?.data?.message,
-                    placement:"topRight",
+                    placement: "bottomRight",
                 });
                 GetAllMembers(token)
                     .then((res) => {
@@ -337,7 +296,7 @@ function Members() {
             api.error({
                 message: `Notification`,
                 description: error?.response?.data?.message ? error?.response?.data?.message : "network error",
-                placement:"topRight",
+                placement: "bottomRight",
             });
         }
     }
@@ -386,6 +345,11 @@ function Members() {
     return (
         <>
             {contextHolder}
+            <StatisticsHeader
+                approveMembers={approveMembers}
+                user={user}
+                committees={committees}
+            />
             {/* <StatisticsHeader approveMembers={approveMembers} committees={committees} user={loginUser} />
             <div style={{ marginBottom: "20px" }}>
                 <Title style={{ color: "#166805", margin: 0 }} level={3}>Approval members Request</Title>
@@ -404,13 +368,13 @@ function Members() {
                 <Title style={{ color: "#166805", margin: 0 }} level={3}>Approval members Request</Title>
             </div>
             <Card className="my-card" style={{ marginBottom: "20px" }}>
-                <Table pagination={false} loading={loading3} dataSource={approveMembers?.filter((user) => user.approve === false)} columns={column} />
+                <Table pagination={false} loading={loading3} dataSource={approveMembers?.filter((user) => user.approve === false).sort((a, b) => b.createdAt - a.createdAt)} columns={column} />
             </Card>
             <div style={{ marginBottom: "20px", marginTop: "40px" }}>
                 <Title style={{ color: "#166805", margin: 0 }} level={3}>Approved members</Title>
             </div>
             <Card className="my-card" style={{ marginBottom: "20px" }}>
-                <Table pagination={false} loading={loading3} dataSource={approveMembers?.filter((user) => user.approve === true)} columns={column2} />
+                <Table pagination={false} loading={loading3} dataSource={approveMembers?.filter((user) => user.approve === true).sort((a, b) => b.createdAt - a.createdAt)} columns={column2} />
             </Card>
         </>
     );

@@ -3169,3 +3169,7 @@ th.ant-table-cell h1 {
   text-decoration: underline;
   cursor: pointer;
 }
+
+.nic-image {
+  width: 200px !important;
+}

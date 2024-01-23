@@ -31,6 +31,8 @@ import { API_URL } from "../config/api";
 import { SpinnerCircular } from "spinners-react";
 import { setCommittees } from "../store/committeeSlice/committeeSlice";
 import { GetAdminCommittees, GetUserCommittees, GetUserallCommittees } from "../middlewares/commitee";
+import { setApproveMembers } from "../store/membersSlice/membersSlice";
+import { GetAllMembers } from "../middlewares/members";
 
 
 function Home() {
@@ -251,6 +253,14 @@ function Home() {
   const dispatch = useDispatch()
 
   useEffect(() => {
+    GetAllMembers(token)
+      .then((res) => {
+        console.log(res?.data);
+        dispatch(setApproveMembers(res?.data?.users))
+      })
+      .catch((error) => {
+        console.log(error);
+      })
     if (user?.userType === "admin") {
       setLoading(true)
       GetAdminCommittees(token)
@@ -289,27 +299,45 @@ function Home() {
 
   return (
     <>
-      {/* <StatisticsHeader approveMembers={approveMembers} user={user} committees={committees} enrolledCommittess={committees?.filter((com) => com?.committee?.userIds?.some((id) => id === user?._id))} /> */}
-      <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: "20px" }}>
-        <div>
-          <Title style={{ color: "#166805", margin: 0 }} level={3}>Committee</Title>
-        </div>
-        <div>
+      <StatisticsHeader
+        approveMembers={approveMembers}
+        user={user}
+        committees={committees}
+      />
+      <div style={{ marginBottom: "20px" }}>
+        <Title style={{ color: "#166805", margin: 0 }} level={3}>Committee</Title>
+        {/* <div>
           {user?.userType === "admin" && (
             <>
               <Button onClick={() => navigate("/dashboard/committee-details")} className="view-all-btn">Create Committee</Button>
-              {/* <Button style={{ margin: "0 0 0 20px" }} onClick={() => navigate("/view-all-committee")} className="view-all-btn">View All</Button> */}
+              <Button style={{ margin: "0 0 0 20px" }} onClick={() => navigate("/view-all-committee")} className="view-all-btn">View All</Button>
             </>
           )}
-        </div>
+        </div> */}
       </div>
       <Card className="my-card" style={{ marginTop: 40 }}>
         <Table
-          dataSource={committees}
+          dataSource={committees?.slice().sort((a, b) => {
+            const dateA = a?.committeeDetails?.committee?.createdAt;
+            const dateB = b?.committeeDetails?.committee?.createdAt;
+
+            // Handle null or undefined values
+            if (!dateA && !dateB) return 0;
+            if (!dateA) return 1;
+            if (!dateB) return -1;
+
+            // Convert to Date objects if necessary
+            const dateObjA = new Date(dateA);
+            const dateObjB = new Date(dateB);
+
+            // Sort in descending order
+            return dateObjB - dateObjA;
+          })}
           columns={user?.userType === "admin" ? column : column2}
           loading={loading}
           pagination={false}
         />
+
       </Card>
     </>
   );

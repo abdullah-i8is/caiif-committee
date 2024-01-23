@@ -47,7 +47,7 @@ export default function NewPassword() {
         api.success({
             message: `Notification`,
             description: "Password updated successfully",
-            placement: "topRight",
+            placement: "bottomRight",
         });
     };
 

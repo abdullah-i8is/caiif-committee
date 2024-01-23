@@ -31,6 +31,8 @@ import { API_URL } from "../config/api";
 import { SpinnerCircular } from "spinners-react";
 import { setCommittees } from "../store/committeeSlice/committeeSlice";
 import { GetAdminCommittees, GetUserCommittees } from "../middlewares/commitee";
+import { GetAllMembers } from "../middlewares/members";
+import { setApproveMembers } from "../store/membersSlice/membersSlice";
 
 
 function PaymentHistory() {
@@ -39,6 +41,11 @@ function PaymentHistory() {
     const navigate = useNavigate()
     const [data, setData] = useState([])
     const [loading, setLoading] = useState(false)
+    const dispatch = useDispatch()
+    const approveMembers = useSelector((state) => state.members.approveMembers)
+    const committees = useSelector((state) => state.committees.committees)
+    const token = useSelector((state) => state.common.token)
+    const user = useSelector((state) => state.auth.user)
 
     const column = [
         {
@@ -141,8 +148,6 @@ function PaymentHistory() {
         // },
     ];
 
-    const token = useSelector((state) => state.common.token)
-
     async function getPaymentHistory() {
         setLoading(true)
         try {
@@ -161,11 +166,24 @@ function PaymentHistory() {
     }
 
     useEffect(() => {
+        GetAllMembers(token)
+            .then((res) => {
+                console.log(res?.data);
+                dispatch(setApproveMembers(res?.data?.users))
+            })
+            .catch((error) => {
+                console.log(error);
+            })
         getPaymentHistory()
     }, [])
 
     return (
         <>
+            <StatisticsHeader
+                approveMembers={approveMembers}
+                user={user}
+                committees={committees}
+            />
             {/* <StatisticsHeader approveMembers={approveMembers} user={user} committees={committees} enrolledCommittess={committees?.filter((com) => com?.committee?.userIds?.some((id) => id === user?._id))} /> */}
             <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: "20px" }}>
                 <div>
@@ -174,7 +192,7 @@ function PaymentHistory() {
             </div>
             <Card className="my-card" style={{ marginTop: 40 }}>
                 <Table
-                    dataSource={data}
+                    dataSource={data?.sort((a, b) => b?.createdAt - a?.createdAt)}
                     columns={column}
                     loading={loading}
                     pagination={false}

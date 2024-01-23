@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import {
+    Button,
     Card,
     Col,
     Row,
@@ -9,12 +10,14 @@ import CountUp from 'react-countup';
 import icon1 from '../../assets/images/member2.svg'
 import icon2 from '../../assets/images/enroll.svg'
 import icon3 from '../../assets/images/committee.svg'
+import { useNavigate } from 'react-router-dom';
 
 const StatisticsHeader = ({ approveMembers, user, committees, enrolledCommittess }) => {
+    const navigate = useNavigate("")
     const { Title, Text } = Typography;
     const arr = [
         { id: 1, title: "Total Members", description: approveMembers?.length ? approveMembers?.length : 0, icon: icon1 },
-        { id: 2, title: "Enroll Request", description: 4, icon: icon2 },
+        { id: 2, title: "Enroll Request", description: approveMembers?.filter((user) => user.approve === false)?.length, icon: icon2 },
         { id: 3, title: "Add New Committee", description: committees?.length ? committees?.length : 0, icon: icon3 },
     ]
     const arr2 = [
@@ -30,15 +33,15 @@ const StatisticsHeader = ({ approveMembers, user, committees, enrolledCommittess
                         return (
                             <Col xs={24} sm={24} md={12} lg={8} xl={8} className="mb-24">
                                 <Card bordered={false} className="criclebox" style={{ border: '4px solid rgba(22, 104, 5, 0.50)' }}>
-                                    <div style={{ display: "flex", justifyContent: "space-between", alignItems: "flex-start" }}>
+                                    <div style={{ display: "flex", justifyContent: "space-between", alignItems: "flex-start", marginBottom: card.title === "Add New Committee" && -25 }}>
                                         <div>
                                             <p style={{ fontSize: 20, fontWeight: '700', margin: 0, color: "#166805" }}>{card.title}</p>
-                                            <Title level={"5"} style={{ fontWeight: '600', margin: 0, color: "#F2C649" }}><CountUp start={0} end={card.description} /></Title>
-                                        </div>
+                                            {card.title !== "Add New Committee" && <Title level={"5"} style={{ fontWeight: '600', margin: 0, color: "#F2C649" }}><CountUp start={0} end={card.description} /></Title>}                                        </div>
                                         <div>
                                             <img src={card.icon} alt="" />
                                         </div>
                                     </div>
+                                    {card.title === "Add New Committee" && <Button onClick={() => navigate("/dashboard/committee-details")} className="view-all-btn">Create Committee</Button>}
                                 </Card>
                             </Col>
                         )

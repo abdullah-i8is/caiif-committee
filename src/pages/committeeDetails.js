@@ -79,14 +79,14 @@ function CommitteeDetails() {
                     console.log(response);
                     setLoading(false)
                     setErr(response.data.message)
-                    openNotification("topRight", "Committee created successfully")
+                    openNotification("bottomRight", "Committee created successfully")
                     setTimeout(() => {
                         navigate("/dashboard")
                     }, 2000);
                 }
             } catch (error) {
                 setLoading(false)
-                openNotification("topRight", "network error")
+                openNotification("bottomRight", "network error")
                 setErr(error.response.data.message)
                 console.log(error);
             }

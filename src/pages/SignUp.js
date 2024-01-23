@@ -77,7 +77,6 @@ export default function SignUp() {
     jobOccupation: "",
     firstName: "",
     lastName: "",
-    contactNumber: "",
     emergencyContact: "",
     sin: "",
     nic: "",
@@ -146,16 +145,16 @@ export default function SignUp() {
       formFields.residentialStatus === "" ||
       formFields.grossAnnualIncome === "" ||
       formFields.sourceOfIncome === "" ||
-      formFields.employmentStatus === ""
-      // formFields.address1 === "" ||
-      // formFields.city === "" ||
-      // formFields.province === "" ||
-      // formFields.postalCode === "" ||
-      // formFields.address2 === ""
+      formFields.address1 === "" ||
+      formFields.employmentStatus === "" ||
+      (showManualEntry && (
+        formFields.city === "" ||
+        formFields.province === "" ||
+        formFields.postalCode === ""
+      ))
     ) {
-
       Object.entries(formFields).forEach(([key, value]) => {
-        if ((value === "" || value === null || value === undefined) && key !== "emergencyContact" && key !== "sin") {
+        if ((value === "" || value === null || value === undefined) && key !== "emergencyContact" && key !== "sin" && key !== "address2") {
           api.error({
             message: 'Notification',
             description: `${key} is required`,
@@ -166,25 +165,6 @@ export default function SignUp() {
           });
         }
       });
-    }
-    // Check additional condition when address1 is not provided
-    if (!formFields.address1) {
-      const addressFields = ["city", "province", "postalCode", "address2"];
-
-      const emptyAddressField = addressFields.find(
-        (field) => !formFields[field]
-      );
-
-      if (emptyAddressField && emptyAddressField !== 'address1') {
-        api.error({
-          message: 'Notification',
-          description: `${emptyAddressField} is required.`,
-          placement: {
-            top: 24,
-            right: 24,
-          },
-        });
-      }
     }
     else {
       setLoading(true)
@@ -208,7 +188,7 @@ export default function SignUp() {
         api.error({
           message: `Notification`,
           description: error?.response?.data?.message ? error?.response?.data?.message : "network error",
-          placement: "topRight",
+          placement: "bottomRight",
         });
         console.log(error);
       }
@@ -275,7 +255,6 @@ export default function SignUp() {
         return {
           ...prevFields,
           cId: response?.data?.data?.committee?._id,
-          committee: response?.data?.data?.committee?._id,
         }
       })
       console.log(response);
@@ -284,7 +263,7 @@ export default function SignUp() {
       api.error({
         message: `Notification`,
         description: error?.response?.data?.message ? error?.response?.data?.message : "network error",
-        placement: "topRight",
+        placement: "bottomRight",
       });
     }
   }
@@ -677,10 +656,30 @@ export default function SignUp() {
                             }} style={{ width: width < 768 ? "300px" : "300px" }}
                               placeholder="City" />
                           </Form.Item>
-
                           <Form.Item
                             required={true}
                             style={{ marginRight: 10 }}
+
+                            rules={[
+                              {
+                                message: 'Please input your Postal Code !',
+                              },
+                            ]}
+                            label={<Title style={{ fontSize: "16px", margin: 0, color: "#4E4E4E" }}>Postal Code</Title>}>
+                            <Input value={formFields.postalCode} onChange={(e) => {
+                              if (e.target.value.length <= 6) {
+                                setFieldName({ type: "postalCode", value: e.target.value })
+                                setFormFields((prevFields) => {
+                                  return {
+                                    ...prevFields,
+                                    postalCode: e.target.value
+                                  }
+                                });
+                              }
+                            }} style={{ width: width < 768 ? "300px" : "100%" }} placeholder="Postal Code" />
+                          </Form.Item>
+                          <Form.Item
+                            required={true}
                             rules={[
                               {
                                 message: 'Please input your Provice !',
@@ -715,28 +714,6 @@ export default function SignUp() {
                                 })
                               }}
                             />
-                          </Form.Item>
-
-                          <Form.Item
-                            required={true}
-
-                            rules={[
-                              {
-                                message: 'Please input your Postal Code !',
-                              },
-                            ]}
-                            label={<Title style={{ fontSize: "16px", margin: 0, color: "#4E4E4E" }}>Postal Code</Title>}>
-                            <Input value={formFields.postalCode} onChange={(e) => {
-                              if (e.target.value.length <= 6) {
-                                setFieldName({ type: "postalCode", value: e.target.value })
-                                setFormFields((prevFields) => {
-                                  return {
-                                    ...prevFields,
-                                    postalCode: e.target.value
-                                  }
-                                });
-                              }
-                            }} style={{ width: width < 768 ? "300px" : "100%" }} placeholder="Postal Code" />
                           </Form.Item>
                         </div>
 
@@ -918,7 +895,7 @@ export default function SignUp() {
                           <Button loading={uploading} icon={<UploadOutlined />}>Upload ID</Button>
                         </Upload>
                       </div>
-                      {formFields?.nic ? <img style={{ width: "100% !important", margin: "20px 0 0 0", borderRadius: "5px" }} src={formFields?.nic} /> : ""}
+                      {formFields?.nic ? <img className="nic-image" style={{ margin: "20px 0 0 0", borderRadius: "5px" }} src={formFields?.nic} /> : ""}
                       <div style={{ width: width < 768 ? "100%" : "600px" }}>
                         <Title level={2} style={{ color: "green", fontWeight: "600", margin: "30px 0" }}>
                           Appointment Details

@@ -42,7 +42,7 @@ function VerificationDetails() {
         api.success({
             message: `Notification`,
             description: message,
-            placement,
+            placement: "bottomRight",
         });
         if (message === "network error") {
             api.error({
@@ -133,7 +133,11 @@ function VerificationDetails() {
             })
             if (response.status === 200) {
                 setLoading(false)
-                openNotification("topRight", "Profile update successfully")
+                api.success({
+                    message: `Notification`,
+                    description: "Profile update successfully",
+                    placement: "bottomRight",
+                });
                 getUser()
                 console.log(response);
             }
@@ -142,7 +146,7 @@ function VerificationDetails() {
             api.error({
                 message: `Notification`,
                 description: error?.response?.data?.message,
-                placement: "topRight",
+                placement: "bottomRight",
             });
             console.log(error);
         }
@@ -216,6 +220,8 @@ function VerificationDetails() {
     const date = user?.DOB?.day + "-" + user?.DOB?.month + "-" + user?.DOB?.year
     const dob = new Date(date).toLocaleDateString()
 
+    console.log();
+
     return (
         <>
             {contextHolder}
@@ -282,18 +288,18 @@ function VerificationDetails() {
                                 />
                             </Form.Item>
                         </Col> */}
-                        <Col xs={24} sm={24} md={6} lg={6} xl={4}>
+                        {user?.sin !== "" && <Col xs={24} sm={24} md={6} lg={6} xl={4}>
                             <Form.Item label={<Title style={{ fontSize: "16px", margin: 0, color: "#4E4E4E" }}>Sin</Title>}>
                                 <Input onChange={(e) => handleChange(e.target.value, "sin")} value={user?.sin} />
                             </Form.Item>
-                        </Col>
+                        </Col>}
 
-                        <Col xs={24} sm={24} md={6} lg={6} xl={4}>
+                        {user?.city !== "" && <Col xs={24} sm={24} md={6} lg={6} xl={4}>
                             <Form.Item label={<Title style={{ fontSize: "16px", margin: 0, color: "#4E4E4E" }}>City</Title>}>
                                 <Input onChange={(e) => handleChange(e.target.value, "city")} value={user?.city} />
                             </Form.Item>
-                        </Col>
-                        <Col xs={24} sm={24} md={6} lg={6} xl={4}>
+                        </Col>}
+                        {user?.province !== "" && <Col xs={24} sm={24} md={6} lg={6} xl={4}>
                             <Form.Item label={<Title style={{ fontSize: "16px", margin: 0, color: "#4E4E4E" }}>Province</Title>}>
                                 <Select
                                     value={user?.province}
@@ -315,22 +321,22 @@ function VerificationDetails() {
                                     onChange={(e) => handleChange(e, "province")}
                                 />
                             </Form.Item>
-                        </Col>
-                        <Col xs={24} sm={24} md={6} lg={6} xl={4}>
+                        </Col>}
+                        {user?.postalCode !== "" && <Col xs={24} sm={24} md={6} lg={6} xl={4}>
                             <Form.Item label={<Title style={{ fontSize: "16px", margin: 0, color: "#4E4E4E" }}>Postal Code</Title>}>
                                 <Input onChange={(e) => handleChange(e.target.value, "postalCode")} value={user?.postalCode} />
                             </Form.Item>
-                        </Col>
+                        </Col>}
                         <Col xs={24} sm={24} md={6} lg={6} xl={8}>
                             <Form.Item label={<Title style={{ fontSize: "16px", margin: 0, color: "#4E4E4E" }}>Address</Title>}>
                                 <Input onChange={(e) => handleChange(e.target.value, "address1")} value={user?.address1} />
                             </Form.Item>
                         </Col>
-                        <Col xs={24} sm={24} md={6} lg={6} xl={8}>
+                        {user?.address2 !== "" && <Col xs={24} sm={24} md={6} lg={6} xl={8}>
                             <Form.Item label={<Title style={{ fontSize: "16px", margin: 0, color: "#4E4E4E" }}>Street Address</Title>}>
                                 <Input onChange={(e) => handleChange(e.target.value, "address2")} value={user?.address2} />
                             </Form.Item>
-                        </Col>
+                        </Col>}
                         {/* <Col xs={24} sm={24} md={6} lg={6} xl={8}>
                             <Form.Item label={<Title style={{ fontSize: "16px", margin: 0, color: "#4E4E4E" }}>Residential Address</Title>}>
                                 <Input onChange={(e) => handleChange(e.target.value, "residentialAddress")} value={user?.residentialAddress} />
@@ -395,18 +401,21 @@ function VerificationDetails() {
                         </Col>
 
                         <Col xs={24} sm={24} md={6} lg={6} xl={4}>
-                            <Form.Item label={<Title style={{ fontSize: "16px", margin: 0, color: "#4E4E4E" }}>Job Occupation</Title>}>
+                            <Form.Item label={<Title style={{ fontSize: "16px", margin: 0, color: "#4E4E4E" }}>Occupation</Title>}>
                                 <Input onChange={(e) => handleChange(e.target.value, "jobOccupation")} value={user?.jobOccupation} />
                             </Form.Item>
                         </Col>
 
                         <Col xs={24} sm={24} md={6} lg={6} xl={4}>
                             <Form.Item label={<Title style={{ fontSize: "16px", margin: 0, color: "#4E4E4E" }}>Appointment</Title>}>
-                                <Input value={new Date(user?.appointment?.date).toLocaleDateString()} />
+                                <Input
+                                    onChange={(date) => handleChange(date, "appointment")}
+                                    value={new Date(user?.appointment?.date).toLocaleDateString() + " " + new Date(user?.appointment?.date).toLocaleTimeString()}
+                                />
                             </Form.Item>
                         </Col>
 
-                        <Col xs={24} sm={24} md={6} lg={6} xl={4}>
+                        {/* <Col xs={24} sm={24} md={6} lg={6} xl={4}>
                             <Form.Item label={<Title style={{ fontSize: "16px", margin: 0, color: "#4E4E4E" }}>Select Appointment</Title>}>
                                 <DatePicker
                                     showTime={{
@@ -417,6 +426,7 @@ function VerificationDetails() {
                                     style={{ width: '100%' }}
                                     onChange={(date) => handleChange(date, "appointment")}
                                     inputReadOnly={true}
+                                    value={user?.appointment?.date ? moment(user.appointment.date) : null}
                                     disabledDate={(current) => {
                                         const dayOfWeek = current.day();
                                         if (dayOfWeek === 0 || dayOfWeek === 6) {
@@ -440,7 +450,7 @@ function VerificationDetails() {
                                 // )}
                                 />
                             </Form.Item>
-                        </Col>
+                        </Col> */}
 
                         <Col xs={24} sm={24} md={24} lg={24} xl={24} style={{ marginBottom: 20 }}>
                             <Button onClick={() => {
@@ -491,17 +501,6 @@ function VerificationDetails() {
                                 </Col>
                             )
                         })}
-
-                        {user?.approve === false && <Col xs={24} sm={24} md={12} lg={24} xl={24}>
-                            <Form.Item label={<Title style={{ fontSize: "16px", margin: 0, color: "#4E4E4E" }}>Select Committee</Title>}>
-                                <Select
-                                    value="Select Committee"
-                                    style={{ width: "100%" }}
-                                    options={state?.committees?.committees?.map((opt) => ({ value: opt?.committeeDetails?.committee?._id, label: opt?.committeeDetails?.committee?.name }))}
-                                    onChange={(e) => handleChange(e, "cId")}
-                                />
-                            </Form.Item>
-                        </Col>}
                         {/* <Col xs={24} sm={24} md={12} lg={4} xl={4}>
                             <Form.Item label={<Title style={{ fontSize: "16px", margin: 0, color: "#4E4E4E" }}>Committee Number</Title>}>
                                 <Input disabled={user?.approve === true ? true : false} onChange={(e) => setCommittee((prevDetail) => {
@@ -512,11 +511,20 @@ function VerificationDetails() {
                                 })} value={commitee?.commiteeNumber} />
                             </Form.Item>
                         </Col> */}
-                        <Col xs={24} sm={24} md={12} lg={4} xl={4}>
+                        {user?.approve === false ? <Col xs={24} sm={24} md={12} lg={4} xl={4}>
+                            <Form.Item label={<Title style={{ fontSize: "16px", margin: 0, color: "#4E4E4E" }}>Select Committee</Title>}>
+                                <Select
+                                    value={commitee?.name ? commitee?.name : state?.committees?.committees?.find((opt) => opt?.committeeDetails?.committee?._id === user?.cId)?.committeeDetails?.committee?.name}
+                                    style={{ width: "100%" }}
+                                    options={state?.committees?.committees?.map((opt) => ({ value: opt?.committeeDetails?.committee?._id, label: opt?.committeeDetails?.committee?.name }))}
+                                    onChange={(e) => handleChange(e, "cId")}
+                                />
+                            </Form.Item>
+                        </Col> : <Col xs={24} sm={24} md={12} lg={4} xl={4}>
                             <Form.Item label={<Title style={{ fontSize: "16px", margin: 0, color: "#4E4E4E" }}>Committee</Title>}>
                                 <Input disabled={user?.approve === true ? true : false} value={commitee?.name} />
                             </Form.Item>
-                        </Col>
+                        </Col>}
                         <Col xs={24} sm={24} md={12} lg={4} xl={4}>
                             <Form.Item label={<Title style={{ fontSize: "16px", margin: 0, color: "#4E4E4E" }}>Payment</Title>}>
                                 <Input disabled={user?.approve === true ? true : false} value={`$ ${commitee?.amount}`} />

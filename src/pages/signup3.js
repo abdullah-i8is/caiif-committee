@@ -30,11 +30,12 @@ import { setCommittees } from "../store/committeeSlice/committeeSlice";
 import { useDispatch, useSelector } from "react-redux";
 import { storage } from "../config/firebase";
 import { getDownloadURL, ref, uploadBytesResumable } from "firebase/storage";
+
 import moment from "moment";
-const { Option } = Select;
 
 const { Title } = Typography;
 const { Header, Footer, Content } = Layout;
+const { Option } = Select;
 
 export default function SignUp3() {
 
@@ -76,7 +77,6 @@ export default function SignUp3() {
     jobOccupation: "",
     firstName: "",
     lastName: "",
-    contactNumber: "",
     emergencyContact: "",
     sin: "",
     nic: "",
@@ -145,16 +145,16 @@ export default function SignUp3() {
       formFields.residentialStatus === "" ||
       formFields.grossAnnualIncome === "" ||
       formFields.sourceOfIncome === "" ||
-      formFields.employmentStatus === ""
-      // formFields.address1 === "" ||
-      // formFields.city === "" ||
-      // formFields.province === "" ||
-      // formFields.postalCode === "" ||
-      // formFields.address2 === ""
+      formFields.address1 === "" ||
+      formFields.employmentStatus === "" ||
+      (showManualEntry && (
+        formFields.city === "" ||
+        formFields.province === "" ||
+        formFields.postalCode === ""
+      ))
     ) {
-
       Object.entries(formFields).forEach(([key, value]) => {
-        if ((value === "" || value === null || value === undefined) && key !== "emergencyContact" && key !== "sin") {
+        if ((value === "" || value === null || value === undefined) && key !== "emergencyContact" && key !== "sin" && key !== "address2") {
           api.error({
             message: 'Notification',
             description: `${key} is required`,
@@ -165,25 +165,6 @@ export default function SignUp3() {
           });
         }
       });
-    }
-    // Check additional condition when address1 is not provided
-    if (!formFields.address1) {
-      const addressFields = ["city", "province", "postalCode", "address2"];
-
-      const emptyAddressField = addressFields.find(
-        (field) => !formFields[field]
-      );
-
-      if (emptyAddressField && emptyAddressField !== 'address1') {
-        api.error({
-          message: 'Notification',
-          description: `${emptyAddressField} is required.`,
-          placement: {
-            top: 24,
-            right: 24,
-          },
-        });
-      }
     }
     else {
       setLoading(true)
@@ -207,7 +188,7 @@ export default function SignUp3() {
         api.error({
           message: `Notification`,
           description: error?.response?.data?.message ? error?.response?.data?.message : "network error",
-          placement: "topRight",
+          placement: "bottomRight",
         });
         console.log(error);
       }
@@ -283,7 +264,7 @@ export default function SignUp3() {
       api.error({
         message: `Notification`,
         description: error?.response?.data?.message ? error?.response?.data?.message : "network error",
-        placement: "topRight",
+        placement: "bottomRight",
       });
     }
   }
@@ -344,7 +325,7 @@ export default function SignUp3() {
                           <img width={200} src={logo} />
                           <Title level={1} className="signup-title">Committee</Title>
                         </div> */}
-                        <Title level={2} style={{ color: "green", fontWeight: "700", margin: 0 }}>Home Improvment</Title>
+                        <Title level={2} style={{ color: "green", fontWeight: "700", margin: 0 }}>Home Improvements</Title>
                         {/* <Title level={2} style={{ color: "green", fontWeight: "700", margin: 0 }}>Apply for $ 1000 Committee</Title> */}
                         {/* <Title level={5} style={{ color: "green", fontWeight: "600", margin: "0" }}>
                           This committee operates over an 8-month period. CAIIF charges a 3% fee for the first four members, which reduces to 2% for the 5th and 6th members. The last two members are exempt from these charges. The membership structure involves a tiered fee system, encouraging participation and recognizing the contributions of each member.
@@ -615,31 +596,28 @@ export default function SignUp3() {
                       </Form.Item>
                     </div>
                     <Title onClick={() => setShowManualEntry(true)} className="choose-manual-link" style={{ fontSize: "16px", margin: 0, color: "#038203", fontWeight: "400", textAlign: "end" }}>Choose manual entry</Title>
-                    {!showManualEntry && (
-                      <Form.Item
-                        required={true}
-                        rules={[
-                          {
-                            message: 'Please input your Address 1 !',
-                          },
-                        ]}
-                        label={<Title style={{ fontSize: "16px", margin: 0, color: "#4E4E4E" }}>Address 1 (no P.O. Box)</Title>}>
-                        <Input value={formFields.address1} onChange={(e) => {
-                          setFieldName({ type: "address1", value: e.target.value })
-                          setFormFields((prevFields) => {
-                            return {
-                              ...prevFields,
-                              address1: e.target.value
-                            }
-                          });
-                        }} style={{ width: width < 768 ? "100%" : "100%" }}
-                          placeholder="Address" />
-                      </Form.Item>)}
+                    <Form.Item
+                      required={true}
+                      rules={[
+                        {
+                          message: 'Please input your Address 1 !',
+                        },
+                      ]}
+                      label={<Title style={{ fontSize: "16px", margin: 0, color: "#4E4E4E" }}>Address 1 (no P.O. Box)</Title>}>
+                      <Input value={formFields.address1} onChange={(e) => {
+                        setFieldName({ type: "address1", value: e.target.value })
+                        setFormFields((prevFields) => {
+                          return {
+                            ...prevFields,
+                            address1: e.target.value
+                          }
+                        });
+                      }} style={{ width: width < 768 ? "100%" : "100%" }}
+                        placeholder="Address" />
+                    </Form.Item>
                     {showManualEntry && (
                       <>
                         <Form.Item
-                          required={true}
-
                           rules={[
                             {
                               message: 'Please input your Street Address !',
@@ -661,7 +639,7 @@ export default function SignUp3() {
                         <div style={{ display: 'flex', flexDirection: width < 768 ? "column" : "row" }}>
                           <Form.Item
                             style={{ marginRight: 10 }}
-
+                            required={true}
                             rules={[
                               {
                                 message: 'Please input your City !',
@@ -679,9 +657,30 @@ export default function SignUp3() {
                             }} style={{ width: width < 768 ? "300px" : "300px" }}
                               placeholder="City" />
                           </Form.Item>
-
                           <Form.Item
+                            required={true}
                             style={{ marginRight: 10 }}
+
+                            rules={[
+                              {
+                                message: 'Please input your Postal Code !',
+                              },
+                            ]}
+                            label={<Title style={{ fontSize: "16px", margin: 0, color: "#4E4E4E" }}>Postal Code</Title>}>
+                            <Input value={formFields.postalCode} onChange={(e) => {
+                              if (e.target.value.length <= 6) {
+                                setFieldName({ type: "postalCode", value: e.target.value })
+                                setFormFields((prevFields) => {
+                                  return {
+                                    ...prevFields,
+                                    postalCode: e.target.value
+                                  }
+                                });
+                              }
+                            }} style={{ width: width < 768 ? "300px" : "100%" }} placeholder="Postal Code" />
+                          </Form.Item>
+                          <Form.Item
+                            required={true}
                             rules={[
                               {
                                 message: 'Please input your Provice !',
@@ -716,26 +715,6 @@ export default function SignUp3() {
                                 })
                               }}
                             />
-                          </Form.Item>
-
-                          <Form.Item
-                            rules={[
-                              {
-                                message: 'Please input your Postal Code !',
-                              },
-                            ]}
-                            label={<Title style={{ fontSize: "16px", margin: 0, color: "#4E4E4E" }}>Postal Code</Title>}>
-                            <Input value={formFields.postalCode} onChange={(e) => {
-                              if (e.target.value.length <= 6) {
-                                setFieldName({ type: "postalCode", value: e.target.value })
-                                setFormFields((prevFields) => {
-                                  return {
-                                    ...prevFields,
-                                    postalCode: e.target.value
-                                  }
-                                });
-                              }
-                            }} style={{ width: width < 768 ? "300px" : "100%" }} placeholder="Postal Code" />
                           </Form.Item>
                         </div>
 
@@ -917,12 +896,12 @@ export default function SignUp3() {
                           <Button loading={uploading} icon={<UploadOutlined />}>Upload ID</Button>
                         </Upload>
                       </div>
-                      {formFields?.nic ? <img style={{ width: "100% !important", margin: "20px 0 0 0", borderRadius: "5px" }} src={formFields?.nic} /> : ""}
+                      {formFields?.nic ? <img className="nic-image" style={{ margin: "20px 0 0 0", borderRadius: "5px" }} src={formFields?.nic} /> : ""}
                       <div style={{ width: width < 768 ? "100%" : "600px" }}>
                         <Title level={2} style={{ color: "green", fontWeight: "600", margin: "30px 0" }}>
                           Appointment Details
                         </Title>
-                        <Title style={{ fontSize: "16px", margin: "0 0 8px 0", color: "#4E4E4E" }}>Availabilityyyy: Mon to Fri - 9am to 5am</Title>
+                        <Title style={{ fontSize: "16px", margin: "0 0 8px 0", color: "#4E4E4E" }}>Availability: Mon to Fri - 9am to 5am</Title>
                         <DatePicker
                           showTime={{
                             format: 'h A',

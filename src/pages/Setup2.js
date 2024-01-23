@@ -363,7 +363,7 @@ function Setup2() {
                         cid: null,
                         note: ""
                     })
-                    openNotification("topRight", "Payment Added Successfully")
+                    openNotification("bottomRight", "Payment Added Successfully")
                 }
             } catch (error) {
                 setLoading2(false)
@@ -373,7 +373,7 @@ function Setup2() {
         }
         else {
             setShowPaymentModal(true)
-            openNotification("topRight", "Fields are required")
+            openNotification("bottomRight", "Fields are required")
             return null
         }
     }
