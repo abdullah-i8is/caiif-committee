@@ -907,7 +907,7 @@ export default function SignUp2() {
                             format: 'h A',
                             minuteStep: 60,
                           }}
-                          format="YYYY-MM-DD h A"
+                          format="DD-MM-YYYY h A"
                           style={{ width: width < 768 ? "300px" : '100%' }}
                           onChange={(e, dateString) => {
                             setFieldName({ type: "appointment", value: e });

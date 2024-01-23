@@ -446,8 +446,8 @@ function VerificationDetails() {
                         <Col xs={24} sm={24} md={6} lg={6} xl={4}>
                             <Form.Item label={<Title style={{ fontSize: "16px", margin: 0, color: "#4E4E4E" }}>Appointment</Title>}>
                                 <Input
-                                    onChange={(date) => handleChange(date, "appointment")}
-                                    value={new Date(user?.appointment?.date).toLocaleDateString() + " " + new Date(user?.appointment?.date).toLocaleTimeString()}
+                                    onChange={(e) => handleChange(e.target.value, "appointment")}
+                                    value={user?.appointment?.date}
                                 />
                             </Form.Item>
                         </Col>
