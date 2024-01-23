@@ -155,7 +155,7 @@ export default function SignUp() {
     ) {
 
       Object.entries(formFields).forEach(([key, value]) => {
-        if ((value === "" || value === null || value === undefined) && key !== "emergencyContact" && key !== "sin" ) {
+        if ((value === "" || value === null || value === undefined) && key !== "emergencyContact" && key !== "sin") {
           api.error({
             message: 'Notification',
             description: `${key} is required`,
@@ -616,31 +616,28 @@ export default function SignUp() {
                       </Form.Item>
                     </div>
                     <Title onClick={() => setShowManualEntry(true)} className="choose-manual-link" style={{ fontSize: "16px", margin: 0, color: "#038203", fontWeight: "400", textAlign: "end" }}>Choose manual entry</Title>
-                    {!showManualEntry && (
-                      <Form.Item
-                        required={true}
-                        rules={[
-                          {
-                            message: 'Please input your Address 1 !',
-                          },
-                        ]}
-                        label={<Title style={{ fontSize: "16px", margin: 0, color: "#4E4E4E" }}>Address 1 (no P.O. Box)</Title>}>
-                        <Input value={formFields.address1} onChange={(e) => {
-                          setFieldName({ type: "address1", value: e.target.value })
-                          setFormFields((prevFields) => {
-                            return {
-                              ...prevFields,
-                              address1: e.target.value
-                            }
-                          });
-                        }} style={{ width: width < 768 ? "100%" : "100%" }}
-                          placeholder="Address" />
-                      </Form.Item>)}
+                    <Form.Item
+                      required={true}
+                      rules={[
+                        {
+                          message: 'Please input your Address 1 !',
+                        },
+                      ]}
+                      label={<Title style={{ fontSize: "16px", margin: 0, color: "#4E4E4E" }}>Address 1 (no P.O. Box)</Title>}>
+                      <Input value={formFields.address1} onChange={(e) => {
+                        setFieldName({ type: "address1", value: e.target.value })
+                        setFormFields((prevFields) => {
+                          return {
+                            ...prevFields,
+                            address1: e.target.value
+                          }
+                        });
+                      }} style={{ width: width < 768 ? "100%" : "100%" }}
+                        placeholder="Address" />
+                    </Form.Item>
                     {showManualEntry && (
                       <>
                         <Form.Item
-                          required={true}
-
                           rules={[
                             {
                               message: 'Please input your Street Address !',
@@ -662,7 +659,7 @@ export default function SignUp() {
                         <div style={{ display: 'flex', flexDirection: width < 768 ? "column" : "row" }}>
                           <Form.Item
                             style={{ marginRight: 10 }}
-
+                            required={true}
                             rules={[
                               {
                                 message: 'Please input your City !',
@@ -682,6 +679,7 @@ export default function SignUp() {
                           </Form.Item>
 
                           <Form.Item
+                            required={true}
                             style={{ marginRight: 10 }}
                             rules={[
                               {
@@ -720,6 +718,8 @@ export default function SignUp() {
                           </Form.Item>
 
                           <Form.Item
+                            required={true}
+
                             rules={[
                               {
                                 message: 'Please input your Postal Code !',

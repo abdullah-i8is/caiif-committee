@@ -912,8 +912,9 @@ export default function SignUp2() {
                     <div style={{ textAlign: width < 768 ? "center" : "left" }}>
                       <div style={{ width: width < 768 ? "100%" : "600px", marginBottom: 20 }}>
                         <Title style={{ fontSize: "16px", margin: "0 0 8px 0", color: "#4E4E4E" }}>ID</Title>
+                        <p>Please Upload Your Id Card</p>
                         <Upload showUploadList={false} name="file" onChange={(e) => handleUpload(e.file.originFileObj)}>
-                          <Button loading={uploading} icon={<UploadOutlined />}>Upload NIC</Button>
+                          <Button loading={uploading} icon={<UploadOutlined />}>Upload ID</Button>
                         </Upload>
                       </div>
                       {formFields?.nic ? <img style={{ width: "100% !important", margin: "20px 0 0 0", borderRadius: "5px" }} src={formFields?.nic} /> : ""}
