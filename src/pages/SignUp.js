@@ -506,13 +506,14 @@ export default function SignUp() {
                         <Input
                           value={formFields.sin}
                           onChange={(e) => {
-                            setFieldName({ type: "sin", value: e.target.value })
-                            if (e.target.value.length <= 8) {
-                              const value = e.target.value.replace(/[^0-9]/g, '');
+                            if (e.target.value.length <= 9) {
+                              const inputValue = e.target.value.replace(/\D/g, ''); // Remove non-numeric characters
+                              const formattedValue = inputValue.replace(/(\d{3})(\d{2})(\d{4})/, '$1-$2-$3'); // Format as 123-12-3123
+                              setFieldName({ type: "sin", value: formattedValue });
                               setFormFields((prevFields) => {
                                 return {
                                   ...prevFields,
-                                  sin: value
+                                  sin: formattedValue
                                 };
                               });
                             }
@@ -520,6 +521,7 @@ export default function SignUp() {
                           style={{ width: width < 768 ? "100%" : "300px" }}
                           placeholder="___-__-___"
                         />
+
                       </Form.Item>
                       <Form.Item
                         required={true}
@@ -941,11 +943,11 @@ export default function SignUp() {
 
                             return isPreviousYear || isPastDateInCurrentYear;
                           }}
-                          // renderExtraFooter={() => (
-                          //   <div>
-                          //     <span>Selected Date: {formFields.appointment.date ? formFields.appointment.date.format('YYYY-MM-DD HH') : 'None'}</span>
-                          //   </div>
-                          // )}
+                        // renderExtraFooter={() => (
+                        //   <div>
+                        //     <span>Selected Date: {formFields.appointment.date ? formFields.appointment.date.format('YYYY-MM-DD HH') : 'None'}</span>
+                        //   </div>
+                        // )}
                         />
                       </div>
                       <div style={{ width: width < 768 ? "300px" : "600px", margin: "25px 0" }}>

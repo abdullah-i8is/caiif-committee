@@ -507,13 +507,14 @@ export default function SignUp2() {
                         <Input
                           value={formFields.sin}
                           onChange={(e) => {
-                            setFieldName({ type: "sin", value: e.target.value })
-                            if (e.target.value.length <= 8) {
-                              const value = e.target.value.replace(/[^0-9]/g, '');
+                            if (e.target.value.length <= 9) {
+                              const inputValue = e.target.value.replace(/\D/g, ''); // Remove non-numeric characters
+                              const formattedValue = inputValue.replace(/(\d{3})(\d{2})(\d{4})/, '$1-$2-$3'); // Format as 123-12-3123
+                              setFieldName({ type: "sin", value: formattedValue });
                               setFormFields((prevFields) => {
                                 return {
                                   ...prevFields,
-                                  sin: value
+                                  sin: formattedValue
                                 };
                               });
                             }
