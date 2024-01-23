@@ -808,16 +808,16 @@ export default function SignUp2() {
                         ]}
                         label={<Title style={{ fontSize: "16px", margin: 0, color: "#4E4E4E" }}>Gross annual income</Title>}>
                         <Input onChange={(e) => {
-                          setFieldName({ type: "grossAnnualIncome", value: e.target.value })
-                          setFormFields((prevFields) => {
-                            if (e.target.value.length <= 9) {
+                          if (e.target.value.length <= 9) {
+                            setFieldName({ type: "grossAnnualIncome", value: e.target.value })
+                            setFormFields((prevFields) => {
                               const value = e.target.value.replace(/[^0-9]/g, '');
                               return {
                                 ...prevFields,
                                 grossAnnualIncome: value
                               }
-                            }
-                          });
+                            });
+                          }
                         }} style={{ width: width < 768 ? "100%" : "320px" }}
                           placeholder="Gross Annual Income" value={formFields.grossAnnualIncome} />
                       </Form.Item>
@@ -945,11 +945,11 @@ export default function SignUp2() {
 
                             return isPreviousYear || isPastDateInCurrentYear;
                           }}
-                          // renderExtraFooter={() => (
-                          //   <div>
-                          //     <span>Selected Date: {formFields.appointment.date ? formFields.appointment.date.format('YYYY-MM-DD HH') : 'None'}</span>
-                          //   </div>
-                          // )}
+                        // renderExtraFooter={() => (
+                        //   <div>
+                        //     <span>Selected Date: {formFields.appointment.date ? formFields.appointment.date.format('YYYY-MM-DD HH') : 'None'}</span>
+                        //   </div>
+                        // )}
                         />
                       </div>
                       <div style={{ width: width < 768 ? "300px" : "600px", margin: "25px 0" }}>
