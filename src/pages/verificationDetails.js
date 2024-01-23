@@ -27,6 +27,7 @@ function VerificationDetails() {
     const [form] = Form.useForm();
     const dispatch = useDispatch();
     const [loading, setLoading] = useState(false)
+    const [loading2, setLoading2] = useState(false)
     const [additionalDetail, setAdditionalDetail] = useState(false)
     const navigate = useNavigate()
     const token = useSelector((state) => state.common.token)
@@ -216,18 +217,58 @@ function VerificationDetails() {
         }
     }
 
+    async function handleApprove(type) {
+        setLoading(type === "DECLINE" ? true : false)
+        setLoading2(type === "APPROVE" ? true : false)
+        try {
+            const response = await axios.post(`${API_URL}/admin/approveAccount/${id}`, {
+                approve: type === "APPROVE" ? true : false,
+                cId: commitee
+            }, {
+                headers: {
+                    Authorization: "Bearer " + token
+                }
+            })
+            if (response.status === 200) {
+                console.log(response);
+                setLoading(false)
+                setLoading2(false)
+                api.success({
+                    message: `Notification`,
+                    description: response?.data?.message,
+                    placement: "bottomRight",
+                });
+                getUser()
+            }
+        } catch (error) {
+            setLoading(false)
+            setLoading2(false)
+            console.log(error);
+            api.error({
+                message: `Notification`,
+                description: error?.response?.data?.message ? error?.response?.data?.message : "network error",
+                placement: "bottomRight",
+            });
+        }
+    }
+
     console.log(user);
+    console.log(commitee);
 
     return (
         <>
             {contextHolder}
-            <div style={{ marginBottom: "20px", marginTop: "50px" }}>
+            <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", marginBottom: "20px", marginTop: "50px" }}>
                 <Title style={{ color: "#166805", margin: 0 }} level={3}>Verification Details</Title>
-                {/* <div style={{ display: "flex", alignItems: "center" }}>
-                    <Button loading={loading} onClick={() => handleApprove(false)} style={{ margin: "0 0 0 10px", width: "100px" }} className="deny-btn"> <img width={15} src={denyIcon} style={{ margin: "0 5px 0 0" }} /> Deny</Button>
-                    <Button loading={loading2} onClick={() => handleApprove(true)} style={{ margin: "0 0 0 10px", width: "100px" }} className="add-cycle-btn"> Approve</Button>
-                </div> */}
-            </div>
+                <div style={{ display: "flex", alignItems: "center" }}>
+                    <Button disabled={user?.approve ? true : false} onClick={() => {
+                        handleApprove("DECLINE")
+                    }} loading={loading} style={{ margin: "0 0 0 10px", width: "100px" }} className="deny-btn"> <img width={15} src={denyIcon} style={{ margin: "0 5px 0 0" }} /> Deny</Button>
+                    <Button disabled={user?.approve ? true : false} onClick={() => {
+                        handleApprove("APPROVE")
+                    }} loading={loading2} style={{ margin: "0 0 0 10px", width: "100px" }} className="add-cycle-btn"> Approve</Button>
+                </div >
+            </div >
             <Form
                 form={form}
                 layout="vertical"
@@ -328,7 +369,7 @@ function VerificationDetails() {
                                 <Input onChange={(e) => handleChange(e.target.value, "address1")} value={user?.address1} />
                             </Form.Item>
                         </Col>
-                       <Col xs={24} sm={24} md={6} lg={6} xl={8}>
+                        <Col xs={24} sm={24} md={6} lg={6} xl={8}>
                             <Form.Item label={<Title style={{ fontSize: "16px", margin: 0, color: "#4E4E4E" }}>Street Address</Title>}>
                                 <Input onChange={(e) => handleChange(e.target.value, "address2")} value={user?.address2} />
                             </Form.Item>
