@@ -231,6 +231,9 @@ function VerificationDetails() {
             })
             if (response.status === 200) {
                 console.log(response);
+                if (response.data.message === "Account deleted Successfully") {
+                    navigate("/members")
+                }
                 setLoading(false)
                 setLoading2(false)
                 api.success({
