@@ -21,9 +21,9 @@ const StatisticsHeader = ({ approveMembers, user, committees, enrolledCommittess
         { id: 3, title: "Add New Committee", description: committees?.length ? committees?.length : 0, icon: icon3 },
     ]
     const arr2 = [
-        { id: 1, title: "Total Enrolled Committee", description: enrolledCommittess?.length, icon: icon1 },
-        { id: 2, title: "Total larger sum", description: 228000, icon: icon2 },
-        { id: 3, title: "Total Amount Invested", description: 230000, icon: icon3 },
+        { id: 1, title: "Total Enrolled Committee", description: committees?.length ? committees?.length : 0, icon: icon1 },
+        { id: 2, title: "Total larger sum", description: 0, icon: icon2 },
+        { id: 3, title: "Total Amount Invested", description: 0, icon: icon3 },
     ]
     return (
         <div className="layout-content" style={{ marginTop: "50px", marginBottom: "40px" }}>
