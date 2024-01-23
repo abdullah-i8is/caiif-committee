@@ -908,13 +908,13 @@ export default function SignUp() {
                           }}
                           format="YYYY-MM-DD h A"
                           style={{ width: width < 768 ? "300px" : '100%' }}
-                          onChange={(e) => {
+                          onChange={(e, dateString) => {
                             setFieldName({ type: "appointment", value: e });
                             setFormFields((prevFields) => {
                               return {
                                 ...prevFields,
                                 appointment: {
-                                  date: e
+                                  date: dateString
                                 }
                               }
                             });
@@ -941,11 +941,11 @@ export default function SignUp() {
 
                             return isPreviousYear || isPastDateInCurrentYear;
                           }}
-                          renderExtraFooter={() => (
-                            <div>
-                              <span>Selected Date: {formFields.appointment.date ? formFields.appointment.date.format('YYYY-MM-DD HH') : 'None'}</span>
-                            </div>
-                          )}
+                          // renderExtraFooter={() => (
+                          //   <div>
+                          //     <span>Selected Date: {formFields.appointment.date ? formFields.appointment.date.format('YYYY-MM-DD HH') : 'None'}</span>
+                          //   </div>
+                          // )}
                         />
                       </div>
                       <div style={{ width: width < 768 ? "300px" : "600px", margin: "25px 0" }}>
