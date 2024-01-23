@@ -818,8 +818,8 @@ export default function SignUp() {
                               }
                             });
                           }
-                        }} style={{ width: width < 768 ? "100%" : "320px" }}
-                          placeholder="Gross Annual Income" value={formFields.grossAnnualIncome} />
+                        }} style={{ width: width < 768 ? "100%" : "320px", textAlign: "end" }}
+                          placeholder="Round to the nearest dollar" value={formFields.grossAnnualIncome} />
                       </Form.Item>
                       <Form.Item
                         required={true}
