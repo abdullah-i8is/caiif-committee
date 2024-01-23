@@ -366,7 +366,6 @@ function Members() {
                         defaultValue={CID === "" ? "Select committee" : CID}
                         style={{ width: "200px" }}
                         options={committees?.map((opt) => (
-                            { value: "All", label: "All" },
                             { value: opt?.committeeDetails?.committee?.uniqueId, label: opt?.committeeDetails?.committee?.name }
                         ))}
                         onChange={(e) => setCID(e)}
@@ -393,7 +392,6 @@ function Members() {
                         defaultValue={CID2 === "" ? "Select committee" : CID2}
                         style={{ width: "200px" }}
                         options={committees?.map((opt) => (
-                            { value: "All", label: "All" },
                             { value: opt?.committeeDetails?.committee?.uniqueId, label: opt?.committeeDetails?.committee?.name }
                         ))}
                         onChange={(e) => setCID2(e)}
