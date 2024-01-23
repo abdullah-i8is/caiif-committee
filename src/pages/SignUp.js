@@ -775,27 +775,8 @@ export default function SignUp() {
                         }}
                       />
                     </Form.Item>
-                    <Form.Item
-                      required={true}
 
-                      rules={[
-                        {
-                          required: true,
-                          message: 'Please input your Job Occupation !',
-                        },
-                      ]}
-                      label={<Title style={{ fontSize: "16px", margin: 0, color: "#4E4E4E" }}>Occupation</Title>}>
-                      <Input onChange={(e) => {
-                        setFieldName({ type: "jobOccupation", value: e.target.value })
-                        setFormFields((prevFields) => {
-                          return {
-                            ...prevFields,
-                            jobOccupation: e.target.value
-                          }
-                        });
-                      }} style={{ width: width < 768 ? "100%" : "100%" }} placeholder="Occupation" />
-                    </Form.Item>
-                    <div style={{ display: "flex", flexDirection: width < 768 ? "column" : "row" }}>
+                    <div style={{ display: "flex", flexDirection: width < 768 ? "column" : "row", position: "relative" }}>
                       <Form.Item
                         style={{ marginRight: width < 768 ? 0 : 10 }}
                         required={true}
@@ -807,6 +788,7 @@ export default function SignUp() {
                           },
                         ]}
                         label={<Title style={{ fontSize: "16px", margin: 0, color: "#4E4E4E" }}>Gross annual income</Title>}>
+                        <Title style={{ fontSize: "16px", margin: 0, color: "#4E4E4E", position: "absolute", top: 10, zIndex: 1000, left: 10 }}>$</Title>
                         <Input onChange={(e) => {
                           if (e.target.value.length <= 9) {
                             setFieldName({ type: "grossAnnualIncome", value: e.target.value })
@@ -890,6 +872,26 @@ export default function SignUp() {
                           })
                         }}
                       />
+                    </Form.Item>
+                    <Form.Item
+                      required={true}
+
+                      rules={[
+                        {
+                          required: true,
+                          message: 'Please input your Job Occupation !',
+                        },
+                      ]}
+                      label={<Title style={{ fontSize: "16px", margin: 0, color: "#4E4E4E" }}>Occupation</Title>}>
+                      <Input onChange={(e) => {
+                        setFieldName({ type: "jobOccupation", value: e.target.value })
+                        setFormFields((prevFields) => {
+                          return {
+                            ...prevFields,
+                            jobOccupation: e.target.value
+                          }
+                        });
+                      }} style={{ width: width < 768 ? "100%" : "100%" }} placeholder="Occupation" />
                     </Form.Item>
                     <div style={{ textAlign: width < 768 ? "center" : "left" }}>
                       <div style={{ width: width < 768 ? "100%" : "600px", marginBottom: 20 }}>
