@@ -15,6 +15,7 @@ import {
     Form,
     Input,
     Upload,
+    Select,
 } from "antd";
 import {
     CarOutlined,
@@ -35,42 +36,26 @@ import { setCommittees } from "../store/committeeSlice/committeeSlice";
 function Members() {
 
     const { Title, Text } = Typography;
-    const loginUser = useSelector((state) => state.auth.user)
     const navigate = useNavigate()
     const [loading, setLoading] = useState(false)
     const [loading2, setLoading2] = useState(false)
     const [loading3, setLoading3] = useState(false)
     const [userId, setUserId] = useState("")
-    const [modalOpen, setModalOpen] = useState(false)
-    const [approveTrips, setApproveTrips] = useState()
-    const [flightBudget, setFlightBudget] = useState(0)
-    const [hotelBudget, setHotelBudget] = useState(0)
+    const [CID, setCID] = useState("")
+    const [CID2, setCID2] = useState("")
     const dispatch = useDispatch()
     const user = useSelector((state) => state.auth.user)
     const [api, contextHolder] = notification.useNotification();
-    const openNotification = (placement, message) => {
-        api.success({
-            message: `Notification`,
-            description: message,
-            placement,
-        });
-    };
-
-    const data = [
-        { username: "Hassan Soomro", email: "hassansoomro@i8is.com", amount: 4230142301423, phonenumber: "+92300000333", CNIC: 4230142301423, enroll: 3, },
-        { username: "Nisa Hoorain", email: "nisahoorain@i8is.com", amount: 4230142301423, phonenumber: "+92300000333", CNIC: 4230142301423, enroll: 4, },
-        { username: "Bilawal Soomro", email: "bilawalsoomro@i8is.com", amount: 4230142301423, phonenumber: "+92300000333", CNIC: 4230142301423, enroll: 1, },
-        { username: "Hayat Ahmed", email: "hayatahmed@i8is.com", amount: 4230142301423, phonenumber: "+92300000333", CNIC: 4230142301423, enroll: 2, },
-    ]
-    const data2 = [
-        { username: "Hassan Soomro", email: "hassansoomro@i8is.com", phonenumber: "+92300000333", CNIC: 4230142301423, tier: 1 },
-        { username: "Nisa Hoorain", email: "nisahoorain@i8is.com", phonenumber: "+92300000333", CNIC: 4230142301423, tier: 2 },
-        { username: "Bilawal Soomro", email: "bilawalsoomro@i8is.com", phonenumber: "+92300000333", CNIC: 4230142301423, tier: 1 },
-        { username: "Hayat Ahmed", email: "hayatahmed@i8is.com", phonenumber: "+92300000333", CNIC: 4230142301423, tier: 3 },
-    ]
-    const [form] = Form.useForm();
 
     const column = [
+        {
+            title: <Title style={{ fontSize: "18px", margin: 0, color: "#166805", fontWeight: "600" }}>Committee</Title>,
+            dataIndex: 'name',
+            key: 'name',
+            render: (text, record, index) => {
+                return <Title style={{ fontSize: "18px", margin: 0, color: "#166805", fontWeight: "600" }}>{record?.committeeList[0]?.cid?.uniqueId}</Title>
+            }
+        },
         {
             title: <Title style={{ fontSize: "18px", margin: 0, color: "#166805", fontWeight: "600" }}>Name</Title>,
             dataIndex: 'name',
@@ -183,6 +168,14 @@ function Members() {
     ];
 
     const column2 = [
+        {
+            title: <Title style={{ fontSize: "18px", margin: 0, color: "#166805", fontWeight: "600" }}>Committee</Title>,
+            dataIndex: 'name',
+            key: 'name',
+            render: (text, record, index) => {
+                return <Title style={{ fontSize: "18px", margin: 0, color: "#166805", fontWeight: "600" }}>{record?.committeeList[0]?.cid?.uniqueId}</Title>
+            }
+        },
         {
             title: <Title style={{ fontSize: "18px", margin: 0, color: "#166805", fontWeight: "600" }}>Name</Title>,
             dataIndex: 'name',
@@ -318,9 +311,10 @@ function Members() {
                 console.log(error);
             })
         if (user?.userType === "admin") {
-            GetAdminCommittees()
+            GetAdminCommittees(token)
                 .then((res) => {
                     const committee = res.data.allCommittees
+                    console.log("res", res);
                     dispatch(setCommittees([...committee.level1, ...committee.level2, ...committee.level3]))
                 })
                 .catch((err) => {
@@ -364,17 +358,47 @@ function Members() {
                 <Table dataSource={approveMembers?.filter((user) => user.approve === true)} columns={column2} />
             </Card> */}
             {/* <StatisticsHeader approveMembers={approveMembers} committees={committees} user={loginUser} /> */}
-            <div style={{ marginBottom: "20px" }}>
+            <div style={{ marginBottom: "20px", marginTop: "40px", display: "flex", justifyContent: "space-between" }}>
                 <Title style={{ color: "#166805", margin: 0 }} level={3}>Approval members Request</Title>
+                <Select
+                    defaultValue={CID === "" ? "Select committee" : CID}
+                    style={{ width: "200px" }}
+                    options={committees?.map((opt) => ({ value: opt?.committeeDetails?.committee?.uniqueId, label: opt?.committeeDetails?.committee?.name }))}
+                    onChange={(e) => setCID(e)}
+                />
             </div>
             <Card className="my-card" style={{ marginBottom: "20px" }}>
-                <Table pagination={false} loading={loading3} dataSource={approveMembers?.filter((user) => user.approve === false).sort((a, b) => b.createdAt - a.createdAt)} columns={column} />
+                <Table
+                    pagination={false}
+                    loading={loading3}
+                    dataSource={
+                        CID
+                            ? approveMembers?.filter((user) => user.approve === false && user.committeeList[0]?.cid?.uniqueId === CID).sort((a, b) => b.createdAt - a.createdAt)
+                            : approveMembers?.filter((user) => user.approve === false).sort((a, b) => b.createdAt - a.createdAt)
+                    }
+                    columns={column}
+                />
             </Card>
-            <div style={{ marginBottom: "20px", marginTop: "40px" }}>
+            <div style={{ marginBottom: "20px", marginTop: "40px", display: "flex", justifyContent: "space-between" }}>
                 <Title style={{ color: "#166805", margin: 0 }} level={3}>Approved members</Title>
+                <Select
+                    defaultValue={CID2 === "" ? "Select committee" : CID2}
+                    style={{ width: "200px" }}
+                    options={committees?.map((opt) => ({ value: opt?.committeeDetails?.committee?.uniqueId, label: opt?.committeeDetails?.committee?.name }))}
+                    onChange={(e) => setCID2(e)}
+                />
             </div>
             <Card className="my-card" style={{ marginBottom: "20px" }}>
-                <Table pagination={false} loading={loading3} dataSource={approveMembers?.filter((user) => user.approve === true).sort((a, b) => b.createdAt - a.createdAt)} columns={column2} />
+                <Table
+                    pagination={false}
+                    loading={loading3}
+                    dataSource={
+                        CID2
+                            ? approveMembers?.filter((user) => user.approve === true && user.committeeList[0]?.cid?.uniqueId === CID2).sort((a, b) => b.createdAt - a.createdAt)
+                            : approveMembers?.filter((user) => user.approve === true).sort((a, b) => b.createdAt - a.createdAt)
+                    }
+                    columns={column2}
+                />
             </Card>
         </>
     );

@@ -217,10 +217,6 @@ function VerificationDetails() {
     }
 
     console.log(user);
-    const date = user?.DOB?.day + "-" + user?.DOB?.month + "-" + user?.DOB?.year
-    const dob = new Date(date).toLocaleDateString()
-
-    console.log();
 
     return (
         <>
@@ -265,7 +261,7 @@ function VerificationDetails() {
                         </Col>
 
                         <Col xs={24} sm={24} md={6} lg={6} xl={4}>
-                            <Form.Item label={<Title style={{ fontSize: "16px", margin: 0, color: "#4E4E4E" }}>DOB</Title>}>
+                            <Form.Item label={<Title style={{ fontSize: "16px", margin: 0, color: "#4E4E4E" }}>Birth date</Title>}>
                                 <Input
                                     onChange={(e) => {
                                         setUser((prevDetail) => {
@@ -288,18 +284,18 @@ function VerificationDetails() {
                                 />
                             </Form.Item>
                         </Col> */}
-                        {user?.sin !== "" && <Col xs={24} sm={24} md={6} lg={6} xl={4}>
+                        <Col xs={24} sm={24} md={6} lg={6} xl={4}>
                             <Form.Item label={<Title style={{ fontSize: "16px", margin: 0, color: "#4E4E4E" }}>Sin</Title>}>
                                 <Input onChange={(e) => handleChange(e.target.value, "sin")} value={user?.sin} />
                             </Form.Item>
-                        </Col>}
+                        </Col>
 
-                        {user?.city !== "" && <Col xs={24} sm={24} md={6} lg={6} xl={4}>
+                        <Col xs={24} sm={24} md={6} lg={6} xl={4}>
                             <Form.Item label={<Title style={{ fontSize: "16px", margin: 0, color: "#4E4E4E" }}>City</Title>}>
                                 <Input onChange={(e) => handleChange(e.target.value, "city")} value={user?.city} />
                             </Form.Item>
-                        </Col>}
-                        {user?.province !== "" && <Col xs={24} sm={24} md={6} lg={6} xl={4}>
+                        </Col>
+                        <Col xs={24} sm={24} md={6} lg={6} xl={4}>
                             <Form.Item label={<Title style={{ fontSize: "16px", margin: 0, color: "#4E4E4E" }}>Province</Title>}>
                                 <Select
                                     value={user?.province}
@@ -321,22 +317,22 @@ function VerificationDetails() {
                                     onChange={(e) => handleChange(e, "province")}
                                 />
                             </Form.Item>
-                        </Col>}
-                        {user?.postalCode !== "" && <Col xs={24} sm={24} md={6} lg={6} xl={4}>
+                        </Col>
+                        <Col xs={24} sm={24} md={6} lg={6} xl={4}>
                             <Form.Item label={<Title style={{ fontSize: "16px", margin: 0, color: "#4E4E4E" }}>Postal Code</Title>}>
                                 <Input onChange={(e) => handleChange(e.target.value, "postalCode")} value={user?.postalCode} />
                             </Form.Item>
-                        </Col>}
+                        </Col>
                         <Col xs={24} sm={24} md={6} lg={6} xl={8}>
                             <Form.Item label={<Title style={{ fontSize: "16px", margin: 0, color: "#4E4E4E" }}>Address</Title>}>
                                 <Input onChange={(e) => handleChange(e.target.value, "address1")} value={user?.address1} />
                             </Form.Item>
                         </Col>
-                        {user?.address2 !== "" && <Col xs={24} sm={24} md={6} lg={6} xl={8}>
+                       <Col xs={24} sm={24} md={6} lg={6} xl={8}>
                             <Form.Item label={<Title style={{ fontSize: "16px", margin: 0, color: "#4E4E4E" }}>Street Address</Title>}>
                                 <Input onChange={(e) => handleChange(e.target.value, "address2")} value={user?.address2} />
                             </Form.Item>
-                        </Col>}
+                        </Col>
                         {/* <Col xs={24} sm={24} md={6} lg={6} xl={8}>
                             <Form.Item label={<Title style={{ fontSize: "16px", margin: 0, color: "#4E4E4E" }}>Residential Address</Title>}>
                                 <Input onChange={(e) => handleChange(e.target.value, "residentialAddress")} value={user?.residentialAddress} />

@@ -530,7 +530,7 @@ export default function SignUp3() {
                             message: 'Please input your DOB !',
                           },
                         ]}
-                        label={<Title style={{ fontSize: "16px", margin: 0, color: "#4E4E4E" }}>DOB</Title>}>
+                        label={<Title style={{ fontSize: "16px", margin: 0, color: "#4E4E4E" }}>Birth date</Title>}>
                         <Select
                           style={{ width: '100px', height: "40px", marginLeft: '4px' }}
                           placeholder="DD"
