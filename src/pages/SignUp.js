@@ -810,10 +810,12 @@ export default function SignUp() {
                         <Input onChange={(e) => {
                           setFieldName({ type: "grossAnnualIncome", value: e.target.value })
                           setFormFields((prevFields) => {
-                            const value = e.target.value.replace(/[^0-9]/g, '');
-                            return {
-                              ...prevFields,
-                              grossAnnualIncome: value
+                            if (e.target.value.length <= 9) {
+                              const value = e.target.value.replace(/[^0-9]/g, '');
+                              return {
+                                ...prevFields,
+                                grossAnnualIncome: value
+                              }
                             }
                           });
                         }} style={{ width: width < 768 ? "100%" : "320px" }}
