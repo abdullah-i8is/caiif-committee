@@ -156,7 +156,7 @@ function VerificationDetails() {
         }
     }
 
-    const handleChange = async (value, name) => {
+    const handleChange = async (value, name, ind) => {
         console.log(value, name);
         setUser((prevDetail) => {
             return {
@@ -167,13 +167,40 @@ function VerificationDetails() {
         if (name === "cId") {
             console.log(value);
             const findCom = state?.committees?.committees?.find((f) => f?.committeeDetails?.committee._id === value)
-            console.log(findCom?.committeeDetails?.committee);
+            console.log(findCom);
             setCommittee(findCom?.committeeDetails?.committee)
             setUser((prevDetail) => {
-                return {
-                    ...prevDetail,
-                    [name]: findCom?.committeeDetails?.committee?._id
-                }
+                console.log(prevDetail);
+                return prevDetail?.committeeList?.map((val, index) => {
+                    if (ind === index) {
+                        return {
+                            ...prevDetail,
+                            committeeNumber: "",
+                            received: false,
+                            _id: "",
+                            cid: {
+                                amount: findCom?.committeeDetails?.committee?.amount,
+                                completed: findCom?.committeeDetails?.committee?.completed,
+                                createdAt: findCom?.committeeDetails?.committee?.createdAt,
+                                cycle: { type: findCom?.committeeDetails?.committee?.cycle.type, value: findCom?.committeeDetails?.committee?.cycle.value },
+                                endDate: findCom?.committeeDetails?.committee?.endDate,
+                                members: findCom?.committeeDetails?.committee?.members,
+                                name: findCom?.committeeDetails?.committee?.name,
+                                payment: findCom?.committeeDetails?.committee?.payment,
+                                recievedBy: findCom?.committeeDetails?.committee?.recievedBy,
+                                startDate: findCom?.committeeDetails?.committee?.startDate,
+                                uniqueId: findCom?.committeeDetails?.committee?.uniqueId,
+                                updatedAt: findCom?.committeeDetails?.committee?.updatedAt,
+                                userIds: findCom?.committeeDetails?.committee?.userIds,
+                                __v: findCom?.committeeDetails?.committee?._v,
+                                _id: findCom?.committeeDetails?.committee?._id,
+                            }
+                        }
+                    }
+                    else {
+                        return val
+                    }
+                })
             })
         }
         if (name === "appointment") {
@@ -600,6 +627,41 @@ function VerificationDetails() {
                             }} className="add-cycle-btn">Add note</Button>
                         </Col>
 
+                        <Col xs={24} sm={24} md={24} lg={24} xl={24} style={{ marginBottom: 20 }}>
+                            <Button onClick={() => {
+                                setUser((prevDetail) => {
+                                    return {
+                                        ...prevDetail,
+                                        committeeList: [
+                                            ...prevDetail?.committeeList,
+                                            {
+                                                committeeNumber: "",
+                                                received: false,
+                                                _id: "",
+                                                cid: {
+                                                    amount: "",
+                                                    completed: false,
+                                                    createdAt: "",
+                                                    cycle: { type: '', value: '' },
+                                                    endDate: "",
+                                                    members: "",
+                                                    name: "",
+                                                    payment: "",
+                                                    recievedBy: [],
+                                                    startDate: "",
+                                                    uniqueId: "",
+                                                    updatedAt: "",
+                                                    userIds: [],
+                                                    __v: 28,
+                                                    _id: "",
+                                                }
+                                            }
+                                        ]
+                                    }
+                                })
+                            }} className="add-cycle-btn" style={{ float: "right" }}>Add more commitee</Button>
+                        </Col>
+
                         {user?.adminNotes?.map((note, index) => {
                             return (
                                 <Col xs={24} sm={24} md={24} lg={24} xl={24} key={index}>
@@ -648,70 +710,79 @@ function VerificationDetails() {
                                 })} value={commitee?.commiteeNumber} />
                             </Form.Item>
                         </Col> */}
-                        {user?.approve === false && <Col xs={24} sm={24} md={12} lg={4} xl={4}>
-                            <Form.Item label={<Title style={{ fontSize: "16px", margin: 0, color: "#4E4E4E" }}>Select Committee</Title>}>
-                                <Select
-                                    value={commitee?.uniqueId ? commitee?.uniqueId : state?.committees?.committees?.find((opt) => opt?.committeeDetails?.committee?._id === user?.cId)?.committeeDetails?.committee?.uniqueId}
-                                    style={{ width: "100%" }}
-                                    options={state?.committees?.committees?.map((opt) => ({ value: opt?.committeeDetails?.committee?._id, label: opt?.committeeDetails?.committee?.uniqueId }))}
-                                    onChange={(e) => handleChange(e, "cId")}
-                                />
-                            </Form.Item>
-                        </Col>}
-                        <Col xs={24} sm={24} md={12} lg={4} xl={4}>
-                            <Form.Item label={<Title style={{ fontSize: "16px", margin: 0, color: "#4E4E4E" }}>Committee</Title>}>
-                                <Input disabled={user?.approve === true ? true : false} value={commitee?.name} />
-                            </Form.Item>
-                        </Col>
-                        <Col xs={24} sm={24} md={12} lg={4} xl={4}>
-                            <Form.Item label={<Title style={{ fontSize: "16px", margin: 0, color: "#4E4E4E" }}>Payment</Title>}>
-                                <Input disabled={user?.approve === true ? true : false} value={`$ ${commitee?.amount}`} />
-                            </Form.Item>
-                        </Col>
-                        <Col xs={24} sm={24} md={12} lg={4} xl={4}>
-                            <Form.Item label={<Title style={{ fontSize: "16px", margin: 0, color: "#4E4E4E" }}>Amount</Title>}>
-                                <Input disabled={user?.approve === true ? true : false} value={`$ ${commitee?.payment}`} />
-                            </Form.Item>
-                        </Col>
-                        <Col xs={24} sm={24} md={12} lg={4} xl={4}>
-                            <Form.Item label={<Title style={{ fontSize: "16px", margin: 0, color: "#4E4E4E" }}>Members</Title>}>
-                                <Input disabled={user?.approve === true ? true : false} value={commitee?.members} />
-                            </Form.Item>
-                        </Col>
-                        <Col xs={24} sm={24} md={12} lg={4} xl={4}>
-                            <Form.Item label={<Title style={{ fontSize: "16px", margin: 0, color: "#4E4E4E" }}>Start Date</Title>}>
-                                <Input disabled={user?.approve === true ? true : false} value={new Date(commitee?.startDate).toLocaleDateString()} />
-                            </Form.Item>
-                        </Col>
-                        <Col xs={24} sm={24} md={12} lg={4} xl={4}>
-                            <Form.Item label={<Title style={{ fontSize: "16px", margin: 0, color: "#4E4E4E" }}>End Date</Title>}>
-                                <Input disabled={user?.approve === true ? true : false} value={new Date(commitee?.endDate).toLocaleDateString()} />
-                            </Form.Item>
-                        </Col>
-                        <Col xs={24} sm={24} md={12} lg={4} xl={4}>
-                            <Form.Item label={<Title style={{ fontSize: "16px", margin: 0, color: "#4E4E4E" }}>Select Committee Number</Title>}>
-                                <Select
-                                    disabled={user?.approve === true ? true : false}
-                                    defaultValue="Select Committee Number"
-                                    value={commitee?.committeeNumber}
-                                    style={{ width: "100%" }}
-                                    options={([
-                                        { value: 0, label: 0 },
-                                        { value: 1, label: 1 },
-                                        { value: 2, label: 2 },
-                                        { value: 3, label: 3 },
-                                        { value: 4, label: 4 },
-                                        { value: 5, label: 5 },
-                                        { value: 6, label: 6 },
-                                        { value: 7, label: 7 },
-                                        { value: 8, label: 8 },
-                                        { value: 9, label: 9 },
-                                        { value: 10, label: 10 },
-                                    ])}
-                                    onChange={(e) => handleChange(e, "committeeNumber")}
-                                />
-                            </Form.Item>
-                        </Col>
+                        {user?.committeeList?.map((com, ind) => {
+                            return (
+                                <>
+                                    <Col xs={24} sm={24} md={24} lg={24} xl={24}>
+                                        <Title style={{ color: "#166805", margin: "0 0 20px 0" }} level={3}>Committee {com?.cid?.uniqueId}</Title>
+                                    </Col>
+                                    <Col xs={24} sm={24} md={12} lg={6} xl={6}>
+                                        <Form.Item label={<Title style={{ fontSize: "16px", margin: 0, color: "#4E4E4E" }}>Select Committee</Title>}>
+                                            <Select
+                                                value={com?.cid?.uniqueId ? com?.cid?.uniqueId : state?.committees?.committees?.find((opt) => opt?.committeeDetails?.committee?._id === user?.cId)?.committeeDetails?.committee?.uniqueId}
+                                                style={{ width: "100%" }}
+                                                options={state?.committees?.committees?.map((opt) => ({ value: opt?.committeeDetails?.committee?._id, label: opt?.committeeDetails?.committee?.uniqueId }))}
+                                                onChange={(e) => handleChange(e, "cId", ind)}
+                                            />
+                                        </Form.Item>
+                                    </Col>
+                                    <Col xs={24} sm={24} md={12} lg={6} xl={6}>
+                                        <Form.Item label={<Title style={{ fontSize: "16px", margin: 0, color: "#4E4E4E" }}>Committee</Title>}>
+                                            <Input value={com?.cid?.name} />
+                                        </Form.Item>
+                                    </Col>
+                                    <Col xs={24} sm={24} md={12} lg={6} xl={6}>
+                                        <Form.Item label={<Title style={{ fontSize: "16px", margin: 0, color: "#4E4E4E" }}>Payment</Title>}>
+                                            <Input value={`$ ${com?.cid?.amount}`} />
+                                        </Form.Item>
+                                    </Col>
+                                    <Col xs={24} sm={24} md={12} lg={6} xl={6}>
+                                        <Form.Item label={<Title style={{ fontSize: "16px", margin: 0, color: "#4E4E4E" }}>Amount</Title>}>
+                                            <Input value={`$ ${com?.cid?.payment}`} />
+                                        </Form.Item>
+                                    </Col>
+                                    <Col xs={24} sm={24} md={12} lg={6} xl={6}>
+                                        <Form.Item label={<Title style={{ fontSize: "16px", margin: 0, color: "#4E4E4E" }}>Members</Title>}>
+                                            <Input value={com?.cid?.members} />
+                                        </Form.Item>
+                                    </Col>
+                                    <Col xs={24} sm={24} md={12} lg={6} xl={6}>
+                                        <Form.Item label={<Title style={{ fontSize: "16px", margin: 0, color: "#4E4E4E" }}>Start Date</Title>}>
+                                            <Input value={new Date(com?.cid?.startDate).toLocaleDateString()} />
+                                        </Form.Item>
+                                    </Col>
+                                    <Col xs={24} sm={24} md={12} lg={6} xl={6}>
+                                        <Form.Item label={<Title style={{ fontSize: "16px", margin: 0, color: "#4E4E4E" }}>End Date</Title>}>
+                                            <Input value={new Date(com?.cid?.endDate).toLocaleDateString()} />
+                                        </Form.Item>
+                                    </Col>
+                                    <Col xs={24} sm={24} md={12} lg={6} xl={6}>
+                                        <Form.Item label={<Title style={{ fontSize: "16px", margin: 0, color: "#4E4E4E" }}>Select Committee Number</Title>}>
+                                            <Select
+
+                                                defaultValue="Select Committee Number"
+                                                value={com?.cid?.committeeNumber}
+                                                style={{ width: "100%" }}
+                                                options={([
+                                                    { value: 0, label: 0 },
+                                                    { value: 1, label: 1 },
+                                                    { value: 2, label: 2 },
+                                                    { value: 3, label: 3 },
+                                                    { value: 4, label: 4 },
+                                                    { value: 5, label: 5 },
+                                                    { value: 6, label: 6 },
+                                                    { value: 7, label: 7 },
+                                                    { value: 8, label: 8 },
+                                                    { value: 9, label: 9 },
+                                                    { value: 10, label: 10 },
+                                                ])}
+                                                onChange={(e) => handleChange(e, "committeeNumber")}
+                                            />
+                                        </Form.Item>
+                                    </Col>
+                                </>
+                            )
+                        })}
                         {/* <Col xs={24} sm={24} md={24} lg={24} xl={24} style={{ marginBottom: additionalDetail ? 30 : 0 }}>
                             <Button onClick={() => setAdditionalDetail(true)} className="add-cycle-btn">Add Additional Detail</Button>
                         </Col> */}
