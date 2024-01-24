@@ -87,7 +87,6 @@ export default function SignUp2() {
       month: "",
       year: "",
     },
-    address1: "",
     address2: "",
     city: "",
     province: "",
