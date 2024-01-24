@@ -31,17 +31,24 @@ const StatisticsHeader = ({ approveMembers, user, committees, enrolledCommittess
                 {user?.userType === "admin" ? (
                     arr.map((card, index) => {
                         return (
-                            <Col xs={24} sm={24} md={12} lg={8} xl={8} className="mb-24">
+                            <Col xs={24} sm={24} md={12} lg={8} xl={8}
+                                style={{cursor:"pointer"}}
+                                className="mb-24"
+                                onClick={() => {
+                                navigate(`${
+                                    card.title === "Total Members" ? "/members" : 
+                                    card.title === "Enroll Request" ? "/members" : "/dashboard/committee-details"
+                                }`)
+                                }}>
                                 <Card bordered={false} className="criclebox" style={{ border: '4px solid rgba(22, 104, 5, 0.50)' }}>
-                                    <div style={{ display: "flex", justifyContent: "space-between", alignItems: "flex-start", marginBottom: card.title === "Add New Committee" && -25 }}>
+                                    <div style={{ display: "flex", justifyContent: "space-between", alignItems: "flex-start" }}>
                                         <div>
                                             <p style={{ fontSize: 20, fontWeight: '700', margin: 0, color: "#166805" }}>{card.title}</p>
-                                            {card.title !== "Add New Committee" && <Title level={"5"} style={{ fontWeight: '600', margin: 0, color: "#F2C649" }}><CountUp start={0} end={card.description} /></Title>}                                        </div>
+                                            <Title level={4} style={{ fontWeight: '600', margin: 0, color: "#F2C649" }}>{card.title === "Add New Committee" ? "Click Now" : <CountUp start={0} end={card.description} />}</Title>                                        </div>
                                         <div>
                                             <img src={card.icon} alt="" />
                                         </div>
                                     </div>
-                                    {card.title === "Add New Committee" && <Button onClick={() => navigate("/dashboard/committee-details")} className="view-all-btn">Create Committee</Button>}
                                 </Card>
                             </Col>
                         )

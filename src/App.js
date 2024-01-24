@@ -28,6 +28,7 @@ import SignUp3 from "./pages/signup3";
 import NewPassword from "./pages/new-password";
 import PaymentHistory from "./pages/paymentHistory";
 import ResetPassword from "./pages/resetPassword";
+import ApprovedMembers from "./pages/approvedMembers";
 
 function App() {
 
@@ -74,14 +75,16 @@ function App() {
           <Route path="/" element={<Main />}>
             <Route path="/dashboard" element={token ? <Home /> : <Navigate to="/sign-in" />} />
             <Route path="/members" element={token ? <Members /> : <Navigate to="/sign-in" />} />
+            <Route path="/approved-members" element={token ? <ApprovedMembers /> : <Navigate to="/sign-in" />} />
             <Route path="/dashboard/view-committee/:id" element={token ? <Setup2 /> : <Navigate to="/sign-in" />} />
             <Route path="/view-all-committee" element={token ? <Setup /> : <Navigate to="/sign-in" />} />
             <Route path="/members/verification-details/:id" element={token ? <VerificationDetails /> : <Navigate to="/sign-in" />} />
+            <Route path="/approved-members/verification-details/:id" element={token ? <VerificationDetails /> : <Navigate to="/sign-in" />} />
             <Route path="/dashboard/committee-details" element={token ? <CommitteeDetails /> : <Navigate to="/sign-in" />} />
             <Route path="/payment-history" element={token ? <PaymentHistory /> : <Navigate to="/sign-in" />} />
             <Route path="/profile" element={token ? <Profile /> : <Navigate to="/sign-in" />} />
           </Route>
-          <Route path="*" element={<Navigate to="/" />} />
+          <Route path="*" element={<Navigate to="/dashboard" />} />
         </Routes>
       {/* )} */}
 

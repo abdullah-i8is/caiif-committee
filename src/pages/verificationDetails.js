@@ -19,6 +19,8 @@ import axios from "axios";
 import { API_URL } from "../config/api";
 import { GetAdminCommittees } from "../middlewares/commitee";
 import { setCommittees } from "../store/committeeSlice/committeeSlice";
+import crossIcon from "../assets/images/cross-icon.png";
+import downloadIcon from "../assets/images/download-icon.png";
 import moment from 'moment'
 
 function VerificationDetails() {
@@ -28,6 +30,7 @@ function VerificationDetails() {
     const dispatch = useDispatch();
     const [loading, setLoading] = useState(false)
     const [loading2, setLoading2] = useState(false)
+    const [fullScreen, setFullScreen] = useState(false)
     const [additionalDetail, setAdditionalDetail] = useState(false)
     const navigate = useNavigate()
     const token = useSelector((state) => state.common.token)
@@ -263,26 +266,48 @@ function VerificationDetails() {
             {contextHolder}
             <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", marginBottom: "20px", marginTop: "50px" }}>
                 <Title style={{ color: "#166805", margin: 0 }} level={3}>Verification Details</Title>
-                <div style={{ display: "flex", alignItems: "center" }}>
-                    <Button disabled={user?.approve ? true : false} onClick={() => {
+                {user?.approve === false && <div style={{ display: "flex", alignItems: "center" }}>
+                    <Button onClick={() => {
                         handleApprove("DECLINE")
                     }} loading={loading} style={{ margin: "0 0 0 10px", width: "100px" }} className="deny-btn"> <img width={15} src={denyIcon} style={{ margin: "0 5px 0 0" }} /> Deny</Button>
-                    <Button disabled={user?.approve ? true : false} onClick={() => {
+                    <Button onClick={() => {
                         handleApprove("APPROVE")
                     }} loading={loading2} style={{ margin: "0 0 0 10px", width: "100px" }} className="add-cycle-btn"> Approve</Button>
-                </div >
-            </div >
+                </div>}
+            </div>
             <Form
                 form={form}
                 layout="vertical"
             >
                 <Card>
                     <Row gutter={[24, 0]}>
-                        <Col xs={24} sm={24} md={24} lg={24} xl={24}>
-                            <Card style={{ border: "2px solid #166805", marginBottom: 40, width: "50%" }}>
+                        <Col xs={24} sm={24} md={24} lg={24} xl={24} onClick={() => setFullScreen(true)} style={{ cursor: "pointer" }}>
+                            <Card style={{ border: "2px solid #166805", marginBottom: 40, width: "30%" }}>
                                 <img src={user?.nic} style={{ borderRadius: "10px", width: "100%", height: "150px", objectFit: "contain" }} />
                             </Card>
                         </Col>
+                        {fullScreen === true && (
+                            <div class="image-container">
+                                <img class="download-button" src={downloadIcon} onClick={async () => {
+                                    try {
+                                        const response = await fetch(user?.nic);
+                                        const blob = await response.blob();
+                                        const link = document.createElement('a');
+                                        link.href = URL.createObjectURL(blob);
+                                        link.download = 'downloaded_image.jpg';
+                                        document.body.appendChild(link);
+                                        link.click();
+                                        document.body.removeChild(link);
+                                    } catch (error) {
+                                        console.error('Error downloading image:', error);
+                                    }
+                                }} />
+                                <img class="close-button" src={crossIcon} onClick={() => setFullScreen(false)} />
+                                <div class="fullscreen-overlay">
+                                    <img src={user?.nic} alt="Your Image" class="fullscreen-image" />
+                                </div>
+                            </div>
+                        )}
                         <Col xs={16} sm={24} md={6} lg={6} xl={4}>
                             <Form.Item label={<Title style={{ fontSize: "16px", margin: 0, color: "#4E4E4E" }}>First Name</Title>}>
                                 <Input onChange={(e) => handleChange(e.target.value, "firstName")} value={user?.firstName} />
@@ -300,12 +325,37 @@ function VerificationDetails() {
                         </Col>
                         <Col xs={24} sm={24} md={6} lg={6} xl={4}>
                             <Form.Item label={<Title style={{ fontSize: "16px", margin: 0, color: "#4E4E4E" }}>Phone Number</Title>}>
-                                <Input onChange={(e) => handleChange(e.target.value, "contactNumber")} value={user?.contactNumber} />
+                                <Input
+                                    placeholder="(___)___-___"
+                                    value={user?.contactNumber}
+                                    onChange={(e) => {
+                                        if (e.target.value.length <= 11) {
+                                            const value = e.target.value.replace(/[^0-9]/g, '');
+                                            const formattedValue = value.replace(/(\d{3})(\d{3})(\d{4})/, '($1) $2-$3');
+                                            handleChange(formattedValue, "contactNumber")
+                                        }
+                                    }}
+                                />
+                            </Form.Item>
+                        </Col>
+                        <Col xs={24} sm={24} md={6} lg={6} xl={4}>
+                            <Form.Item label={<Title style={{ fontSize: "16px", margin: 0, color: "#4E4E4E" }}>Secondary phone</Title>}>
+                                <Input
+                                    placeholder="(___)___-___"
+                                    value={user?.emergencyContact}
+                                    onChange={(e) => {
+                                        if (e.target.value.length <= 11) {
+                                            const value = e.target.value.replace(/[^0-9]/g, '');
+                                            const formattedValue = value.replace(/(\d{3})(\d{3})(\d{4})/, '($1) $2-$3');
+                                            handleChange(formattedValue, "emergencyContact")
+                                        }
+                                    }}
+                                />
                             </Form.Item>
                         </Col>
 
                         <Col xs={24} sm={24} md={6} lg={6} xl={4}>
-                            <Form.Item label={<Title style={{ fontSize: "16px", margin: 0, color: "#4E4E4E" }}>Birth date</Title>}>
+                            <Form.Item label={<Title style={{ fontSize: "16px", margin: 0, color: "#4E4E4E" }}>Birth date (DD-MM-YYY)</Title>}>
                                 <Input
                                     onChange={(e) => {
                                         setUser((prevDetail) => {
@@ -330,7 +380,17 @@ function VerificationDetails() {
                         </Col> */}
                         <Col xs={24} sm={24} md={6} lg={6} xl={4}>
                             <Form.Item label={<Title style={{ fontSize: "16px", margin: 0, color: "#4E4E4E" }}>Sin</Title>}>
-                                <Input onChange={(e) => handleChange(e.target.value, "sin")} value={user?.sin} />
+                                <Input
+                                    placeholder="___-__-___"
+                                    onChange={(e) => {
+                                        if (e.target.value.length <= 9) {
+                                            const inputValue = e.target.value.replace(/\D/g, ''); // Remove non-numeric characters
+                                            const formattedValue = inputValue.replace(/(\d{3})(\d{2})(\d{4})/, '$1-$2-$3'); // Format as 123-12-3123
+                                            handleChange(formattedValue, "sin")
+                                        }
+                                    }}
+                                    value={user?.sin}
+                                />
                             </Form.Item>
                         </Col>
 

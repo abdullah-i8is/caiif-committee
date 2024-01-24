@@ -42,27 +42,22 @@ export default function SignUp3() {
   const [form] = Form.useForm();
   const params = useParams();
 
-  const navigate = useNavigate()
   const dispatch = useDispatch()
-  const state = useSelector((state) => state.committees.committees)
   const [success, setSuccess] = useState("");
   const [status, setStatus] = useState(null);
   const [loading, setLoading] = useState(false);
   const [uploading, setUploading] = useState(false);
   const [formSubmit, setFormSubmit] = useState(false);
-  const [activeStep, setActiveStep] = useState(0);
   const [monthDuration, setMonthDuration] = useState(0);
-  const [monthlyPayment, setMonthlyPayment] = useState(0);
-  const [totalAmount, setTotalAmount] = useState(0);
-  const [committeeId, setCommitteeId] = useState(null);
-  const [imageUrl, setImageUrl] = useState("");
-  const [imageUrl2, setImageUrl2] = useState("");
-  const [showManualEntry, setShowManualEntry] = useState(false);
   const [commitee, setCommittee] = useState(null);
   const [termsCondition, setTermsCondition] = useState({
     first: false,
     second: false,
   });
+  const [appointment, setAppointment] = useState({
+    date: "",
+    time: "",
+  })
   // Get the current year
   const currentYear = new Date().getFullYear();
 
@@ -85,7 +80,7 @@ export default function SignUp3() {
     sourceOfIncome: "",
     employmentStatus: "",
     appointment: {
-      date: null,
+      date: appointment.date + " " + appointment.time,
     },
     DOB: {
       day: "",
@@ -147,14 +142,12 @@ export default function SignUp3() {
       formFields.sourceOfIncome === "" ||
       formFields.address1 === "" ||
       formFields.employmentStatus === "" ||
-      (showManualEntry && (
-        formFields.city === "" ||
-        formFields.province === "" ||
-        formFields.postalCode === ""
-      ))
+      formFields.city === "" ||
+      formFields.province === "" ||
+      formFields.postalCode === ""
     ) {
       Object.entries(formFields).forEach(([key, value]) => {
-        if ((value === "" || value === null || value === undefined) && key !== "emergencyContact" && key !== "sin" && key !== "address2") {
+        if ((value === "" || value === null || value === undefined) && key !== "emergencyContact" && key !== "sin") {
           api.error({
             message: 'Notification',
             description: `${key} is required`,
@@ -255,7 +248,6 @@ export default function SignUp3() {
         return {
           ...prevFields,
           cId: response?.data?.data?.committee?._id,
-          committee: response?.data?.data?.committee?._id,
         }
       })
       console.log(response);
@@ -273,6 +265,8 @@ export default function SignUp3() {
     console.log(params);
     getCommittee()
   }, [params.cid])
+
+  console.log(appointment.date + " " + appointment.time);
 
   console.log(formFields);
 
@@ -299,7 +293,7 @@ export default function SignUp3() {
                       <div style={{ marginBottom: 20, textAlign: "center" }}>
                         <Title level={1} style={{ color: '#166805' }}>Form Submitted</Title>
                         <Title level={3}>Our team will be in touch shortly. Thank you for your patience.</Title>
-                        <Title level={3}>+1 289-586-910</Title>
+                        <Title level={3}>+1 289-586-9810</Title>
                       </div>
                       <div>
                         <img width={60} src="https://upload.wikimedia.org/wikipedia/commons/thumb/3/3b/Eo_circle_green_checkmark.svg/1200px-Eo_circle_green_checkmark.svg.png" alt="" />
@@ -522,6 +516,7 @@ export default function SignUp3() {
                           style={{ width: width < 768 ? "100%" : "300px" }}
                           placeholder="___-__-___"
                         />
+
                       </Form.Item>
                       <Form.Item
                         required={true}
@@ -596,8 +591,8 @@ export default function SignUp3() {
                         </Select>
                       </Form.Item>
                     </div>
-                    <Title onClick={() => setShowManualEntry(true)} className="choose-manual-link" style={{ fontSize: "16px", margin: 0, color: "#038203", fontWeight: "400", textAlign: "end" }}>Choose manual entry</Title>
-                    <Form.Item
+                    {/* <Title onClick={() => setShowManualEntry(true)} className="choose-manual-link" style={{ fontSize: "16px", margin: 0, color: "#038203", fontWeight: "400", textAlign: "end" }}>Choose manual entry</Title> */}
+                    {/* <Form.Item
                       required={true}
                       rules={[
                         {
@@ -615,112 +610,113 @@ export default function SignUp3() {
                         });
                       }} style={{ width: width < 768 ? "100%" : "100%" }}
                         placeholder="Address" />
-                    </Form.Item>
-                    {showManualEntry && (
-                      <>
-                        <Form.Item
-                          rules={[
-                            {
-                              message: 'Please input your Street Address !',
-                            },
-                          ]}
-                          label={<Title style={{ fontSize: "16px", margin: 0, color: "#4E4E4E" }}>Street Address (optional)</Title>}>
-                          <Input value={formFields.address2} onChange={(e) => {
+                    </Form.Item> */}
+                    {/* {showManualEntry && (
+                      <> */}
+                    <Form.Item
+                      required={true}
+                      rules={[
+                        {
+                          message: 'Please input your Street Address !',
+                        },
+                      ]}
+                      label={<Title style={{ fontSize: "16px", margin: 0, color: "#4E4E4E" }}>Street Address</Title>}>
+                      <Input value={formFields.address2} onChange={(e) => {
 
-                            setFieldName({ type: "address2", value: e.target.value })
+                        setFieldName({ type: "address2", value: e.target.value })
+                        setFormFields((prevFields) => {
+                          return {
+                            ...prevFields,
+                            address2: e.target.value
+                          }
+                        });
+                      }} style={{ width: width < 768 ? "300px" : "100%" }}
+                        placeholder="Street Address" />
+                    </Form.Item>
+                    <div style={{ display: 'flex', flexDirection: width < 768 ? "column" : "row" }}>
+                      <Form.Item
+                        style={{ marginRight: 10 }}
+                        required={true}
+                        rules={[
+                          {
+                            message: 'Please input your City !',
+                          },
+                        ]}
+                        label={<Title style={{ fontSize: "16px", margin: 0, color: "#4E4E4E" }}>City</Title>}>
+                        <Input value={formFields.city} onChange={(e) => {
+                          setFieldName({ type: "city", value: e.target.value })
+                          setFormFields((prevFields) => {
+                            return {
+                              ...prevFields,
+                              city: e.target.value
+                            }
+                          });
+                        }} style={{ width: width < 768 ? "300px" : "300px" }}
+                          placeholder="City" />
+                      </Form.Item>
+                      <Form.Item
+                        required={true}
+                        style={{ marginRight: 10 }}
+
+                        rules={[
+                          {
+                            message: 'Please input your Postal Code !',
+                          },
+                        ]}
+                        label={<Title style={{ fontSize: "16px", margin: 0, color: "#4E4E4E" }}>Postal Code</Title>}>
+                        <Input value={formFields.postalCode} onChange={(e) => {
+                          if (e.target.value.length <= 6) {
+                            setFieldName({ type: "postalCode", value: e.target.value })
                             setFormFields((prevFields) => {
                               return {
                                 ...prevFields,
-                                address2: e.target.value
+                                postalCode: e.target.value
                               }
                             });
-                          }} style={{ width: width < 768 ? "300px" : "100%" }}
-                            placeholder="Street Address" />
-                        </Form.Item>
-                        <div style={{ display: 'flex', flexDirection: width < 768 ? "column" : "row" }}>
-                          <Form.Item
-                            style={{ marginRight: 10 }}
-                            required={true}
-                            rules={[
-                              {
-                                message: 'Please input your City !',
-                              },
-                            ]}
-                            label={<Title style={{ fontSize: "16px", margin: 0, color: "#4E4E4E" }}>City</Title>}>
-                            <Input value={formFields.city} onChange={(e) => {
-                              setFieldName({ type: "city", value: e.target.value })
-                              setFormFields((prevFields) => {
-                                return {
-                                  ...prevFields,
-                                  city: e.target.value
-                                }
-                              });
-                            }} style={{ width: width < 768 ? "300px" : "300px" }}
-                              placeholder="City" />
-                          </Form.Item>
-                          <Form.Item
-                            required={true}
-                            style={{ marginRight: 10 }}
-
-                            rules={[
-                              {
-                                message: 'Please input your Postal Code !',
-                              },
-                            ]}
-                            label={<Title style={{ fontSize: "16px", margin: 0, color: "#4E4E4E" }}>Postal Code</Title>}>
-                            <Input value={formFields.postalCode} onChange={(e) => {
-                              if (e.target.value.length <= 6) {
-                                setFieldName({ type: "postalCode", value: e.target.value })
-                                setFormFields((prevFields) => {
-                                  return {
-                                    ...prevFields,
-                                    postalCode: e.target.value
-                                  }
-                                });
+                          }
+                        }} style={{ width: width < 768 ? "300px" : "100%" }} placeholder="Postal Code" />
+                      </Form.Item>
+                      <Form.Item
+                        required={true}
+                        rules={[
+                          {
+                            message: 'Please input your Provice !',
+                          },
+                        ]}
+                        label={<Title style={{ fontSize: "16px", margin: 0, color: "#4E4E4E" }}>Province</Title>}>
+                        <Select
+                          defaultValue="Select Province"
+                          style={{ width: width < 768 ? "300px" : "100%" }}
+                          options={[
+                            { value: 'AB', label: 'Alberta' },
+                            { value: 'BC', label: 'British Columbia' },
+                            { value: 'MB', label: 'Manitoba' },
+                            { value: 'NB', label: 'New Brunswick' },
+                            { value: 'NL', label: 'Newfoundland and Labrador' },
+                            { value: 'NS', label: 'Nova Scotia' },
+                            { value: 'NT', label: 'Northwest Territories' },
+                            { value: 'NU', label: 'Nunavut' },
+                            { value: 'ON', label: 'Ontario' },
+                            { value: 'PE', label: 'Prince Edward Island' },
+                            { value: 'QC', label: 'Quebec' },
+                            { value: 'SK', label: 'Saskatchewan' },
+                            { value: 'YT', label: 'Yukon' },
+                          ]}
+                          onChange={(e) => {
+                            setFieldName({ type: "province", value: e })
+                            setFormFields((prevFields) => {
+                              return {
+                                ...prevFields,
+                                province: e,
                               }
-                            }} style={{ width: width < 768 ? "300px" : "100%" }} placeholder="Postal Code" />
-                          </Form.Item>
-                          <Form.Item
-                            required={true}
-                            rules={[
-                              {
-                                message: 'Please input your Provice !',
-                              },
-                            ]}
-                            label={<Title style={{ fontSize: "16px", margin: 0, color: "#4E4E4E" }}>Province</Title>}>
-                            <Select
-                              defaultValue="Select Province"
-                              style={{ width: width < 768 ? "300px" : "100%" }}
-                              options={[
-                                { value: 'AB', label: 'Alberta' },
-                                { value: 'BC', label: 'British Columbia' },
-                                { value: 'MB', label: 'Manitoba' },
-                                { value: 'NB', label: 'New Brunswick' },
-                                { value: 'NL', label: 'Newfoundland and Labrador' },
-                                { value: 'NS', label: 'Nova Scotia' },
-                                { value: 'NT', label: 'Northwest Territories' },
-                                { value: 'NU', label: 'Nunavut' },
-                                { value: 'ON', label: 'Ontario' },
-                                { value: 'PE', label: 'Prince Edward Island' },
-                                { value: 'QC', label: 'Quebec' },
-                                { value: 'SK', label: 'Saskatchewan' },
-                                { value: 'YT', label: 'Yukon' },
-                              ]}
-                              onChange={(e) => {
-                                setFieldName({ type: "province", value: e })
-                                setFormFields((prevFields) => {
-                                  return {
-                                    ...prevFields,
-                                    province: e,
-                                  }
-                                })
-                              }}
-                            />
-                          </Form.Item>
-                        </div>
+                            })
+                          }}
+                        />
+                      </Form.Item>
+                    </div>
 
-                      </>
-                    )}
+                    {/* </> */}
+                    {/* )} */}
                     {/* <Form.Item
                         required={true}
 
@@ -895,68 +891,86 @@ export default function SignUp3() {
                     </Form.Item>
                     <div style={{ textAlign: width < 768 ? "center" : "left" }}>
                       <div style={{ width: width < 768 ? "100%" : "600px", marginBottom: 20 }}>
-                        <Title style={{ fontSize: "16px", margin: "0 0 8px 0", color: "#4E4E4E" }}>ID</Title>
-                        <p>Please Upload Your Id Card</p>
+                        <Title style={{ fontSize: "16px", margin: "0 0 8px 0", color: "#4E4E4E" }}>Photo ID</Title>
+                        <p>Please Upload Your Photo ID</p>
                         <Upload showUploadList={false} name="file" onChange={(e) => handleUpload(e.file.originFileObj)}>
-                          <Button loading={uploading} icon={<UploadOutlined />}>Upload ID</Button>
+                          <Button loading={uploading} icon={<UploadOutlined />}>Upload Photo ID</Button>
                         </Upload>
                       </div>
-                      {formFields?.nic ? <img className="nic-image" style={{ margin: "20px 0 0 0", borderRadius: "5px" }} src={formFields?.nic} /> : ""}
+                      {formFields?.nic && formFields?.nic.includes(".pdf") ? (
+                        <iframe
+                          title="PDF Viewer"
+                          src={`https://docs.google.com/gview?url=${encodeURIComponent(formFields?.nic)}&embedded=true`}
+                          style={{ width: '100%', height: '400px', border: 'none' }}
+                        />
+                      ) : formFields?.nic && !formFields?.nic.includes(".pdf") ? (
+                        <img className="nic-image" style={{ margin: "20px 0 0 0", borderRadius: "5px" }} src={formFields?.nic} />
+                      ) : ""}
                       <div style={{ width: width < 768 ? "100%" : "600px" }}>
                         <Title level={2} style={{ color: "green", fontWeight: "600", margin: "30px 0" }}>
                           Appointment Details
                         </Title>
-                        <Title style={{ fontSize: "16px", margin: "0 0 8px 0", color: "#4E4E4E" }}>Availability: Mon to Fri - 9am to 5am</Title>
-                        <DatePicker
-                          showTime={{
-                            format: 'h A',
-                            minuteStep: 60,
-                          }}
-                          format="DD-MM-YYYY h A"
-                          style={{ width: width < 768 ? "300px" : '100%' }}
-                          onChange={(e, dateString) => {
-                            setFieldName({ type: "appointment", value: e });
-                            setFormFields((prevFields) => {
-                              return {
-                                ...prevFields,
-                                appointment: {
+                        <Title style={{ fontSize: "16px", margin: "0 0 8px 0", color: "#4E4E4E" }}>Availability: Mon to Fri - 9 AM to 5 PM</Title>
+                        <div style={{ display: "flex" }}>
+                          <DatePicker
+                            format="DD-MM-YYYY"
+                            style={{ width: width < 768 ? "300px" : '200px' }}
+                            onChange={(e, dateString) => {
+                              setFieldName({ type: "appointment", value: e });
+                              setAppointment((prevFields) => {
+                                return {
+                                  ...prevFields,
                                   date: dateString
                                 }
+                              });
+                            }}
+                            inputReadOnly={true}
+                            disabledDate={(current) => {
+                              const dayOfWeek = current.day();
+                              if (dayOfWeek === 0 || dayOfWeek === 6) {
+                                return true;
                               }
-                            });
-                          }}
-                          inputReadOnly={true}
-                          disabledDate={(current) => {
-                            // Disable Sundays (0) and Saturdays (6)
-                            const dayOfWeek = current.day();
-                            if (dayOfWeek === 0 || dayOfWeek === 6) {
-                              return true;
-                            }
-
-                            // Disable previous year dates
-                            const currentYear = moment().year();
-                            const currentMonth = moment().month();
-                            const currentDay = moment().date();
-
-                            const isPreviousYear = current.year() < currentYear;
-                            const isCurrentYear = current.year() === currentYear;
-                            const isPastDateInCurrentYear = isCurrentYear && (
-                              (current.month() < currentMonth) ||
-                              (current.month() === currentMonth && current.date() < currentDay)
-                            );
-
-                            return isPreviousYear || isPastDateInCurrentYear;
-                          }}
-                        // renderExtraFooter={() => (
-                        //   <div>
-                        //     <span>Selected Date: {formFields.appointment.date ? formFields.appointment.date.format('YYYY-MM-DD HH') : 'None'}</span>
-                        //   </div>
-                        // )}
-                        />
+                              const currentYear = moment().year();
+                              const currentMonth = moment().month();
+                              const currentDay = moment().date();
+                              const isPreviousYear = current.year() < currentYear;
+                              const isCurrentYear = current.year() === currentYear;
+                              const isPastDateInCurrentYear = isCurrentYear && (
+                                (current.month() < currentMonth) ||
+                                (current.month() === currentMonth && current.date() < currentDay)
+                              );
+                              return isPreviousYear || isPastDateInCurrentYear;
+                            }}
+                          />
+                          <Select
+                            defaultValue="Select appointment time"
+                            style={{ width: width < 768 ? "300px" : "200px", marginLeft: 10 }}
+                            options={[
+                              { value: '09 AM', label: '09 AM' },
+                              { value: '10 AM', label: '10 AM' },
+                              { value: '11 AM', label: '11 AM' },
+                              { value: '12 PM', label: '12 PM' },
+                              { value: '01 PM', label: '01 PM' },
+                              { value: '02 PM', label: '02 PM' },
+                              { value: '03 PM', label: '03 PM' },
+                              { value: '04 PM', label: '04 PM' },
+                              { value: '05 PM', label: '05 PM' },
+                            ]}
+                            onChange={(e) => {
+                              setFieldName({ type: "appointment", value: e });
+                              setAppointment((prevFields) => {
+                                return {
+                                  ...prevFields,
+                                  time: e
+                                }
+                              });
+                            }}
+                          />
+                        </div>
                       </div>
                       <div style={{ width: width < 768 ? "300px" : "600px", margin: "25px 0" }}>
                         <Title style={{ fontSize: "16px" }}>Terms & conditions.</Title>
-                        <Checkbox style={{ margin: 0 }} onChange={(e) => setTermsCondition((prevCondition) => {
+                        {/* <Checkbox style={{ margin: 0 }} onChange={(e) => setTermsCondition((prevCondition) => {
                           return {
                             ...prevCondition,
                             first: e.target.checked
@@ -965,7 +979,7 @@ export default function SignUp3() {
                           <Title style={{ fontSize: "13px" }}>
                             Enrollment confirms your eligibility and agreement to all CAIIF terms and conditions.
                           </Title>
-                        </Checkbox>
+                        </Checkbox> */}
                         <Checkbox style={{ margin: 0 }} onChange={(e) => setTermsCondition((prevCondition) => {
                           return {
                             ...prevCondition,
@@ -982,9 +996,9 @@ export default function SignUp3() {
                       <div style={{ width: width < 768 ? "100%" : "600px" }}>
                         <Button
                           onClick={handleSignup}
-                          disabled={termsCondition.first && termsCondition.second ? false : true}
+                          disabled={termsCondition.second ? false : true}
                           loading={loading}
-                          style={{ width: "100%", backgroundColor: termsCondition.first && termsCondition.second ? "#166805" : !termsCondition.first || !termsCondition.second ? "grey" : "", color: 'white' }}
+                          style={{ width: "100%", backgroundColor: termsCondition.second ? "#166805" : !termsCondition.first || !termsCondition.second ? "grey" : "", color: 'white' }}
                           type="primary"
                         >
                           Submit

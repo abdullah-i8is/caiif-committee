@@ -154,7 +154,21 @@ function Sidenav({ color }) {
                 >
                   {member}
                 </span>
-                <span className="label">Member's</span>
+                <span className="label">Members Request</span>
+              </NavLink>
+            </Menu.Item>
+            
+            <Menu.Item key="2">
+              <NavLink to="/approved-members">
+                <span
+                  className="icon"
+                  style={{
+                    background: page === "approved-members" ? color : "",
+                  }}
+                >
+                  {member}
+                </span>
+                <span className="label">Approved Members</span>
               </NavLink>
             </Menu.Item>
 

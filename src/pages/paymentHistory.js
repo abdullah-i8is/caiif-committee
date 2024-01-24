@@ -179,11 +179,11 @@ function PaymentHistory() {
 
     return (
         <>
-            <StatisticsHeader
+            {/* <StatisticsHeader
                 approveMembers={approveMembers}
                 user={user}
                 committees={committees}
-            />
+            /> */}
             {/* <StatisticsHeader approveMembers={approveMembers} user={user} committees={committees} enrolledCommittess={committees?.filter((com) => com?.committee?.userIds?.some((id) => id === user?._id))} /> */}
             <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: "20px" }}>
                 <div>

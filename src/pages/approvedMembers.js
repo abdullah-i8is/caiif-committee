@@ -33,7 +33,7 @@ import denyIcon from '../assets/images/deny.svg'
 import { GetAdminCommittees, GetUserCommittees } from "../middlewares/commitee";
 import { setCommittees } from "../store/committeeSlice/committeeSlice";
 
-function Members() {
+function ApprovedMembers() {
 
     const { Title, Text } = Typography;
     const navigate = useNavigate()
@@ -307,16 +307,16 @@ function Members() {
         <>
             {contextHolder}
             <div style={{ marginBottom: "20px", marginTop: "40px", display: "flex", justifyContent: "space-between" }}>
-                <Title style={{ color: "#166805", margin: 0 }} level={3}>Approval members Request</Title>
+                <Title style={{ color: "#166805", margin: 0 }} level={3}>Approved members</Title>
                 <div style={{ display: "flex", margin: 0 }}>
                     <Title style={{ color: "#166805", margin: "3px 10px 0 0" }} level={5}>Filter by</Title>
                     <Select
-                        defaultValue={CID === "" ? "Select committee" : CID}
+                        defaultValue={CID2 === "" ? "Select committee" : CID2}
                         style={{ width: "200px" }}
                         options={committees?.map((opt) => (
                             { value: opt?.committeeDetails?.committee?.uniqueId, label: opt?.committeeDetails?.committee?.name }
                         ))}
-                        onChange={(e) => setCID(e)}
+                        onChange={(e) => setCID2(e)}
                     />
                 </div>
             </div>
@@ -325,15 +325,15 @@ function Members() {
                     pagination={false}
                     loading={loading3}
                     dataSource={
-                        CID ?
-                            approveMembers?.filter((user) => user.approve === false && user.committeeList[0]?.cid?.uniqueId === CID).sort((a, b) => b.createdAt - a.createdAt) :
-                            approveMembers?.filter((user) => user.approve === false).sort((a, b) => b.createdAt - a.createdAt)
+                        CID2
+                            ? approveMembers?.filter((user) => user.approve === true && user.committeeList[0]?.cid?.uniqueId === CID2).sort((a, b) => b.createdAt - a.createdAt)
+                            : approveMembers?.filter((user) => user.approve === true).sort((a, b) => b.createdAt - a.createdAt)
                     }
-                    columns={column}
+                    columns={column2}
                 />
             </Card>
         </>
     );
 }
 
-export default Members;
+export default ApprovedMembers;
