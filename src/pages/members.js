@@ -40,112 +40,35 @@ function Members() {
     const [loading, setLoading] = useState(false)
     const [loading2, setLoading2] = useState(false)
     const [loading3, setLoading3] = useState(false)
+    const [showModal, setShowModal] = useState(false)
+    const [committeeId, setCommitteeId] = useState("")
     const [userId, setUserId] = useState("")
     const [CID, setCID] = useState("")
     const [CID2, setCID2] = useState("")
     const dispatch = useDispatch()
     const user = useSelector((state) => state.auth.user)
     const [api, contextHolder] = notification.useNotification();
+    const [committeeDetail, setCommitteeDetail] = useState(null)
 
     const column = [
         {
             title: <Title style={{ fontSize: "18px", margin: 0, color: "#166805", fontWeight: "600" }}>Committee</Title>,
             dataIndex: 'name',
             key: 'name',
+            // render: (text, record, index) => {
+            //     return <Title className="committee-id" onClick={() => {
+            //         setShowModal(true)
+            //         setCommitteeId(record?.committeeList[0]?.cid?.uniqueId)
+            //     }}
+            //         style={{ fontSize: "18px", margin: 0, color: "#166805", fontWeight: "600" }}>
+            //         {record?.committeeList[0]?.cid?.uniqueId}
+            //     </Title>
+            // }
             render: (text, record, index) => {
-                return <Title style={{ fontSize: "18px", margin: 0, color: "#166805", fontWeight: "600" }}>{record?.committeeList[0]?.cid?.uniqueId}</Title>
-            }
-        },
-        {
-            title: <Title style={{ fontSize: "18px", margin: 0, color: "#166805", fontWeight: "600" }}>Name</Title>,
-            dataIndex: 'name',
-            key: 'name',
-            render: (text, record, index) => {
-                return <Title style={{ fontSize: "18px", margin: 0, color: "#166805", fontWeight: "600" }}>{record?.firstName + " " + record?.lastName}</Title>
-            }
-        },
-        {
-            title: <Title style={{ fontSize: "18px", margin: 0, color: "#166805", fontWeight: "600" }}>Email</Title>,
-            dataIndex: 'email',
-            key: 'email',
-            render: (text, record) => {
-                return <Title style={{ fontSize: "16px", margin: 0, color: "#818181" }}>{record?.email}</Title>
-            }
-        },
-        {
-            title: <Title style={{ fontSize: "18px", margin: 0, color: "#166805", fontWeight: "600" }}>Phone Number</Title>,
-            dataIndex: 'contactNumber',
-            key: 'contactNumber',
-            render: (text, record) => {
-                return <Title style={{ fontSize: "16px", margin: 0, color: "#818181" }}>{record?.contactNumber}</Title>
-            }
-        },
-        {
-            title: <Title style={{ fontSize: "18px", margin: 0, color: "#166805", fontWeight: "600" }}>Enrolled At</Title>,
-            dataIndex: 'contactNumber',
-            key: 'contactNumber',
-            render: (text, record) => {
-                return <Title style={{ fontSize: "16px", margin: 0, color: "#818181" }}>{new Date(record?.createdAt).toLocaleDateString()}</Title>
-            }
-        },
-        // {
-        //     title: <Title style={{ fontSize: "18px", margin: 0, color: "#166805", fontWeight: "600" }}>ID</Title>,
-        //     dataIndex: 'note',
-        //     key: 'note',
-        //     render: (text, record) => {
-        //         return (
-        //             <img src={record?.nic} alt="avatar" style={{ width: '100px' }} />
-        //         )
-        //     }
-        // },
-        {
-            width: "200px",
-            title: <Title style={{ fontSize: "18px", margin: 0, color: "#166805", fontWeight: "600" }}>Action</Title>,
-            render: (text, record) => {
-                return (
-                    <>
-                        <Button
-                            loading={userId === record._id ? loading2 : false}
-                            onClick={() => {
-                                handleApprove(record._id, record?.committeeList?.length > 0 && record?.committeeList[0]?.cid, "DECLINE")
-                                setUserId(record._id)
-                            }}
-                            style={{ margin: "0 0 0 10px", width: "100px" }}
-                            className="deny-btn">
-                            <img width={15} src={denyIcon} style={{ margin: "0 5px 0 0" }} />
-                            Delete
-                        </Button>
-                        <Button
-                            loading={userId === record._id ? loading : false}
-                            style={{ margin: "0 0 0 10px", width: "100px" }}
-                            onClick={() => {
-                                handleApprove(record._id, record?.committeeList?.length > 0 && record?.committeeList[0]?.cid, "APPROVE")
-                                setUserId(record._id)
-                            }}
-                            className="add-cycle-btn">
-                            Approve
-                        </Button>
-                    </>
-                )
-            }
-        },
-        {
-            title: <Title style={{ fontSize: "18px", margin: 0, color: "#166805", fontWeight: "600" }}></Title>,
-            render: (text, record) => {
-                return (
-                    <Button style={{ margin: "0 0 0 20px" }} onClick={() => navigate(`/members/verification-details/${record._id}`)} className="add-cycle-btn">View</Button>
-                )
-            }
-        },
-    ];
-
-    const column2 = [
-        {
-            title: <Title style={{ fontSize: "18px", margin: 0, color: "#166805", fontWeight: "600" }}>Committee</Title>,
-            dataIndex: 'name',
-            key: 'name',
-            render: (text, record, index) => {
-                return <Title style={{ fontSize: "18px", margin: 0, color: "#166805", fontWeight: "600" }}>{record?.committeeList[0]?.cid?.uniqueId}</Title>
+                return <Title
+                    style={{ fontSize: "18px", margin: 0, color: "#166805", fontWeight: "600" }}>
+                    {record?.committeeList[0]?.cid?.uniqueId}
+                </Title>
             }
         },
         {
@@ -179,14 +102,6 @@ function Members() {
             }
         },
         // {
-        //     title: <Title style={{ fontSize: "18px", margin: 0, color: "#166805", fontWeight: "600" }}>Enrolled At</Title>,
-        //     dataIndex: 'contactNumber',
-        //     key: 'contactNumber',
-        //     render: (text, record) => {
-        //         return <Title style={{ fontSize: "16px", margin: 0, color: "#818181" }}>{new Date(record?.createdAt).toLocaleDateString()}</Title>
-        //     }
-        // },
-        // {
         //     title: <Title style={{ fontSize: "18px", margin: 0, color: "#166805", fontWeight: "600" }}>ID</Title>,
         //     dataIndex: 'note',
         //     key: 'note',
@@ -197,25 +112,47 @@ function Members() {
         //     }
         // },
         {
-            title: <Title style={{ fontSize: "18px", margin: 0, color: "#166805", fontWeight: "600" }}></Title>,
+            width: "200px",
+            title: <Title style={{ fontSize: "18px", margin: 0, color: "#166805", fontWeight: "600" }}>Action</Title>,
             render: (text, record) => {
                 return (
-                    <Button onClick={() => navigate(`/members/verification-details/${record._id}`)} className="add-cycle-btn">View Detail</Button>
+                    <>
+                        <Button
+                            loading={userId === record._id ? loading2 : false}
+                            onClick={() => {
+                                handleApprove(record._id, record?.committeeList?.length > 0 && record?.committeeList[0]?.cid, "DECLINE")
+                                setUserId(record._id)
+                            }}
+                            style={{ margin: "0", width: "100px" }}
+                            className="deny-btn">
+                            <img width={15} src={denyIcon} style={{ margin: "0 5px 0 0" }} />
+                            Delete
+                        </Button>
+                        <Button
+                            loading={userId === record._id ? loading : false}
+                            style={{ margin: "0 0 0 10px", width: "100px" }}
+                            onClick={() => {
+                                handleApprove(record._id, record?.committeeList?.length > 0 && record?.committeeList[0]?.cid, "APPROVE")
+                                setUserId(record._id)
+                            }}
+                            className="add-cycle-btn">
+                            Approve
+                        </Button>
+                    </>
                 )
             }
         },
-        // {
-        //     width: "200px",
-        //     title: <Title style={{ fontSize: "18px", margin: 0, color: "#166805", fontWeight: "600" }}>Action</Title>,
-        //     render: (text, record) => {
-        //         return (
-        //             <>
-        //                 <Button loading={loading} onClick={() => handleApprove(record._id, "DECLINE")} style={{ margin: "0 0 0 10px", width: "100px" }} className="deny-btn"> <img width={15} src={denyIcon} style={{ margin: "0 5px 0 0" }} /> Deny</Button>
-        //                 <Button style={{ margin: "0 0 0 10px", width: "100px" }} onClick={() => handleApprove(record._id, "APPROVE")} className="add-cycle-btn">Approve</Button>
-        //             </>
-        //         )
-        //     }
-        // },
+        {
+            title: <Title style={{ fontSize: "18px", margin: 0, color: "#166805", fontWeight: "600" }}></Title>,
+            width: "100px",
+            render: (text, record) => {
+                return (
+                    <>
+                        <Button style={{ margin: "0" }} onClick={() => navigate(`/members/verification-details/${record._id}`)} className="add-cycle-btn">View Detail</Button>
+                    </>
+                )
+            }
+        },
     ];
 
     async function handleApprove(id, cid, type) {
@@ -263,6 +200,7 @@ function Members() {
 
     const approveMembers = useSelector((state) => state.members.approveMembers)
     const committees = useSelector((state) => state.committees.committees)
+    const state = useSelector((state) => state)
     const token = useSelector((state) => state.common.token)
 
     useEffect(() => {
@@ -280,9 +218,8 @@ function Members() {
         if (user?.userType === "admin") {
             GetAdminCommittees(token)
                 .then((res) => {
-                    const committee = res.data.allCommittees
                     console.log("res", res);
-                    dispatch(setCommittees([...committee.level1, ...committee.level2, ...committee.level3]))
+                    dispatch(setCommittees(res.data.allCommittees))
                 })
                 .catch((err) => {
                     console.log(err);
@@ -291,8 +228,7 @@ function Members() {
         if (user?.userType === "user") {
             GetUserCommittees()
                 .then((res) => {
-                    const committee = res.data.allCommittees
-                    dispatch(setCommittees([...committee.level1, ...committee.level2, ...committee.level3]))
+                    dispatch(setCommittees(res.data.allCommittees))
                 })
                 .catch((err) => {
                     console.log(err);
@@ -302,10 +238,61 @@ function Members() {
 
     console.log(approveMembers);
     console.log(committees);
+    console.log(state);
+
+    useEffect(() => {
+        const find = committees?.find((f) => f?.committeeDetails?.committee?.uniqueId === committeeId)
+        setCommitteeDetail(find)
+    }, [committeeId])
 
     return (
         <>
             {contextHolder}
+            <Modal
+                okButtonProps={{ style: { backgroundColor: "#166805" } }}
+                centered
+                open={showModal}
+                onOk={() => setShowModal(false)}
+                onCancel={() => setShowModal(false)}
+            >
+                <Title style={{ color: "#166805", margin: "0 0 20px 0" }} level={3}>Committee Detail</Title>
+                <Card style={{ marginBottom: "20px" }}>
+                    <Row gutter={[24, 0]}>
+                        <Col xs={24} sm={24} md={4} lg={6} xl={6}>
+                            <Title style={{ margin: 0 }} level={5}>Name</Title>
+                            <Title style={{ margin: 0, color: "grey", fontWeight: '500' }} level={5}>{committeeDetail?.committeeDetails?.committee?.name}</Title>
+                        </Col>
+                        <Col xs={24} sm={24} md={4} lg={6} xl={6}>
+                            <Title style={{ margin: 0 }} level={5}>Cycle</Title>
+                            <Title style={{ margin: 0, color: "grey", fontWeight: '500' }} level={5}>{committeeDetail?.committeeDetails?.committee?.cycle?.type}</Title>
+                        </Col>
+                        <Col xs={24} sm={24} md={4} lg={6} xl={6}>
+                            <Title style={{ margin: 0 }} level={5}>Cycle Duration</Title>
+                            <Title style={{ margin: 0, color: "grey", fontWeight: '500' }} level={5}>8 months</Title>
+                        </Col>
+                        <Col xs={24} sm={24} md={4} lg={6} xl={6}>
+                            <Title style={{ margin: 0 }} level={5}>Total Amount</Title>
+                            <Title style={{ margin: 0, color: "grey", fontWeight: '500' }} level={5}>{committeeDetail?.committeeDetails?.committee?.payment}</Title>
+                        </Col>
+                        <Col xs={24} sm={24} md={4} lg={6} xl={6}>
+                            <Title style={{ margin: 0 }} level={5}>Monthly Payment</Title>
+                            <Title style={{ margin: 0, color: "grey", fontWeight: '500' }} level={5}>{committeeDetail?.committeeDetails?.committee?.amount}</Title>
+                        </Col>
+                        <Col xs={24} sm={24} md={4} lg={6} xl={6}>
+                            <Title style={{ margin: 0 }} level={5}>Members</Title>
+                            <Title style={{ margin: 0, color: "grey", fontWeight: '500' }} level={5}>{committeeDetail?.committeeDetails?.committee?.members}</Title>
+                        </Col>
+                        <Col xs={24} sm={24} md={4} lg={6} xl={6}>
+                            <Title style={{ margin: 0 }} level={5}>Start Date</Title>
+                            <Title style={{ margin: 0, color: "grey", fontWeight: '500' }} level={5}>{new Date(committeeDetail?.committeeDetails?.committee?.startDate).toLocaleDateString()}</Title>
+                        </Col>
+                        <Col xs={24} sm={24} md={4} lg={6} xl={6}>
+                            <Title style={{ margin: 0 }} level={5}>End Date</Title>
+                            <Title style={{ margin: 0, color: "grey", fontWeight: '500' }} level={5}>{new Date(committeeDetail?.committeeDetails?.committee?.endDate).toLocaleDateString()}</Title>
+                        </Col>
+                    </Row>
+                </Card>
+            </Modal>
             <div style={{ marginBottom: "20px", marginTop: "40px", display: "flex", justifyContent: "space-between" }}>
                 <Title style={{ color: "#166805", margin: 0 }} level={3}>Approval members Request</Title>
                 <div style={{ display: "flex", margin: 0 }}>

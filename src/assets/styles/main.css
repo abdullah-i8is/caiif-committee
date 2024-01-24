@@ -3218,3 +3218,8 @@ th.ant-table-cell h1 {
   max-height: 90%;
   display: block;
 }
+
+.committee-id:hover {
+  text-decoration: underline;
+  cursor: pointer;
+}

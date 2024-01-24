@@ -227,7 +227,7 @@ function Setup2() {
             dataIndex: 'enroll',
             key: 'enroll',
             render: (text, record) => {
-                return <Title style={{ fontSize: "16px", margin: 0, color: "#818181" }}>{record?.committeeList ? record?.committeeList[0]?.received === true ? "RECEIVED" : "NOT RECEIVED" : ""}</Title>
+                return <Title style={{ fontSize: "16px", margin: 0, color: "#818181" }}>{record?.committeeList ? record?.committeeList[0]?.received === true ? "PAYOUT" : "NOT PAYOUT" : ""}</Title>
             }
         },
     ];
@@ -466,7 +466,7 @@ function Setup2() {
                         defaultValue="Select"
                         style={{ width: "100%" }}
                         options={[
-                            { value: "BILL PAID", label: "BILL PAID" },
+                            { value: "INSTALLMENT", label: "INSTALLMENT" },
                         ]}
                         onChange={(e) => {
                             setPaymentHistoryDetails((prevDetails) => {

@@ -140,7 +140,6 @@ export default function SignUp2() {
       formFields.residentialStatus === "" ||
       formFields.grossAnnualIncome === "" ||
       formFields.sourceOfIncome === "" ||
-      formFields.address1 === "" ||
       formFields.employmentStatus === "" ||
       formFields.city === "" ||
       formFields.province === "" ||
@@ -987,7 +986,7 @@ export default function SignUp2() {
                           }
                         })} checked={termsCondition.second}>
                           <Title style={{ fontSize: "13px" }}>
-                            You agree to the 8-month commitment and fee structure based on committee membership.
+                            You accept the 8-month membership, along with CAIIF's terms and conditions.
                           </Title>
                         </Checkbox>
                       </div>
@@ -998,7 +997,7 @@ export default function SignUp2() {
                           onClick={handleSignup}
                           disabled={termsCondition.second ? false : true}
                           loading={loading}
-                          style={{ width: "100%", backgroundColor: termsCondition.second ? "#166805" : !termsCondition.first || !termsCondition.second ? "grey" : "", color: 'white' }}
+                          style={{ width: "100%", backgroundColor: termsCondition.second ? "#166805" : !termsCondition.second ? "grey" : "", color: 'white' }}
                           type="primary"
                         >
                           Submit

@@ -9,7 +9,7 @@ function Sidenav({ color }) {
 
   const { pathname } = useLocation();
   const page = pathname.replace("/", "");
-  
+
   const dashboard = [
     <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 18 18" fill="none">
       <path d="M0.0224609 10.0031H7.9812V0.0546875H0.0224609V10.0031ZM0.0224609 17.9619H7.9812V11.9928H0.0224609V17.9619ZM9.97089 17.9619H17.9296V8.01343H9.97089V17.9619ZM9.97089 0.0546875V6.02374H17.9296V0.0546875H9.97089Z" fill="white" />
@@ -60,7 +60,7 @@ function Sidenav({ color }) {
     dispatch(setUser(null))
   }
 
-  console.log(user);
+  const approveMembers = useSelector((state) => state.members.approveMembers)
 
   return (
     <>
@@ -154,11 +154,15 @@ function Sidenav({ color }) {
                 >
                   {member}
                 </span>
-                <span className="label">Members Request</span>
+                <div className="label" style={{ display: "flex", alignItems: "center" }}>
+                  <div>Members Request</div>
+                  <div style={{ margin: "0 0 0 10px", backgroundColor: "rgb(230 175 20)", width: '20px', height: '20px', display: "flex", justifyContent: "center", alignItems: "center", borderRadius: "100%" }}>{approveMembers?.filter((f) => f?.approve === false)?.length > 0 ? approveMembers?.filter((f) => f?.approve === false)?.length : 0}</div>
+                </div>
+                {/* <span ></span> */}
               </NavLink>
             </Menu.Item>
-            
-            <Menu.Item key="2">
+
+            <Menu.Item key="3">
               <NavLink to="/approved-members">
                 <span
                   className="icon"
@@ -185,7 +189,7 @@ function Sidenav({ color }) {
                 <span className="label">Total Committee</span>
               </NavLink>
             </Menu.Item> */}
-            <Menu.Item key="3">
+            <Menu.Item key="4">
               <NavLink to="/payment-history">
                 <span
                   className="icon"
@@ -199,7 +203,7 @@ function Sidenav({ color }) {
               </NavLink>
             </Menu.Item>
 
-            <Menu.Item key="4" onClick={handleLogout}>
+            <Menu.Item key="5" onClick={handleLogout}>
               <NavLink to="/sign-in">
                 <span
                   className="icon"

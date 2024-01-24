@@ -265,8 +265,7 @@ function Home() {
       setLoading(true)
       GetAdminCommittees(token)
         .then((res) => {
-          const committee = res.data.allCommittees
-          dispatch(setCommittees([...committee.level1, ...committee.level2, ...committee.level3]))
+          dispatch(setCommittees(res.data.allCommittees))
           if (res.status === 200) {
             console.log(res);
             setLoading(false)

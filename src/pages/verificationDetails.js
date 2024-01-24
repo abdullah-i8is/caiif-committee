@@ -258,6 +258,38 @@ function VerificationDetails() {
         }
     }
 
+    async function downloadImage() {
+        try {
+            const response = await fetch(user?.nic);
+            const blob = await response.blob();
+            const link = document.createElement('a');
+            link.href = URL.createObjectURL(blob);
+            link.download = 'downloaded_image.jpg';
+            document.body.appendChild(link);
+            link.click();
+            document.body.removeChild(link);
+        } catch (error) {
+            console.error('Error downloading image:', error);
+        }
+    }
+
+    async function downloadPDF() {
+        try {
+            const response = await fetch(user?.nic);
+            const blob = await response.blob();
+            const link = document.createElement('a');
+            link.href = URL.createObjectURL(blob);
+            link.download = 'downloaded_file.pdf';
+            link.style.display = 'none';
+            document.body.appendChild(link);
+            link.click();
+            document.body.removeChild(link);
+            URL.revokeObjectURL(link.href);
+        } catch (error) {
+            console.error('Error downloading PDF:', error);
+        }
+    }
+
     console.log(user);
     console.log(commitee);
 
@@ -282,29 +314,34 @@ function VerificationDetails() {
                 <Card>
                     <Row gutter={[24, 0]}>
                         <Col xs={24} sm={24} md={24} lg={24} xl={24} onClick={() => setFullScreen(true)} style={{ cursor: "pointer" }}>
-                            <Card style={{ border: "2px solid #166805", marginBottom: 40, width: "30%" }}>
-                                <img src={user?.nic} style={{ borderRadius: "10px", width: "100%", height: "150px", objectFit: "contain" }} />
+                            <Card style={{ border: "2px solid #166805", marginBottom: 40, width: "50%" }}>
+                                {user?.nic.includes(".pdf") ? (
+                                    <iframe
+                                        title="PDF Viewer"
+                                        src={`https://docs.google.com/gview?url=${encodeURIComponent(user?.nic)}&embedded=true`}
+                                        style={{ width: '100%', height: '250px', border: 'none' }}
+                                    />
+                                ) : !user?.nic.includes(".pdf") ? (
+                                    <img style={{ borderRadius: "10px", width: "100%", height: "150px", objectFit: "contain" }} src={user?.nic} />
+                                ) : ""}
                             </Card>
                         </Col>
                         {fullScreen === true && (
                             <div class="image-container">
-                                <img class="download-button" src={downloadIcon} onClick={async () => {
-                                    try {
-                                        const response = await fetch(user?.nic);
-                                        const blob = await response.blob();
-                                        const link = document.createElement('a');
-                                        link.href = URL.createObjectURL(blob);
-                                        link.download = 'downloaded_image.jpg';
-                                        document.body.appendChild(link);
-                                        link.click();
-                                        document.body.removeChild(link);
-                                    } catch (error) {
-                                        console.error('Error downloading image:', error);
-                                    }
-                                }} />
+                                <img class="download-button" src={downloadIcon} onClick={() => user?.nic?.includes(".pdf") ? downloadPDF() : downloadImage()} />
                                 <img class="close-button" src={crossIcon} onClick={() => setFullScreen(false)} />
                                 <div class="fullscreen-overlay">
-                                    <img src={user?.nic} alt="Your Image" class="fullscreen-image" />
+                                    {user?.nic.includes(".pdf") ? (
+                                        <iframe
+                                            title="PDF Viewer"
+                                            src={`https://docs.google.com/gview?url=${encodeURIComponent(user?.nic)}&embedded=true`}
+                                            class="fullscreen-image"
+                                            width="85%"
+                                            height="85%"
+                                        />
+                                    ) : !user?.nic.includes(".pdf") ? (
+                                        <img alt="Your Image" class="fullscreen-image" src={user?.nic} />
+                                    ) : ""}
                                 </div>
                             </div>
                         )}
@@ -611,20 +648,21 @@ function VerificationDetails() {
                                 })} value={commitee?.commiteeNumber} />
                             </Form.Item>
                         </Col> */}
-                        {user?.approve === false ? <Col xs={24} sm={24} md={12} lg={4} xl={4}>
+                        {user?.approve === false && <Col xs={24} sm={24} md={12} lg={4} xl={4}>
                             <Form.Item label={<Title style={{ fontSize: "16px", margin: 0, color: "#4E4E4E" }}>Select Committee</Title>}>
                                 <Select
-                                    value={commitee?.name ? commitee?.name : state?.committees?.committees?.find((opt) => opt?.committeeDetails?.committee?._id === user?.cId)?.committeeDetails?.committee?.name}
+                                    value={commitee?.uniqueId ? commitee?.uniqueId : state?.committees?.committees?.find((opt) => opt?.committeeDetails?.committee?._id === user?.cId)?.committeeDetails?.committee?.uniqueId}
                                     style={{ width: "100%" }}
-                                    options={state?.committees?.committees?.map((opt) => ({ value: opt?.committeeDetails?.committee?._id, label: opt?.committeeDetails?.committee?.name }))}
+                                    options={state?.committees?.committees?.map((opt) => ({ value: opt?.committeeDetails?.committee?._id, label: opt?.committeeDetails?.committee?.uniqueId }))}
                                     onChange={(e) => handleChange(e, "cId")}
                                 />
                             </Form.Item>
-                        </Col> : <Col xs={24} sm={24} md={12} lg={4} xl={4}>
+                        </Col>}
+                        <Col xs={24} sm={24} md={12} lg={4} xl={4}>
                             <Form.Item label={<Title style={{ fontSize: "16px", margin: 0, color: "#4E4E4E" }}>Committee</Title>}>
                                 <Input disabled={user?.approve === true ? true : false} value={commitee?.name} />
                             </Form.Item>
-                        </Col>}
+                        </Col>
                         <Col xs={24} sm={24} md={12} lg={4} xl={4}>
                             <Form.Item label={<Title style={{ fontSize: "16px", margin: 0, color: "#4E4E4E" }}>Payment</Title>}>
                                 <Input disabled={user?.approve === true ? true : false} value={`$ ${commitee?.amount}`} />
@@ -650,7 +688,30 @@ function VerificationDetails() {
                                 <Input disabled={user?.approve === true ? true : false} value={new Date(commitee?.endDate).toLocaleDateString()} />
                             </Form.Item>
                         </Col>
-
+                        <Col xs={24} sm={24} md={12} lg={4} xl={4}>
+                            <Form.Item label={<Title style={{ fontSize: "16px", margin: 0, color: "#4E4E4E" }}>Select Committee Number</Title>}>
+                                <Select
+                                    disabled={user?.approve === true ? true : false}
+                                    defaultValue="Select Committee Number"
+                                    value={commitee?.committeeNumber}
+                                    style={{ width: "100%" }}
+                                    options={([
+                                        { value: 0, label: 0 },
+                                        { value: 1, label: 1 },
+                                        { value: 2, label: 2 },
+                                        { value: 3, label: 3 },
+                                        { value: 4, label: 4 },
+                                        { value: 5, label: 5 },
+                                        { value: 6, label: 6 },
+                                        { value: 7, label: 7 },
+                                        { value: 8, label: 8 },
+                                        { value: 9, label: 9 },
+                                        { value: 10, label: 10 },
+                                    ])}
+                                    onChange={(e) => handleChange(e, "committeeNumber")}
+                                />
+                            </Form.Item>
+                        </Col>
                         {/* <Col xs={24} sm={24} md={24} lg={24} xl={24} style={{ marginBottom: additionalDetail ? 30 : 0 }}>
                             <Button onClick={() => setAdditionalDetail(true)} className="add-cycle-btn">Add Additional Detail</Button>
                         </Col> */}

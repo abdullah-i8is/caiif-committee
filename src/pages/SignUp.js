@@ -140,7 +140,6 @@ export default function SignUp() {
       formFields.residentialStatus === "" ||
       formFields.grossAnnualIncome === "" ||
       formFields.sourceOfIncome === "" ||
-      formFields.address1 === "" ||
       formFields.employmentStatus === "" ||
       formFields.city === "" ||
       formFields.province === "" ||
@@ -970,17 +969,17 @@ export default function SignUp() {
                       </div>
                       <div style={{ width: width < 768 ? "300px" : "600px", margin: "25px 0" }}>
                         <Title style={{ fontSize: "16px" }}>Terms & conditions.</Title>
-                        {/* <Checkbox style={{ margin: 0 }} onChange={(e) => setTermsCondition((prevCondition) => {
+                        <Checkbox style={{ margin: 0 }} onChange={(e) => setTermsCondition((prevCondition) => {
                           return {
                             ...prevCondition,
-                            first: e.target.checked
+                            second: e.target.checked
                           }
-                        })} checked={termsCondition.first}>
+                        })} checked={termsCondition.second}>
                           <Title style={{ fontSize: "13px" }}>
-                            Enrollment confirms your eligibility and agreement to all CAIIF terms and conditions.
+                            You accept the 8-month membership, along with CAIIF's terms and conditions.
                           </Title>
-                        </Checkbox> */}
-                        <Checkbox style={{ margin: 0 }} onChange={(e) => setTermsCondition((prevCondition) => {
+                        </Checkbox>
+                        {/* <Checkbox style={{ margin: 0 }} onChange={(e) => setTermsCondition((prevCondition) => {
                           return {
                             ...prevCondition,
                             second: e.target.checked
@@ -989,7 +988,7 @@ export default function SignUp() {
                           <Title style={{ fontSize: "13px" }}>
                             You agree to the 8-month commitment and fee structure based on committee membership.
                           </Title>
-                        </Checkbox>
+                        </Checkbox> */}
                       </div>
                       <div style={{ width: width < 768 ? "100%" : "600px" }}>
                       </div>
@@ -998,7 +997,7 @@ export default function SignUp() {
                           onClick={handleSignup}
                           disabled={termsCondition.second ? false : true}
                           loading={loading}
-                          style={{ width: "100%", backgroundColor: termsCondition.second ? "#166805" : !termsCondition.first || !termsCondition.second ? "grey" : "", color: 'white' }}
+                          style={{ width: "100%", backgroundColor: termsCondition.second ? "#166805" : !termsCondition.second ? "grey" : "", color: 'white' }}
                           type="primary"
                         >
                           Submit

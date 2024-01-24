@@ -187,10 +187,23 @@ function PaymentHistory() {
             {/* <StatisticsHeader approveMembers={approveMembers} user={user} committees={committees} enrolledCommittess={committees?.filter((com) => com?.committee?.userIds?.some((id) => id === user?._id))} /> */}
             <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: "20px" }}>
                 <div>
-                    <Title style={{ color: "#166805", margin: 0 }} level={3}>Payment History</Title>
+                    <Title style={{ color: "#166805", margin: 0 }} level={3}>Monthly Payment History</Title>
                 </div>
             </div>
-            <Card className="my-card" style={{ marginTop: 40 }}>
+            <Card className="my-card" style={{ marginTop: 20, marginBottom: 100 }}>
+                <Table
+                    dataSource={data?.sort((a, b) => b?.createdAt - a?.createdAt)}
+                    columns={column}
+                    loading={loading}
+                    pagination={false}
+                />
+            </Card>
+            <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: "20px" }}>
+                <div>
+                    <Title style={{ color: "#166805", margin: 0 }} level={3}>Weekly Payment History</Title>
+                </div>
+            </div>
+            <Card className="my-card" style={{ marginTop: 20 }}>
                 <Table
                     dataSource={data?.sort((a, b) => b?.createdAt - a?.createdAt)}
                     columns={column}

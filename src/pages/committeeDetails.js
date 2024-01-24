@@ -86,7 +86,7 @@ function CommitteeDetails() {
                 }
             } catch (error) {
                 setLoading(false)
-                openNotification("bottomRight", "network error")
+                openNotification("bottomRight   ", "network error")
                 setErr(error.response.data.message)
                 console.log(error);
             }
@@ -352,7 +352,7 @@ function CommitteeDetails() {
                         <Col xs={24} sm={24} md={12} lg={12} xl={12}>
                             <div style={{ display: "flex", justifyContent: "space-between", marginBottom: "8px" }}>
                                 <div>
-                                    <Title style={{ fontSize: "16px", margin: 0, color: "#4E4E4E" }}>Amount per month</Title>
+                                    <Title style={{ fontSize: "16px", margin: 0, color: "#4E4E4E" }}>Monthly Installment</Title>
                                 </div>
                                 <div>
                                     <Title style={{ fontSize: "16px", margin: 0, color: "rgba(22, 104, 5, 0.50)" }}>This amount is auto generated</Title>
