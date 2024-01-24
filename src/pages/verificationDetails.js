@@ -85,8 +85,7 @@ function VerificationDetails() {
         getUser()
         GetAdminCommittees(token)
             .then((res) => {
-                const committee = res.data.allCommittees
-                dispatch(setCommittees([...committee.level1, ...committee.level2, ...committee.level3]))
+                dispatch(setCommittees(res.data.allCommittees))
                 if (res.status === 200) {
                     console.log(res);
                     setLoading(false)
@@ -171,37 +170,68 @@ function VerificationDetails() {
             setCommittee(findCom?.committeeDetails?.committee)
             setUser((prevDetail) => {
                 console.log(prevDetail);
-                return prevDetail?.committeeList?.map((val, index) => {
-                    if (ind === index) {
-                        return {
-                            ...prevDetail,
-                            committeeNumber: "",
-                            received: false,
-                            _id: "",
-                            cid: {
-                                amount: findCom?.committeeDetails?.committee?.amount,
-                                completed: findCom?.committeeDetails?.committee?.completed,
-                                createdAt: findCom?.committeeDetails?.committee?.createdAt,
-                                cycle: { type: findCom?.committeeDetails?.committee?.cycle.type, value: findCom?.committeeDetails?.committee?.cycle.value },
-                                endDate: findCom?.committeeDetails?.committee?.endDate,
-                                members: findCom?.committeeDetails?.committee?.members,
-                                name: findCom?.committeeDetails?.committee?.name,
-                                payment: findCom?.committeeDetails?.committee?.payment,
-                                recievedBy: findCom?.committeeDetails?.committee?.recievedBy,
-                                startDate: findCom?.committeeDetails?.committee?.startDate,
-                                uniqueId: findCom?.committeeDetails?.committee?.uniqueId,
-                                updatedAt: findCom?.committeeDetails?.committee?.updatedAt,
-                                userIds: findCom?.committeeDetails?.committee?.userIds,
-                                __v: findCom?.committeeDetails?.committee?._v,
-                                _id: findCom?.committeeDetails?.committee?._id,
-                            }
+                return {
+                    ...prevDetail,
+                    committeeList: prevDetail?.committeeList?.map((val, index) => {
+                        if (ind === index) {
+                            return {
+                                ...val,
+                                committeeNumber: "",
+                                received: false,
+                                _id: "",
+                                cid: {
+                                    amount: findCom?.committeeDetails?.committee?.amount,
+                                    completed: findCom?.committeeDetails?.committee?.completed,
+                                    createdAt: findCom?.committeeDetails?.committee?.createdAt,
+                                    cycle: { type: findCom?.committeeDetails?.committee?.cycle.type, value: findCom?.committeeDetails?.committee?.cycle.value },
+                                    endDate: findCom?.committeeDetails?.committee?.endDate,
+                                    members: findCom?.committeeDetails?.committee?.members,
+                                    name: findCom?.committeeDetails?.committee?.name,
+                                    payment: findCom?.committeeDetails?.committee?.payment,
+                                    receivedBy: findCom?.committeeDetails?.committee?.receivedBy,
+                                    startDate: findCom?.committeeDetails?.committee?.startDate,
+                                    uniqueId: findCom?.committeeDetails?.committee?.uniqueId,
+                                    updatedAt: findCom?.committeeDetails?.committee?.updatedAt,
+                                    userIds: findCom?.committeeDetails?.committee?.userIds,
+                                    __v: findCom?.committeeDetails?.committee?.__v,
+                                    _id: findCom?.committeeDetails?.committee?._id,
+                                },
+                                cId: prevDetail?.cId?.map((v, i) => {
+                                    if (i === ind) {
+                                        return {
+                                            ...v,
+                                            cid: findCom?.committeeDetails?.committee?._id,
+                                        }
+                                    }
+                                    else {
+                                        return v
+                                    }
+                                })
+                            };
+                        } else {
+                            return val;
                         }
-                    }
-                    else {
-                        return val
-                    }
-                })
-            })
+                    })
+                };
+            });
+        }
+        if (name === "committeeNumber") {
+            console.log(value);
+            setUser((prevDetail) => {
+                return {
+                    ...prevDetail,
+                    cId: prevDetail?.cId?.map((val, index) => {
+                        if (index === ind) {
+                            return {
+                                ...val,
+                                committeeNumber: value,
+                            };
+                        } else {
+                            return val;
+                        }
+                    })
+                };
+            });
         }
         if (name === "appointment") {
             setUser((prevDetail) => {
@@ -342,13 +372,13 @@ function VerificationDetails() {
                     <Row gutter={[24, 0]}>
                         <Col xs={24} sm={24} md={24} lg={24} xl={24} onClick={() => setFullScreen(true)} style={{ cursor: "pointer" }}>
                             <Card style={{ border: "2px solid #166805", marginBottom: 40, width: "50%" }}>
-                                {user?.nic.includes(".pdf") ? (
+                                {user?.nic?.includes(".pdf") ? (
                                     <iframe
                                         title="PDF Viewer"
                                         src={`https://docs.google.com/gview?url=${encodeURIComponent(user?.nic)}&embedded=true`}
                                         style={{ width: '100%', height: '250px', border: 'none' }}
                                     />
-                                ) : !user?.nic.includes(".pdf") ? (
+                                ) : !user?.nic?.includes(".pdf") ? (
                                     <img style={{ borderRadius: "10px", width: "100%", height: "150px", objectFit: "contain" }} src={user?.nic} />
                                 ) : ""}
                             </Card>
@@ -358,7 +388,7 @@ function VerificationDetails() {
                                 <img class="download-button" src={downloadIcon} onClick={() => user?.nic?.includes(".pdf") ? downloadPDF() : downloadImage()} />
                                 <img class="close-button" src={crossIcon} onClick={() => setFullScreen(false)} />
                                 <div class="fullscreen-overlay">
-                                    {user?.nic.includes(".pdf") ? (
+                                    {user?.nic?.includes(".pdf") ? (
                                         <iframe
                                             title="PDF Viewer"
                                             src={`https://docs.google.com/gview?url=${encodeURIComponent(user?.nic)}&embedded=true`}
@@ -366,7 +396,7 @@ function VerificationDetails() {
                                             width="85%"
                                             height="85%"
                                         />
-                                    ) : !user?.nic.includes(".pdf") ? (
+                                    ) : !user?.nic?.includes(".pdf") ? (
                                         <img alt="Your Image" class="fullscreen-image" src={user?.nic} />
                                     ) : ""}
                                 </div>
@@ -656,6 +686,10 @@ function VerificationDetails() {
                                                     _id: "",
                                                 }
                                             }
+                                        ],
+                                        cId: [
+                                            ...prevDetail?.cId,
+                                            { cid: "", committeeNumber: 0 }
                                         ]
                                     }
                                 })
@@ -759,7 +793,6 @@ function VerificationDetails() {
                                     <Col xs={24} sm={24} md={12} lg={6} xl={6}>
                                         <Form.Item label={<Title style={{ fontSize: "16px", margin: 0, color: "#4E4E4E" }}>Select Committee Number</Title>}>
                                             <Select
-
                                                 defaultValue="Select Committee Number"
                                                 value={com?.cid?.committeeNumber}
                                                 style={{ width: "100%" }}
@@ -776,7 +809,7 @@ function VerificationDetails() {
                                                     { value: 9, label: 9 },
                                                     { value: 10, label: 10 },
                                                 ])}
-                                                onChange={(e) => handleChange(e, "committeeNumber")}
+                                                onChange={(e) => handleChange(e, "committeeNumber", ind)}
                                             />
                                         </Form.Item>
                                     </Col>

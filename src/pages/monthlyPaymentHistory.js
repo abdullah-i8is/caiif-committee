@@ -35,7 +35,7 @@ import { GetAllMembers } from "../middlewares/members";
 import { setApproveMembers } from "../store/membersSlice/membersSlice";
 
 
-function PaymentHistory() {
+function MonthlyPaymentHistory() {
 
     const { Title, Text } = Typography;
     const navigate = useNavigate()
@@ -181,10 +181,10 @@ function PaymentHistory() {
         <>
             <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: "20px" }}>
                 <div>
-                    <Title style={{ color: "#166805", margin: 0 }} level={3}>Weekly Payment History</Title>
+                    <Title style={{ color: "#166805", margin: 0 }} level={3}>Monthly Payment History</Title>
                 </div>
             </div>
-            <Card className="my-card" style={{ marginTop: 20 }}>
+            <Card className="my-card" style={{ marginTop: 20, marginBottom: 100 }}>
                 <Table
                     dataSource={data?.sort((a, b) => b?.createdAt - a?.createdAt)}
                     columns={column}
@@ -196,4 +196,4 @@ function PaymentHistory() {
     );
 }
 
-export default PaymentHistory;
+export default MonthlyPaymentHistory;

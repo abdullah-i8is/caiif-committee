@@ -190,20 +190,34 @@ function Sidenav({ color }) {
               </NavLink>
             </Menu.Item> */}
             <Menu.Item key="4">
-              <NavLink to="/payment-history">
+              <NavLink to="/weekly-payment-history">
                 <span
                   className="icon"
                   style={{
-                    background: page === "payment-history" ? color : "",
+                    background: page === "weekly-payment-history" ? color : "",
                   }}
                 >
                   {committee}
                 </span>
-                <span className="label">Payment History</span>
+                <span className="label">Weekly Payment History</span>
               </NavLink>
             </Menu.Item>
 
-            <Menu.Item key="5" onClick={handleLogout}>
+            <Menu.Item key="5">
+              <NavLink to="/monthly-payment-history">
+                <span
+                  className="icon"
+                  style={{
+                    background: page === "monthly-payment-history" ? color : "",
+                  }}
+                >
+                  {committee}
+                </span>
+                <span className="label">Monthly Payment History</span>
+              </NavLink>
+            </Menu.Item>
+
+            <Menu.Item key="6" onClick={handleLogout}>
               <NavLink to="/sign-in">
                 <span
                   className="icon"

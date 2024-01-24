@@ -29,6 +29,7 @@ import NewPassword from "./pages/new-password";
 import PaymentHistory from "./pages/paymentHistory";
 import ResetPassword from "./pages/resetPassword";
 import ApprovedMembers from "./pages/approvedMembers";
+import MonthlyPaymentHistory from "./pages/monthlyPaymentHistory";
 
 function App() {
 
@@ -81,7 +82,8 @@ function App() {
             <Route path="/members/verification-details/:id" element={token ? <VerificationDetails /> : <Navigate to="/sign-in" />} />
             <Route path="/approved-members/verification-details/:id" element={token ? <VerificationDetails /> : <Navigate to="/sign-in" />} />
             <Route path="/dashboard/committee-details" element={token ? <CommitteeDetails /> : <Navigate to="/sign-in" />} />
-            <Route path="/payment-history" element={token ? <PaymentHistory /> : <Navigate to="/sign-in" />} />
+            <Route path="/weekly-payment-history" element={token ? <PaymentHistory /> : <Navigate to="/sign-in" />} />
+            <Route path="/monthly-payment-history" element={token ? <MonthlyPaymentHistory /> : <Navigate to="/sign-in" />} />
             <Route path="/profile" element={token ? <Profile /> : <Navigate to="/sign-in" />} />
           </Route>
           <Route path="*" element={<Navigate to="/dashboard" />} />
