@@ -663,15 +663,14 @@ export default function SignUp2() {
                         ]}
                         label={<Title style={{ fontSize: "16px", margin: 0, color: "#4E4E4E" }}>Postal Code</Title>}>
                         <Input value={formFields.postalCode} onChange={(e) => {
-                          if (e.target.value.length <= 6) {
-                            setFieldName({ type: "postalCode", value: e.target.value })
-                            setFormFields((prevFields) => {
-                              return {
-                                ...prevFields,
-                                postalCode: e.target.value
-                              }
-                            });
-                          }
+                          setFieldName({ type: "postalCode", value: e.target.value })
+                          setFormFields((prevFields) => {
+                            return {
+                              ...prevFields,
+                              postalCode: e.target.value
+                            }
+                          });
+
                         }} style={{ width: width < 768 ? "300px" : "100%" }} placeholder="Postal Code" />
                       </Form.Item>
                       <Form.Item
