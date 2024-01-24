@@ -67,9 +67,9 @@ function VerificationDetails() {
             })
             if (response.status === 200) {
                 console.log(response);
-                setUser(response.data.user)
+                setUser({ ...response.data.user, cId: [] })
                 try {
-                    const res = await axios.get(`${API_URL}/user/committeeById/${response.data.user?.committeeList[0]?.cid}`)
+                    const res = await axios.get(`${API_URL}/user/committeeById/${response.data.user?._id}`)
                     setCommittee(res?.data?.data?.committee)
                     console.log(res);
                 } catch (error) {
@@ -99,6 +99,7 @@ function VerificationDetails() {
 
     async function handleSubmit() {
         setLoading(true)
+        console.log(user?.cId);
         try {
             const response = await axios.post(`${API_URL}/admin/additionalData/${id}`, {
                 cId: user?.cId,
@@ -141,7 +142,7 @@ function VerificationDetails() {
                     description: "Profile update successfully",
                     placement: "bottomRight",
                 });
-                getUser()
+                // getUser()
                 console.log(response);
             }
         } catch (error) {
@@ -164,52 +165,20 @@ function VerificationDetails() {
             }
         })
         if (name === "cId") {
-            console.log(value);
             const findCom = state?.committees?.committees?.find((f) => f?.committeeDetails?.committee._id === value)
-            console.log(findCom);
             setCommittee(findCom?.committeeDetails?.committee)
             setUser((prevDetail) => {
-                console.log(prevDetail);
                 return {
                     ...prevDetail,
-                    committeeList: prevDetail?.committeeList?.map((val, index) => {
-                        if (ind === index) {
+                    [name]: user?.cId?.map((v, i) => {
+                        if (i === ind) {
                             return {
-                                ...val,
-                                committeeNumber: "",
-                                received: false,
-                                _id: "",
-                                cid: {
-                                    amount: findCom?.committeeDetails?.committee?.amount,
-                                    completed: findCom?.committeeDetails?.committee?.completed,
-                                    createdAt: findCom?.committeeDetails?.committee?.createdAt,
-                                    cycle: { type: findCom?.committeeDetails?.committee?.cycle.type, value: findCom?.committeeDetails?.committee?.cycle.value },
-                                    endDate: findCom?.committeeDetails?.committee?.endDate,
-                                    members: findCom?.committeeDetails?.committee?.members,
-                                    name: findCom?.committeeDetails?.committee?.name,
-                                    payment: findCom?.committeeDetails?.committee?.payment,
-                                    receivedBy: findCom?.committeeDetails?.committee?.receivedBy,
-                                    startDate: findCom?.committeeDetails?.committee?.startDate,
-                                    uniqueId: findCom?.committeeDetails?.committee?.uniqueId,
-                                    updatedAt: findCom?.committeeDetails?.committee?.updatedAt,
-                                    userIds: findCom?.committeeDetails?.committee?.userIds,
-                                    __v: findCom?.committeeDetails?.committee?.__v,
-                                    _id: findCom?.committeeDetails?.committee?._id,
-                                },
-                                cId: prevDetail?.cId?.map((v, i) => {
-                                    if (i === ind) {
-                                        return {
-                                            ...v,
-                                            cid: findCom?.committeeDetails?.committee?._id,
-                                        }
-                                    }
-                                    else {
-                                        return v
-                                    }
-                                })
-                            };
-                        } else {
-                            return val;
+                                ...v,
+                                cid: findCom?.committeeDetails?.committee?._id,
+                            }
+                        }
+                        else {
+                            return v
                         }
                     })
                 };
@@ -301,7 +270,7 @@ function VerificationDetails() {
                     description: response?.data?.message,
                     placement: "bottomRight",
                 });
-                getUser()
+                // getUser()
             }
         } catch (error) {
             setLoading(false)
@@ -660,38 +629,48 @@ function VerificationDetails() {
                         <Col xs={24} sm={24} md={24} lg={24} xl={24} style={{ marginBottom: 20 }}>
                             <Button onClick={() => {
                                 setUser((prevDetail) => {
+                                    // return {
+                                    //     ...prevDetail,
+                                    //     // committeeList: [
+                                    //     //     ...prevDetail?.committeeList,
+                                    //     //     {
+                                    //     //         committeeNumber: "",
+                                    //     //         received: false,
+                                    //     //         _id: "",
+                                    //     //         cid: {
+                                    //     //             amount: "",
+                                    //     //             completed: false,
+                                    //     //             createdAt: "",
+                                    //     //             cycle: { type: '', value: '' },
+                                    //     //             endDate: "",
+                                    //     //             members: "",
+                                    //     //             name: "",
+                                    //     //             payment: "",
+                                    //     //             recievedBy: [],
+                                    //     //             startDate: "",
+                                    //     //             uniqueId: "",
+                                    //     //             updatedAt: "",
+                                    //     //             userIds: [],
+                                    //     //             __v: 28,
+                                    //     //             _id: "",
+                                    //     //         }
+                                    //     //     }
+                                    //     // ],
+                                    //     cId: [
+                                    //         ...prevDetail?.cId,
+                                    //         { cid: "", committeeNumber: 0 }
+                                    //     ]
+                                    // }
                                     return {
                                         ...prevDetail,
-                                        committeeList: [
-                                            ...prevDetail?.committeeList,
-                                            {
-                                                committeeNumber: "",
-                                                received: false,
-                                                _id: "",
-                                                cid: {
-                                                    amount: "",
-                                                    completed: false,
-                                                    createdAt: "",
-                                                    cycle: { type: '', value: '' },
-                                                    endDate: "",
-                                                    members: "",
-                                                    name: "",
-                                                    payment: "",
-                                                    recievedBy: [],
-                                                    startDate: "",
-                                                    uniqueId: "",
-                                                    updatedAt: "",
-                                                    userIds: [],
-                                                    __v: 28,
-                                                    _id: "",
-                                                }
-                                            }
-                                        ],
                                         cId: [
                                             ...prevDetail?.cId,
-                                            { cid: "", committeeNumber: 0 }
+                                            {
+                                                cid: "",
+                                                committeeNumber: 0
+                                            }
                                         ]
-                                    }
+                                    };
                                 })
                             }} className="add-cycle-btn" style={{ float: "right" }}>Add more commitee</Button>
                         </Col>
@@ -734,6 +713,7 @@ function VerificationDetails() {
                                 </Col>
                             )
                         })}
+
                         {/* <Col xs={24} sm={24} md={12} lg={4} xl={4}>
                             <Form.Item label={<Title style={{ fontSize: "16px", margin: 0, color: "#4E4E4E" }}>Committee Number</Title>}>
                                 <Input disabled={user?.approve === true ? true : false} onChange={(e) => setCommittee((prevDetail) => {
@@ -744,7 +724,104 @@ function VerificationDetails() {
                                 })} value={commitee?.commiteeNumber} />
                             </Form.Item>
                         </Col> */}
-                        {user?.committeeList?.map((com, ind) => {
+
+                        {user?.cId?.map((com, ind) => {
+                            return (
+                                <>
+                                    {/* <Col xs={24} sm={24} md={24} lg={24} xl={24}>
+                                        <Title style={{ color: "#166805", margin: "0 0 20px 0" }} level={3}>Committee {com?.cid}</Title>
+                                    </Col> */}
+                                    <Col xs={24} sm={24} md={12} lg={12} xl={12}>
+                                        <Form.Item label={<Title style={{ fontSize: "16px", margin: 0, color: "#4E4E4E" }}>Select Committee</Title>}>
+                                            <Select
+                                                // value={com?.cid ? com?.cid : state?.committees?.committees?.find((opt) => opt?.committeeDetails?.committee?._id === user?.cId)?.committeeDetails?.committee?.uniqueId}
+                                                style={{ width: "100%" }}
+                                                options={state?.committees?.committees?.map((opt) => ({ value: opt?.committeeDetails?.committee?._id, label: opt?.committeeDetails?.committee?.uniqueId }))}
+                                                onChange={(e) => handleChange(e, "cId", ind)}
+                                            />
+                                        </Form.Item>
+                                    </Col>
+                                     <Col xs={24} sm={24} md={12} lg={12} xl={12}>
+                                        <Form.Item label={<Title style={{ fontSize: "16px", margin: 0, color: "#4E4E4E" }}>Select Committee Number</Title>}>
+                                            <Select
+                                                defaultValue="Select Committee Number"
+                                                // value={com?.cid?.committeeNumber}
+                                                style={{ width: "100%" }}
+                                                options={([
+                                                    { value: 0, label: 0 },
+                                                    { value: 1, label: 1 },
+                                                    { value: 2, label: 2 },
+                                                    { value: 3, label: 3 },
+                                                    { value: 4, label: 4 },
+                                                    { value: 5, label: 5 },
+                                                    { value: 6, label: 6 },
+                                                    { value: 7, label: 7 },
+                                                    { value: 8, label: 8 },
+                                                    { value: 9, label: 9 },
+                                                    { value: 10, label: 10 },
+                                                ])}
+                                                onChange={(e) => handleChange(e, "committeeNumber", ind)}
+                                            />
+                                        </Form.Item>
+                                    </Col>
+                                    {/* <Col xs={24} sm={24} md={12} lg={6} xl={6}>
+                                        <Form.Item label={<Title style={{ fontSize: "16px", margin: 0, color: "#4E4E4E" }}>Committee</Title>}>
+                                            <Input value={com?.cid?.name} />
+                                        </Form.Item>
+                                    </Col>
+                                    <Col xs={24} sm={24} md={12} lg={6} xl={6}>
+                                        <Form.Item label={<Title style={{ fontSize: "16px", margin: 0, color: "#4E4E4E" }}>Payment</Title>}>
+                                            <Input value={`$ ${com?.cid?.amount}`} />
+                                        </Form.Item>
+                                    </Col>
+                                    <Col xs={24} sm={24} md={12} lg={6} xl={6}>
+                                        <Form.Item label={<Title style={{ fontSize: "16px", margin: 0, color: "#4E4E4E" }}>Amount</Title>}>
+                                            <Input value={`$ ${com?.cid?.payment}`} />
+                                        </Form.Item>
+                                    </Col>
+                                    <Col xs={24} sm={24} md={12} lg={6} xl={6}>
+                                        <Form.Item label={<Title style={{ fontSize: "16px", margin: 0, color: "#4E4E4E" }}>Members</Title>}>
+                                            <Input value={com?.cid?.members} />
+                                        </Form.Item>
+                                    </Col>
+                                    <Col xs={24} sm={24} md={12} lg={6} xl={6}>
+                                        <Form.Item label={<Title style={{ fontSize: "16px", margin: 0, color: "#4E4E4E" }}>Start Date</Title>}>
+                                            <Input value={new Date(com?.cid?.startDate).toLocaleDateString()} />
+                                        </Form.Item>
+                                    </Col>
+                                    <Col xs={24} sm={24} md={12} lg={6} xl={6}>
+                                        <Form.Item label={<Title style={{ fontSize: "16px", margin: 0, color: "#4E4E4E" }}>End Date</Title>}>
+                                            <Input value={new Date(com?.cid?.endDate).toLocaleDateString()} />
+                                        </Form.Item>
+                                    </Col> */}
+                                    {/* <Col xs={24} sm={24} md={12} lg={6} xl={6}>
+                                        <Form.Item label={<Title style={{ fontSize: "16px", margin: 0, color: "#4E4E4E" }}>Select Committee Number</Title>}>
+                                            <Select
+                                                defaultValue="Select Committee Number"
+                                                value={com?.cid?.committeeNumber}
+                                                style={{ width: "100%" }}
+                                                options={([
+                                                    { value: 0, label: 0 },
+                                                    { value: 1, label: 1 },
+                                                    { value: 2, label: 2 },
+                                                    { value: 3, label: 3 },
+                                                    { value: 4, label: 4 },
+                                                    { value: 5, label: 5 },
+                                                    { value: 6, label: 6 },
+                                                    { value: 7, label: 7 },
+                                                    { value: 8, label: 8 },
+                                                    { value: 9, label: 9 },
+                                                    { value: 10, label: 10 },
+                                                ])}
+                                                onChange={(e) => handleChange(e, "committeeNumber", ind)}
+                                            />
+                                        </Form.Item>
+                                    </Col> */}
+                                </>
+                            )
+                        })}
+
+                        {/* {user?.committeeList?.map((com, ind) => {
                             return (
                                 <>
                                     <Col xs={24} sm={24} md={24} lg={24} xl={24}>
@@ -815,7 +892,7 @@ function VerificationDetails() {
                                     </Col>
                                 </>
                             )
-                        })}
+                        })} */}
                         {/* <Col xs={24} sm={24} md={24} lg={24} xl={24} style={{ marginBottom: additionalDetail ? 30 : 0 }}>
                             <Button onClick={() => setAdditionalDetail(true)} className="add-cycle-btn">Add Additional Detail</Button>
                         </Col> */}
