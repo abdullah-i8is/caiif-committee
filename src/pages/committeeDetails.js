@@ -334,7 +334,7 @@ function CommitteeDetails() {
                                     <Title style={{ fontSize: "16px", margin: 0, color: "#4E4E4E" }}>End Date</Title>
                                 </div>
                                 <div>
-                                    <Title style={{ fontSize: "16px", margin: 0, color: "rgba(22, 104, 5, 0.50)" }}>This date is auto generated</Title>
+                                    <Title style={{ fontSize: "16px", margin: 0, color: "rgba(22, 104, 5, 0.50)" }}>Duration of this committee</Title>
                                 </div>
                             </div>
                             <Form.Item
@@ -354,7 +354,7 @@ function CommitteeDetails() {
                                     <Title style={{ fontSize: "16px", margin: 0, color: "#4E4E4E" }}>Monthly Installment</Title>
                                 </div>
                                 <div>
-                                    <Title style={{ fontSize: "16px", margin: 0, color: "rgba(22, 104, 5, 0.50)" }}>This amount is auto generated</Title>
+                                    <Title style={{ fontSize: "16px", margin: 0, color: "rgba(22, 104, 5, 0.50)" }}>User will have to pay this amount monthly</Title>
                                 </div>
                             </div>
                             <Form.Item

@@ -63,6 +63,8 @@ function VerificationDetails() {
     };
     const { id, cid } = useParams()
 
+    console.log(id);
+
     async function getUser() {
         try {
             const response = await axios.get(`${API_URL}/admin/userById/${id}`, {
@@ -342,7 +344,7 @@ function VerificationDetails() {
         try {
             const response = await axios.post(`${API_URL}/admin/approveAccount/${id}`, {
                 approve: type === "APPROVE" ? true : false,
-                cId: commitee
+                cId: user?.cId[0]?.cid
             }, {
                 headers: {
                     Authorization: "Bearer " + token
