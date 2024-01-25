@@ -71,10 +71,14 @@ function VerificationDetails() {
             if (response.status === 200) {
                 console.log(response);
                 const committeeList = response.data.user.committeeList;
-                const cIdArray = committeeList.map((c) => ({ cid: c?.cid?._id, committeeNumber: c?.committeeNumber }));
                 setUser({
                     ...response.data.user,
-                    cId: cIdArray,
+                    cId: committeeList.map((c) => {
+                        return {
+                            cid: c?.cid?._id,
+                            committeeNumber: c?.committeeNumber
+                        }
+                    }),
                 });
             }
         } catch (error) {
