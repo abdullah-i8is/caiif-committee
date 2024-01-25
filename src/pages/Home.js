@@ -42,6 +42,48 @@ function Home() {
   const [data, setData] = useState([])
   const [data2, setData2] = useState([])
   const [loading, setLoading] = useState(false)
+  const [loading2, setLoading2] = useState(false)
+  const [id, setID] = useState("")
+  const [cName, setCname] = useState("")
+  const [show, setShow] = useState(false)
+  const [api, contextHolder] = notification.useNotification();
+
+  async function deleteCommittee() {
+    setLoading2(true)
+    try {
+      const response = await axios.get(`${API_URL}/admin/deleteCommittee/${id}`, {
+        headers: {
+          Authorization: `Bearer ${token}`
+        }
+      })
+      if (response.status === 200) {
+        setLoading2(false)
+        setShow(false)
+        api.success({
+          message: `Notification`,
+          description: response?.data?.message,
+          placement: "bottomRight",
+        });
+        setLoading(true)
+        GetAdminCommittees(token)
+          .then((res) => {
+            dispatch(setCommittees(res.data.allCommittees))
+            if (res.status === 200) {
+              console.log(res);
+              setLoading(false)
+            }
+          })
+          .catch((err) => {
+            console.log(err);
+            setLoading(false)
+          })
+        console.log(response);
+      }
+    } catch (error) {
+      setLoading2(false)
+      setShow(false)
+    }
+  }
 
   const column = [
     {
@@ -146,7 +188,14 @@ function Home() {
       title: <Title style={{ fontSize: "18px", margin: 0, color: "#166805", fontWeight: "600" }}></Title>,
       render: (text, record) => {
         return (
-          <Button style={{ margin: "0 0 0 20px" }} onClick={() => navigate(`/dashboard/view-committee/${record?.committeeDetails?.committee?._id}`)} className="add-cycle-btn">View</Button>
+          <>
+            <Button style={{ margin: "0 20px 0 0" }} onClick={() => navigate(`/dashboard/view-committee/${record?.committeeDetails?.committee?._id}`)} className="add-cycle-btn">View</Button>
+            <Button style={{ margin: "0" }} onClick={() => {
+              setID(record?.committeeDetails?.committee?._id)
+              setCname(record?.committeeDetails?.committee?.uniqueId)
+              setShow(true)
+            }} className="add-cycle-btn">Delete</Button>
+          </>
         )
       }
     },
@@ -298,6 +347,19 @@ function Home() {
 
   return (
     <>
+      {contextHolder}
+      <Modal
+        okButtonProps={{ style: { backgroundColor: "#166805" }, loading: loading2 }}
+        okText="Delete"
+        centered
+        open={show}
+        onOk={() => {
+          deleteCommittee()
+        }}
+        onCancel={() => setShow(false)}
+      >
+        <Title style={{ color: "#166805", margin: "0 0 20px 0" }} level={5}>Are your sure want to delete {cName} commitee ?</Title>
+      </Modal>
       <StatisticsHeader
         approveMembers={approveMembers}
         user={user}

@@ -36,7 +36,7 @@ function VerificationDetails() {
     const [committeeID, setCommitteeID] = useState("")
     const [ID, setID] = useState("")
     const [committeeNumber, setCommitteeNumber] = useState("")
-    const [committeeNumbers, setCommitteeNumbers] = useState(["0", "1", "2", "3", "4", "5", "6", "7", "8", "9", "10"])
+    const [committeeNumbers, setCommitteeNumbers] = useState([])
     const navigate = useNavigate()
     const token = useSelector((state) => state.common.token)
     const [user, setUser] = useState()
