@@ -34,6 +34,7 @@ function VerificationDetails() {
     const [fullScreen, setFullScreen] = useState(false)
     const [showModal, setShowModal] = useState(false)
     const [committeeID, setCommitteeID] = useState("")
+    const [ID, setID] = useState("")
     const [committeeNumber, setCommitteeNumber] = useState("")
     const navigate = useNavigate()
     const token = useSelector((state) => state.common.token)
@@ -180,7 +181,7 @@ function VerificationDetails() {
         }
     }
 
-    const handleChange = async (value, name, ind) => {
+    const handleChange = async (value, name, ind, id) => {
         // console.log(value, name);
         setUser((prevDetail) => {
             return {
@@ -229,32 +230,54 @@ function VerificationDetails() {
             });
         }
         if (name === "committeeNumber") {
-            setUser((prevUser) => {
-                return {
-                    ...user,
-                    committeeList: user?.committeeList?.map((val, index) => {
-                        if (ind === index) {
-                            return {
-                                ...val,
-                                committeeNumber: value?.toString()
+            try {
+                const response = await axios.post(`${API_URL}/admin/checkNumber`, {
+                    cId: id,
+                    committeeNumber: value?.toString()
+                }, {
+                    headers: {
+                        Authorization: `Bearer ${token}`
+                    }
+                })
+                api.success({
+                    message: `Notification`,
+                    description: response?.data?.message,
+                    placement: "bottomRight",
+                });
+                setUser((prevUser) => {
+                    return {
+                        ...user,
+                        committeeList: user?.committeeList?.map((val, index) => {
+                            if (ind === index) {
+                                return {
+                                    ...val,
+                                    committeeNumber: value?.toString()
+                                }
                             }
-                        }
-                        else {
-                            return val
-                        }
-                    }),
-                    cId: user?.cId?.map((val, index) => {
-                        if (ind === index) {
-                            return {
-                                ...val,
-                                committeeNumber: value,
-                            };
-                        } else {
-                            return val;
-                        }
-                    }),
-                };
-            });
+                            else {
+                                return val
+                            }
+                        }),
+                        cId: user?.cId?.map((val, index) => {
+                            if (ind === index) {
+                                return {
+                                    ...val,
+                                    committeeNumber: value,
+                                };
+                            } else {
+                                return val;
+                            }
+                        }),
+                    };
+                });
+            } catch (error) {
+                console.log(error);
+                api.error({
+                    message: `Notification`,
+                    description: error?.response?.data?.message,
+                    placement: "bottomRight",
+                });
+            }
         }
         if (name === "appointment") {
             setUser((prevDetail) => {
@@ -794,7 +817,9 @@ function VerificationDetails() {
                                                 value={com?.cid?.uniqueId}
                                                 style={{ width: "100%" }}
                                                 options={state?.committees?.committees?.map((opt) => ({ value: opt?.committeeDetails?.committee?._id, label: opt?.committeeDetails?.committee?.uniqueId }))}
-                                                onChange={(e) => handleChange(e, "cId", ind)}
+                                                onChange={(e) => {
+                                                    handleChange(e, "cId", ind)
+                                                }}
                                             />
                                         </Form.Item>
                                     </Col>
@@ -847,7 +872,9 @@ function VerificationDetails() {
                                                     { value: 9, label: 9 },
                                                     { value: 10, label: 10 },
                                                 ])}
-                                                onChange={(e) => handleChange(e, "committeeNumber", ind)}
+                                                onChange={(e) => {
+                                                    handleChange(e, "committeeNumber", ind, com?.cid?._id)
+                                                }}
                                             />
                                         </Form.Item>
                                     </Col>
