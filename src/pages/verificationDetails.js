@@ -227,8 +227,8 @@ function VerificationDetails() {
         if (name === "committeeNumber") {
             setUser((prevUser) => {
                 return {
-                    ...prevUser,
-                    committeeList: prevUser?.committeeList?.map((val, index) => {
+                    ...user,
+                    committeeList: user?.committeeList?.map((val, index) => {
                         if (ind === index) {
                             return {
                                 ...val,
@@ -237,6 +237,16 @@ function VerificationDetails() {
                         }
                         else {
                             return val
+                        }
+                    }),
+                    cId: user?.cId?.map((val, index) => {
+                        if (ind === index) {
+                            return {
+                                ...val,
+                                committeeNumber: value,
+                            };
+                        } else {
+                            return val;
                         }
                     }),
                 };
