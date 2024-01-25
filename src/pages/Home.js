@@ -253,7 +253,7 @@ function Home() {
       dataIndex: 'cycle',
       key: 'cycle',
       render: (text, record) => {
-        return <Title onClick={() => navigate(`/dashboard/view-committee/${record?.committeeDetails?.committee?._id}`)} onClick={() => navigate(`/dashboard/view-committee/${record?.committeeDetails?.committee?._id}`)} style={{ fontSize: "16px", margin: 0, color: "#818181" }}>{record?.committee?.cycle?.type}</Title>
+        return <Title onClick={() => navigate(`/dashboard/view-committee/${record?.committeeDetails?.committee?._id}`)} style={{ fontSize: "16px", margin: 0, color: "#818181" }}>{record?.committee?.cycle?.type}</Title>
       }
     },
     {

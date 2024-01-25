@@ -65,7 +65,7 @@ function Members() {
             //     </Title>
             // }
             render: (text, record, index) => {
-                return <Title
+                return <Title onClick={() => navigate(`/members/verification-details/${record._id}`)}
                     style={{ fontSize: "18px", margin: 0, color: "#166805", fontWeight: "600" }}>
                     {record?.committeeList[0]?.cid?.uniqueId}
                 </Title>
@@ -78,9 +78,9 @@ function Members() {
             render: (text, record, index) => {
                 return (
                     <>
-                        <Title style={{ fontSize: "18px", margin: 0, color: "#166805", fontWeight: "600" }}>{record?.firstName + " " + record?.lastName}</Title>
-                        <Title style={{ fontSize: "16px", margin: 0, color: "#818181" }}>{record?.email}</Title>
-                        <Title style={{ fontSize: "16px", margin: 0, color: "#818181" }}>{record?.contactNumber}</Title>
+                        <Title onClick={() => navigate(`/members/verification-details/${record._id}`)} style={{ fontSize: "18px", margin: 0, color: "#166805", fontWeight: "600" }}>{record?.firstName + " " + record?.lastName}</Title>
+                        <Title onClick={() => navigate(`/members/verification-details/${record._id}`)} style={{ fontSize: "16px", margin: 0, color: "#818181" }}>{record?.email}</Title>
+                        <Title onClick={() => navigate(`/members/verification-details/${record._id}`)} style={{ fontSize: "16px", margin: 0, color: "#818181" }}>{record?.contactNumber}</Title>
                     </>
                 )
             }
@@ -90,7 +90,7 @@ function Members() {
             dataIndex: 'sin',
             key: 'sin',
             render: (text, record) => {
-                return <Title style={{ fontSize: "16px", margin: 0, color: "#818181" }}>{record?.sin}</Title>
+                return <Title onClick={() => navigate(`/members/verification-details/${record._id}`)} style={{ fontSize: "16px", margin: 0, color: "#818181" }}>{record?.sin}</Title>
             }
         },
         {
@@ -98,7 +98,7 @@ function Members() {
             dataIndex: 'jobOccupation',
             key: 'jobOccupation',
             render: (text, record) => {
-                return <Title style={{ fontSize: "16px", margin: 0, color: "#818181" }}>{record?.jobOccupation}</Title>
+                return <Title onClick={() => navigate(`/members/verification-details/${record._id}`)} style={{ fontSize: "16px", margin: 0, color: "#818181" }}>{record?.jobOccupation}</Title>
             }
         },
         // {
