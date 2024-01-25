@@ -122,20 +122,13 @@ function CommitteeDetails() {
         else {
             setFormFields((prevFields) => {
                 if (field.type === "startDate") {
-                    // const startDate = moment(field.value);
-                    // const adjustedMonths = formFields.cycle.type === "Bi-weekly" ? formFields.members / 2 : formFields.members;
-                    // const endDate = startDate.clone().add(adjustedMonths, 'months').date(0).endOf('month');
-                    // console.log({ startDate });
-                    // console.log({ adjustedMonths });
-                    // console.log({ endDate });
-                    // form.setFieldsValue({ endDate });
                     if (formFields.cycle.type === "Monthly") {
                         const member = formFields?.members;
                         const start_date_str = field?.value;
                         const start_date = new Date(start_date_str);
                         const end_date = new Date(start_date);
-                        end_date.setMonth(end_date.getMonth() + member);
-                        end_date.setDate(0);
+                        end_date.setMonth(end_date.getMonth() + member); // Adding the selected number of members
+                        end_date.setDate(1); // Setting the day to 1 for the first day of the month
                         const month = String(end_date.getMonth() + 1).padStart(2, '0');
                         const day = String(end_date.getDate()).padStart(2, '0');
                         const year = end_date.getFullYear();
@@ -153,8 +146,8 @@ function CommitteeDetails() {
                         const start_date_str = field?.value;
                         const start_date = new Date(start_date_str);
                         const end_date = new Date(start_date);
-                        end_date.setMonth(end_date.getMonth() + member);
-                        end_date.setDate(0);
+                        end_date.setMonth(end_date.getMonth() + Math.floor(member)); // Adding the divided number of members
+                        end_date.setDate(1); // Setting the day to 1 for the first day of the month
                         const month = String(end_date.getMonth() + 1).padStart(2, '0');
                         const day = String(end_date.getDate()).padStart(2, '0');
                         const year = end_date.getFullYear();
@@ -165,6 +158,12 @@ function CommitteeDetails() {
                             ...prevFields,
                             [field.type]: new Date(field?.value),
                             endDate: end_date_str,
+                        };
+                    }
+                    else {
+                        return {
+                            ...prevFields,
+                            [field.type]: new Date(field?.value),
                         };
                     }
                 }
@@ -346,7 +345,7 @@ function CommitteeDetails() {
                                     },
                                 ]}
                             >
-                                <Input value={formFields.endDate} />
+                                <Input disabled={true} value={formFields.endDate} />
                             </Form.Item>
                         </Col>
                         <Col xs={24} sm={24} md={12} lg={12} xl={12}>
