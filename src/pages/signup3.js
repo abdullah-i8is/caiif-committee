@@ -142,7 +142,8 @@ export default function SignUp3() {
       formFields.employmentStatus === "" ||
       formFields.city === "" ||
       formFields.province === "" ||
-      formFields.postalCode === ""
+      formFields.postalCode === "" ||
+      formFields.appointment.date === ""
     ) {
       Object.entries(formFields).forEach(([key, value]) => {
         if ((value === "" || value === null || value === undefined) && key !== "emergencyContact" && key !== "sin") {
