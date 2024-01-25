@@ -362,7 +362,7 @@ function VerificationDetails() {
                     description: response?.data?.message,
                     placement: "bottomRight",
                 });
-                // getUser()
+                getUser()
             }
         } catch (error) {
             setLoading(false)
