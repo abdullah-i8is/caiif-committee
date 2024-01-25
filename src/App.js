@@ -26,7 +26,6 @@ import Setup2 from "./pages/Setup2";
 import SignUp2 from "./pages/signup2";
 import SignUp3 from "./pages/signup3";
 import NewPassword from "./pages/new-password";
-import PaymentHistory from "./pages/paymentHistory";
 import ResetPassword from "./pages/resetPassword";
 import ApprovedMembers from "./pages/approvedMembers";
 import MonthlyPaymentHistory from "./pages/monthlyPaymentHistory";

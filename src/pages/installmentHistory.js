@@ -186,7 +186,7 @@ function InstallmentHistory() {
             </div>
             <Card className="my-card" style={{ marginTop: 20 }}>
                 <Table
-                    dataSource={data?.sort((a, b) => b?.createdAt - a?.createdAt)}
+                    dataSource={data?.filter((f) => f.isPaid === "INSTALLMENT")?.sort((a, b) => b?.createdAt - a?.createdAt)}
                     columns={column}
                     loading={loading}
                     pagination={false}

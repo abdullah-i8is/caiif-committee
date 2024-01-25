@@ -329,7 +329,7 @@ function Setup2() {
                 const response = await axios.post(`${API_URL}/admin/paymentRecord`, {
                     date: paymentHistoryDetails.date,
                     isPaid: paymentHistoryDetails.paidType,
-                    paymentAmount: paymentHistoryDetails.paymentAmount,
+                    paymentAmount: paymentHistoryDetails?.paidType === "PAYOUT" ? committeeDetail?.payment : committeeDetail?.amount,
                     note: paymentHistoryDetails?.note,
                     userId: userId,
                     cid: params.id,
@@ -429,6 +429,10 @@ function Setup2() {
         }
     }, [committeeDetail?.startDate, committeeDetail?.endDate]);
 
+    console.log(paymentHistory);
+    console.log(paymentHistoryDetails);
+    console.log(committeeDetail);
+
     return (
         <>
             {contextHolder}
@@ -467,6 +471,7 @@ function Setup2() {
                         style={{ width: "100%" }}
                         options={[
                             { value: "INSTALLMENT", label: "INSTALLMENT" },
+                            { value: "PAYOUT", label: "PAYOUT" },
                         ]}
                         onChange={(e) => {
                             setPaymentHistoryDetails((prevDetails) => {
@@ -481,15 +486,8 @@ function Setup2() {
                     <br />
                     <Input
                         placeholder="Amount"
-                        value={paymentHistoryDetails.paymentAmount}
-                        onChange={(e) => {
-                            setPaymentHistoryDetails((prevDetails) => {
-                                return {
-                                    ...prevDetails,
-                                    paymentAmount: Number(e.target.value)
-                                }
-                            })
-                        }} />
+                        value={paymentHistoryDetails?.paidType === "PAYOUT" ? committeeDetail?.payment : committeeDetail?.amount}
+                    />
                     <br />
                     <br />
                     <Input
