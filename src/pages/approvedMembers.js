@@ -158,7 +158,7 @@ function ApprovedMembers() {
 
     useEffect(() => {
         const find = committees?.find((f) => f?.committeeDetails?.committee?.uniqueId === committeeId)
-        setCommitteeDetail(find) 
+        setCommitteeDetail(find)
     }, [committeeId])
 
     return (
@@ -217,7 +217,7 @@ function ApprovedMembers() {
                         defaultValue={CID2 === "" ? "Select committee" : CID2}
                         style={{ width: "200px" }}
                         options={committees?.map((opt) => (
-                            { value: opt?.committeeDetails?.committee?.uniqueId, label: opt?.committeeDetails?.committee?.name }
+                            { value: opt?.committeeDetails?.committee?.uniqueId, label: opt?.committeeDetails?.committee?.uniqueId }
                         ))}
                         onChange={(e) => setCID2(e)}
                     />
@@ -228,9 +228,11 @@ function ApprovedMembers() {
                     pagination={false}
                     loading={loading3}
                     dataSource={
-                        CID2
-                            ? approveMembers?.filter((user) => user.approve === true && user.committeeList[0]?.cid?.uniqueId === CID2).sort((a, b) => b.createdAt - a.createdAt)
-                            : approveMembers?.filter((user) => user.approve === true).sort((a, b) => b.createdAt - a.createdAt)
+                        CID ?
+                            approveMembers?.filter((user) => user.approve === true && user.committeeList[0]?.cid?.uniqueId === CID)
+                                .sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt)) :
+                            approveMembers?.filter((user) => user.approve === true)
+                                .sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt))
                     }
                     columns={column}
                 />

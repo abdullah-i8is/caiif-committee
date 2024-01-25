@@ -80,7 +80,7 @@ export default function SignUp() {
     sourceOfIncome: "",
     employmentStatus: "",
     appointment: {
-      date: appointment.date + " " + appointment.time,
+      date: "",
     },
     DOB: {
       day: "",
@@ -162,7 +162,10 @@ export default function SignUp() {
       setFormSubmit(false)
       try {
         const response = await axios.post(`${API_URL}/signup`, {
-          ...formFields
+          ...formFields,
+          appointment: {
+            date: appointment.date + " " + appointment.time,
+          },
         })
         if (response.status === 200) {
           setLoading(false)
@@ -912,7 +915,6 @@ export default function SignUp() {
                             format="DD-MM-YYYY"
                             style={{ width: width < 768 ? "300px" : '200px' }}
                             onChange={(e, dateString) => {
-                              setFieldName({ type: "appointment", value: e });
                               setAppointment((prevFields) => {
                                 return {
                                   ...prevFields,
@@ -953,7 +955,6 @@ export default function SignUp() {
                               { value: '05 PM', label: '05 PM' },
                             ]}
                             onChange={(e) => {
-                              setFieldName({ type: "appointment", value: e });
                               setAppointment((prevFields) => {
                                 return {
                                   ...prevFields,

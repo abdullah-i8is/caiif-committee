@@ -67,7 +67,12 @@ function VerificationDetails() {
             })
             if (response.status === 200) {
                 console.log(response);
-                setUser({ ...response.data.user, cId: [] })
+                const committeeList = response.data.user.committeeList;
+                const cIdArray = committeeList.map((c) => ({ cid: c?.cid?._id, committeeNumber: c?.committeeNumber }));
+                setUser({
+                    ...response.data.user,
+                    cId: cIdArray,
+                });
                 try {
                     const res = await axios.get(`${API_URL}/user/committeeById/${response.data.user?._id}`)
                     setCommittee(res?.data?.data?.committee)
@@ -96,6 +101,23 @@ function VerificationDetails() {
                 setLoading(false)
             })
     }, [id])
+
+    // useEffect(() => {
+    //     setUser((prevUser) => {
+    //         const mapVal = user?.committeeList?.map(f => f.cid._id);
+    //         const updatedCId = prevUser?.cId?.map((v, i) => {
+    //             return {
+    //                 cid: mapVal[i],
+    //                 committeeNumber: v?.committeeNumber,
+    //             };
+    //         });
+    //         return {
+    //             ...prevUser,
+    //             cId: updatedCId,
+    //         };
+    //     });
+    // }, [user]);
+
 
     async function handleSubmit() {
         setLoading(true)
@@ -142,7 +164,7 @@ function VerificationDetails() {
                     description: "Profile update successfully",
                     placement: "bottomRight",
                 });
-                // getUser()
+                getUser()
                 console.log(response);
             }
         } catch (error) {
@@ -317,7 +339,6 @@ function VerificationDetails() {
     }
 
     console.log(user);
-    console.log(commitee);
 
     return (
         <>
@@ -327,7 +348,7 @@ function VerificationDetails() {
                 {user?.approve === false && <div style={{ display: "flex", alignItems: "center" }}>
                     <Button onClick={() => {
                         handleApprove("DECLINE")
-                    }} loading={loading} style={{ margin: "0 0 0 10px", width: "100px" }} className="deny-btn"> <img width={15} src={denyIcon} style={{ margin: "0 5px 0 0" }} /> Deny</Button>
+                    }} loading={loading} style={{ margin: "0 0 0 10px", width: "100px" }} className="deny-btn"> <img width={15} src={denyIcon} style={{ margin: "0 5px 0 0" }} />Delete</Button>
                     <Button onClick={() => {
                         handleApprove("APPROVE")
                     }} loading={loading2} style={{ margin: "0 0 0 10px", width: "100px" }} className="add-cycle-btn"> Approve</Button>
@@ -490,11 +511,11 @@ function VerificationDetails() {
                                 <Input onChange={(e) => handleChange(e.target.value, "postalCode")} value={user?.postalCode} />
                             </Form.Item>
                         </Col>
-                        <Col xs={24} sm={24} md={6} lg={6} xl={8}>
+                        {/* <Col xs={24} sm={24} md={6} lg={6} xl={8}>
                             <Form.Item label={<Title style={{ fontSize: "16px", margin: 0, color: "#4E4E4E" }}>Address</Title>}>
                                 <Input onChange={(e) => handleChange(e.target.value, "address1")} value={user?.address1} />
                             </Form.Item>
-                        </Col>
+                        </Col> */}
                         <Col xs={24} sm={24} md={6} lg={6} xl={8}>
                             <Form.Item label={<Title style={{ fontSize: "16px", margin: 0, color: "#4E4E4E" }}>Street Address</Title>}>
                                 <Input onChange={(e) => handleChange(e.target.value, "address2")} value={user?.address2} />
@@ -667,7 +688,7 @@ function VerificationDetails() {
                                             ...prevDetail?.cId,
                                             {
                                                 cid: "",
-                                                committeeNumber: 0
+                                                committeeNumber: "0"
                                             }
                                         ]
                                     };
@@ -741,24 +762,24 @@ function VerificationDetails() {
                                             />
                                         </Form.Item>
                                     </Col>
-                                     <Col xs={24} sm={24} md={12} lg={12} xl={12}>
+                                    <Col xs={24} sm={24} md={12} lg={12} xl={12}>
                                         <Form.Item label={<Title style={{ fontSize: "16px", margin: 0, color: "#4E4E4E" }}>Select Committee Number</Title>}>
                                             <Select
                                                 defaultValue="Select Committee Number"
                                                 // value={com?.cid?.committeeNumber}
                                                 style={{ width: "100%" }}
                                                 options={([
-                                                    { value: 0, label: 0 },
-                                                    { value: 1, label: 1 },
-                                                    { value: 2, label: 2 },
-                                                    { value: 3, label: 3 },
-                                                    { value: 4, label: 4 },
-                                                    { value: 5, label: 5 },
-                                                    { value: 6, label: 6 },
-                                                    { value: 7, label: 7 },
-                                                    { value: 8, label: 8 },
-                                                    { value: 9, label: 9 },
-                                                    { value: 10, label: 10 },
+                                                    { value: "0", label: "0" },
+                                                    { value: "1", label: "1" },
+                                                    { value: "2", label: "2" },
+                                                    { value: "3", label: "3" },
+                                                    { value: "4", label: "4" },
+                                                    { value: "5", label: "5" },
+                                                    { value: "6", label: "6" },
+                                                    { value: "7", label: "7" },
+                                                    { value: "8", label: "8" },
+                                                    { value: "9", label: "9" },
+                                                    { value: "10", label: "10" },
                                                 ])}
                                                 onChange={(e) => handleChange(e, "committeeNumber", ind)}
                                             />
@@ -821,7 +842,8 @@ function VerificationDetails() {
                             )
                         })}
 
-                        {/* {user?.committeeList?.map((com, ind) => {
+                        {user?.committeeList?.map((com, ind) => {
+                            console.log(com);
                             return (
                                 <>
                                     <Col xs={24} sm={24} md={24} lg={24} xl={24}>
@@ -892,7 +914,7 @@ function VerificationDetails() {
                                     </Col>
                                 </>
                             )
-                        })} */}
+                        })}
                         {/* <Col xs={24} sm={24} md={24} lg={24} xl={24} style={{ marginBottom: additionalDetail ? 30 : 0 }}>
                             <Button onClick={() => setAdditionalDetail(true)} className="add-cycle-btn">Add Additional Detail</Button>
                         </Col> */}

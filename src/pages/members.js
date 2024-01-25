@@ -301,7 +301,7 @@ function Members() {
                         defaultValue={CID === "" ? "Select committee" : CID}
                         style={{ width: "200px" }}
                         options={committees?.map((opt) => (
-                            { value: opt?.committeeDetails?.committee?.uniqueId, label: opt?.committeeDetails?.committee?.name }
+                            { value: opt?.committeeDetails?.committee?.uniqueId, label: opt?.committeeDetails?.committee?.uniqueId }
                         ))}
                         onChange={(e) => setCID(e)}
                     />
@@ -313,9 +313,11 @@ function Members() {
                     loading={loading3}
                     dataSource={
                         CID ?
-                            approveMembers?.filter((user) => user.approve === false && user.committeeList[0]?.cid?.uniqueId === CID).sort((a, b) => b.createdAt - a.createdAt) :
-                            approveMembers?.filter((user) => user.approve === false).sort((a, b) => b.createdAt - a.createdAt)
-                    }
+                            approveMembers?.filter((user) => user.approve === false && user.committeeList[0]?.cid?.uniqueId === CID)
+                                .sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt)) :
+                            approveMembers?.filter((user) => user.approve === false)
+                                .sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt))
+                    }                    
                     columns={column}
                 />
             </Card>
