@@ -146,7 +146,7 @@ export default function SignUp3() {
       formFields.appointment.date === ""
     ) {
       Object.entries(formFields).forEach(([key, value]) => {
-        if ((value === "" || value === null || value === undefined) && key !== "emergencyContact" && key !== "sin") {
+        if ((value === "" || value === null || value === undefined || value?.date === "") && key !== "emergencyContact" && key !== "sin") {
           api.error({
             message: 'Notification',
             description: `${key} is required`,
