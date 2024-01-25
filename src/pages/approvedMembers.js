@@ -52,7 +52,7 @@ function ApprovedMembers() {
 
     const column = [
         {
-            title: <Title style={{ fontSize: "18px", margin: 0, color: "#166805", fontWeight: "600" }}>Committee</Title>,
+            title: <Title style={{ fontSize: "18px", margin: 0, color: "#166805", fontWeight: "600" }}>Committee ID</Title>,
             dataIndex: 'name',
             key: 'name',
             // render: (text, record, index) => {
@@ -214,12 +214,12 @@ function ApprovedMembers() {
                 <div style={{ display: "flex", margin: 0 }}>
                     <Title style={{ color: "#166805", margin: "3px 10px 0 0" }} level={5}>Filter by</Title>
                     <Select
-                        defaultValue={CID2 === "" ? "Select committee" : CID2}
+                        defaultValue={CID === "" ? "Select committee" : CID}
                         style={{ width: "200px" }}
                         options={committees?.map((opt) => (
                             { value: opt?.committeeDetails?.committee?.uniqueId, label: opt?.committeeDetails?.committee?.uniqueId }
                         ))}
-                        onChange={(e) => setCID2(e)}
+                        onChange={(e) => setCID(e)}
                     />
                 </div>
             </div>
@@ -233,7 +233,7 @@ function ApprovedMembers() {
                                 .sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt)) :
                             approveMembers?.filter((user) => user.approve === true)
                                 .sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt))
-                    }
+                    }   
                     columns={column}
                 />
             </Card>
