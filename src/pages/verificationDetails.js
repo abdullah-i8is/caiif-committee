@@ -73,13 +73,13 @@ function VerificationDetails() {
                     ...response.data.user,
                     cId: cIdArray,
                 });
-                try {
-                    const res = await axios.get(`${API_URL}/user/committeeById/${response.data.user?._id}`)
-                    setCommittee(res?.data?.data?.committee)
-                    console.log(res);
-                } catch (error) {
-                    console.log(error);
-                }
+                // try {
+                //     const res = await axios.get(`${API_URL}/user/committeeById/${response.data.user?._id}`)
+                //     setCommittee(res?.data?.data?.committee)
+                //     console.log(res);
+                // } catch (error) {
+                //     console.log(error);
+                // }
             }
         } catch (error) {
             console.log(error);
@@ -849,12 +849,12 @@ function VerificationDetails() {
                             return (
                                 <>
                                     <Col xs={24} sm={24} md={24} lg={24} xl={24}>
-                                        <Title style={{ color: "#166805", margin: "0 0 20px 0" }} level={3}>Committee {commitee?.uniqueId}</Title>
+                                        <Title style={{ color: "#166805", margin: "0 0 20px 0" }} level={3}>Committee {commitee?.uniqueId ? commitee?.uniqueId : com?.cid?.uniqueId}</Title>
                                     </Col>
                                     <Col xs={24} sm={24} md={12} lg={6} xl={6}>
                                         <Form.Item label={<Title style={{ fontSize: "16px", margin: 0, color: "#4E4E4E" }}>Select Committee</Title>}>
                                             <Select
-                                                value={commitee?.uniqueId ? commitee?.uniqueId : state?.committees?.committees?.find((opt) => opt?.committeeDetails?.committee?._id === user?.cId)?.committeeDetails?.committee?.uniqueId}
+                                                value={commitee?.uniqueId ? commitee?.uniqueId : com?.cid?.uniqueId}
                                                 style={{ width: "100%" }}
                                                 options={state?.committees?.committees?.map((opt) => ({ value: opt?.committeeDetails?.committee?._id, label: opt?.committeeDetails?.committee?.uniqueId }))}
                                                 onChange={(e) => handleChange(e, "cId", ind)}
@@ -863,39 +863,39 @@ function VerificationDetails() {
                                     </Col>
                                     <Col xs={24} sm={24} md={12} lg={6} xl={6}>
                                         <Form.Item label={<Title style={{ fontSize: "16px", margin: 0, color: "#4E4E4E" }}>Committee</Title>}>
-                                            <Input value={commitee?.name} />
+                                            <Input value={commitee?.name ? commitee?.name : com?.cid?.name} />
                                         </Form.Item>
                                     </Col>
                                     <Col xs={24} sm={24} md={12} lg={6} xl={6}>
                                         <Form.Item label={<Title style={{ fontSize: "16px", margin: 0, color: "#4E4E4E" }}>Payment</Title>}>
-                                            <Input value={`$ ${commitee?.amount}`} />
+                                            <Input value={`$ ${commitee?.amount ? commitee?.amount : com?.cid?.amount}`} />
                                         </Form.Item>
                                     </Col>
                                     <Col xs={24} sm={24} md={12} lg={6} xl={6}>
                                         <Form.Item label={<Title style={{ fontSize: "16px", margin: 0, color: "#4E4E4E" }}>Amount</Title>}>
-                                            <Input value={`$ ${commitee?.payment}`} />
+                                            <Input value={`$ ${commitee?.payment ? commitee?.payment : com?.cid?.payment}`} />
                                         </Form.Item>
                                     </Col>
                                     <Col xs={24} sm={24} md={12} lg={6} xl={6}>
                                         <Form.Item label={<Title style={{ fontSize: "16px", margin: 0, color: "#4E4E4E" }}>Members</Title>}>
-                                            <Input value={commitee?.members} />
+                                            <Input value={commitee?.members ? commitee?.members : com?.cid?.members} />
                                         </Form.Item>
                                     </Col>
                                     <Col xs={24} sm={24} md={12} lg={6} xl={6}>
                                         <Form.Item label={<Title style={{ fontSize: "16px", margin: 0, color: "#4E4E4E" }}>Start Date</Title>}>
-                                            <Input value={new Date(commitee?.startDate).toLocaleDateString()} />
+                                            <Input value={new Date(commitee?.startDate ? commitee?.startDate : com?.cid?.startDate).toLocaleDateString()} />
                                         </Form.Item>
                                     </Col>
                                     <Col xs={24} sm={24} md={12} lg={6} xl={6}>
                                         <Form.Item label={<Title style={{ fontSize: "16px", margin: 0, color: "#4E4E4E" }}>End Date</Title>}>
-                                            <Input value={new Date(commitee?.endDate).toLocaleDateString()} />
+                                            <Input value={new Date(commitee?.endDate ? commitee?.endDate : com?.cid?.endDate).toLocaleDateString()} />
                                         </Form.Item>
                                     </Col>
                                     <Col xs={24} sm={24} md={12} lg={6} xl={6}>
                                         <Form.Item label={<Title style={{ fontSize: "16px", margin: 0, color: "#4E4E4E" }}>Select Committee Number</Title>}>
                                             <Select
                                                 defaultValue="Select Committee Number"
-                                                value={commitee}
+                                                value={commitee?.committeeNumber ? commitee?.committeeNumber : com?.committeeNumber}
                                                 style={{ width: "100%" }}
                                                 options={([
                                                     { value: 0, label: 0 },
