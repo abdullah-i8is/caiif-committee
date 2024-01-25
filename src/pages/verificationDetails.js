@@ -840,6 +840,7 @@ function VerificationDetails() {
                                     <Col xs={24} sm={24} md={12} lg={6} xl={6}>
                                         <Form.Item label={<Title style={{ fontSize: "16px", margin: 0, color: "#4E4E4E" }}>Select Committee</Title>}>
                                             <Select
+                                                disabled={user?.approve === true ? true : false}
                                                 value={com?.cid?.uniqueId}
                                                 style={{ width: "100%" }}
                                                 options={state?.committees?.committees?.map((opt) => ({ value: opt?.committeeDetails?.committee?._id, label: opt?.committeeDetails?.committee?.uniqueId }))}
@@ -851,37 +852,44 @@ function VerificationDetails() {
                                     </Col>
                                     <Col xs={24} sm={24} md={12} lg={6} xl={6}>
                                         <Form.Item label={<Title style={{ fontSize: "16px", margin: 0, color: "#4E4E4E" }}>Committee</Title>}>
-                                            <Input value={com?.cid?.name} />
+                                            <Input disabled={user?.approve === true ? true : false}
+                                                value={com?.cid?.name} />
                                         </Form.Item>
                                     </Col>
                                     <Col xs={24} sm={24} md={12} lg={6} xl={6}>
                                         <Form.Item label={<Title style={{ fontSize: "16px", margin: 0, color: "#4E4E4E" }}>Payment</Title>}>
-                                            <Input value={`$ ${com?.cid?.amount}`} />
+                                            <Input disabled={user?.approve === true ? true : false}
+                                                value={`$ ${com?.cid?.amount}`} />
                                         </Form.Item>
                                     </Col>
                                     <Col xs={24} sm={24} md={12} lg={6} xl={6}>
                                         <Form.Item label={<Title style={{ fontSize: "16px", margin: 0, color: "#4E4E4E" }}>Amount</Title>}>
-                                            <Input value={`$ ${com?.cid?.payment}`} />
+                                            <Input disabled={user?.approve === true ? true : false}
+                                                value={`$ ${com?.cid?.payment}`} />
                                         </Form.Item>
                                     </Col>
                                     <Col xs={24} sm={24} md={12} lg={6} xl={6}>
                                         <Form.Item label={<Title style={{ fontSize: "16px", margin: 0, color: "#4E4E4E" }}>Members</Title>}>
-                                            <Input value={com?.cid?.members} />
+                                            <Input disabled={user?.approve === true ? true : false}
+                                                value={com?.cid?.members} />
                                         </Form.Item>
                                     </Col>
                                     <Col xs={24} sm={24} md={12} lg={6} xl={6}>
                                         <Form.Item label={<Title style={{ fontSize: "16px", margin: 0, color: "#4E4E4E" }}>Start Date</Title>}>
-                                            <Input value={new Date(com?.cid?.startDate).toLocaleDateString()} />
+                                            <Input disabled={user?.approve === true ? true : false}
+                                                value={new Date(com?.cid?.startDate).toLocaleDateString()} />
                                         </Form.Item>
                                     </Col>
                                     <Col xs={24} sm={24} md={12} lg={6} xl={6}>
                                         <Form.Item label={<Title style={{ fontSize: "16px", margin: 0, color: "#4E4E4E" }}>End Date</Title>}>
-                                            <Input value={new Date(com?.cid?.endDate).toLocaleDateString()} />
+                                            <Input disabled={user?.approve === true ? true : false}
+                                                value={new Date(com?.cid?.endDate).toLocaleDateString()} />
                                         </Form.Item>
                                     </Col>
                                     <Col xs={24} sm={24} md={12} lg={6} xl={6}>
                                         <Form.Item label={<Title style={{ fontSize: "16px", margin: 0, color: "#4E4E4E" }}>Select Committee Number</Title>}>
                                             <Select
+                                                disabled={user?.approve === true ? true : false}
                                                 defaultValue="Select Committee Number"
                                                 value={com?.committeeNumber}
                                                 style={{ width: "100%" }}
