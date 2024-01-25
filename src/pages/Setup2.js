@@ -329,7 +329,7 @@ function Setup2() {
                 const response = await axios.post(`${API_URL}/admin/paymentRecord`, {
                     date: paymentHistoryDetails.date,
                     isPaid: paymentHistoryDetails.paidType,
-                    paymentAmount: paymentHistoryDetails?.paidType === "PAYOUT" ? committeeDetail?.payment : committeeDetail.cycle.type === "Bi-weekly" ? committeeDetail?.amount / 2 : committeeDetail?.amount,
+                    paymentAmount: paymentHistoryDetails?.paidType === "PAYOUT" ? committeeDetail?.payment : committeeDetail?.amount,
                     note: paymentHistoryDetails?.note,
                     userId: userId,
                     cid: params.id,
