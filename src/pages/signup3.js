@@ -281,7 +281,7 @@ export default function SignUp3() {
   console.log(appointment.date + " " + appointment.time);
 
   console.log(formFields);
-
+  const twoHoursFromNow = moment().add(2, 'hours');
   return (
     <div>
       {contextHolder}
@@ -926,14 +926,10 @@ export default function SignUp3() {
                             format="DD-MM-YYYY"
                             style={{ width: width < 768 ? "300px" : '200px' }}
                             onChange={(e, dateString) => {
-                              setFieldName({ type: "appointment", value: e });
-                              setFormFields((prevFields) => {
+                              setAppointment((prevFields) => {
                                 return {
                                   ...prevFields,
-                                  appointment: {
-                                    ...prevFields.appointment,
-                                    date: dateString
-                                  }
+                                  date: dateString
                                 }
                               });
                             }}
@@ -959,25 +955,21 @@ export default function SignUp3() {
                             defaultValue="Select appointment time"
                             style={{ width: width < 768 ? "300px" : "200px", marginLeft: 10 }}
                             options={[
-                              { value: '09 AM', label: '09 AM' },
-                              { value: '10 AM', label: '10 AM' },
-                              { value: '11 AM', label: '11 AM' },
-                              { value: '12 PM', label: '12 PM' },
-                              { value: '01 PM', label: '01 PM' },
-                              { value: '02 PM', label: '02 PM' },
-                              { value: '03 PM', label: '03 PM' },
-                              { value: '04 PM', label: '04 PM' },
-                              { value: '05 PM', label: '05 PM' },
+                              { value: '09 AM', label: '09 AM', disabled: appointment.date === moment().format('DD-MM-YYYY') && twoHoursFromNow >= 9 },
+                              { value: '10 AM', label: '10 AM', disabled: appointment.date === moment().format('DD-MM-YYYY') && twoHoursFromNow >= 10 },
+                              { value: '11 AM', label: '11 AM', disabled: appointment.date === moment().format('DD-MM-YYYY') && twoHoursFromNow >= 11 },
+                              { value: '12 PM', label: '12 PM', disabled: appointment.date === moment().format('DD-MM-YYYY') && twoHoursFromNow >= 12 },
+                              { value: '01 PM', label: '01 PM', disabled: appointment.date === moment().format('DD-MM-YYYY') && twoHoursFromNow >= 13 },
+                              { value: '02 PM', label: '02 PM', disabled: appointment.date === moment().format('DD-MM-YYYY') && twoHoursFromNow >= 14 },
+                              { value: '03 PM', label: '03 PM', disabled: appointment.date === moment().format('DD-MM-YYYY') && twoHoursFromNow >= 15 },
+                              { value: '04 PM', label: '04 PM', disabled: appointment.date === moment().format('DD-MM-YYYY') && twoHoursFromNow >= 16 },
+                              { value: '05 PM', label: '05 PM', disabled: appointment.date === moment().format('DD-MM-YYYY') && twoHoursFromNow >= 17 },
                             ]}
                             onChange={(e) => {
-                              setFieldName({ type: "appointment", value: e });
-                              setFormFields((prevFields) => {
+                              setAppointment((prevFields) => {
                                 return {
                                   ...prevFields,
-                                  appointment: {
-                                    ...prevFields.appointment,
-                                    time: e
-                                  }
+                                  time: e
                                 }
                               });
                             }}
