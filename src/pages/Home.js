@@ -417,7 +417,7 @@ function Home() {
             }}
             onCancel={() => setShowModal(false)}
           >
-            <Title style={{ color: "#166805", margin: "0 0 20px 0" }} level={3}>Add new commitee</Title>
+            <Title style={{ color: "#166805", margin: "0 0 20px 0" }} level={3}>Enroll request</Title>
             <Card style={{ marginBottom: "20px" }}>
               <Row gutter={[24, 0]}>
 
@@ -447,10 +447,14 @@ function Home() {
         user={user}
         committees={committees}
       />
-      <div style={{ display: "flex", justifyContent: "space-between" }}>
+      {user?.userType === "user" ? (
+        <div style={{ display: "flex", justifyContent: "space-between" }}>
+          <Title style={{ color: "#166805", margin: 0 }} level={3}>Committee</Title>
+          <Button onClick={() => setShowModal(true)} className="add-cycle-btn" style={{ float: "right" }}>Enroll Committee</Button>
+        </div>
+      ) : (
         <Title style={{ color: "#166805", margin: 0 }} level={3}>Committee</Title>
-        <Button onClick={() => setShowModal(true)} className="add-cycle-btn" style={{ float: "right" }}>Enroll Committee</Button>
-      </div>
+      )}
       <Card className="my-card" style={{ marginTop: 40 }}>
         <Table
           dataSource={committees?.slice().sort((a, b) => {

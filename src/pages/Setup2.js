@@ -421,6 +421,18 @@ function Setup2() {
     console.log(paymentHistoryDetails);
     console.log(committeeDetail);
 
+    useEffect(() => {
+        setPaymentHistoryDetails((prevDetails) => {
+            return {
+                ...prevDetails,
+                paymentAmount: paymentHistoryDetails?.paidType === "PAYOUT" && committeeDetail?.cycle.type === "Monthly" ? 
+                committeeDetail?.payment : 
+                paymentHistoryDetails?.paidType === "CONTRIBUTION" && committeeDetail?.cycle.type === "Bi-weekly" ?
+                committeeDetail?.amount / 2 : committeeDetail?.amount
+            }
+        })
+    }, [paymentHistoryDetails.paidType])
+
     return (
         <>
             {contextHolder}
@@ -474,7 +486,7 @@ function Setup2() {
                     <br />
                     <Input
                         placeholder="Amount"
-                        value={paymentHistoryDetails?.paidType === "PAYOUT" ? committeeDetail?.payment : committeeDetail?.amount}
+                        value={paymentHistoryDetails.paymentAmount}
                     />
                     <br />
                     <br />
@@ -519,8 +531,12 @@ function Setup2() {
                                 <Title style={{ margin: 0, color: "grey", fontWeight: '500' }} level={5}>{committeeDetail?.payment}</Title>
                             </Col>
                             <Col xs={24} sm={24} md={4} lg={4} xl={4}>
-                                <Title style={{ margin: 0 }} level={5}>Monthly / By-weekly Contribution</Title>
+                                <Title style={{ margin: 0 }} level={5}>Monthly Contribution</Title>
                                 <Title style={{ margin: 0, color: "grey", fontWeight: '500' }} level={5}>$ {committeeDetail?.amount}</Title>
+                            </Col>
+                            <Col xs={24} sm={24} md={4} lg={4} xl={4}>
+                                <Title style={{margin: "10px 0 0 0" }} level={5}>By-weekly Contribution</Title>
+                                <Title style={{ margin: 0, color: "grey", fontWeight: '500' }} level={5}>$ {Math.round(committeeDetail?.amount / 2)}</Title>
                             </Col>
                             <Col xs={24} sm={24} md={4} lg={4} xl={4}>
                                 <Title style={{ margin: "10px 0 0 0" }} level={5}>Members</Title>
@@ -618,8 +634,12 @@ function Setup2() {
                                 <Title style={{ margin: 0, color: "grey", fontWeight: '500' }} level={5}>{committeeDetail?.payment}</Title>
                             </Col>
                             <Col xs={24} sm={24} md={4} lg={4} xl={4}>
-                                <Title style={{ margin: 0 }} level={5}>Monthly / By-weekly Contribution</Title>
+                                <Title style={{ margin: 0 }} level={5}>Monthly Contribution</Title>
                                 <Title style={{ margin: 0, color: "grey", fontWeight: '500' }} level={5}>$ {committeeDetail?.amount}</Title>
+                            </Col>
+                            <Col xs={24} sm={24} md={4} lg={4} xl={4}>
+                                <Title style={{ margin: "10px 0 0 0"}} level={5}>By-weekly Contribution</Title>
+                                <Title style={{ margin: 0, color: "grey", fontWeight: '500' }} level={5}>$ {Math.round(committeeDetail?.amount / 2)}</Title>
                             </Col>
                             <Col xs={24} sm={24} md={4} lg={4} xl={4}>
                                 <Title style={{ margin: "10px 0 0 0" }} level={5}>Members</Title>

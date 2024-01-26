@@ -64,17 +64,6 @@ function Members() {
             }
         },
         {
-            title: <Title style={{ fontSize: "18px", margin: 0, color: "#166805", fontWeight: "600" }}>Committee No</Title>,
-            dataIndex: 'name',
-            key: 'name',
-            render: (text, record, index) => {
-                return <Title onClick={() => navigate(`/members/verification-details/${record._id}`)}
-                    style={{ fontSize: "18px", margin: 0, color: "#166805", fontWeight: "600", cursor: "pointer" }}>
-                    {record?.committeeList[0]?.committeeNumber}
-                </Title>
-            }
-        },
-        {
             title: <Title style={{ fontSize: "18px", margin: 0, color: "#166805", fontWeight: "600" }}>Person Info</Title>,
             dataIndex: 'name',
             key: 'name',
@@ -89,11 +78,11 @@ function Members() {
             }
         },
         {
-            title: <Title style={{ fontSize: "18px", margin: 0, color: "#166805", fontWeight: "600" }}>Occupation</Title>,
+            title: <Title style={{ fontSize: "18px", margin: 0, color: "#166805", fontWeight: "600" }}>Appointment Time</Title>,
             dataIndex: 'jobOccupation',
             key: 'jobOccupation',
             render: (text, record) => {
-                return <Title onClick={() => navigate(`/members/verification-details/${record._id}`)} style={{ fontSize: "16px", margin: 0, color: "#818181", cursor: "pointer" }}>{record?.jobOccupation}</Title>
+                return <Title onClick={() => navigate(`/approved-members/verification-details/${record._id}`)} style={{ fontSize: "16px", margin: 0, color: "#818181", cursor:"pointer" }}>{record?.appointment}</Title>
             }
         },
         // {
@@ -288,7 +277,7 @@ function Members() {
                 <Title style={{ color: "#166805", margin: "0 0 20px 0" }} level={5}>Are your sure want to delete this user ?</Title>
             </Modal>
             <div style={{ marginBottom: "20px", marginTop: "40px", display: "flex", justifyContent: "space-between" }}>
-                <Title style={{ color: "#166805", margin: 0 }} level={3}>Approval members Request</Title>
+                <Title style={{ color: "#166805", margin: 0 }} level={3}>Approval Members Request</Title>
                 <div style={{ display: "flex", margin: 0 }}>
                     <Title style={{ color: "#166805", margin: "3px 10px 0 0" }} level={5}>Filter by</Title>
                     <Select
