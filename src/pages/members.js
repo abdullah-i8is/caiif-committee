@@ -41,6 +41,7 @@ function Members() {
     const [loading2, setLoading2] = useState(false)
     const [loading3, setLoading3] = useState(false)
     const [showModal, setShowModal] = useState(false)
+    const [show, setShow] = useState(false)
     const [committeeId, setCommitteeId] = useState("")
     const [userId, setUserId] = useState("")
     const [CID, setCID] = useState("")
@@ -57,7 +58,7 @@ function Members() {
             key: 'name',
             render: (text, record, index) => {
                 return <Title onClick={() => navigate(`/members/verification-details/${record._id}`)}
-                    style={{ fontSize: "18px", margin: 0, color: "#166805", fontWeight: "600", cursor:"pointer" }}>
+                    style={{ fontSize: "18px", margin: 0, color: "#166805", fontWeight: "600", cursor: "pointer" }}>
                     {record?.committeeList[0]?.cid?.uniqueId}
                 </Title>
             }
@@ -68,7 +69,7 @@ function Members() {
             key: 'name',
             render: (text, record, index) => {
                 return <Title onClick={() => navigate(`/members/verification-details/${record._id}`)}
-                    style={{ fontSize: "18px", margin: 0, color: "#166805", fontWeight: "600", cursor:"pointer" }}>
+                    style={{ fontSize: "18px", margin: 0, color: "#166805", fontWeight: "600", cursor: "pointer" }}>
                     {record?.committeeList[0]?.committeeNumber}
                 </Title>
             }
@@ -80,9 +81,9 @@ function Members() {
             render: (text, record, index) => {
                 return (
                     <>
-                        <Title onClick={() => navigate(`/members/verification-details/${record._id}`)} style={{ fontSize: "18px", margin: 0, color: "#166805", fontWeight: "600", cursor:"pointer" }}>{record?.firstName + " " + record?.lastName}</Title>
-                        <Title onClick={() => navigate(`/members/verification-details/${record._id}`)} style={{ fontSize: "16px", margin: 0, color: "#818181", cursor:"pointer" }}>{record?.email}</Title>
-                        <Title onClick={() => navigate(`/members/verification-details/${record._id}`)} style={{ fontSize: "16px", margin: 0, color: "#818181", cursor:"pointer" }}>{record?.contactNumber}</Title>
+                        <Title onClick={() => navigate(`/members/verification-details/${record._id}`)} style={{ fontSize: "18px", margin: 0, color: "#166805", fontWeight: "600", cursor: "pointer" }}>{record?.firstName + " " + record?.lastName}</Title>
+                        <Title onClick={() => navigate(`/members/verification-details/${record._id}`)} style={{ fontSize: "16px", margin: 0, color: "#818181", cursor: "pointer" }}>{record?.email}</Title>
+                        <Title onClick={() => navigate(`/members/verification-details/${record._id}`)} style={{ fontSize: "16px", margin: 0, color: "#818181", cursor: "pointer" }}>{record?.contactNumber}</Title>
                     </>
                 )
             }
@@ -92,7 +93,7 @@ function Members() {
             dataIndex: 'jobOccupation',
             key: 'jobOccupation',
             render: (text, record) => {
-                return <Title onClick={() => navigate(`/members/verification-details/${record._id}`)} style={{ fontSize: "16px", margin: 0, color: "#818181", cursor:"pointer" }}>{record?.jobOccupation}</Title>
+                return <Title onClick={() => navigate(`/members/verification-details/${record._id}`)} style={{ fontSize: "16px", margin: 0, color: "#818181", cursor: "pointer" }}>{record?.jobOccupation}</Title>
             }
         },
         // {
@@ -114,8 +115,9 @@ function Members() {
                         <Button
                             loading={userId === record._id ? loading2 : false}
                             onClick={() => {
-                                handleApprove(record._id, record?.committeeList?.length > 0 && record?.committeeList[0]?.cid, "DECLINE")
+                                setCommitteeId(record?.committeeList[0]?.cid)
                                 setUserId(record._id)
+                                setShow(true)
                             }}
                             style={{ margin: "0", width: "100px" }}
                             className="deny-btn">
@@ -125,9 +127,46 @@ function Members() {
                         <Button
                             loading={userId === record._id ? loading : false}
                             style={{ margin: "0 0 0 10px", width: "100px" }}
-                            onClick={() => {
-                                handleApprove(record._id, record?.committeeList?.length > 0 && record?.committeeList[0]?.cid, "APPROVE")
+                            onClick={async () => {
                                 setUserId(record._id)
+                                setLoading(true)
+                                try {
+                                    const response = await axios.post(`${API_URL}/admin/approveAccount/${record._id}`, {
+                                        approve: true,
+                                        cId: record?.committeeList[0]?.cid
+                                    }, {
+                                        headers: {
+                                            Authorization: "Bearer " + token
+                                        }
+                                    })
+                                    if (response.status === 200) {
+                                        console.log(response);
+                                        setLoading(false)
+                                        setLoading2(false)
+                                        api.success({
+                                            message: `Notification`,
+                                            description: response?.data?.message,
+                                            placement: "bottomRight",
+                                        });
+                                        GetAllMembers(token)
+                                            .then((res) => {
+                                                console.log(res?.data);
+                                                dispatch(setApproveMembers(res?.data?.users))
+                                            })
+                                            .catch((error) => {
+                                                console.log(error);
+                                            })
+                                    }
+                                } catch (error) {
+                                    setLoading(false)
+                                    setLoading2(false)
+                                    console.log(error);
+                                    api.error({
+                                        message: `Notification`,
+                                        description: error?.response?.data?.message ? error?.response?.data?.message : "network error",
+                                        placement: "bottomRight",
+                                    });
+                                }
                             }}
                             className="add-cycle-btn">
                             Approve
@@ -148,49 +187,6 @@ function Members() {
             }
         },
     ];
-
-    async function handleApprove(id, cid, type) {
-        setLoading(type === "APPROVE" ? true : false)
-        setLoading2(type === "DECLINE" ? true : false)
-        try {
-            const response = await axios.post(`${API_URL}/admin/approveAccount/${id}`, {
-                approve: type === "APPROVE" ? true : false,
-                cId: cid
-            }, {
-                headers: {
-                    Authorization: "Bearer " + token
-                }
-            })
-            if (response.status === 200) {
-                console.log(response);
-                setLoading(false)
-                setLoading2(false)
-                // openNotification("topRight", type === "APPROVE" ? "Account Approved Successfully" : "Account Deleted Successfully")
-                api.success({
-                    message: `Notification`,
-                    description: response?.data?.message,
-                    placement: "bottomRight",
-                });
-                GetAllMembers(token)
-                    .then((res) => {
-                        console.log(res?.data);
-                        dispatch(setApproveMembers(res?.data?.users))
-                    })
-                    .catch((error) => {
-                        console.log(error);
-                    })
-            }
-        } catch (error) {
-            setLoading(false)
-            setLoading2(false)
-            console.log(error);
-            api.error({
-                message: `Notification`,
-                description: error?.response?.data?.message ? error?.response?.data?.message : "network error",
-                placement: "bottomRight",
-            });
-        }
-    }
 
     const approveMembers = useSelector((state) => state.members.approveMembers)
     const committees = useSelector((state) => state.committees.committees)
@@ -243,49 +239,53 @@ function Members() {
         <>
             {contextHolder}
             <Modal
-                okButtonProps={{ style: { backgroundColor: "#166805" } }}
+                okButtonProps={{ style: { backgroundColor: "#166805" }, loading: loading2 }}
+                okText="Delete"
                 centered
-                open={showModal}
-                onOk={() => setShowModal(false)}
-                onCancel={() => setShowModal(false)}
+                open={show}
+                onOk={async () => {
+                    setLoading2(true)
+                    try {
+                        const response = await axios.post(`${API_URL}/admin/approveAccount/${userId}`, {
+                            approve: false,
+                            cId: committeeId
+                        }, {
+                            headers: {
+                                Authorization: "Bearer " + token
+                            }
+                        })
+                        if (response.status === 200) {
+                            console.log(response);
+                            setLoading2(false)
+                            setShow(false)
+                            api.success({
+                                message: `Notification`,
+                                description: response?.data?.message,
+                                placement: "bottomRight",
+                            });
+                            GetAllMembers(token)
+                                .then((res) => {
+                                    console.log(res?.data);
+                                    dispatch(setApproveMembers(res?.data?.users))
+                                })
+                                .catch((error) => {
+                                    console.log(error);
+                                })
+                        }
+                    } catch (error) {
+                        setShow(false)
+                        setLoading2(false)
+                        console.log(error);
+                        api.error({
+                            message: `Notification`,
+                            description: error?.response?.data?.message ? error?.response?.data?.message : "network error",
+                            placement: "bottomRight",
+                        });
+                    }
+                }}
+                onCancel={() => setShow(false)}
             >
-                <Title style={{ color: "#166805", margin: "0 0 20px 0" }} level={3}>Committee Detail</Title>
-                <Card style={{ marginBottom: "20px" }}>
-                    <Row gutter={[24, 0]}>
-                        <Col xs={24} sm={24} md={4} lg={6} xl={6}>
-                            <Title style={{ margin: 0 }} level={5}>Name</Title>
-                            <Title style={{ margin: 0, color: "grey", fontWeight: '500' }} level={5}>{committeeDetail?.committeeDetails?.committee?.name}</Title>
-                        </Col>
-                        <Col xs={24} sm={24} md={4} lg={6} xl={6}>
-                            <Title style={{ margin: 0 }} level={5}>Cycle</Title>
-                            <Title style={{ margin: 0, color: "grey", fontWeight: '500' }} level={5}>{committeeDetail?.committeeDetails?.committee?.cycle?.type}</Title>
-                        </Col>
-                        <Col xs={24} sm={24} md={4} lg={6} xl={6}>
-                            <Title style={{ margin: 0 }} level={5}>Cycle Duration</Title>
-                            <Title style={{ margin: 0, color: "grey", fontWeight: '500' }} level={5}>8 months</Title>
-                        </Col>
-                        <Col xs={24} sm={24} md={4} lg={6} xl={6}>
-                            <Title style={{ margin: 0 }} level={5}>Total Amount</Title>
-                            <Title style={{ margin: 0, color: "grey", fontWeight: '500' }} level={5}>{committeeDetail?.committeeDetails?.committee?.payment}</Title>
-                        </Col>
-                        <Col xs={24} sm={24} md={4} lg={6} xl={6}>
-                            <Title style={{ margin: 0 }} level={5}>Monthly Payment</Title>
-                            <Title style={{ margin: 0, color: "grey", fontWeight: '500' }} level={5}>{committeeDetail?.committeeDetails?.committee?.amount}</Title>
-                        </Col>
-                        <Col xs={24} sm={24} md={4} lg={6} xl={6}>
-                            <Title style={{ margin: 0 }} level={5}>Members</Title>
-                            <Title style={{ margin: 0, color: "grey", fontWeight: '500' }} level={5}>{committeeDetail?.committeeDetails?.committee?.members}</Title>
-                        </Col>
-                        <Col xs={24} sm={24} md={4} lg={6} xl={6}>
-                            <Title style={{ margin: 0 }} level={5}>Start Date</Title>
-                            <Title style={{ margin: 0, color: "grey", fontWeight: '500' }} level={5}>{new Date(committeeDetail?.committeeDetails?.committee?.startDate).toLocaleDateString()}</Title>
-                        </Col>
-                        <Col xs={24} sm={24} md={4} lg={6} xl={6}>
-                            <Title style={{ margin: 0 }} level={5}>End Date</Title>
-                            <Title style={{ margin: 0, color: "grey", fontWeight: '500' }} level={5}>{new Date(committeeDetail?.committeeDetails?.committee?.endDate).toLocaleDateString()}</Title>
-                        </Col>
-                    </Row>
-                </Card>
+                <Title style={{ color: "#166805", margin: "0 0 20px 0" }} level={5}>Are your sure want to delete this user ?</Title>
             </Modal>
             <div style={{ marginBottom: "20px", marginTop: "40px", display: "flex", justifyContent: "space-between" }}>
                 <Title style={{ color: "#166805", margin: 0 }} level={3}>Approval members Request</Title>
@@ -311,7 +311,7 @@ function Members() {
                                 .sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt)) :
                             approveMembers?.filter((user) => user.approve === false)
                                 .sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt))
-                    }                    
+                    }
                     columns={column}
                 />
             </Card>

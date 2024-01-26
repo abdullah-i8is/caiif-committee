@@ -33,6 +33,7 @@ function VerificationDetails() {
     const [loading2, setLoading2] = useState(false)
     const [fullScreen, setFullScreen] = useState(false)
     const [showModal, setShowModal] = useState(false)
+    const [showModal2, setShowModal2] = useState(false)
     const [committeeID, setCommitteeID] = useState("")
     const [ID, setID] = useState("")
     const [committeeNumber, setCommitteeNumber] = useState("")
@@ -418,6 +419,25 @@ function VerificationDetails() {
     return (
         <>
             {contextHolder}
+            <Modal
+                okButtonProps={{ style: { backgroundColor: "#166805" }, loading: loading2 }}
+                okText="Delete"
+                centered
+                open={showModal2}
+                onOk={() => {
+                    setUser((prevUser) => {
+                        return {
+                            ...prevUser,
+                            committeeList: prevUser?.committeeList?.filter((val, ind) => ind !== 0),
+                            cId: prevUser?.cId?.filter((val, ind) => ind !== 0),
+                        }
+                    })
+                    setShowModal2(false)
+                }}
+                onCancel={() => setShowModal2(false)}
+            >
+                <Title style={{ color: "#166805", margin: "0 0 20px 0" }} level={5}>Are your sure want to remove this commitee ?</Title>
+            </Modal>
             <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", marginBottom: "20px", marginTop: "50px" }}>
                 <Title style={{ color: "#166805", margin: 0 }} level={3}>Verification Details</Title>
                 {user?.approve === false && <div style={{ display: "flex", alignItems: "center" }}>
@@ -822,6 +842,10 @@ function VerificationDetails() {
                                         <div style={{ display: "flex", justifyContent: "space-between", marginBottom: 30 }}>
                                             <Title style={{ color: "#166805", margin: "0" }} level={3}>Committee {com?.cid?.uniqueId}</Title>
                                             <Button onClick={() => {
+                                                if (user?.committeeList?.length === 1 && user?.cId?.length === 1) {
+                                                    setShowModal2(true)
+                                                    return null
+                                                }
                                                 setUser((prevUser) => {
                                                     return {
                                                         ...prevUser,
@@ -884,7 +908,6 @@ function VerificationDetails() {
                                     <Col xs={24} sm={24} md={12} lg={6} xl={6}>
                                         <Form.Item label={<Title style={{ fontSize: "16px", margin: 0, color: "#4E4E4E" }}>Select Committee Number</Title>}>
                                             <Select
-                                                disabled={user?.approve === true ? true : false}
                                                 defaultValue="Select Committee Number"
                                                 value={com?.committeeNumber}
                                                 style={{ width: "100%" }}
