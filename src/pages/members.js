@@ -88,15 +88,7 @@ function Members() {
             }
         },
         {
-            title: <Title style={{ fontSize: "18px", margin: 0, color: "#166805", fontWeight: "600" }}>Sin</Title>,
-            dataIndex: 'sin',
-            key: 'sin',
-            render: (text, record) => {
-                return <Title onClick={() => navigate(`/members/verification-details/${record._id}`)} style={{ fontSize: "16px", margin: 0, color: "#818181" }}>{record?.sin}</Title>
-            }
-        },
-        {
-            title: <Title style={{ fontSize: "18px", margin: 0, color: "#166805", fontWeight: "600" }}>Job Occupation</Title>,
+            title: <Title style={{ fontSize: "18px", margin: 0, color: "#166805", fontWeight: "600" }}>Occupation</Title>,
             dataIndex: 'jobOccupation',
             key: 'jobOccupation',
             render: (text, record) => {

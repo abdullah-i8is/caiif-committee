@@ -84,6 +84,7 @@ function VerificationDetails() {
                         }
                     }),
                 });
+                fetchCommitteeNumber(response?.data?.user?.committeeList[0]?.cid?._id)
             }
         } catch (error) {
             console.log(error);
@@ -136,7 +137,7 @@ function VerificationDetails() {
                 email: user?.email,
                 contactNumber: user?.contactNumber,
                 jobOccupation: user?.jobOccupation,
-                contactNumber: user?.contactNumber,
+                emergencyContact: user?.emergencyContact,
                 sin: user?.sin,
                 residentialAddress: user?.residentialAddress,
                 residentialStatus: user?.residentialStatus,
@@ -185,6 +186,7 @@ function VerificationDetails() {
     }
 
     async function fetchCommitteeNumber(value) {
+        console.log(value);
         const response = await axios.get(`${API_URL}/admin/getCommitteeNumbers/${value}`, {
             headers: {
                 Authorization: `Bearer ${token}`
