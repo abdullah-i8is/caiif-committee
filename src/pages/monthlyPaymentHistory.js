@@ -53,7 +53,7 @@ function MonthlyPaymentHistory() {
             dataIndex: 'date',
             key: 'date',
             render: (text, record) => {
-                return <Title style={{ fontSize: "16px", margin: 0, color: "#818181" }}>{new Date(record?.date).toLocaleDateString()}</Title>
+                return <Title style={{ fontSize: "16px", margin: 0, color: "#818181", cursor:"pointer" }}>{new Date(record?.date).toLocaleDateString()}</Title>
             }
         },
         {
@@ -61,7 +61,7 @@ function MonthlyPaymentHistory() {
             dataIndex: 'name',
             key: 'name',
             render: (text, record, index) => {
-                return <Title style={{ fontSize: "18px", margin: 0 }}>{record?.cid?.name}</Title>
+                return <Title style={{ fontSize: "18px", margin: 0, cursor:"pointer" }}>{record?.cid?.name}</Title>
             }
         },
         {
@@ -69,7 +69,7 @@ function MonthlyPaymentHistory() {
             dataIndex: 'name',
             key: 'name',
             render: (text, record, index) => {
-                return <Title style={{ fontSize: "18px", margin: 0 }}>{record?.userId?.firstName}</Title>
+                return <Title style={{ fontSize: "18px", margin: 0, cursor:"pointer" }}>{record?.userId?.firstName}</Title>
             }
         },
         {
@@ -77,7 +77,7 @@ function MonthlyPaymentHistory() {
             dataIndex: 'name',
             key: 'name',
             render: (text, record, index) => {
-                return <Title style={{ fontSize: "18px", margin: 0 }}>{record?.userId?.lastName}</Title>
+                return <Title style={{ fontSize: "18px", margin: 0, cursor:"pointer" }}>{record?.userId?.lastName}</Title>
             }
         },
         {
@@ -85,7 +85,7 @@ function MonthlyPaymentHistory() {
             dataIndex: 'email',
             key: 'email',
             render: (text, record, index) => {
-                return <Title style={{ fontSize: "18px", margin: 0 }}>{record?.userId?.email}</Title>
+                return <Title style={{ fontSize: "18px", margin: 0, cursor:"pointer" }}>{record?.userId?.email}</Title>
             }
         },
         {
@@ -94,7 +94,7 @@ function MonthlyPaymentHistory() {
             key: 'amount',
             render: (text, record) => {
                 console.log(record);
-                return <Title style={{ fontSize: "16px", margin: 0, color: "#818181" }}>{record?.isPaid}</Title>
+                return <Title style={{ fontSize: "16px", margin: 0, color: "#818181", cursor:"pointer" }}>{record?.isPaid}</Title>
             }
         },
         {
@@ -104,7 +104,7 @@ function MonthlyPaymentHistory() {
             render: (text, record) => {
                 return (
                     <div style={{ display: "flex", alignItems: "center" }}>
-                        <Title style={{ fontSize: "16px", margin: 0, color: "#818181" }}>$ {record?.paymentAmount}</Title>
+                        <Title style={{ fontSize: "16px", margin: 0, color: "#818181", cursor:"pointer" }}>$ {record?.paymentAmount}</Title>
                     </div>
                 )
             }
@@ -114,7 +114,7 @@ function MonthlyPaymentHistory() {
             dataIndex: 'date',
             key: 'date',
             render: (text, record) => {
-                return <Title style={{ fontSize: "16px", margin: 0, color: "#818181" }}>{record?.note}</Title>
+                return <Title style={{ fontSize: "16px", margin: 0, color: "#818181", cursor:"pointer" }}>{record?.note}</Title>
             }
         },
         {

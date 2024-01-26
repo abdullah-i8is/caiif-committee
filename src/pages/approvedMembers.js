@@ -57,7 +57,7 @@ function ApprovedMembers() {
             key: 'name',
             render: (text, record, index) => {
                 return <Title onClick={() => navigate(`/approved-members/verification-details/${record._id}`)}
-                    style={{ fontSize: "18px", margin: 0, color: "#166805", fontWeight: "600" }}>
+                    style={{ fontSize: "18px", margin: 0, color: "#166805", fontWeight: "600", cursor: "pointer" }}>
                     {record?.committeeList[0]?.cid?.uniqueId}
                 </Title>
             }
@@ -68,7 +68,7 @@ function ApprovedMembers() {
             key: 'name',
             render: (text, record, index) => {
                 return <Title onClick={() => navigate(`/approved-members/verification-details/${record._id}`)}
-                    style={{ fontSize: "18px", margin: 0, color: "#166805", fontWeight: "600" }}>
+                    style={{ fontSize: "18px", margin: 0, color: "#166805", fontWeight: "600", cursor: "pointer" }}>
                     {record?.committeeList[0]?.committeeNumber}
                 </Title>
             }
@@ -80,9 +80,9 @@ function ApprovedMembers() {
             render: (text, record, index) => {
                 return (
                     <>
-                        <Title onClick={() => navigate(`/approved-members/verification-details/${record._id}`)} style={{ fontSize: "18px", margin: 0, color: "#166805", fontWeight: "600" }}>{record?.firstName + " " + record?.lastName}</Title>
-                        <Title onClick={() => navigate(`/approved-members/verification-details/${record._id}`)} style={{ fontSize: "16px", margin: 0, color: "#818181" }}>{record?.email}</Title>
-                        <Title onClick={() => navigate(`/approved-members/verification-details/${record._id}`)} style={{ fontSize: "16px", margin: 0, color: "#818181" }}>{record?.contactNumber}</Title>
+                        <Title onClick={() => navigate(`/approved-members/verification-details/${record._id}`)} style={{ fontSize: "18px", margin: 0, color: "#166805", fontWeight: "600", cursor: "pointer" }}>{record?.firstName + " " + record?.lastName}</Title>
+                        <Title onClick={() => navigate(`/approved-members/verification-details/${record._id}`)} style={{ fontSize: "16px", margin: 0, color: "#818181", cursor: "pointer" }}>{record?.email}</Title>
+                        <Title onClick={() => navigate(`/approved-members/verification-details/${record._id}`)} style={{ fontSize: "16px", margin: 0, color: "#818181", cursor: "pointer" }}>{record?.contactNumber}</Title>
                     </>
                 )
             }
@@ -92,7 +92,7 @@ function ApprovedMembers() {
             dataIndex: 'jobOccupation',
             key: 'jobOccupation',
             render: (text, record) => {
-                return <Title onClick={() => navigate(`/approved-members/verification-details/${record._id}`)} style={{ fontSize: "16px", margin: 0, color: "#818181" }}>{record?.jobOccupation}</Title>
+                return <Title onClick={() => navigate(`/approved-members/verification-details/${record._id}`)} style={{ fontSize: "16px", margin: 0, color: "#818181", cursor:"pointer" }}>{record?.jobOccupation}</Title>
             }
         },
         {
@@ -227,7 +227,7 @@ function ApprovedMembers() {
                                 .sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt)) :
                             approveMembers?.filter((user) => user.approve === true)
                                 .sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt))
-                    }   
+                    }
                     columns={column}
                 />
             </Card>

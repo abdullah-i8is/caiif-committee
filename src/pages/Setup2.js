@@ -82,7 +82,7 @@ function Setup2() {
             dataIndex: 'name',
             key: 'name',
             render: (text, record, index) => {
-                return <Title onClick={() => navigate(`/members/verification-details/${record._id}`)} style={{ fontSize: "18px", margin: 0 }}>{record?.committeeList[0]?.committeeNumber}</Title>
+                return <Title onClick={() => navigate(`/members/verification-details/${record._id}`)} style={{ fontSize: "18px", margin: 0, cursor:"pointer" }}>{record?.committeeList[0]?.committeeNumber}</Title>
             }
         },
         {
@@ -90,7 +90,7 @@ function Setup2() {
             dataIndex: 'name',
             key: 'name',
             render: (text, record, index) => {
-                return <Title onClick={() => navigate(`/members/verification-details/${record._id}`)} style={{ fontSize: "18px", margin: 0 }}>{record?.firstName + " " + record?.lastName}</Title>
+                return <Title onClick={() => navigate(`/members/verification-details/${record._id}`)} style={{ fontSize: "18px", margin: 0, cursor:"pointer" }}>{record?.firstName + " " + record?.lastName}</Title>
             }
         },
         {
@@ -98,7 +98,7 @@ function Setup2() {
             dataIndex: 'email',
             key: 'email',
             render: (text, record) => {
-                return <Title onClick={() => navigate(`/members/verification-details/${record._id}`)} style={{ fontSize: "16px", margin: 0, color: "#818181" }}>{record?.email}</Title>
+                return <Title onClick={() => navigate(`/members/verification-details/${record._id}`)} style={{ fontSize: "16px", margin: 0, color: "#818181", cursor:"pointer" }}>{record?.email}</Title>
             }
         },
         {
@@ -106,7 +106,7 @@ function Setup2() {
             dataIndex: 'contactNumber',
             key: 'contactNumber',
             render: (text, record) => {
-                return <Title onClick={() => navigate(`/members/verification-details/${record._id}`)} style={{ fontSize: "16px", margin: 0, color: "#818181" }}>{record?.contactNumber}</Title>
+                return <Title onClick={() => navigate(`/members/verification-details/${record._id}`)} style={{ fontSize: "16px", margin: 0, color: "#818181", cursor:"pointer" }}>{record?.contactNumber}</Title>
             }
         },
         {
@@ -114,7 +114,7 @@ function Setup2() {
             dataIndex: 'level',
             key: 'level',
             render: (text, record) => {
-                return <Title onClick={() => navigate(`/members/verification-details/${record._id}`)} style={{ fontSize: "16px", margin: 0, color: "#818181" }}>{record?.level}</Title>
+                return <Title onClick={() => navigate(`/members/verification-details/${record._id}`)} style={{ fontSize: "16px", margin: 0, color: "#818181", cursor:"pointer" }}>{record?.level}</Title>
             }
         },
         {
@@ -138,7 +138,7 @@ function Setup2() {
             dataIndex: 'enroll',
             key: 'enroll',
             render: (text, record) => {
-                return <Title onClick={() => navigate(`/members/verification-details/${record._id}`)} style={{ fontSize: "16px", margin: 0, color: "#818181" }}>{record?.committeeList ? record?.committeeList[0]?.received === true ? "PAYOUT" : "NOT PAYOUT" : ""}</Title>
+                return <Title onClick={() => navigate(`/members/verification-details/${record._id}`)} style={{ fontSize: "16px", margin: 0, color: "#818181", cursor:"pointer" }}>{record?.committeeList ? record?.committeeList[0]?.received === true ? "PAYOUT" : "NOT PAYOUT" : ""}</Title>
             }
         },
         {
@@ -208,14 +208,6 @@ function Setup2() {
             key: 'level',
             render: (text, record) => {
                 return <Title style={{ fontSize: "16px", margin: 0, color: "#818181" }}>{record?.level}</Title>
-            }
-        },
-        {
-            title: <Title style={{ fontSize: "18px", margin: 0, color: "#166805", fontWeight: "600" }}>Enroll</Title>,
-            dataIndex: 'enroll',
-            key: 'enroll',
-            render: (text, record) => {
-                return <Title style={{ fontSize: "16px", margin: 0, color: "#818181" }}>{record?.committeeList?.length}</Title>
             }
         },
         {
@@ -528,7 +520,7 @@ function Setup2() {
                             </Col>
                             <Col xs={24} sm={24} md={4} lg={4} xl={4}>
                                 <Title style={{ margin: 0 }} level={5}>Monthly / By-weekly Contribution</Title>
-                                <Title style={{ margin: 0, color: "grey", fontWeight: '500' }} level={5}>{committeeDetail?.amount}</Title>
+                                <Title style={{ margin: 0, color: "grey", fontWeight: '500' }} level={5}>$ {committeeDetail?.amount}</Title>
                             </Col>
                             <Col xs={24} sm={24} md={4} lg={4} xl={4}>
                                 <Title style={{ margin: "10px 0 0 0" }} level={5}>Members</Title>
@@ -537,10 +529,6 @@ function Setup2() {
                             <Col xs={24} sm={24} md={4} lg={4} xl={4}>
                                 <Title style={{ margin: "10px 0 0 0" }} level={5}>Start Date</Title>
                                 <Title style={{ margin: 0, color: "grey", fontWeight: '500' }} level={5}>{new Date(committeeDetail?.startDate).toLocaleDateString()}</Title>
-                            </Col>
-                            <Col xs={24} sm={24} md={4} lg={4} xl={4}>
-                                <Title style={{ margin: "10px 0 0 0" }} level={5}>End Date</Title>
-                                <Title style={{ margin: 0, color: "grey", fontWeight: '500' }} level={5}>{new Date(committeeDetail?.endDate).toLocaleDateString()}</Title>
                             </Col>
                         </Row>
                     </Card>
@@ -608,42 +596,40 @@ function Setup2() {
                 <>
                     <Title style={{ color: "#166805", margin: "0 0 20px 0" }} level={3}>Committee Detail</Title>
                     <Card style={{ marginBottom: "20px" }}>
-                        <Col xs={24} sm={24} md={4} lg={4} xl={4}>
-                            <Title style={{ margin: 0 }} level={5}>Committee ID</Title>
-                            <Title style={{ margin: 0, color: "grey", fontWeight: '500' }} level={5}>{committeeDetail?.uniqueId}</Title>
-                        </Col>
-                        <Col xs={24} sm={24} md={4} lg={4} xl={4}>
-                            <Title style={{ margin: 0 }} level={5}>Name</Title>
-                            <Title style={{ margin: 0, color: "grey", fontWeight: '500' }} level={5}>{committeeDetail?.name}</Title>
-                        </Col>
-                        <Col xs={24} sm={24} md={4} lg={4} xl={4}>
-                            <Title style={{ margin: 0 }} level={5}>Cycle</Title>
-                            <Title style={{ margin: 0, color: "grey", fontWeight: '500' }} level={5}>{committeeDetail?.cycle?.type}</Title>
-                        </Col>
-                        <Col xs={24} sm={24} md={4} lg={4} xl={4}>
-                            <Title style={{ margin: 0 }} level={5}>Cycle Duration</Title>
-                            <Title style={{ margin: 0, color: "grey", fontWeight: '500' }} level={5}>8 months</Title>
-                        </Col>
-                        <Col xs={24} sm={24} md={4} lg={4} xl={4}>
-                            <Title style={{ margin: 0 }} level={5}>Total Payout</Title>
-                            <Title style={{ margin: 0, color: "grey", fontWeight: '500' }} level={5}>{committeeDetail?.payment}</Title>
-                        </Col>
-                        <Col xs={24} sm={24} md={4} lg={4} xl={4}>
-                            <Title style={{ margin: 0 }} level={5}>Monthly / By-weekly Contribution</Title>
-                            <Title style={{ margin: 0, color: "grey", fontWeight: '500' }} level={5}>{committeeDetail?.amount}</Title>
-                        </Col>
-                        <Col xs={24} sm={24} md={4} lg={4} xl={4}>
-                            <Title style={{ margin: "10px 0 0 0" }} level={5}>Members</Title>
-                            <Title style={{ margin: 0, color: "grey", fontWeight: '500' }} level={5}>{committeeDetail?.members}</Title>
-                        </Col>
-                        <Col xs={24} sm={24} md={4} lg={4} xl={4}>
-                            <Title style={{ margin: "10px 0 0 0" }} level={5}>Start Date</Title>
-                            <Title style={{ margin: 0, color: "grey", fontWeight: '500' }} level={5}>{new Date(committeeDetail?.startDate).toLocaleDateString()}</Title>
-                        </Col>
-                        <Col xs={24} sm={24} md={4} lg={4} xl={4}>
-                            <Title style={{ margin: "10px 0 0 0" }} level={5}>End Date</Title>
-                            <Title style={{ margin: 0, color: "grey", fontWeight: '500' }} level={5}>{new Date(committeeDetail?.endDate).toLocaleDateString()}</Title>
-                        </Col>
+                        <Row gutter={[24, 0]}>
+                            <Col xs={24} sm={24} md={4} lg={4} xl={4}>
+                                <Title style={{ margin: 0 }} level={5}>Committee ID</Title>
+                                <Title style={{ margin: 0, color: "grey", fontWeight: '500' }} level={5}>{committeeDetail?.uniqueId}</Title>
+                            </Col>
+                            <Col xs={24} sm={24} md={4} lg={4} xl={4}>
+                                <Title style={{ margin: 0 }} level={5}>Name</Title>
+                                <Title style={{ margin: 0, color: "grey", fontWeight: '500' }} level={5}>{committeeDetail?.name}</Title>
+                            </Col>
+                            <Col xs={24} sm={24} md={4} lg={4} xl={4}>
+                                <Title style={{ margin: 0 }} level={5}>Cycle</Title>
+                                <Title style={{ margin: 0, color: "grey", fontWeight: '500' }} level={5}>{committeeDetail?.cycle?.type}</Title>
+                            </Col>
+                            <Col xs={24} sm={24} md={4} lg={4} xl={4}>
+                                <Title style={{ margin: 0 }} level={5}>Cycle Duration</Title>
+                                <Title style={{ margin: 0, color: "grey", fontWeight: '500' }} level={5}>8 months</Title>
+                            </Col>
+                            <Col xs={24} sm={24} md={4} lg={4} xl={4}>
+                                <Title style={{ margin: 0 }} level={5}>Total Payout</Title>
+                                <Title style={{ margin: 0, color: "grey", fontWeight: '500' }} level={5}>{committeeDetail?.payment}</Title>
+                            </Col>
+                            <Col xs={24} sm={24} md={4} lg={4} xl={4}>
+                                <Title style={{ margin: 0 }} level={5}>Monthly / By-weekly Contribution</Title>
+                                <Title style={{ margin: 0, color: "grey", fontWeight: '500' }} level={5}>$ {committeeDetail?.amount}</Title>
+                            </Col>
+                            <Col xs={24} sm={24} md={4} lg={4} xl={4}>
+                                <Title style={{ margin: "10px 0 0 0" }} level={5}>Members</Title>
+                                <Title style={{ margin: 0, color: "grey", fontWeight: '500' }} level={5}>{committeeDetail?.members}</Title>
+                            </Col>
+                            <Col xs={24} sm={24} md={4} lg={4} xl={4}>
+                                <Title style={{ margin: "10px 0 0 0" }} level={5}>Start Date</Title>
+                                <Title style={{ margin: 0, color: "grey", fontWeight: '500' }} level={5}>{new Date(committeeDetail?.startDate).toLocaleDateString()}</Title>
+                            </Col>
+                        </Row>
                     </Card>
                     <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: "20px" }}>
                         <Title style={{ color: "#166805", margin: 0 }} level={3}>Committee members</Title>
