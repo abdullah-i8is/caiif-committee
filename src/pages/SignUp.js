@@ -81,6 +81,7 @@ export default function SignUp() {
     employmentStatus: "",
     appointment: {
       date: "",
+      time: "",
     },
     DOB: {
       day: "",
@@ -148,7 +149,7 @@ export default function SignUp() {
         if ((value === "" || value === null || value === undefined) && key !== "emergencyContact" && key !== "sin") {
           api.error({
             message: 'Notification',
-            description: `${key} is required`,
+            description: `${key === "nic" ? "Photo ID" : key} is required`,
             placement: {
               top: 24,
               right: 24,
@@ -157,7 +158,7 @@ export default function SignUp() {
         }
       });
     }
-    if (formFields.appointment && formFields.appointment.date === "") {
+    if (formFields.appointment.date === "" || formFields.appointment.time === "") {
       api.error({
         message: 'Notification',
         description: 'Appointment date is required',
@@ -173,9 +174,7 @@ export default function SignUp() {
       try {
         const response = await axios.post(`${API_URL}/signup`, {
           ...formFields,
-          appointment: {
-            date: appointment.date + " " + appointment.time,
-          },
+          appointment: formFields.appointment.date + " " + formFields.appointment.time
         })
         if (response.status === 200) {
           setLoading(false)
@@ -276,8 +275,6 @@ export default function SignUp() {
     console.log(params);
     getCommittee()
   }, [params.cid])
-
-  console.log(appointment.date + " " + appointment.time);
 
   console.log(formFields);
 
@@ -925,10 +922,13 @@ export default function SignUp() {
                             format="DD-MM-YYYY"
                             style={{ width: width < 768 ? "300px" : '200px' }}
                             onChange={(e, dateString) => {
-                              setAppointment((prevFields) => {
+                              setFormFields((prevFields) => {
                                 return {
                                   ...prevFields,
-                                  date: dateString
+                                  appointment: {
+                                    ...prevFields.appointment,
+                                    date: dateString
+                                  }
                                 }
                               });
                             }}
@@ -965,10 +965,13 @@ export default function SignUp() {
                               { value: '05 PM', label: '05 PM' },
                             ]}
                             onChange={(e) => {
-                              setAppointment((prevFields) => {
+                              setFormFields((prevFields) => {
                                 return {
                                   ...prevFields,
-                                  time: e
+                                  appointment: {
+                                    ...prevFields.appointment,
+                                    time: e
+                                  }
                                 }
                               });
                             }}

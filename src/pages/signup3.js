@@ -81,6 +81,7 @@ export default function SignUp3() {
     employmentStatus: "",
     appointment: {
       date: "",
+      time: ""
     },
     DOB: {
       day: "",
@@ -148,7 +149,7 @@ export default function SignUp3() {
         if ((value === "" || value === null || value === undefined) && key !== "emergencyContact" && key !== "sin") {
           api.error({
             message: 'Notification',
-            description: `${key} is required`,
+            description: `${key === "nic" ? "Photo ID" : key} is required`,
             placement: {
               top: 24,
               right: 24,
@@ -157,7 +158,7 @@ export default function SignUp3() {
         }
       });
     }
-    if (formFields.appointment && formFields.appointment.date === "") {
+    if (formFields.appointment.date === "" || formFields.appointment.time === "") {
       api.error({
         message: 'Notification',
         description: 'Appointment date is required',
@@ -926,10 +927,13 @@ export default function SignUp3() {
                             style={{ width: width < 768 ? "300px" : '200px' }}
                             onChange={(e, dateString) => {
                               setFieldName({ type: "appointment", value: e });
-                              setAppointment((prevFields) => {
+                              setFormFields((prevFields) => {
                                 return {
                                   ...prevFields,
-                                  date: dateString
+                                  appointment: {
+                                    ...prevFields.appointment,
+                                    date: dateString
+                                  }
                                 }
                               });
                             }}
@@ -967,10 +971,13 @@ export default function SignUp3() {
                             ]}
                             onChange={(e) => {
                               setFieldName({ type: "appointment", value: e });
-                              setAppointment((prevFields) => {
+                              setFormFields((prevFields) => {
                                 return {
                                   ...prevFields,
-                                  time: e
+                                  appointment: {
+                                    ...prevFields.appointment,
+                                    time: e
+                                  }
                                 }
                               });
                             }}
