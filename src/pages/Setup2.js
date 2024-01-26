@@ -507,39 +507,39 @@ function Setup2() {
                     <Card style={{ marginBottom: "20px" }}>
                         <Row gutter={[24, 0]}>
                             <Col xs={24} sm={24} md={4} lg={4} xl={4}>
-                                <Title style={{ margin: 0 }} level={4}>Committee ID</Title>
+                                <Title style={{ margin: 0 }} level={5}>Committee ID</Title>
                                 <Title style={{ margin: 0, color: "grey", fontWeight: '500' }} level={5}>{committeeDetail?.uniqueId}</Title>
                             </Col>
                             <Col xs={24} sm={24} md={4} lg={4} xl={4}>
-                                <Title style={{ margin: 0 }} level={4}>Name</Title>
+                                <Title style={{ margin: 0 }} level={5}>Name</Title>
                                 <Title style={{ margin: 0, color: "grey", fontWeight: '500' }} level={5}>{committeeDetail?.name}</Title>
                             </Col>
                             <Col xs={24} sm={24} md={4} lg={4} xl={4}>
-                                <Title style={{ margin: 0 }} level={4}>Cycle</Title>
+                                <Title style={{ margin: 0 }} level={5}>Cycle</Title>
                                 <Title style={{ margin: 0, color: "grey", fontWeight: '500' }} level={5}>{committeeDetail?.cycle?.type}</Title>
                             </Col>
                             <Col xs={24} sm={24} md={4} lg={4} xl={4}>
-                                <Title style={{ margin: 0 }} level={4}>Cycle Duration</Title>
+                                <Title style={{ margin: 0 }} level={5}>Cycle Duration</Title>
                                 <Title style={{ margin: 0, color: "grey", fontWeight: '500' }} level={5}>8 months</Title>
                             </Col>
                             <Col xs={24} sm={24} md={4} lg={4} xl={4}>
-                                <Title style={{ margin: 0 }} level={4}>Total Amount</Title>
+                                <Title style={{ margin: 0 }} level={5}>Total Payout</Title>
                                 <Title style={{ margin: 0, color: "grey", fontWeight: '500' }} level={5}>{committeeDetail?.payment}</Title>
                             </Col>
                             <Col xs={24} sm={24} md={4} lg={4} xl={4}>
-                                <Title style={{ margin: 0 }} level={4}>Monthly Payment</Title>
+                                <Title style={{ margin: 0 }} level={5}>Monthly / By-weekly Contribution</Title>
                                 <Title style={{ margin: 0, color: "grey", fontWeight: '500' }} level={5}>{committeeDetail?.amount}</Title>
                             </Col>
                             <Col xs={24} sm={24} md={4} lg={4} xl={4}>
-                                <Title style={{ margin: 0 }} level={4}>Members</Title>
+                                <Title style={{ margin: "10px 0 0 0" }} level={5}>Members</Title>
                                 <Title style={{ margin: 0, color: "grey", fontWeight: '500' }} level={5}>{committeeDetail?.members}</Title>
                             </Col>
                             <Col xs={24} sm={24} md={4} lg={4} xl={4}>
-                                <Title style={{ margin: 0 }} level={4}>Start Date</Title>
+                                <Title style={{ margin: "10px 0 0 0" }} level={5}>Start Date</Title>
                                 <Title style={{ margin: 0, color: "grey", fontWeight: '500' }} level={5}>{new Date(committeeDetail?.startDate).toLocaleDateString()}</Title>
                             </Col>
                             <Col xs={24} sm={24} md={4} lg={4} xl={4}>
-                                <Title style={{ margin: 0 }} level={4}>End Date</Title>
+                                <Title style={{ margin: "10px 0 0 0" }} level={5}>End Date</Title>
                                 <Title style={{ margin: 0, color: "grey", fontWeight: '500' }} level={5}>{new Date(committeeDetail?.endDate).toLocaleDateString()}</Title>
                             </Col>
                         </Row>
@@ -608,40 +608,42 @@ function Setup2() {
                 <>
                     <Title style={{ color: "#166805", margin: "0 0 20px 0" }} level={3}>Committee Detail</Title>
                     <Card style={{ marginBottom: "20px" }}>
-                        <Row gutter={[24, 0]}>
-                            <Col xs={24} sm={24} md={4} lg={3} xl={3}>
-                                <Title style={{ margin: 0 }} level={4}>Name</Title>
-                                <Title style={{ margin: 0, color: "grey", fontWeight: '500' }} level={5}>{committeeDetail?.name}</Title>
-                            </Col>
-                            <Col xs={24} sm={24} md={4} lg={3} xl={3}>
-                                <Title style={{ margin: 0 }} level={4}>Cycle</Title>
-                                <Title style={{ margin: 0, color: "grey", fontWeight: '500' }} level={5}>{committeeDetail?.cycle?.type}</Title>
-                            </Col>
-                            <Col xs={24} sm={24} md={4} lg={3} xl={3}>
-                                <Title style={{ margin: 0 }} level={4}>Cycle Duration</Title>
-                                <Title style={{ margin: 0, color: "grey", fontWeight: '500' }} level={5}>8 months</Title>
-                            </Col>
-                            <Col xs={24} sm={24} md={4} lg={3} xl={3}>
-                                <Title style={{ margin: 0 }} level={4}>Total Amount</Title>
-                                <Title style={{ margin: 0, color: "grey", fontWeight: '500' }} level={5}>{committeeDetail?.payment}</Title>
-                            </Col>
-                            <Col xs={24} sm={24} md={4} lg={3} xl={3}>
-                                <Title style={{ margin: 0 }} level={4}>Monthly Payment</Title>
-                                <Title style={{ margin: 0, color: "grey", fontWeight: '500' }} level={5}>{committeeDetail?.amount}</Title>
-                            </Col>
-                            <Col xs={24} sm={24} md={4} lg={3} xl={3}>
-                                <Title style={{ margin: 0 }} level={4}>Members</Title>
-                                <Title style={{ margin: 0, color: "grey", fontWeight: '500' }} level={5}>{committeeDetail?.members}</Title>
-                            </Col>
-                            <Col xs={24} sm={24} md={4} lg={3} xl={3}>
-                                <Title style={{ margin: 0 }} level={4}>Start Date</Title>
-                                <Title style={{ margin: 0, color: "grey", fontWeight: '500' }} level={5}>{new Date(committeeDetail?.startDate).toLocaleDateString()}</Title>
-                            </Col>
-                            <Col xs={24} sm={24} md={4} lg={3} xl={3}>
-                                <Title style={{ margin: 0 }} level={4}>End Date</Title>
-                                <Title style={{ margin: 0, color: "grey", fontWeight: '500' }} level={5}>{new Date(committeeDetail?.endDate).toLocaleDateString()}</Title>
-                            </Col>
-                        </Row>
+                        <Col xs={24} sm={24} md={4} lg={4} xl={4}>
+                            <Title style={{ margin: 0 }} level={5}>Committee ID</Title>
+                            <Title style={{ margin: 0, color: "grey", fontWeight: '500' }} level={5}>{committeeDetail?.uniqueId}</Title>
+                        </Col>
+                        <Col xs={24} sm={24} md={4} lg={4} xl={4}>
+                            <Title style={{ margin: 0 }} level={5}>Name</Title>
+                            <Title style={{ margin: 0, color: "grey", fontWeight: '500' }} level={5}>{committeeDetail?.name}</Title>
+                        </Col>
+                        <Col xs={24} sm={24} md={4} lg={4} xl={4}>
+                            <Title style={{ margin: 0 }} level={5}>Cycle</Title>
+                            <Title style={{ margin: 0, color: "grey", fontWeight: '500' }} level={5}>{committeeDetail?.cycle?.type}</Title>
+                        </Col>
+                        <Col xs={24} sm={24} md={4} lg={4} xl={4}>
+                            <Title style={{ margin: 0 }} level={5}>Cycle Duration</Title>
+                            <Title style={{ margin: 0, color: "grey", fontWeight: '500' }} level={5}>8 months</Title>
+                        </Col>
+                        <Col xs={24} sm={24} md={4} lg={4} xl={4}>
+                            <Title style={{ margin: 0 }} level={5}>Total Payout</Title>
+                            <Title style={{ margin: 0, color: "grey", fontWeight: '500' }} level={5}>{committeeDetail?.payment}</Title>
+                        </Col>
+                        <Col xs={24} sm={24} md={4} lg={4} xl={4}>
+                            <Title style={{ margin: 0 }} level={5}>Monthly / By-weekly Contribution</Title>
+                            <Title style={{ margin: 0, color: "grey", fontWeight: '500' }} level={5}>{committeeDetail?.amount}</Title>
+                        </Col>
+                        <Col xs={24} sm={24} md={4} lg={4} xl={4}>
+                            <Title style={{ margin: "10px 0 0 0" }} level={5}>Members</Title>
+                            <Title style={{ margin: 0, color: "grey", fontWeight: '500' }} level={5}>{committeeDetail?.members}</Title>
+                        </Col>
+                        <Col xs={24} sm={24} md={4} lg={4} xl={4}>
+                            <Title style={{ margin: "10px 0 0 0" }} level={5}>Start Date</Title>
+                            <Title style={{ margin: 0, color: "grey", fontWeight: '500' }} level={5}>{new Date(committeeDetail?.startDate).toLocaleDateString()}</Title>
+                        </Col>
+                        <Col xs={24} sm={24} md={4} lg={4} xl={4}>
+                            <Title style={{ margin: "10px 0 0 0" }} level={5}>End Date</Title>
+                            <Title style={{ margin: 0, color: "grey", fontWeight: '500' }} level={5}>{new Date(committeeDetail?.endDate).toLocaleDateString()}</Title>
+                        </Col>
                     </Card>
                     <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: "20px" }}>
                         <Title style={{ color: "#166805", margin: 0 }} level={3}>Committee members</Title>

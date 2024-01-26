@@ -36,7 +36,7 @@ function VerificationDetails() {
     const [committeeID, setCommitteeID] = useState("")
     const [ID, setID] = useState("")
     const [committeeNumber, setCommitteeNumber] = useState("")
-    const [committeeNumbers, setCommitteeNumbers] = useState(["0"])
+    const [committeeNumbers, setCommitteeNumbers] = useState([])
     const navigate = useNavigate()
     const token = useSelector((state) => state.common.token)
     const [user, setUser] = useState()
@@ -413,6 +413,8 @@ function VerificationDetails() {
     console.log(user);
     // console.log(commitee);
 
+    console.log({ committeeID, committeeNumber });
+
     return (
         <>
             {contextHolder}
@@ -788,11 +790,14 @@ function VerificationDetails() {
                             <Card style={{ marginBottom: "20px" }}>
                                 <Row gutter={[24, 0]}>
                                     <Col xs={24} sm={24} md={12} lg={12} xl={12}>
-                                        <Form.Item label={<Title style={{ fontSize: "16px", margin: 0, color: "#4E4E4E" }}>Select Committee</Title>}>
+                                        <Form.Item label={<Title style={{ fontSize: "16px", margin: 0, color: "#4E4E4E" }}>Select Committee ID</Title>}>
                                             <Select
                                                 style={{ width: "100%" }}
                                                 options={state?.committees?.committees?.map((opt) => ({ value: opt?.committeeDetails?.committee?._id, label: opt?.committeeDetails?.committee?.uniqueId }))}
-                                                onChange={(e) => setCommitteeID(e)}
+                                                onChange={(e) => {
+                                                    setCommitteeID(e)
+                                                    fetchCommitteeNumber(e)
+                                                }}
                                             />
                                         </Form.Item>
                                     </Col>
@@ -801,19 +806,7 @@ function VerificationDetails() {
                                             <Select
                                                 defaultValue="Select Committee Number"
                                                 style={{ width: "100%" }}
-                                                options={([
-                                                    { value: "0", label: "0" },
-                                                    { value: "1", label: "1" },
-                                                    { value: "2", label: "2" },
-                                                    { value: "3", label: "3" },
-                                                    { value: "4", label: "4" },
-                                                    { value: "5", label: "5" },
-                                                    { value: "6", label: "6" },
-                                                    { value: "7", label: "7" },
-                                                    { value: "8", label: "8" },
-                                                    { value: "9", label: "9" },
-                                                    { value: "10", label: "10" },
-                                                ])}
+                                                options={committeeNumbers?.map((opt) => ({ value: opt, label: opt }))}
                                                 onChange={(e) => setCommitteeNumber(e)}
                                             />
                                         </Form.Item>
@@ -840,7 +833,7 @@ function VerificationDetails() {
                                         </div>
                                     </Col>
                                     <Col xs={24} sm={24} md={12} lg={6} xl={6}>
-                                        <Form.Item label={<Title style={{ fontSize: "16px", margin: 0, color: "#4E4E4E" }}>Select Committee</Title>}>
+                                        <Form.Item label={<Title style={{ fontSize: "16px", margin: 0, color: "#4E4E4E" }}>Select Committee ID</Title>}>
                                             <Select
                                                 disabled={user?.approve === true ? true : false}
                                                 value={com?.cid?.uniqueId}
