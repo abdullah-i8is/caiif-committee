@@ -34,6 +34,7 @@ function VerificationDetails() {
     const [fullScreen, setFullScreen] = useState(false)
     const [showModal, setShowModal] = useState(false)
     const [showModal2, setShowModal2] = useState(false)
+    const [showModal3, setShowModal3] = useState(false)
     const [committeeID, setCommitteeID] = useState("")
     const [ID, setID] = useState("")
     const [committeeNumber, setCommitteeNumber] = useState("")
@@ -421,7 +422,7 @@ function VerificationDetails() {
             {contextHolder}
             <Modal
                 okButtonProps={{ style: { backgroundColor: "#166805" }, loading: loading2 }}
-                okText="Delete"
+                okText="Remove"
                 centered
                 open={showModal2}
                 onOk={() => {
@@ -436,17 +437,61 @@ function VerificationDetails() {
                 }}
                 onCancel={() => setShowModal2(false)}
             >
-                <Title style={{ color: "#166805", margin: "0 0 20px 0" }} level={5}>Are your sure want to remove this commitee ?</Title>
+                <Title style={{ color: "#166805", margin: "0 0 20px 0" }} level={5}>Are your sure want to remove {user?.committeeList[0]?.cid?.uniqueId} commitee ?</Title>
+            </Modal>
+            <Modal
+                okButtonProps={{ style: { backgroundColor: "#166805" }, loading: loading }}
+                okText="Delete"
+                centered
+                open={showModal3}
+                onOk={async () => {
+                    setLoading(true)
+                    try {
+                        const response = await axios.post(`${API_URL}/admin/approveAccount/${id}`, {
+                            approve: false,
+                            cId: user?.cId[0]?.cid
+                        }, {
+                            headers: {
+                                Authorization: "Bearer " + token
+                            }
+                        })
+                        if (response.status === 200) {
+                            console.log(response);
+                            if (response.data.message === "Account deleted Successfully") {
+                                navigate("/members")
+                            }
+                            setShowModal3(true)
+                            setLoading(false)
+                            api.success({
+                                message: `Notification`,
+                                description: response?.data?.message,
+                                placement: "bottomRight",
+                            });
+                        }
+                    } catch (error) {
+                        setLoading(false)
+                        setShowModal3(true)
+                        console.log(error);
+                        api.error({
+                            message: `Notification`,
+                            description: error?.response?.data?.message ? error?.response?.data?.message : "network error",
+                            placement: "bottomRight",
+                        });
+                    }
+                }}
+                onCancel={() => setShowModal3(false)}
+            >
+                <Title style={{ color: "#166805", margin: "0 0 20px 0" }} level={5}>Are your sure want to delete {user?.firstName + " " + user?.lastName} ?</Title>
             </Modal>
             <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", marginBottom: "20px", marginTop: "50px" }}>
                 <Title style={{ color: "#166805", margin: 0 }} level={3}>Verification Details</Title>
                 {user?.approve === false && <div style={{ display: "flex", alignItems: "center" }}>
                     <Button onClick={() => {
-                        handleApprove("DECLINE")
+                        setShowModal3(true)
                     }} loading={loading} style={{ margin: "0 0 0 10px", width: "100px" }} className="deny-btn"> <img width={15} src={denyIcon} style={{ margin: "0 5px 0 0" }} />Delete</Button>
                     <Button onClick={() => {
                         handleApprove("APPROVE")
-                    }} loading={loading2} style={{ margin: "0 0 0 10px", width: "100px" }} className="add-cycle-btn"> Approve</Button>
+                    }} loading={loading2} style={{ margin: "0 0 0 10px", width: "100px" }} className="add-cycle-btn">Approve</Button>
                 </div>}
             </div>
             <Form
