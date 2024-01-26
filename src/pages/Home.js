@@ -208,7 +208,7 @@ function Home() {
       key: 'name',
       render: (text, record, index) => {
         console.log(record);
-        return <Title onClick={() => navigate(`/dashboard/view-committee/${record?.committeeDetails?.committee?._id}`)} style={{ fontSize: "18px", margin: 0, cursor:"pointer" }}>{record?.committee?.name}</Title>
+        return <Title onClick={() => navigate(`/dashboard/view-committee/${record?.committee?._id}`)} style={{ fontSize: "18px", margin: 0, cursor:"pointer" }}>{record?.committee?.name}</Title>
       }
     },
     {
@@ -216,7 +216,7 @@ function Home() {
       dataIndex: 'amount',
       key: 'amount',
       render: (text, record) => {
-        return <Title onClick={() => navigate(`/dashboard/view-committee/${record?.committeeDetails?.committee?._id}`)} style={{ fontSize: "16px", margin: 0, color: "#818181", cursor:"pointer" }}>$ {record?.committee?.payment}</Title>
+        return <Title onClick={() => navigate(`/dashboard/view-committee/${record?.committee?._id}`)} style={{ fontSize: "16px", margin: 0, color: "#818181", cursor:"pointer" }}>$ {record?.committee?.payment}</Title>
       }
     },
     {
@@ -225,7 +225,7 @@ function Home() {
       key: 'members',
       render: (text, record) => {
         return (
-          <div onClick={() => navigate(`/dashboard/view-committee/${record?.committeeDetails?.committee?._id}`)} style={{ display: "flex", alignItems: "center", cursor:"pointer" }}>
+          <div onClick={() => navigate(`/dashboard/view-committee/${record?.committee?._id}`)} style={{ display: "flex", alignItems: "center", cursor:"pointer" }}>
             <img width={30} src={memberIcon} />
             <Title style={{ fontSize: "16px", margin: "0 0 0 10px", color: "#818181" }}>{record?.committee?.members}</Title>
           </div>
@@ -237,7 +237,7 @@ function Home() {
       dataIndex: 'startDate',
       key: 'startDate',
       render: (text, record) => {
-        return <Title onClick={() => navigate(`/dashboard/view-committee/${record?.committeeDetails?.committee?._id}`)} style={{ fontSize: "16px", margin: 0, color: "#818181", cursor:"pointer" }}>{new Date(record?.committee?.startDate).toLocaleDateString()}</Title>
+        return <Title onClick={() => navigate(`/dashboard/view-committee/${record?.committee?._id}`)} style={{ fontSize: "16px", margin: 0, color: "#818181", cursor:"pointer" }}>{new Date(record?.committee?.startDate).toLocaleDateString()}</Title>
       }
     },
     {
@@ -245,7 +245,7 @@ function Home() {
       dataIndex: 'endDate',
       key: 'endDate',
       render: (text, record) => {
-        return <Title onClick={() => navigate(`/dashboard/view-committee/${record?.committeeDetails?.committee?._id}`)} style={{ fontSize: "16px", margin: 0, color: "#818181" , cursor:"pointer"}}>{new Date(record?.committee?.endDate).toLocaleDateString()}</Title>
+        return <Title onClick={() => navigate(`/dashboard/view-committee/${record?.committee?._id}`)} style={{ fontSize: "16px", margin: 0, color: "#818181" , cursor:"pointer"}}>{new Date(record?.committee?.endDate).toLocaleDateString()}</Title>
       }
     },
     {
@@ -253,7 +253,7 @@ function Home() {
       dataIndex: 'cycle',
       key: 'cycle',
       render: (text, record) => {
-        return <Title onClick={() => navigate(`/dashboard/view-committee/${record?.committeeDetails?.committee?._id}`)} style={{ fontSize: "16px", margin: 0, color: "#818181", cursor:"pointer" }}>{record?.committee?.cycle?.type}</Title>
+        return <Title onClick={() => navigate(`/dashboard/view-committee/${record?.committee?._id}`)} style={{ fontSize: "16px", margin: 0, color: "#818181", cursor:"pointer" }}>{record?.committee?.cycle?.type}</Title>
       }
     },
     {
@@ -261,7 +261,7 @@ function Home() {
       dataIndex: 'cycle',
       key: 'cycle',
       render: (text, record) => {
-        return <Title onClick={() => navigate(`/dashboard/view-committee/${record?.committeeDetails?.committee?._id}`)} style={{ fontSize: "16px", margin: 0, color: "#818181", cursor:"pointer" }}>8 months</Title>
+        return <Title onClick={() => navigate(`/dashboard/view-committee/${record?.committee?._id}`)} style={{ fontSize: "16px", margin: 0, color: "#818181", cursor:"pointer" }}>8 months</Title>
       }
     },
     // {
@@ -282,7 +282,7 @@ function Home() {
       dataIndex: 'payment',
       key: 'payment',
       render: (text, record) => {
-        return <Title onClick={() => navigate(`/dashboard/view-committee/${record?.committeeDetails?.committee?._id}`)} style={{ fontSize: "16px", margin: 0, color: "#818181", cursor:"pointer" }}>$ {record?.committee?.amount}</Title>
+        return <Title onClick={() => navigate(`/dashboard/view-committee/${record?.committee?._id}`)} style={{ fontSize: "16px", margin: 0, color: "#818181", cursor:"pointer" }}>$ {record?.committee?.amount}</Title>
       }
     },
     {

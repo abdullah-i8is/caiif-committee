@@ -53,7 +53,7 @@ function InstallmentHistory() {
             dataIndex: 'date',
             key: 'date',
             render: (text, record) => {
-                return <Title onClick={() => navigate(`/members/verification-details/${record?.userId?._id}`)} style={{ fontSize: "16px", margin: 0, color: "#818181", cursor:"pointer" }}>{new Date(record?.date).toLocaleDateString()}</Title>
+                return <Title onClick={() => navigate(`/members/verification-details/${record?.userId?._id}`)} style={{ fontSize: "16px", margin: 0, color: "#818181", cursor: "pointer" }}>{new Date(record?.date).toLocaleDateString()}</Title>
             }
         },
         {
@@ -61,7 +61,7 @@ function InstallmentHistory() {
             dataIndex: 'name',
             key: 'name',
             render: (text, record, index) => {
-                return <Title onClick={() => navigate(`/members/verification-details/${record?.userId?._id}`)} style={{ fontSize: "18px", margin: 0, cursor:"pointer" }}>{record?.cid?.name}</Title>
+                return <Title onClick={() => navigate(`/members/verification-details/${record?.userId?._id}`)} style={{ fontSize: "18px", margin: 0, cursor: "pointer" }}>{record?.cid?.name}</Title>
             }
         },
         {
@@ -69,7 +69,7 @@ function InstallmentHistory() {
             dataIndex: 'name',
             key: 'name',
             render: (text, record, index) => {
-                return <Title onClick={() => navigate(`/members/verification-details/${record?.userId?._id}`)} style={{ fontSize: "18px", margin: 0, cursor:"pointer" }}>{record?.userId?.firstName + " " + record?.userId?.lastName}</Title>
+                return <Title onClick={() => navigate(`/members/verification-details/${record?.userId?._id}`)} style={{ fontSize: "18px", margin: 0, cursor: "pointer" }}>{record?.userId?.firstName + " " + record?.userId?.lastName}</Title>
             }
         },
         {
@@ -77,7 +77,7 @@ function InstallmentHistory() {
             dataIndex: 'email',
             key: 'email',
             render: (text, record, index) => {
-                return <Title onClick={() => navigate(`/members/verification-details/${record?.userId?._id}`)} style={{ fontSize: "18px", margin: 0, cursor:"pointer" }}>{record?.userId?.email}</Title>
+                return <Title onClick={() => navigate(`/members/verification-details/${record?.userId?._id}`)} style={{ fontSize: "18px", margin: 0, cursor: "pointer" }}>{record?.userId?.email}</Title>
             }
         },
         {
@@ -86,7 +86,7 @@ function InstallmentHistory() {
             key: 'amount',
             render: (text, record) => {
                 console.log(record);
-                return <Title onClick={() => navigate(`/members/verification-details/${record?.userId?._id}`)} style={{ fontSize: "16px", margin: 0, color: "#818181", cursor:"pointer" }}>{record?.isPaid}</Title>
+                return <Title onClick={() => navigate(`/members/verification-details/${record?.userId?._id}`)} style={{ fontSize: "16px", margin: 0, color: "#818181", cursor: "pointer" }}>{record?.isPaid}</Title>
             }
         },
         {
@@ -96,7 +96,7 @@ function InstallmentHistory() {
             render: (text, record) => {
                 return (
                     <div style={{ display: "flex", alignItems: "center" }}>
-                        <Title style={{ fontSize: "16px", margin: 0, color: "#818181", cursor:"pointer" }}>$ {record?.paymentAmount}</Title>
+                        <Title style={{ fontSize: "16px", margin: 0, color: "#818181", cursor: "pointer" }}>$ {record?.paymentAmount}</Title>
                     </div>
                 )
             }
@@ -106,7 +106,7 @@ function InstallmentHistory() {
             dataIndex: 'date',
             key: 'date',
             render: (text, record) => {
-                return <Title onClick={() => navigate(`/members/verification-details/${record?.userId?._id}`)} style={{ fontSize: "16px", margin: 0, color: "#818181", cursor:"pointer" }}>{record?.note}</Title>
+                return <Title onClick={() => navigate(`/members/verification-details/${record?.userId?._id}`)} style={{ fontSize: "16px", margin: 0, color: "#818181", cursor: "pointer" }}>{record?.note}</Title>
             }
         },
         {
