@@ -458,7 +458,7 @@ function Setup2() {
                         defaultValue="Select"
                         style={{ width: "100%" }}
                         options={[
-                            { value: "INSTALLMENT", label: "INSTALLMENT" },
+                            { value: "CONTRIBUTION", label: "CONTRIBUTION" },
                             { value: "PAYOUT", label: "PAYOUT" },
                         ]}
                         onChange={(e) => {

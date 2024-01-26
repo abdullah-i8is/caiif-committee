@@ -213,7 +213,7 @@ function Sidenav({ color }) {
                 >
                   {committee}
                 </span>
-                <span className="label">Installment History</span>
+                <span className="label">Contribution History</span>
               </NavLink>
             </Menu.Item>
 

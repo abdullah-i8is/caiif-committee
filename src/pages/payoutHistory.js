@@ -90,7 +90,7 @@ function PayoutHistory() {
             }
         },
         {
-            title: <Title style={{ fontSize: "18px", margin: 0, color: "#166805", fontWeight: "600" }}>Payment Amount</Title>,
+            title: <Title style={{ fontSize: "18px", margin: 0, color: "#166805", fontWeight: "600" }}>Total Payout</Title>,
             dataIndex: 'members',
             key: 'members',
             render: (text, record) => {
