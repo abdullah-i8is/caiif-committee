@@ -302,9 +302,7 @@ function VerificationDetails() {
             setUser((prevDetail) => {
                 return {
                     ...prevDetail,
-                    appointment: {
-                        date: value,
-                    },
+                    appointment: value,
                 }
             })
         }
@@ -728,7 +726,7 @@ function VerificationDetails() {
                             <Form.Item label={<Title style={{ fontSize: "16px", margin: 0, color: "#4E4E4E" }}>Appointment</Title>}>
                                 <Input
                                     onChange={(e) => handleChange(e.target.value, "appointment")}
-                                    value={user?.appointment?.date}
+                                    value={user?.appointment}
                                 />
                             </Form.Item>
                         </Col>
