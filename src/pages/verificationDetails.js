@@ -342,12 +342,11 @@ function VerificationDetails() {
         }
     }
 
-    async function handleApprove(type) {
-        setLoading(type === "DECLINE" ? true : false)
-        setLoading2(type === "APPROVE" ? true : false)
+    async function handleApprove() {
+        setLoading2(true)
         try {
             const response = await axios.post(`${API_URL}/admin/approveAccount/${id}`, {
-                approve: type === "APPROVE" ? true : false,
+                approve: true,
                 cId: user?.cId[0]?.cid
             }, {
                 headers: {
@@ -356,10 +355,6 @@ function VerificationDetails() {
             })
             if (response.status === 200) {
                 console.log(response);
-                if (response.data.message === "Account deleted Successfully") {
-                    navigate("/members")
-                }
-                setLoading(false)
                 setLoading2(false)
                 api.success({
                     message: `Notification`,
@@ -369,7 +364,6 @@ function VerificationDetails() {
                 getUser()
             }
         } catch (error) {
-            setLoading(false)
             setLoading2(false)
             console.log(error);
             api.error({
@@ -490,7 +484,7 @@ function VerificationDetails() {
                         setShowModal3(true)
                     }} loading={loading} style={{ margin: "0 0 0 10px", width: "100px" }} className="deny-btn"> <img width={15} src={denyIcon} style={{ margin: "0 5px 0 0" }} />Delete</Button>
                     <Button onClick={() => {
-                        handleApprove("APPROVE")
+                        handleApprove()
                     }} loading={loading2} style={{ margin: "0 0 0 10px", width: "100px" }} className="add-cycle-btn">Approve</Button>
                 </div>}
             </div>
