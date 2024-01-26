@@ -82,7 +82,7 @@ function Setup2() {
             dataIndex: 'name',
             key: 'name',
             render: (text, record, index) => {
-                return <Title onClick={() => navigate(`/members/verification-details/${record._id}`)} style={{ fontSize: "18px", margin: 0, cursor:"pointer" }}>{record?.committeeList[0]?.committeeNumber}</Title>
+                return <Title onClick={() => navigate(`/members/verification-details/${record._id}`)} style={{ fontSize: "18px", margin: 0, cursor: "pointer" }}>{record?.committeeList[0]?.committeeNumber}</Title>
             }
         },
         {
@@ -90,7 +90,7 @@ function Setup2() {
             dataIndex: 'name',
             key: 'name',
             render: (text, record, index) => {
-                return <Title onClick={() => navigate(`/members/verification-details/${record._id}`)} style={{ fontSize: "18px", margin: 0, cursor:"pointer" }}>{record?.firstName + " " + record?.lastName}</Title>
+                return <Title onClick={() => navigate(`/members/verification-details/${record._id}`)} style={{ fontSize: "18px", margin: 0, cursor: "pointer" }}>{record?.firstName + " " + record?.lastName}</Title>
             }
         },
         {
@@ -98,7 +98,7 @@ function Setup2() {
             dataIndex: 'email',
             key: 'email',
             render: (text, record) => {
-                return <Title onClick={() => navigate(`/members/verification-details/${record._id}`)} style={{ fontSize: "16px", margin: 0, color: "#818181", cursor:"pointer" }}>{record?.email}</Title>
+                return <Title onClick={() => navigate(`/members/verification-details/${record._id}`)} style={{ fontSize: "16px", margin: 0, color: "#818181", cursor: "pointer" }}>{record?.email}</Title>
             }
         },
         {
@@ -106,7 +106,7 @@ function Setup2() {
             dataIndex: 'contactNumber',
             key: 'contactNumber',
             render: (text, record) => {
-                return <Title onClick={() => navigate(`/members/verification-details/${record._id}`)} style={{ fontSize: "16px", margin: 0, color: "#818181", cursor:"pointer" }}>{record?.contactNumber}</Title>
+                return <Title onClick={() => navigate(`/members/verification-details/${record._id}`)} style={{ fontSize: "16px", margin: 0, color: "#818181", cursor: "pointer" }}>{record?.contactNumber}</Title>
             }
         },
         {
@@ -114,7 +114,7 @@ function Setup2() {
             dataIndex: 'level',
             key: 'level',
             render: (text, record) => {
-                return <Title onClick={() => navigate(`/members/verification-details/${record._id}`)} style={{ fontSize: "16px", margin: 0, color: "#818181", cursor:"pointer" }}>{record?.level}</Title>
+                return <Title onClick={() => navigate(`/members/verification-details/${record._id}`)} style={{ fontSize: "16px", margin: 0, color: "#818181", cursor: "pointer" }}>{record?.level}</Title>
             }
         },
         {
@@ -138,7 +138,7 @@ function Setup2() {
             dataIndex: 'enroll',
             key: 'enroll',
             render: (text, record) => {
-                return <Title onClick={() => navigate(`/members/verification-details/${record._id}`)} style={{ fontSize: "16px", margin: 0, color: "#818181", cursor:"pointer" }}>{record?.committeeList ? record?.committeeList[0]?.received === true ? "PAYOUT" : "NOT PAYOUT" : ""}</Title>
+                return <Title onClick={() => navigate(`/members/verification-details/${record._id}`)} style={{ fontSize: "16px", margin: 0, color: "#818181", cursor: "pointer" }}>{record?.committeeList ? record?.committeeList[0]?.received === true ? "PAYOUT" : "NOT PAYOUT" : ""}</Title>
             }
         },
         {
@@ -158,7 +158,6 @@ function Setup2() {
                                     return {
                                         ...prevDetails,
                                         cid: record?._id,
-                                        paymentAmount: committeeDetail?.amount
                                     }
                                 })
                             }}>
@@ -317,7 +316,7 @@ function Setup2() {
                 const response = await axios.post(`${API_URL}/admin/paymentRecord`, {
                     date: paymentHistoryDetails.date,
                     isPaid: paymentHistoryDetails.paidType,
-                    paymentAmount: paymentHistoryDetails?.paidType === "PAYOUT" ? committeeDetail?.payment : committeeDetail?.amount,
+                    paymentAmount: paymentHistoryDetails?.paidType === "PAYOUT" ? committeeDetail?.payment : paymentHistoryDetails?.paymentAmount,
                     note: paymentHistoryDetails?.note,
                     userId: userId,
                     cid: params.id,
@@ -421,18 +420,6 @@ function Setup2() {
     console.log(paymentHistoryDetails);
     console.log(committeeDetail);
 
-    useEffect(() => {
-        setPaymentHistoryDetails((prevDetails) => {
-            return {
-                ...prevDetails,
-                paymentAmount: paymentHistoryDetails?.paidType === "PAYOUT" && committeeDetail?.cycle.type === "Monthly" ? 
-                committeeDetail?.payment : 
-                paymentHistoryDetails?.paidType === "CONTRIBUTION" && committeeDetail?.cycle.type === "Bi-weekly" ?
-                committeeDetail?.amount / 2 : committeeDetail?.amount
-            }
-        })
-    }, [paymentHistoryDetails.paidType])
-
     return (
         <>
             {contextHolder}
@@ -484,10 +471,28 @@ function Setup2() {
                     />
                     <br />
                     <br />
-                    <Input
-                        placeholder="Amount"
-                        value={paymentHistoryDetails.paymentAmount}
-                    />
+                    {paymentHistoryDetails?.paidType === "PAYOUT" ? (
+                        <Input
+                            value={committeeDetail.payment}
+                        />
+                    ) : (
+                        <Select
+                            defaultValue="Select"
+                            style={{ width: "100%" }}
+                            options={[
+                                { value: Number(committeeDetail?.amount), label: `Monthly $${committeeDetail?.amount}` },
+                                { value: committeeDetail?.amount / 2, label: `Bi-weekly $${committeeDetail?.amount / 2}` },
+                            ]}
+                            onChange={(e) => {
+                                setPaymentHistoryDetails((prevDetails) => {
+                                    return {
+                                        ...prevDetails,
+                                        paymentAmount: e
+                                    }
+                                })
+                            }}
+                        />
+                    )}
                     <br />
                     <br />
                     <Input
@@ -535,7 +540,7 @@ function Setup2() {
                                 <Title style={{ margin: 0, color: "grey", fontWeight: '500' }} level={5}>$ {committeeDetail?.amount}</Title>
                             </Col>
                             <Col xs={24} sm={24} md={4} lg={4} xl={4}>
-                                <Title style={{margin: "10px 0 0 0" }} level={5}>By-weekly Contribution</Title>
+                                <Title style={{ margin: "10px 0 0 0" }} level={5}>By-weekly Contribution</Title>
                                 <Title style={{ margin: 0, color: "grey", fontWeight: '500' }} level={5}>$ {committeeDetail?.amount / 2}</Title>
                             </Col>
                             <Col xs={24} sm={24} md={4} lg={4} xl={4}>
@@ -638,7 +643,7 @@ function Setup2() {
                                 <Title style={{ margin: 0, color: "grey", fontWeight: '500' }} level={5}>$ {committeeDetail?.amount}</Title>
                             </Col>
                             <Col xs={24} sm={24} md={4} lg={4} xl={4}>
-                                <Title style={{ margin: "10px 0 0 0"}} level={5}>By-weekly Contribution</Title>
+                                <Title style={{ margin: "10px 0 0 0" }} level={5}>By-weekly Contribution</Title>
                                 <Title style={{ margin: 0, color: "grey", fontWeight: '500' }} level={5}>$ {committeeDetail?.amount / 2}</Title>
                             </Col>
                             <Col xs={24} sm={24} md={4} lg={4} xl={4}>

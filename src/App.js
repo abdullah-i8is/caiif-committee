@@ -28,9 +28,9 @@ import SignUp3 from "./pages/signup3";
 import NewPassword from "./pages/new-password";
 import ResetPassword from "./pages/resetPassword";
 import ApprovedMembers from "./pages/approvedMembers";
-import MonthlyPaymentHistory from "./pages/monthlyPaymentHistory";
 import PayoutHistory from "./pages/payoutHistory";
 import InstallmentHistory from "./pages/installmentHistory";
+import PaymentHistory from "./pages/paymentHistory";
 
 function App() {
 
@@ -83,6 +83,7 @@ function App() {
             <Route path="/members/verification-details/:id" element={token ? <VerificationDetails /> : <Navigate to="/sign-in" />} />
             <Route path="/approved-members/verification-details/:id" element={token ? <VerificationDetails /> : <Navigate to="/sign-in" />} />
             <Route path="/dashboard/committee-details" element={token ? <CommitteeDetails /> : <Navigate to="/sign-in" />} />
+            <Route path="/payment-history" element={token ? <PaymentHistory /> : <Navigate to="/sign-in" />} />
             <Route path="/payout-history" element={token ? <PayoutHistory /> : <Navigate to="/sign-in" />} />
             <Route path="/installment-history" element={token ? <InstallmentHistory /> : <Navigate to="/sign-in" />} />
             <Route path="/profile" element={token ? <Profile /> : <Navigate to="/sign-in" />} />

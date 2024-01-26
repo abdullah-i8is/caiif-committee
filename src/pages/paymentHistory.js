@@ -35,7 +35,7 @@ import { GetAllMembers } from "../middlewares/members";
 import { setApproveMembers } from "../store/membersSlice/membersSlice";
 
 
-function MonthlyPaymentHistory() {
+function PaymentHistory() {
 
     const { Title, Text } = Typography;
     const navigate = useNavigate()
@@ -53,31 +53,23 @@ function MonthlyPaymentHistory() {
             dataIndex: 'date',
             key: 'date',
             render: (text, record) => {
-                return <Title style={{ fontSize: "16px", margin: 0, color: "#818181", cursor:"pointer" }}>{new Date(record?.date).toLocaleDateString()}</Title>
+                return <Title style={{ fontSize: "16px", margin: 0, color: "#818181", cursor: "pointer" }}>{new Date(record?.date).toLocaleDateString()}</Title>
             }
         },
         {
-            title: <Title style={{ fontSize: "18px", margin: 0, color: "#166805", fontWeight: "600" }}>Committee</Title>,
+            title: <Title style={{ fontSize: "18px", margin: 0, color: "#166805", fontWeight: "600" }}>Committee ID</Title>,
             dataIndex: 'name',
             key: 'name',
             render: (text, record, index) => {
-                return <Title style={{ fontSize: "18px", margin: 0, cursor:"pointer" }}>{record?.cid?.name}</Title>
+                return <Title style={{ fontSize: "18px", margin: 0, cursor: "pointer" }}>{record?.cid?.name}</Title>
             }
         },
         {
-            title: <Title style={{ fontSize: "18px", margin: 0, color: "#166805", fontWeight: "600" }}>First Name</Title>,
+            title: <Title style={{ fontSize: "18px", margin: 0, color: "#166805", fontWeight: "600" }}>Name</Title>,
             dataIndex: 'name',
             key: 'name',
             render: (text, record, index) => {
-                return <Title style={{ fontSize: "18px", margin: 0, cursor:"pointer" }}>{record?.userId?.firstName}</Title>
-            }
-        },
-        {
-            title: <Title style={{ fontSize: "18px", margin: 0, color: "#166805", fontWeight: "600" }}>Last Name</Title>,
-            dataIndex: 'name',
-            key: 'name',
-            render: (text, record, index) => {
-                return <Title style={{ fontSize: "18px", margin: 0, cursor:"pointer" }}>{record?.userId?.lastName}</Title>
+                return <Title style={{ fontSize: "18px", margin: 0, cursor: "pointer" }}>{record?.userId?.firstName + " " + record?.userId?.lastName}</Title>
             }
         },
         {
@@ -85,7 +77,7 @@ function MonthlyPaymentHistory() {
             dataIndex: 'email',
             key: 'email',
             render: (text, record, index) => {
-                return <Title style={{ fontSize: "18px", margin: 0, cursor:"pointer" }}>{record?.userId?.email}</Title>
+                return <Title style={{ fontSize: "18px", margin: 0, cursor: "pointer" }}>{record?.userId?.email}</Title>
             }
         },
         {
@@ -94,17 +86,17 @@ function MonthlyPaymentHistory() {
             key: 'amount',
             render: (text, record) => {
                 console.log(record);
-                return <Title style={{ fontSize: "16px", margin: 0, color: "#818181", cursor:"pointer" }}>{record?.isPaid}</Title>
+                return <Title style={{ fontSize: "16px", margin: 0, color: "#818181", cursor: "pointer" }}>{record?.isPaid}</Title>
             }
         },
         {
-            title: <Title style={{ fontSize: "18px", margin: 0, color: "#166805", fontWeight: "600" }}>Payment Amount</Title>,
+            title: <Title style={{ fontSize: "18px", margin: 0, color: "#166805", fontWeight: "600" }}>Total Payout</Title>,
             dataIndex: 'members',
             key: 'members',
             render: (text, record) => {
                 return (
                     <div style={{ display: "flex", alignItems: "center" }}>
-                        <Title style={{ fontSize: "16px", margin: 0, color: "#818181", cursor:"pointer" }}>$ {record?.paymentAmount}</Title>
+                        <Title style={{ fontSize: "16px", margin: 0, color: "#818181", cursor: "pointer" }}>$ {record?.paymentAmount}</Title>
                     </div>
                 )
             }
@@ -114,15 +106,7 @@ function MonthlyPaymentHistory() {
             dataIndex: 'date',
             key: 'date',
             render: (text, record) => {
-                return <Title style={{ fontSize: "16px", margin: 0, color: "#818181", cursor:"pointer" }}>{record?.note}</Title>
-            }
-        },
-        {
-            title: <Title style={{ fontSize: "18px", margin: 0, color: "#166805", fontWeight: "600" }}></Title>,
-            render: (text, record) => {
-                return (
-                    <Button style={{ margin: "0 0 0 20px" }} onClick={() => navigate(`/members/verification-details/${record?.userId?._id}`)} className="add-cycle-btn">View</Button>
-                )
+                return <Title style={{ fontSize: "16px", margin: 0, color: "#818181", cursor: "pointer" }}>{record?.note}</Title>
             }
         },
         // {
@@ -151,13 +135,13 @@ function MonthlyPaymentHistory() {
     async function getPaymentHistory() {
         setLoading(true)
         try {
-            const response = await axios.get(`${API_URL}/admin/PaymentHistory`, {
+            const response = await axios.get(`${API_URL}/user/paymentHistory`, {
                 headers: {
                     Authorization: "Bearer " + token
                 }
             })
             setLoading(false)
-            setData(response.data.payments)
+            setData(response.data.data)
             console.log(response);
         } catch (error) {
             setLoading(false)
@@ -166,25 +150,19 @@ function MonthlyPaymentHistory() {
     }
 
     useEffect(() => {
-        GetAllMembers(token)
-            .then((res) => {
-                console.log(res?.data);
-                dispatch(setApproveMembers(res?.data?.users))
-            })
-            .catch((error) => {
-                console.log(error);
-            })
         getPaymentHistory()
     }, [])
+
+    console.log(data);
 
     return (
         <>
             <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: "20px" }}>
                 <div>
-                    <Title style={{ color: "#166805", margin: 0 }} level={3}>Monthly Payment History</Title>
+                    <Title style={{ color: "#166805", margin: 0 }} level={3}>Payout History</Title>
                 </div>
             </div>
-            <Card className="my-card" style={{ marginTop: 20, marginBottom: 100 }}>
+            <Card className="my-card" style={{ marginTop: 20 }}>
                 <Table
                     dataSource={data?.sort((a, b) => b?.createdAt - a?.createdAt)}
                     columns={column}
@@ -196,4 +174,4 @@ function MonthlyPaymentHistory() {
     );
 }
 
-export default MonthlyPaymentHistory;
+export default PaymentHistory;
