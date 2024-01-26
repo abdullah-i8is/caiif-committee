@@ -928,10 +928,13 @@ export default function SignUp2() {
                             style={{ width: width < 768 ? "300px" : '200px' }}
                             onChange={(e, dateString) => {
                               setFieldName({ type: "appointment", value: e });
-                              setAppointment((prevFields) => {
+                              setFormFields((prevFields) => {
                                 return {
                                   ...prevFields,
-                                  date: dateString
+                                  appointment: {
+                                    ...prevFields.appointment,
+                                    date: dateString
+                                  }
                                 }
                               });
                             }}
@@ -969,10 +972,13 @@ export default function SignUp2() {
                             ]}
                             onChange={(e) => {
                               setFieldName({ type: "appointment", value: e });
-                              setAppointment((prevFields) => {
+                              setFormFields((prevFields) => {
                                 return {
                                   ...prevFields,
-                                  time: e
+                                  appointment: {
+                                    ...prevFields.appointment,
+                                    time: e
+                                  }
                                 }
                               });
                             }}
