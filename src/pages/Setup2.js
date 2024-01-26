@@ -536,7 +536,7 @@ function Setup2() {
                             </Col>
                             <Col xs={24} sm={24} md={4} lg={4} xl={4}>
                                 <Title style={{margin: "10px 0 0 0" }} level={5}>By-weekly Contribution</Title>
-                                <Title style={{ margin: 0, color: "grey", fontWeight: '500' }} level={5}>$ {Math.round(committeeDetail?.amount / 2)}</Title>
+                                <Title style={{ margin: 0, color: "grey", fontWeight: '500' }} level={5}>$ {committeeDetail?.amount / 2}</Title>
                             </Col>
                             <Col xs={24} sm={24} md={4} lg={4} xl={4}>
                                 <Title style={{ margin: "10px 0 0 0" }} level={5}>Members</Title>
@@ -549,7 +549,7 @@ function Setup2() {
                         </Row>
                     </Card>
                     <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginTop: "80px", marginBottom: "20px" }}>
-                        <Title style={{ color: "#166805", margin: 0 }} level={3}>Committee members list’s</Title>
+                        <Title style={{ color: "#166805", margin: 0 }} level={3}>Committee Members</Title>
                         <div style={{ display: "flex", alignItems: "center" }}>
                             <Title style={{ color: "#166805", margin: "0 15px 0 0" }} level={3}>Available Members: {committeeUsers?.length > 0 ? committeeUsers?.length : 0}/{committeeDetail?.members > 0 ? committeeDetail?.members : 0}</Title>
                             <img width={40} src={memberIcon} />
@@ -639,7 +639,7 @@ function Setup2() {
                             </Col>
                             <Col xs={24} sm={24} md={4} lg={4} xl={4}>
                                 <Title style={{ margin: "10px 0 0 0"}} level={5}>By-weekly Contribution</Title>
-                                <Title style={{ margin: 0, color: "grey", fontWeight: '500' }} level={5}>$ {Math.round(committeeDetail?.amount / 2)}</Title>
+                                <Title style={{ margin: 0, color: "grey", fontWeight: '500' }} level={5}>$ {committeeDetail?.amount / 2}</Title>
                             </Col>
                             <Col xs={24} sm={24} md={4} lg={4} xl={4}>
                                 <Title style={{ margin: "10px 0 0 0" }} level={5}>Members</Title>
@@ -652,7 +652,7 @@ function Setup2() {
                         </Row>
                     </Card>
                     <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: "20px" }}>
-                        <Title style={{ color: "#166805", margin: 0 }} level={3}>Committee members</Title>
+                        <Title style={{ color: "#166805", margin: 0 }} level={3}>Committee Members</Title>
                         <div style={{ display: "flex", alignItems: "center" }}>
                             <Title style={{ color: "#166805", margin: "0 15px 0 0" }} level={3}>Available Members: {committeeUsers?.length}/{committeeDetail?.members}</Title>
                             <img width={40} src={memberIcon} />
