@@ -174,9 +174,7 @@ export default function SignUp3() {
       try {
         const response = await axios.post(`${API_URL}/signup`, {
           ...formFields,
-          appointment: {
-            date: appointment.date + " " + appointment.time,
-          },
+          appointment: formFields.appointment.date + " " + formFields.appointment.time
         })
         if (response.status === 200) {
           setLoading(false)
