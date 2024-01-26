@@ -78,11 +78,19 @@ function Setup2() {
 
     const column = [
         {
+            title: <Title style={{ fontSize: "18px", margin: 0, color: "#166805", fontWeight: "600" }}>Committee No</Title>,
+            dataIndex: 'name',
+            key: 'name',
+            render: (text, record, index) => {
+                return <Title onClick={() => navigate(`/members/verification-details/${record._id}`)} style={{ fontSize: "18px", margin: 0 }}>{record?.committeeList[0]?.committeeNumber}</Title>
+            }
+        },
+        {
             title: <Title style={{ fontSize: "18px", margin: 0, color: "#166805", fontWeight: "600" }}>Name</Title>,
             dataIndex: 'name',
             key: 'name',
             render: (text, record, index) => {
-                return <Title style={{ fontSize: "18px", margin: 0 }}>{record?.firstName + " " + record?.lastName}</Title>
+                return <Title onClick={() => navigate(`/members/verification-details/${record._id}`)} style={{ fontSize: "18px", margin: 0 }}>{record?.firstName + " " + record?.lastName}</Title>
             }
         },
         {
@@ -90,7 +98,7 @@ function Setup2() {
             dataIndex: 'email',
             key: 'email',
             render: (text, record) => {
-                return <Title style={{ fontSize: "16px", margin: 0, color: "#818181" }}>{record?.email}</Title>
+                return <Title onClick={() => navigate(`/members/verification-details/${record._id}`)} style={{ fontSize: "16px", margin: 0, color: "#818181" }}>{record?.email}</Title>
             }
         },
         {
@@ -98,34 +106,15 @@ function Setup2() {
             dataIndex: 'contactNumber',
             key: 'contactNumber',
             render: (text, record) => {
-                return <Title style={{ fontSize: "16px", margin: 0, color: "#818181" }}>{record?.contactNumber}</Title>
+                return <Title onClick={() => navigate(`/members/verification-details/${record._id}`)} style={{ fontSize: "16px", margin: 0, color: "#818181" }}>{record?.contactNumber}</Title>
             }
         },
-        {
-            title: <Title style={{ fontSize: "18px", margin: 0, color: "#166805", fontWeight: "600" }}>Enrolled At</Title>,
-            dataIndex: 'contactNumber',
-            key: 'contactNumber',
-            render: (text, record) => {
-                return <Title style={{ fontSize: "16px", margin: 0, color: "#818181" }}>{new Date(record?.createdAt).toLocaleDateString()}</Title>
-            }
-        },
-        // {
-        //     title: <Title style={{ fontSize: "18px", margin: 0, color: "#166805", fontWeight: "600" }}>Committee</Title>,
-        //     dataIndex: 'monthlyIncome',
-        //     key: 'monthlyIncome',
-        //     render: (text, record) => {
-        //         const res = committees?.filter((f) => {
-        //             return record?.committeeList?.some((a) => a?.cid === f?.committee?._id)
-        //         })
-        //         return <Title style={{ fontSize: "16px", margin: 0, color: "#818181" }}>{res[0]?.committee?.name ? res[0]?.committee?.name : ""}</Title>
-        //     }
-        // },
         {
             title: <Title style={{ fontSize: "18px", margin: 0, color: "#166805", fontWeight: "600" }}>Tier</Title>,
             dataIndex: 'level',
             key: 'level',
             render: (text, record) => {
-                return <Title style={{ fontSize: "16px", margin: 0, color: "#818181" }}>{record?.level}</Title>
+                return <Title onClick={() => navigate(`/members/verification-details/${record._id}`)} style={{ fontSize: "16px", margin: 0, color: "#818181" }}>{record?.level}</Title>
             }
         },
         {
@@ -139,7 +128,6 @@ function Setup2() {
                             { value: true, label: "PAYOUT" },
                             { value: false, label: "NOT PAYOUT" }
                         ]}
-                        // value={record?.committeeList?.find(f => f.cid === params.id)?.received}
                         onChange={(e) => handleChangeStatus(e, record._id)}
                     />
                 )
@@ -150,7 +138,7 @@ function Setup2() {
             dataIndex: 'enroll',
             key: 'enroll',
             render: (text, record) => {
-                return <Title style={{ fontSize: "16px", margin: 0, color: "#818181" }}>{record?.committeeList ? record?.committeeList[0]?.received === true ? "PAYOUT" : "NOT PAYOUT" : ""}</Title>
+                return <Title onClick={() => navigate(`/members/verification-details/${record._id}`)} style={{ fontSize: "16px", margin: 0, color: "#818181" }}>{record?.committeeList ? record?.committeeList[0]?.received === true ? "PAYOUT" : "NOT PAYOUT" : ""}</Title>
             }
         },
         {
@@ -182,6 +170,14 @@ function Setup2() {
         },
     ];
     const column3 = [
+        {
+            title: <Title style={{ fontSize: "18px", margin: 0, color: "#166805", fontWeight: "600" }}>Committee No</Title>,
+            dataIndex: 'name',
+            key: 'name',
+            render: (text, record, index) => {
+                return <Title style={{ fontSize: "18px", margin: 0 }}>{record?.committeeList[0]?.committeeNumber}</Title>
+            }
+        },
         {
             title: <Title style={{ fontSize: "18px", margin: 0, color: "#166805", fontWeight: "600" }}>Name</Title>,
             dataIndex: 'name',

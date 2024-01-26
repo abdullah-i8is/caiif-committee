@@ -157,6 +157,16 @@ export default function SignUp() {
         }
       });
     }
+    if (formFields.appointment && formFields.appointment.date === "") {
+      api.error({
+        message: 'Notification',
+        description: 'Appointment date is required',
+        placement: {
+          top: 24,
+          right: 24,
+        },
+      });
+    }
     else {
       setLoading(true)
       setFormSubmit(false)

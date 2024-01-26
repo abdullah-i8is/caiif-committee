@@ -80,7 +80,7 @@ export default function SignUp3() {
     sourceOfIncome: "",
     employmentStatus: "",
     appointment: {
-      date: appointment.date + " " + appointment.time,
+      date: "",
     },
     DOB: {
       day: "",
@@ -157,12 +157,25 @@ export default function SignUp3() {
         }
       });
     }
+    if (formFields.appointment && formFields.appointment.date === "") {
+      api.error({
+        message: 'Notification',
+        description: 'Appointment date is required',
+        placement: {
+          top: 24,
+          right: 24,
+        },
+      });
+    }
     else {
       setLoading(true)
       setFormSubmit(false)
       try {
         const response = await axios.post(`${API_URL}/signup`, {
-          ...formFields
+          ...formFields,
+          appointment: {
+            date: appointment.date + " " + appointment.time,
+          },
         })
         if (response.status === 200) {
           setLoading(false)

@@ -55,19 +55,21 @@ function Members() {
             title: <Title style={{ fontSize: "18px", margin: 0, color: "#166805", fontWeight: "600" }}>Committee ID</Title>,
             dataIndex: 'name',
             key: 'name',
-            // render: (text, record, index) => {
-            //     return <Title className="committee-id" onClick={() => {
-            //         setShowModal(true)
-            //         setCommitteeId(record?.committeeList[0]?.cid?.uniqueId)
-            //     }}
-            //         style={{ fontSize: "18px", margin: 0, color: "#166805", fontWeight: "600" }}>
-            //         {record?.committeeList[0]?.cid?.uniqueId}
-            //     </Title>
-            // }
             render: (text, record, index) => {
                 return <Title onClick={() => navigate(`/members/verification-details/${record._id}`)}
                     style={{ fontSize: "18px", margin: 0, color: "#166805", fontWeight: "600" }}>
                     {record?.committeeList[0]?.cid?.uniqueId}
+                </Title>
+            }
+        },
+        {
+            title: <Title style={{ fontSize: "18px", margin: 0, color: "#166805", fontWeight: "600" }}>Committee No</Title>,
+            dataIndex: 'name',
+            key: 'name',
+            render: (text, record, index) => {
+                return <Title onClick={() => navigate(`/members/verification-details/${record._id}`)}
+                    style={{ fontSize: "18px", margin: 0, color: "#166805", fontWeight: "600" }}>
+                    {record?.committeeList[0]?.committeeNumber}
                 </Title>
             }
         },

@@ -53,7 +53,7 @@ function PayoutHistory() {
             dataIndex: 'date',
             key: 'date',
             render: (text, record) => {
-                return <Title style={{ fontSize: "16px", margin: 0, color: "#818181" }}>{new Date(record?.date).toLocaleDateString()}</Title>
+                return <Title onClick={() => navigate(`/members/verification-details/${record?.userId?._id}`)} style={{ fontSize: "16px", margin: 0, color: "#818181" }}>{new Date(record?.date).toLocaleDateString()}</Title>
             }
         },
         {
@@ -61,23 +61,15 @@ function PayoutHistory() {
             dataIndex: 'name',
             key: 'name',
             render: (text, record, index) => {
-                return <Title style={{ fontSize: "18px", margin: 0 }}>{record?.cid?.name}</Title>
+                return <Title onClick={() => navigate(`/members/verification-details/${record?.userId?._id}`)} style={{ fontSize: "18px", margin: 0 }}>{record?.cid?.name}</Title>
             }
         },
         {
-            title: <Title style={{ fontSize: "18px", margin: 0, color: "#166805", fontWeight: "600" }}>First Name</Title>,
+            title: <Title style={{ fontSize: "18px", margin: 0, color: "#166805", fontWeight: "600" }}>Name</Title>,
             dataIndex: 'name',
             key: 'name',
             render: (text, record, index) => {
-                return <Title style={{ fontSize: "18px", margin: 0 }}>{record?.userId?.firstName}</Title>
-            }
-        },
-        {
-            title: <Title style={{ fontSize: "18px", margin: 0, color: "#166805", fontWeight: "600" }}>Last Name</Title>,
-            dataIndex: 'name',
-            key: 'name',
-            render: (text, record, index) => {
-                return <Title style={{ fontSize: "18px", margin: 0 }}>{record?.userId?.lastName}</Title>
+                return <Title onClick={() => navigate(`/members/verification-details/${record?.userId?._id}`)} style={{ fontSize: "18px", margin: 0 }}>{record?.userId?.firstName + " " + record?.userId?.lastName}</Title>
             }
         },
         {
@@ -85,7 +77,7 @@ function PayoutHistory() {
             dataIndex: 'email',
             key: 'email',
             render: (text, record, index) => {
-                return <Title style={{ fontSize: "18px", margin: 0 }}>{record?.userId?.email}</Title>
+                return <Title onClick={() => navigate(`/members/verification-details/${record?.userId?._id}`)} style={{ fontSize: "18px", margin: 0 }}>{record?.userId?.email}</Title>
             }
         },
         {
@@ -94,7 +86,7 @@ function PayoutHistory() {
             key: 'amount',
             render: (text, record) => {
                 console.log(record);
-                return <Title style={{ fontSize: "16px", margin: 0, color: "#818181" }}>{record?.isPaid}</Title>
+                return <Title onClick={() => navigate(`/members/verification-details/${record?.userId?._id}`)} style={{ fontSize: "16px", margin: 0, color: "#818181" }}>{record?.isPaid}</Title>
             }
         },
         {
@@ -104,7 +96,7 @@ function PayoutHistory() {
             render: (text, record) => {
                 return (
                     <div style={{ display: "flex", alignItems: "center" }}>
-                        <Title style={{ fontSize: "16px", margin: 0, color: "#818181" }}>$ {record?.paymentAmount}</Title>
+                        <Title onClick={() => navigate(`/members/verification-details/${record?.userId?._id}`)} style={{ fontSize: "16px", margin: 0, color: "#818181" }}>$ {record?.paymentAmount}</Title>
                     </div>
                 )
             }
@@ -114,7 +106,7 @@ function PayoutHistory() {
             dataIndex: 'date',
             key: 'date',
             render: (text, record) => {
-                return <Title style={{ fontSize: "16px", margin: 0, color: "#818181" }}>{record?.note}</Title>
+                return <Title onClick={() => navigate(`/members/verification-details/${record?.userId?._id}`)} style={{ fontSize: "16px", margin: 0, color: "#818181" }}>{record?.note}</Title>
             }
         },
         {
