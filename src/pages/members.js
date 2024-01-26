@@ -115,7 +115,7 @@ function Members() {
                         <Button
                             loading={userId === record._id ? loading2 : false}
                             onClick={() => {
-                                setCommitteeId(record?.committeeList[0]?.cid)
+                                setCommitteeId(record?.committeeList[record?.committeeList?.length - 1]?.cid?._id)
                                 setUserId(record._id)
                                 setShow(true)
                             }}
@@ -133,7 +133,7 @@ function Members() {
                                 try {
                                     const response = await axios.post(`${API_URL}/admin/approveAccount/${record._id}`, {
                                         approve: true,
-                                        cId: record?.committeeList[0]?.cid
+                                        cId: record?.committeeList[record?.committeeList?.length - 1]?.cid?._id
                                     }, {
                                         headers: {
                                             Authorization: "Bearer " + token

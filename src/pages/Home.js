@@ -18,6 +18,9 @@ import {
   Tag,
   Modal,
   FloatButton,
+
+  Form,
+  Select,
 } from "antd";
 import {
   CarOutlined,
@@ -34,7 +37,6 @@ import { GetAdminCommittees, GetUserCommittees, GetUserallCommittees } from "../
 import { setApproveMembers } from "../store/membersSlice/membersSlice";
 import { GetAllMembers } from "../middlewares/members";
 
-
 function Home() {
 
   const { Title, Text } = Typography;
@@ -47,6 +49,9 @@ function Home() {
   const [cName, setCname] = useState("")
   const [show, setShow] = useState(false)
   const [api, contextHolder] = notification.useNotification();
+  const [showModal, setShowModal] = useState(false)
+  const [committeeID, setCommitteeID] = useState("")
+  const [committeeOptions, setCommitteeOptions] = useState([]);
 
   async function deleteCommittee() {
     setLoading2(true)
@@ -85,13 +90,44 @@ function Home() {
     }
   }
 
+  async function handleSubmit() {
+    setLoading(true)
+    try {
+      const response = await axios.post(
+        `${API_URL}/user/reqForCommittee`, { cId: committeeID }, // Send cId in the request body
+        {
+          headers: {
+            Authorization: 'Bearer ' + token
+          }
+        }
+      );
+      if (response.status === 200) {
+        setLoading(false);
+        api.success({
+          message: "Notification",
+          description: "Enroll request sent successfully",
+          placement: "bottomRight",
+        });
+        console.log(response);
+      }
+    } catch (error) {
+      setLoading(false);
+      api.error({
+        message: "Notification",
+        description: error?.response?.data?.message,
+        placement: "bottomRight",
+      });
+      console.log(error);
+    }
+  }
+
   const column = [
     {
       title: <Title style={{ fontSize: "18px", margin: 0, color: "#166805", fontWeight: "600" }}>Committee ID</Title>,
       dataIndex: 'uniqueId',
       key: 'uniqueId',
       render: (text, record, index) => {
-        return <Title onClick={() => navigate(`/dashboard/view-committee/${record?.committeeDetails?.committee?._id}`)} style={{ fontSize: "18px", margin: 0, cursor: "pointer" }}>{record?.committeeDetails?.committee?.uniqueId}</Title>
+        return <Title onClick={() => navigate(`/dashboard/view-committee/${record?.committeeDetails?.committee?._id}`)} style={{ fontSize: "18px", margin: 0 }}>{record?.committeeDetails?.committee?.uniqueId}</Title>
       }
     },
     {
@@ -99,7 +135,7 @@ function Home() {
       dataIndex: 'name',
       key: 'name',
       render: (text, record, index) => {
-        return <Title onClick={() => navigate(`/dashboard/view-committee/${record?.committeeDetails?.committee?._id}`)} style={{ fontSize: "18px", margin: 0, cursor: "pointer" }}>{record?.committeeDetails?.committee?.name}</Title>
+        return <Title onClick={() => navigate(`/dashboard/view-committee/${record?.committeeDetails?.committee?._id}`)} style={{ fontSize: "18px", margin: 0 }}>{record?.committeeDetails?.committee?.name}</Title>
       }
     },
     {
@@ -107,7 +143,7 @@ function Home() {
       dataIndex: 'amount',
       key: 'amount',
       render: (text, record) => {
-        return <Title onClick={() => navigate(`/dashboard/view-committee/${record?.committeeDetails?.committee?._id}`)} style={{ fontSize: "16px", margin: 0, color: "#818181", cursor: "pointer" }}>$ {record?.committeeDetails?.committee?.amount}</Title>
+        return <Title onClick={() => navigate(`/dashboard/view-committee/${record?.committeeDetails?.committee?._id}`)} style={{ fontSize: "16px", margin: 0, color: "#818181" }}>$ {record?.committeeDetails?.committee?.amount}</Title>
       }
     },
     {
@@ -115,7 +151,7 @@ function Home() {
       dataIndex: 'payment',
       key: 'payment',
       render: (text, record) => {
-        return <Title onClick={() => navigate(`/dashboard/view-committee/${record?.committeeDetails?.committee?._id}`)} style={{ fontSize: "16px", margin: 0, color: "#818181", cursor: "pointer" }}>$ {record?.committeeDetails?.committee?.payment}</Title>
+        return <Title onClick={() => navigate(`/dashboard/view-committee/${record?.committeeDetails?.committee?._id}`)} style={{ fontSize: "16px", margin: 0, color: "#818181" }}>$ {record?.committeeDetails?.committee?.payment}</Title>
       }
     },
     {
@@ -124,7 +160,7 @@ function Home() {
       key: 'members',
       render: (text, record) => {
         return (
-          <div style={{ display: "flex", alignItems: "center", cursor: "pointer" }}>
+          <div style={{ display: "flex", alignItems: "center" }}>
             <img width={30} src={memberIcon} />
             <Title style={{ fontSize: "16px", margin: "0 0 0 10px", color: "#818181" }}>{record?.committeeDetails?.committee?.members}</Title>
           </div>
@@ -136,7 +172,7 @@ function Home() {
       dataIndex: 'startDate',
       key: 'startDate',
       render: (text, record) => {
-        return <Title onClick={() => navigate(`/dashboard/view-committee/${record?.committeeDetails?.committee?._id}`)} style={{ fontSize: "16px", margin: 0, color: "#818181", cursor:"pointer" }}>{new Date(record?.committeeDetails?.committee?.startDate).toLocaleDateString()}</Title>
+        return <Title onClick={() => navigate(`/dashboard/view-committee/${record?.committeeDetails?.committee?._id}`)} style={{ fontSize: "16px", margin: 0, color: "#818181" }}>{new Date(record?.committeeDetails?.committee?.startDate).toLocaleDateString()}</Title>
       }
     },
     {
@@ -144,7 +180,7 @@ function Home() {
       dataIndex: 'endDate',
       key: 'endDate',
       render: (text, record) => {
-        return <Title onClick={() => navigate(`/dashboard/view-committee/${record?.committeeDetails?.committee?._id}`)} style={{ fontSize: "16px", margin: 0, color: "#818181", cursor:"pointer" }}>{new Date(record?.committeeDetails?.committee?.endDate).toLocaleDateString()}</Title>
+        return <Title onClick={() => navigate(`/dashboard/view-committee/${record?.committeeDetails?.committee?._id}`)} style={{ fontSize: "16px", margin: 0, color: "#818181" }}>{new Date(record?.committeeDetails?.committee?.endDate).toLocaleDateString()}</Title>
       }
     },
     {
@@ -152,7 +188,7 @@ function Home() {
       dataIndex: 'cycle',
       key: 'cycle',
       render: (text, record) => {
-        return <Title onClick={() => navigate(`/dashboard/view-committee/${record?.committeeDetails?.committee?._id}`)} style={{ fontSize: "16px", margin: 0, color: "#818181", cursor:"pointer" }}>{record?.committeeDetails?.committee?.cycle?.type}</Title>
+        return <Title onClick={() => navigate(`/dashboard/view-committee/${record?.committeeDetails?.committee?._id}`)} style={{ fontSize: "16px", margin: 0, color: "#818181" }}>{record?.committeeDetails?.committee?.cycle?.type}</Title>
       }
     },
     {
@@ -160,7 +196,7 @@ function Home() {
       dataIndex: 'cycle',
       key: 'cycle',
       render: (text, record) => {
-        return <Title onClick={() => navigate(`/dashboard/view-committee/${record?.committeeDetails?.committee?._id}`)} style={{ fontSize: "16px", margin: 0, color: "#818181", cursor:"pointer" }}>8 months</Title>
+        return <Title onClick={() => navigate(`/dashboard/view-committee/${record?.committeeDetails?.committee?._id}`)} style={{ fontSize: "16px", margin: 0, color: "#818181" }}>8 months</Title>
       }
     },
     // {
@@ -208,7 +244,7 @@ function Home() {
       key: 'name',
       render: (text, record, index) => {
         console.log(record);
-        return <Title onClick={() => navigate(`/dashboard/view-committee/${record?.committee?._id}`)} style={{ fontSize: "18px", margin: 0, cursor:"pointer" }}>{record?.committee?.name}</Title>
+        return <Title onClick={() => navigate(`/dashboard/view-committee/${record?.committee?._id}`)} style={{ fontSize: "18px", margin: 0 }}>{record?.committee?.name}</Title>
       }
     },
     {
@@ -216,7 +252,7 @@ function Home() {
       dataIndex: 'amount',
       key: 'amount',
       render: (text, record) => {
-        return <Title onClick={() => navigate(`/dashboard/view-committee/${record?.committee?._id}`)} style={{ fontSize: "16px", margin: 0, color: "#818181", cursor:"pointer" }}>$ {record?.committee?.payment}</Title>
+        return <Title onClick={() => navigate(`/dashboard/view-committee/${record?.committee?._id}`)} style={{ fontSize: "16px", margin: 0, color: "#818181" }}>$ {record?.committee?.payment}</Title>
       }
     },
     {
@@ -225,7 +261,7 @@ function Home() {
       key: 'members',
       render: (text, record) => {
         return (
-          <div onClick={() => navigate(`/dashboard/view-committee/${record?.committee?._id}`)} style={{ display: "flex", alignItems: "center", cursor:"pointer" }}>
+          <div onClick={() => navigate(`/dashboard/view-committee/${record?.committee?._id}`)} style={{ display: "flex", alignItems: "center" }}>
             <img width={30} src={memberIcon} />
             <Title style={{ fontSize: "16px", margin: "0 0 0 10px", color: "#818181" }}>{record?.committee?.members}</Title>
           </div>
@@ -237,7 +273,7 @@ function Home() {
       dataIndex: 'startDate',
       key: 'startDate',
       render: (text, record) => {
-        return <Title onClick={() => navigate(`/dashboard/view-committee/${record?.committee?._id}`)} style={{ fontSize: "16px", margin: 0, color: "#818181", cursor:"pointer" }}>{new Date(record?.committee?.startDate).toLocaleDateString()}</Title>
+        return <Title onClick={() => navigate(`/dashboard/view-committee/${record?.committee?._id}`)} style={{ fontSize: "16px", margin: 0, color: "#818181" }}>{new Date(record?.committee?.startDate).toLocaleDateString()}</Title>
       }
     },
     {
@@ -245,7 +281,7 @@ function Home() {
       dataIndex: 'endDate',
       key: 'endDate',
       render: (text, record) => {
-        return <Title onClick={() => navigate(`/dashboard/view-committee/${record?.committee?._id}`)} style={{ fontSize: "16px", margin: 0, color: "#818181" , cursor:"pointer"}}>{new Date(record?.committee?.endDate).toLocaleDateString()}</Title>
+        return <Title onClick={() => navigate(`/dashboard/view-committee/${record?.committee?._id}`)} style={{ fontSize: "16px", margin: 0, color: "#818181" }}>{new Date(record?.committee?.endDate).toLocaleDateString()}</Title>
       }
     },
     {
@@ -253,7 +289,7 @@ function Home() {
       dataIndex: 'cycle',
       key: 'cycle',
       render: (text, record) => {
-        return <Title onClick={() => navigate(`/dashboard/view-committee/${record?.committee?._id}`)} style={{ fontSize: "16px", margin: 0, color: "#818181", cursor:"pointer" }}>{record?.committee?.cycle?.type}</Title>
+        return <Title onClick={() => navigate(`/dashboard/view-committee/${record?.committee?._id}`)} style={{ fontSize: "16px", margin: 0, color: "#818181" }}>{record?.committee?.cycle?.type}</Title>
       }
     },
     {
@@ -261,7 +297,7 @@ function Home() {
       dataIndex: 'cycle',
       key: 'cycle',
       render: (text, record) => {
-        return <Title onClick={() => navigate(`/dashboard/view-committee/${record?.committee?._id}`)} style={{ fontSize: "16px", margin: 0, color: "#818181", cursor:"pointer" }}>8 months</Title>
+        return <Title onClick={() => navigate(`/dashboard/view-committee/${record?.committee?._id}`)} style={{ fontSize: "16px", margin: 0, color: "#818181" }}>8 months</Title>
       }
     },
     // {
@@ -282,7 +318,7 @@ function Home() {
       dataIndex: 'payment',
       key: 'payment',
       render: (text, record) => {
-        return <Title onClick={() => navigate(`/dashboard/view-committee/${record?.committee?._id}`)} style={{ fontSize: "16px", margin: 0, color: "#818181", cursor:"pointer" }}>$ {record?.committee?.amount}</Title>
+        return <Title onClick={() => navigate(`/dashboard/view-committee/${record?.committee?._id}`)} style={{ fontSize: "16px", margin: 0, color: "#818181" }}>$ {record?.committee?.amount}</Title>
       }
     },
     {
@@ -295,6 +331,7 @@ function Home() {
     },
   ];
 
+  const state = useSelector((state) => state)
   const user = useSelector((state) => state.auth.user)
   const token = useSelector((state) => state.common.token)
   const approveMembers = useSelector((state) => state.members.approveMembers)
@@ -340,7 +377,15 @@ function Home() {
           setLoading(false)
           console.log(err);
         })
+      GetUserCommittees()
+        .then((res) => {
+          setCommitteeOptions(res.data.committees);
+        })
+        .catch((err) => {
+          console.log(err);
+        });
     }
+
   }, [user])
 
   console.log(committees);
@@ -360,21 +405,51 @@ function Home() {
       >
         <Title style={{ color: "#166805", margin: "0 0 20px 0" }} level={5}>Are your sure want to delete {cName} commitee ?</Title>
       </Modal>
+      {user?.userType === "user" && (
+        <>
+          <Modal
+            okButtonProps={{ style: { backgroundColor: "#166805" } }}
+            centered
+            open={showModal}
+            onOk={() => {
+              handleSubmit()
+              setShowModal(false)
+            }}
+            onCancel={() => setShowModal(false)}
+          >
+            <Title style={{ color: "#166805", margin: "0 0 20px 0" }} level={3}>Add new commitee</Title>
+            <Card style={{ marginBottom: "20px" }}>
+              <Row gutter={[24, 0]}>
+
+                <Col xs={24} sm={24} md={24} lg={24} xl={24}>
+                  <Form.Item label={<Title style={{ fontSize: "16px", margin: 0, color: "#4E4E4E" }}>Select Committee ID</Title>}>
+                    <Select
+                      defaultValue="Select Committee"
+                      style={{ width: "100%" }}
+                      options={committeeOptions?.map((opt) => ({
+                        value: opt?._id,
+                        label: opt?.uniqueId
+                      }))}
+                      // options={state?.committees?.committees?.map((opt) => ({ 
+                      //   value: opt?.committeeDetails?.committee?._id, 
+                      //   label: opt?.committeeDetails?.committee?.uniqueId }))}
+                      onChange={(e) => setCommitteeID(e)}
+                    />
+                  </Form.Item>
+                </Col>
+              </Row>
+            </Card>
+          </Modal>
+        </>
+      )}
       <StatisticsHeader
         approveMembers={approveMembers}
         user={user}
         committees={committees}
       />
-      <div style={{ marginBottom: "20px" }}>
+      <div style={{ display: "flex", justifyContent: "space-between" }}>
         <Title style={{ color: "#166805", margin: 0 }} level={3}>Committee</Title>
-        {/* <div>
-          {user?.userType === "admin" && (
-            <>
-              <Button onClick={() => navigate("/dashboard/committee-details")} className="view-all-btn">Create Committee</Button>
-              <Button style={{ margin: "0 0 0 20px" }} onClick={() => navigate("/view-all-committee")} className="view-all-btn">View All</Button>
-            </>
-          )}
-        </div> */}
+        <Button onClick={() => setShowModal(true)} className="add-cycle-btn" style={{ float: "right" }}>Enroll Committee</Button>
       </div>
       <Card className="my-card" style={{ marginTop: 40 }}>
         <Table

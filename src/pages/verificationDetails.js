@@ -347,7 +347,7 @@ function VerificationDetails() {
         try {
             const response = await axios.post(`${API_URL}/admin/approveAccount/${id}`, {
                 approve: true,
-                cId: user?.cId[0]?.cid
+                cId: user?.cId[user?.cId?.length - 1]?.cid
             }, {
                 headers: {
                     Authorization: "Bearer " + token
@@ -443,7 +443,7 @@ function VerificationDetails() {
                     try {
                         const response = await axios.post(`${API_URL}/admin/approveAccount/${id}`, {
                             approve: false,
-                            cId: user?.cId[0]?.cid
+                            cId: user?.cId[user?.cId?.length - 1]?.cid
                         }, {
                             headers: {
                                 Authorization: "Bearer " + token
