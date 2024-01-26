@@ -159,7 +159,7 @@ function PaymentHistory() {
         <>
             <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: "20px" }}>
                 <div>
-                    <Title style={{ color: "#166805", margin: 0 }} level={3}>Payout History</Title>
+                    <Title style={{ color: "#166805", margin: 0 }} level={3}>Payment History</Title>
                 </div>
             </div>
             <Card className="my-card" style={{ marginTop: 20 }}>
