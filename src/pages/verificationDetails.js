@@ -146,9 +146,7 @@ function VerificationDetails() {
                 grossAnnualIncome: user?.grossAnnualIncome,
                 sourceOfIncome: user?.sourceOfIncome,
                 employmentStatus: user?.employmentStatus,
-                appointment: {
-                    date: user?.appointment?.date,
-                },
+                appointment: user?.appointment,
                 DOB: user?.DOB,
                 // DOB: {
                 //     day: user?.DOB?.day,
