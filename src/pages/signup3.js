@@ -926,10 +926,13 @@ export default function SignUp3() {
                             format="DD-MM-YYYY"
                             style={{ width: width < 768 ? "300px" : '200px' }}
                             onChange={(e, dateString) => {
-                              setAppointment((prevFields) => {
+                              setFormFields((prevFields) => {
                                 return {
                                   ...prevFields,
-                                  date: dateString
+                                  appointment: {
+                                    ...prevFields.appointment,
+                                    date: dateString
+                                  }
                                 }
                               });
                             }}
@@ -966,10 +969,13 @@ export default function SignUp3() {
                               { value: '05 PM', label: '05 PM', disabled: appointment.date === moment().format('DD-MM-YYYY') && twoHoursFromNow >= 17 },
                             ]}
                             onChange={(e) => {
-                              setAppointment((prevFields) => {
+                              setFormFields((prevFields) => {
                                 return {
                                   ...prevFields,
-                                  time: e
+                                  appointment: {
+                                    ...prevFields.appointment,
+                                    time: e
+                                  }
                                 }
                               });
                             }}
