@@ -63,7 +63,7 @@ function ApprovedMembers() {
             }
         },
         {
-            title: <Title style={{ fontSize: "18px", margin: 0, color: "#166805", fontWeight: "600" }}>Person Info</Title>,
+            title: <Title style={{ fontSize: "18px", margin: 0, color: "#166805", fontWeight: "600" }}>Member Detail</Title>,
             dataIndex: 'name',
             key: 'name',
             render: (text, record, index) => {
