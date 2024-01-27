@@ -402,10 +402,9 @@ function VerificationDetails() {
         }
     }
 
-    console.log(user);
-    // console.log(commitee);
+    const [committeeIndex, setCommitteeIndex] = useState(null)
 
-    console.log({ committeeID, committeeNumber });
+    console.log(committeeIndex);
 
     return (
         <>
@@ -419,8 +418,8 @@ function VerificationDetails() {
                     setUser((prevUser) => {
                         return {
                             ...prevUser,
-                            committeeList: prevUser?.committeeList?.filter((val, ind) => ind !== 0),
-                            cId: prevUser?.cId?.filter((val, ind) => ind !== 0),
+                            committeeList: prevUser?.committeeList?.filter((val, ind) => ind !== committeeIndex),
+                            cId: prevUser?.cId?.filter((val, ind) => ind !== committeeIndex),
                         }
                     })
                     setShowModal2(false)
@@ -877,17 +876,8 @@ function VerificationDetails() {
                                         <div style={{ display: "flex", justifyContent: "space-between", marginBottom: 30 }}>
                                             <Title style={{ color: "#166805", margin: "0" }} level={3}>Committee {com?.cid?.uniqueId}</Title>
                                             <Button onClick={() => {
-                                                if (user?.committeeList?.length === 1 && user?.cId?.length === 1) {
                                                     setShowModal2(true)
-                                                    return null
-                                                }
-                                                setUser((prevUser) => {
-                                                    return {
-                                                        ...prevUser,
-                                                        committeeList: prevUser?.committeeList?.filter((val, index) => index !== ind),
-                                                        cId: prevUser?.cId?.filter((val, index) => index !== ind),
-                                                    }
-                                                })
+                                                    setCommitteeIndex(ind)
                                             }} className="add-cycle-btn">remove commitee</Button>
                                         </div>
                                     </Col>
