@@ -276,9 +276,9 @@ export default function SignUp2() {
     getCommittee()
   }, [params.cid])
 
-  console.log(appointment.date + " " + appointment.time);
-
   console.log(formFields);
+
+  const twoHoursFromNow = moment().add(2, 'hours');
 
   return (
     <div>
@@ -926,20 +926,18 @@ export default function SignUp2() {
                             style={{ width: width < 768 ? "300px" : '200px' }}
                             onChange={(e, dateString) => {
                               setFieldName({ type: "appointment", value: e });
-                              setFormFields((prevFields) => {
-                                return {
-                                  ...prevFields,
-                                  appointment: {
-                                    ...prevFields.appointment,
-                                    date: dateString
-                                  }
+                              setFormFields(prevState => ({
+                                ...prevState,
+                                appointment: {
+                                  ...prevState.appointment,
+                                  date: dateString
                                 }
-                              });
+                              }));
                             }}
                             inputReadOnly={true}
                             disabledDate={(current) => {
                               const dayOfWeek = current.day();
-                              if (dayOfWeek === 0 || dayOfWeek === 6) {
+                              if (dayOfWeek === 0) {
                                 return true;
                               }
                               const currentYear = moment().year();
@@ -958,27 +956,25 @@ export default function SignUp2() {
                             defaultValue="Select appointment time"
                             style={{ width: width < 768 ? "300px" : "200px", marginLeft: 10 }}
                             options={[
-                              { value: '09 AM', label: '09 AM' },
-                              { value: '10 AM', label: '10 AM' },
-                              { value: '11 AM', label: '11 AM' },
-                              { value: '12 PM', label: '12 PM' },
-                              { value: '01 PM', label: '01 PM' },
-                              { value: '02 PM', label: '02 PM' },
-                              { value: '03 PM', label: '03 PM' },
-                              { value: '04 PM', label: '04 PM' },
-                              { value: '05 PM', label: '05 PM' },
+                              { value: '09 AM', label: '09 AM', disabled: formFields.appointment.date === moment().format('DD-MM-YYYY') && twoHoursFromNow.hours() >= 9 },
+                              { value: '10 AM', label: '10 AM', disabled: formFields.appointment.date === moment().format('DD-MM-YYYY') && twoHoursFromNow.hours() >= 10 },
+                              { value: '11 AM', label: '11 AM', disabled: formFields.appointment.date === moment().format('DD-MM-YYYY') && twoHoursFromNow.hours() >= 11 },
+                              { value: '12 PM', label: '12 PM', disabled: formFields.appointment.date === moment().format('DD-MM-YYYY') && twoHoursFromNow.hours() >= 12 },
+                              { value: '01 PM', label: '01 PM', disabled: formFields.appointment.date === moment().format('DD-MM-YYYY') && twoHoursFromNow.hours() >= 13 },
+                              { value: '02 PM', label: '02 PM', disabled: formFields.appointment.date === moment().format('DD-MM-YYYY') && twoHoursFromNow.hours() >= 14 },
+                              { value: '03 PM', label: '03 PM', disabled: formFields.appointment.date === moment().format('DD-MM-YYYY') && twoHoursFromNow.hours() >= 15 },
+                              { value: '04 PM', label: '04 PM', disabled: formFields.appointment.date === moment().format('DD-MM-YYYY') && twoHoursFromNow.hours() >= 16 },
+                              { value: '05 PM', label: '05 PM', disabled: formFields.appointment.date === moment().format('DD-MM-YYYY') && twoHoursFromNow.hours() >= 17 },
                             ]}
                             onChange={(e) => {
                               setFieldName({ type: "appointment", value: e });
-                              setFormFields((prevFields) => {
-                                return {
-                                  ...prevFields,
-                                  appointment: {
-                                    ...prevFields.appointment,
-                                    time: e
-                                  }
+                              setFormFields(prevState => ({
+                                ...prevState,
+                                appointment: {
+                                  ...prevState.appointment,
+                                  time: e
                                 }
-                              });
+                              }));
                             }}
                           />
                         </div>

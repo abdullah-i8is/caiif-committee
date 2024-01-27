@@ -1,4 +1,4 @@
-import { BrowserRouter as Router, Routes, Route, Navigate, useLocation } from "react-router-dom";
+import { BrowserRouter as Router, Routes, Route, Navigate } from "react-router-dom";
 import Home from "./pages/Home";
 import Setup from "./pages/Setup";
 import Profile from "./pages/Profile";
@@ -13,15 +13,7 @@ import "./assets/styles/responsive.css";
 import { useDispatch, useSelector } from "react-redux";
 import Members from "./pages/members";
 import VerificationDetails from "./pages/verificationDetails";
-import { useEffect, useState } from "react";
 import VerifyAccount from "./pages/verifyAccount";
-import Lottie from "react-lottie";
-import animationData from "./assets/money2.json";
-import logo from "./assets/images/caiif-logo.svg";
-import { setApproveMembers } from "./store/membersSlice/membersSlice";
-import { API_URL } from "./config/api";
-import axios from "axios";
-import { setCommittees } from "./store/committeeSlice/committeeSlice";
 import Setup2 from "./pages/Setup2";
 import SignUp2 from "./pages/signup2";
 import SignUp3 from "./pages/signup3";
@@ -36,9 +28,7 @@ function App() {
 
   // const [loading, setLoading] = useState(true)
   const token = useSelector((state) => state.common.token)
-  // const user = useSelector((state) => state.auth.user)
-  // const dispatch = useDispatch()
-  // const location = useLocation()
+
   // const defaultOptions = {
   //   loop: true,
   //   autoplay: true,
@@ -57,7 +47,6 @@ function App() {
   return (
 
     <div className="App">
-
       {/* {loading ? (
         <div style={{ padding: "20px" }}>
           <div style={{ minHeight: "90vh", display: "flex", justifyContent: "center", alignItems: "center", flexDirection: "column", position: "relative" }}>
@@ -91,11 +80,8 @@ function App() {
           <Route path="*" element={<Navigate to="/dashboard" />} />
         </Routes>
       {/* )} */}
-
     </div>
-
   );
-
 }
 
 export default App;
