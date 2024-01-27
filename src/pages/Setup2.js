@@ -553,7 +553,7 @@ function Setup2() {
                     </Card>
                     <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginTop: "80px", marginBottom: "20px" }}>
                         <Title style={{ color: "#166805", margin: 0 }} level={3}>Committee Members</Title>
-                        <Select
+                        {/* <Select
                             defaultValue="Select date"
                             style={{ width: "100%" }}
                             options={dateRanges?.map((range, index) => ({ value: `${range.start} - ${range.end}`, label: `${range.start} - ${range.end}` }))}
@@ -566,7 +566,7 @@ function Setup2() {
                                     }
                                 })
                             }}
-                        />
+                        /> */}
                         <div style={{ display: "flex", alignItems: "center" }}>
                             <Title style={{ color: "#166805", margin: "0 15px 0 0" }} level={3}>Available Members: {committeeUsers?.length > 0 ? committeeUsers?.length : 0}/{committeeDetail?.members > 0 ? committeeDetail?.members : 0}</Title>
                             <img width={40} src={memberIcon} />
