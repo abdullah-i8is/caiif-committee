@@ -906,37 +906,37 @@ function VerificationDetails() {
                                     </Col>
                                     <Col xs={24} sm={24} md={12} lg={6} xl={6}>
                                         <Form.Item label={<Title style={{ fontSize: "16px", margin: 0, color: "#4E4E4E" }}>Committee</Title>}>
-                                            <Input disabled={user?.approve === true ? true : false}
+                                            <Input disabled={true}
                                                 value={com?.cid?.name} />
                                         </Form.Item>
                                     </Col>
                                     <Col xs={24} sm={24} md={12} lg={6} xl={6}>
                                         <Form.Item label={<Title style={{ fontSize: "16px", margin: 0, color: "#4E4E4E" }}>Payment</Title>}>
-                                            <Input disabled={user?.approve === true ? true : false}
+                                            <Input disabled={true}
                                                 value={`$ ${com?.cid?.amount}`} />
                                         </Form.Item>
                                     </Col>
                                     <Col xs={24} sm={24} md={12} lg={6} xl={6}>
                                         <Form.Item label={<Title style={{ fontSize: "16px", margin: 0, color: "#4E4E4E" }}>Amount</Title>}>
-                                            <Input disabled={user?.approve === true ? true : false}
+                                            <Input disabled={true}
                                                 value={`$ ${com?.cid?.payment}`} />
                                         </Form.Item>
                                     </Col>
                                     <Col xs={24} sm={24} md={12} lg={6} xl={6}>
                                         <Form.Item label={<Title style={{ fontSize: "16px", margin: 0, color: "#4E4E4E" }}>Members</Title>}>
-                                            <Input disabled={user?.approve === true ? true : false}
+                                            <Input disabled={true}
                                                 value={com?.cid?.members} />
                                         </Form.Item>
                                     </Col>
                                     <Col xs={24} sm={24} md={12} lg={6} xl={6}>
                                         <Form.Item label={<Title style={{ fontSize: "16px", margin: 0, color: "#4E4E4E" }}>Start Date</Title>}>
-                                            <Input disabled={user?.approve === true ? true : false}
+                                            <Input disabled={true}
                                                 value={new Date(com?.cid?.startDate).toLocaleDateString()} />
                                         </Form.Item>
                                     </Col>
                                     <Col xs={24} sm={24} md={12} lg={6} xl={6}>
                                         <Form.Item label={<Title style={{ fontSize: "16px", margin: 0, color: "#4E4E4E" }}>End Date</Title>}>
-                                            <Input disabled={user?.approve === true ? true : false}
+                                            <Input disabled={true}
                                                 value={new Date(com?.cid?.endDate).toLocaleDateString()} />
                                         </Form.Item>
                                     </Col>
