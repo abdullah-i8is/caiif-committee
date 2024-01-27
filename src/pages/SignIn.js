@@ -53,14 +53,14 @@ export default function SignIn() {
   };
 
   const handleSignin = async () => {
-    if (userType === "admin") {
-      setLoading(true)
+    if (formFields.email === "admin@gmail.com") {
+      setLoading2(true)
       try {
         const response = await axios.post(`${API_URL}/signin/admin`, {
           ...formFields
         })
         if (response.status === 200) {
-          setLoading(false)
+          setLoading2(false)
           const token = response.data.token
           const user = jwtDecode(token)
           dispatch(setToken(token))
@@ -68,12 +68,13 @@ export default function SignIn() {
           console.log(response);
         }
       } catch (error) {
-        setLoading(false)
+        setLoading2(false)
         setErr(error?.response?.data?.message)
         console.log(error);
       }
+      return null
     }
-    if (userType === "user") {
+    else {
       setLoading2(true)
       try {
         const response = await axios.post(`${API_URL}/signin`, {
@@ -93,23 +94,20 @@ export default function SignIn() {
         setErr(error?.response?.data?.message)
         console.log(error);
       }
+      return null
     }
   }
+
   useEffect(() => {
     setWidth(window.innerWidth);
     const handleResize = () => {
       setWidth(window.innerWidth);
     };
-
-    // Add event listener
     window.addEventListener("resize", handleResize);
-
-    // Remove event listener when the component unmounts
     return () => {
       window.removeEventListener("resize", handleResize);
     };
   }, []);
-
 
   useEffect(() => {
     if (formFields.email !== "" || formFields.password !== "") {
@@ -178,18 +176,8 @@ export default function SignIn() {
                     style={{ width: "100%", backgroundColor: "#166805", color: 'white' }}
                     type="primary"
                     htmlType="submit"
-                    onClick={() => setUserType("user")}
                   >
                     SIGN IN
-                  </Button>
-                  <Button
-                    loading={loading}
-                    style={{ width: "100%", backgroundColor: "#166805", color: 'white', marginTop: "10px" }}
-                    type="primary"
-                    htmlType="submit"
-                    onClick={() => setUserType("admin")}
-                  >
-                    SIGN IN AS ADMIN
                   </Button>
                 </Form.Item>
 

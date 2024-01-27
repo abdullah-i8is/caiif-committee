@@ -38,7 +38,7 @@ const StatisticsHeader = ({ approveMembers, user, committees, enrolledCommittess
                                     <div style={{ display: "flex", justifyContent: "space-between", alignItems: "flex-start" }}>
                                         <div>
                                             <p style={{ fontSize: 20, fontWeight: '700', margin: 0, color: "#166805" }}>{card.title}</p>
-                                            <Title level={4} style={{ fontWeight: '600', margin: 0, color: "#F2C649" }}>{card.title === "Add New Committee" ? "Click Now" : <CountUp start={0} end={card.description} />}</Title>                                        </div>
+                                            <Title level={4} style={{ fontWeight: '600', margin: 0, color: "#F2C649" }}>{card.title === "Add New Committee" ? "" : <CountUp start={0} end={card.description} />}</Title>                                        </div>
                                         <div>
                                             <img src={card.icon} alt="" />
                                         </div>

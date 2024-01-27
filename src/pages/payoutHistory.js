@@ -69,7 +69,7 @@ function PayoutHistory() {
             dataIndex: 'name',
             key: 'name',
             render: (text, record, index) => {
-                return <Title onClick={() => navigate(`/members/verification-details/${record?.userId?._id}`)} style={{ fontSize: "18px", margin: 0, cursor:"pointer" }}>{record?.userId?.firstName + " " + record?.userId?.lastName}</Title>
+                return <Title onClick={() => navigate(`/members/verification-details/${record?.user?.name}`)} style={{ fontSize: "18px", margin: 0, cursor:"pointer" }}>{record?.userId?.firstName + " " + record?.userId?.lastName}</Title>
             }
         },
         {
@@ -117,27 +117,6 @@ function PayoutHistory() {
                 )
             }
         },
-        // {
-        //   title: <Title style={{ fontSize: "18px", margin: 0, color: "#166805", fontWeight: "600" }}>Available</Title>,
-        //   dataIndex: 'available',
-        //   key: 'available',
-        //   render: (text, record) => {
-        //     return (
-        //       <div style={{ display: "flex", alignItems: "center" }}>
-        //         <img width={30} src={memberIcon} />
-        //         <Title style={{ fontSize: "16px", margin: 0, color: "#818181" }}>{record?.committeeDetails?.committee?.available}</Title>
-        //       </div>
-        //     )
-        //   }
-        // },
-        // {
-        //   title: <Title style={{ fontSize: "18px", margin: 0, color: "#166805", fontWeight: "600" }}>Payment</Title>,
-        //   dataIndex: 'payment',
-        //   key: 'payment',
-        //   render: (text, record) => {
-        //     return <Title style={{ fontSize: "16px", margin: 0, color: "#818181" }}>{record?.committeeDetails?.committee?.payment}</Title>
-        //   }
-        // },
     ];
 
     async function getPaymentHistory() {
@@ -149,7 +128,7 @@ function PayoutHistory() {
                 }
             })
             setLoading(false)
-            setData(response.data.payments)
+            setData(response.data.paymentHistory)
             console.log(response);
         } catch (error) {
             setLoading(false)

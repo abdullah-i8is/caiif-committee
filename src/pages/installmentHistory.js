@@ -113,7 +113,7 @@ function InstallmentHistory() {
             title: <Title style={{ fontSize: "18px", margin: 0, color: "#166805", fontWeight: "600" }}></Title>,
             render: (text, record) => {
                 return (
-                    <Button onClick={() => navigate(`/members/verification-details/${record?.userId?._id}`)} className="add-cycle-btn">View</Button>
+                    <Button style={{ margin: "0 0 0 20px" }} onClick={() => navigate(`/members/verification-details/${record?.userId?._id}`)} className="add-cycle-btn">View</Button>
                 )
             }
         },
@@ -173,7 +173,7 @@ function InstallmentHistory() {
         <>
             <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: "20px" }}>
                 <div>
-                    <Title style={{ color: "#166805", margin: 0 }} level={3}>Installment History</Title>
+                    <Title style={{ color: "#166805", margin: 0 }} level={3}>Contribution History</Title>
                 </div>
             </div>
             <Card className="my-card" style={{ marginTop: 20 }}>
