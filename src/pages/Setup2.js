@@ -553,13 +553,27 @@ function Setup2() {
                     </Card>
                     <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginTop: "80px", marginBottom: "20px" }}>
                         <Title style={{ color: "#166805", margin: 0 }} level={3}>Committee Members</Title>
+                        <Select
+                            defaultValue="Select date"
+                            style={{ width: "100%" }}
+                            options={dateRanges?.map((range, index) => ({ value: `${range.start} - ${range.end}`, label: `${range.start} - ${range.end}` }))}
+                            onChange={(e) => {
+                                console.log(e);
+                                setPaymentHistoryDetails((prevDetails) => {
+                                    return {
+                                        ...prevDetails,
+                                        date: e
+                                    }
+                                })
+                            }}
+                        />
                         <div style={{ display: "flex", alignItems: "center" }}>
                             <Title style={{ color: "#166805", margin: "0 15px 0 0" }} level={3}>Available Members: {committeeUsers?.length > 0 ? committeeUsers?.length : 0}/{committeeDetail?.members > 0 ? committeeDetail?.members : 0}</Title>
                             <img width={40} src={memberIcon} />
                         </div>
                     </div>
                     <Card className="my-card" style={{ marginBottom: "20px" }}>
-                        <Table pagination={false} loading={loading} dataSource={committeeUsers.sort((a,b) => a?.committeeList[0]?.committeeNumber - b?.committeeList[0]?.committeeNumber)} columns={column} />
+                        <Table pagination={false} loading={loading} dataSource={committeeUsers.sort((a, b) => a?.committeeList[0]?.committeeNumber - b?.committeeList[0]?.committeeNumber)} columns={column} />
                     </Card>
                     {/* <Form
             form={form}
@@ -662,7 +676,7 @@ function Setup2() {
                         </div>
                     </div>
                     <Card className="my-card" style={{ marginBottom: "20px" }}>
-                        <Table pagination={false} loading={loading} dataSource={committeeUsers.sort((a,b) => a?.committeeList[0]?.committeeNumber - b?.committeeList[0]?.committeeNumber)} columns={column3} />
+                        <Table pagination={false} loading={loading} dataSource={committeeUsers.sort((a, b) => a?.committeeList[0]?.committeeNumber - b?.committeeList[0]?.committeeNumber)} columns={column3} />
                     </Card>
                 </>
             )}

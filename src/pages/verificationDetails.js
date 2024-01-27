@@ -720,14 +720,14 @@ function VerificationDetails() {
                             </Form.Item>
                         </Col>
 
-                        <Col xs={24} sm={24} md={6} lg={6} xl={4}>
+                        {!user?.approve && <Col xs={24} sm={24} md={6} lg={6} xl={4}>
                             <Form.Item label={<Title style={{ fontSize: "16px", margin: 0, color: "#4E4E4E" }}>Appointment</Title>}>
                                 <Input
                                     onChange={(e) => handleChange(e.target.value, "appointment")}
                                     value={user?.appointment}
                                 />
                             </Form.Item>
-                        </Col>
+                        </Col>}
 
                         {/* <Col xs={24} sm={24} md={6} lg={6} xl={4}>
                             <Form.Item label={<Title style={{ fontSize: "16px", margin: 0, color: "#4E4E4E" }}>Select Appointment</Title>}>
@@ -884,8 +884,8 @@ function VerificationDetails() {
                                                 setUser((prevUser) => {
                                                     return {
                                                         ...prevUser,
-                                                        committeeList: prevUser?.committeeList?.filter((val, ind) => val?.cid?._id !== com?.cid?._id),
-                                                        cId: prevUser?.cId?.filter((val, ind) => val?.cid !== com?.cid?._id),
+                                                        committeeList: prevUser?.committeeList?.filter((val, index) => index !== ind),
+                                                        cId: prevUser?.cId?.filter((val, index) => index !== ind),
                                                     }
                                                 })
                                             }} className="add-cycle-btn">remove commitee</Button>

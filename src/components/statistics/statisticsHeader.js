@@ -20,11 +20,6 @@ const StatisticsHeader = ({ approveMembers, user, committees, enrolledCommittess
         { id: 2, title: "Enroll Request", description: approveMembers?.filter((user) => user.approve === false)?.length, icon: icon2 },
         { id: 3, title: "Add New Committee", description: committees?.length ? committees?.length : 0, icon: icon3 },
     ]
-    const arr2 = [
-        { id: 1, title: "Total Enrolled Committee", description: committees?.length ? committees?.length : 0, icon: icon1 },
-        { id: 2, title: "Total larger sum", description: 0, icon: icon2 },
-        { id: 3, title: "Total Amount Invested", description: 0, icon: icon3 },
-    ]
     return (
         <div className="layout-content" style={{ marginTop: "50px", marginBottom: "40px" }}>
             <Row gutter={[24, 0]}>
@@ -32,13 +27,12 @@ const StatisticsHeader = ({ approveMembers, user, committees, enrolledCommittess
                     arr.map((card, index) => {
                         return (
                             <Col xs={24} sm={24} md={12} lg={8} xl={8}
-                                style={{cursor:"pointer"}}
+                                style={{ cursor: "pointer" }}
                                 className="mb-24"
                                 onClick={() => {
-                                navigate(`${
-                                    card.title === "Total Members" ? "/members" : 
-                                    card.title === "Enroll Request" ? "/members" : "/dashboard/committee-details"
-                                }`)
+                                    navigate(`${card.title === "Total Members" ? "/members" :
+                                            card.title === "Enroll Request" ? "/members" : "/dashboard/committee-details"
+                                        }`)
                                 }}>
                                 <Card bordered={false} className="criclebox" style={{ border: '4px solid rgba(22, 104, 5, 0.50)' }}>
                                     <div style={{ display: "flex", justifyContent: "space-between", alignItems: "flex-start" }}>
@@ -54,23 +48,19 @@ const StatisticsHeader = ({ approveMembers, user, committees, enrolledCommittess
                         )
                     })
                 ) : (
-                    arr2.map((card, index) => {
-                        return (
-                            <Col xs={24} sm={24} md={12} lg={8} xl={8} className="mb-24">
-                                <Card bordered={false} className="criclebox" style={{ border: '4px solid rgba(22, 104, 5, 0.50)' }}>
-                                    <div style={{ display: "flex", justifyContent: "space-between", alignItems: "flex-start" }}>
-                                        <div>
-                                            <p style={{ fontSize: 20, fontWeight: '700', margin: 0, color: "#166805" }}>{card.title}</p>
-                                            <Title level={"5"} style={{ fontWeight: '600', margin: 0, color: "#F2C649" }}><CountUp start={0} end={card.description} /></Title>
-                                        </div>
-                                        <div>
-                                            <img src={card.icon} alt="" />
-                                        </div>
-                                    </div>
-                                </Card>
-                            </Col>
-                        )
-                    })
+                    <Col xs={24} sm={24} md={12} lg={8} xl={8} className="mb-24">
+                        <Card bordered={false} className="criclebox" style={{ border: '4px solid rgba(22, 104, 5, 0.50)' }}>
+                            <div style={{ display: "flex", justifyContent: "space-between", alignItems: "flex-start" }}>
+                                <div>
+                                    <p style={{ fontSize: 20, fontWeight: '700', margin: 0, color: "#166805" }}>Total Enrolled Committee</p>
+                                    <Title level={"5"} style={{ fontWeight: '600', margin: 0, color: "#F2C649" }}><CountUp start={0} end={committees?.length ? committees?.length : 0} /></Title>
+                                </div>
+                                <div>
+                                    <img src={icon1} alt="" />
+                                </div>
+                            </div>
+                        </Card>
+                    </Col>
                 )}
             </Row>
         </div>
