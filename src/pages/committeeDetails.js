@@ -141,25 +141,25 @@ function CommitteeDetails() {
                             endDate: end_date_str,
                         };
                     }
-                    if (formFields.cycle.type === "Bi-weekly") {
-                        const member = formFields?.members / 2;
-                        const start_date_str = field?.value;
-                        const start_date = new Date(start_date_str);
-                        const end_date = new Date(start_date);
-                        end_date.setMonth(end_date.getMonth() + Math.floor(member)); // Adding the divided number of members
-                        end_date.setDate(1); // Setting the day to 1 for the first day of the month
-                        const month = String(end_date.getMonth() + 1).padStart(2, '0');
-                        const day = String(end_date.getDate()).padStart(2, '0');
-                        const year = end_date.getFullYear();
-                        const end_date_str = `${month}-${day}-${year}`;
-                        console.log("Start Date:", new Date(start_date_str));
-                        console.log("End Date:", new Date(end_date_str));
-                        return {
-                            ...prevFields,
-                            [field.type]: new Date(field?.value),
-                            endDate: end_date_str,
-                        };
-                    }
+                    // if (formFields.cycle.type === "Bi-weekly") {
+                    //     const member = formFields?.members / 2;
+                    //     const start_date_str = field?.value;
+                    //     const start_date = new Date(start_date_str);
+                    //     const end_date = new Date(start_date);
+                    //     end_date.setMonth(end_date.getMonth() + Math.floor(member)); // Adding the divided number of members
+                    //     end_date.setDate(1); // Setting the day to 1 for the first day of the month
+                    //     const month = String(end_date.getMonth() + 1).padStart(2, '0');
+                    //     const day = String(end_date.getDate()).padStart(2, '0');
+                    //     const year = end_date.getFullYear();
+                    //     const end_date_str = `${month}-${day}-${year}`;
+                    //     console.log("Start Date:", new Date(start_date_str));
+                    //     console.log("End Date:", new Date(end_date_str));
+                    //     return {
+                    //         ...prevFields,
+                    //         [field.type]: new Date(field?.value),
+                    //         endDate: end_date_str,
+                    //     };
+                    // }
                     else {
                         return {
                             ...prevFields,
@@ -273,7 +273,6 @@ function CommitteeDetails() {
                                     defaultValue="Select"
                                     style={{ width: "100%" }}
                                     options={[
-                                        { value: 15, label: "Bi-weekly" },
                                         { value: 30, label: "Monthly" }
                                     ]}
                                     onChange={(e, opt) => handleChange({ value: e, label: opt.label, type: "cycle" })}
