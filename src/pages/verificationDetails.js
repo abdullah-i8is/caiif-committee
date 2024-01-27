@@ -426,7 +426,7 @@ function VerificationDetails() {
                 }}
                 onCancel={() => setShowModal2(false)}
             >
-                <Title style={{ color: "#166805", margin: "0 0 20px 0" }} level={5}>Are your sure want to remove {user?.committeeList[0]?.cid?.uniqueId} commitee ?</Title>
+                <Title style={{ color: "#166805", margin: "0 0 20px 0" }} level={5}>Are your sure want to remove {user?.committeeList[committeeIndex]?.cid?.uniqueId} commitee ?</Title>
             </Modal>
             <Modal
                 okButtonProps={{ style: { backgroundColor: "#166805" }, loading: loading }}
