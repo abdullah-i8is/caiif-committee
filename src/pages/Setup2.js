@@ -416,9 +416,7 @@ function Setup2() {
         }
     }, [committeeDetail?.startDate, committeeDetail?.endDate]);
 
-    console.log(paymentHistory);
-    console.log(paymentHistoryDetails);
-    console.log(committeeDetail);
+    console.log(committeeUsers);
 
     return (
         <>
@@ -528,7 +526,7 @@ function Setup2() {
                                 <Title style={{ margin: 0, color: "grey", fontWeight: '500' }} level={5}>{committeeDetail?.cycle?.type}</Title>
                             </Col>
                             <Col xs={24} sm={24} md={4} lg={4} xl={4}>
-                                <Title style={{ margin: 0 }} level={5}>Cycle Duration</Title>
+                                <Title style={{ margin: 0 }} level={5}>Term</Title>
                                 <Title style={{ margin: 0, color: "grey", fontWeight: '500' }} level={5}>8 months</Title>
                             </Col>
                             <Col xs={24} sm={24} md={4} lg={4} xl={4}>
@@ -561,7 +559,7 @@ function Setup2() {
                         </div>
                     </div>
                     <Card className="my-card" style={{ marginBottom: "20px" }}>
-                        <Table pagination={false} loading={loading} dataSource={committeeUsers} columns={column} />
+                        <Table pagination={false} loading={loading} dataSource={committeeUsers.sort((a,b) => a?.committeeList[0]?.committeeNumber - b?.committeeList[0]?.committeeNumber)} columns={column} />
                     </Card>
                     {/* <Form
             form={form}
@@ -631,7 +629,7 @@ function Setup2() {
                                 <Title style={{ margin: 0, color: "grey", fontWeight: '500' }} level={5}>{committeeDetail?.cycle?.type}</Title>
                             </Col>
                             <Col xs={24} sm={24} md={4} lg={4} xl={4}>
-                                <Title style={{ margin: 0 }} level={5}>Cycle Duration</Title>
+                                <Title style={{ margin: 0 }} level={5}>Term</Title>
                                 <Title style={{ margin: 0, color: "grey", fontWeight: '500' }} level={5}>8 months</Title>
                             </Col>
                             <Col xs={24} sm={24} md={4} lg={4} xl={4}>
@@ -664,7 +662,7 @@ function Setup2() {
                         </div>
                     </div>
                     <Card className="my-card" style={{ marginBottom: "20px" }}>
-                        <Table pagination={false} loading={loading} dataSource={committeeUsers} columns={column3} />
+                        <Table pagination={false} loading={loading} dataSource={committeeUsers.sort((a,b) => a?.committeeList[0]?.committeeNumber - b?.committeeList[0]?.committeeNumber)} columns={column3} />
                     </Card>
                 </>
             )}

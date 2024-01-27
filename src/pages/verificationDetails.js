@@ -911,13 +911,13 @@ function VerificationDetails() {
                                         </Form.Item>
                                     </Col>
                                     <Col xs={24} sm={24} md={12} lg={6} xl={6}>
-                                        <Form.Item label={<Title style={{ fontSize: "16px", margin: 0, color: "#4E4E4E" }}>Payment</Title>}>
+                                        <Form.Item label={<Title style={{ fontSize: "16px", margin: 0, color: "#4E4E4E" }}>Payout</Title>}>
                                             <Input disabled={true}
                                                 value={`$ ${com?.cid?.amount}`} />
                                         </Form.Item>
                                     </Col>
                                     <Col xs={24} sm={24} md={12} lg={6} xl={6}>
-                                        <Form.Item label={<Title style={{ fontSize: "16px", margin: 0, color: "#4E4E4E" }}>Amount</Title>}>
+                                        <Form.Item label={<Title style={{ fontSize: "16px", margin: 0, color: "#4E4E4E" }}>Contribution</Title>}>
                                             <Input disabled={true}
                                                 value={`$ ${com?.cid?.payment}`} />
                                         </Form.Item>

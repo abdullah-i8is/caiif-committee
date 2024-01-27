@@ -113,7 +113,6 @@ function Sidenav({ color }) {
                 <span className="label">Total Committee</span>
               </NavLink>
             </Menu.Item> */}
-
             
             <Menu.Item key="2">
               <NavLink to="/payment-history">

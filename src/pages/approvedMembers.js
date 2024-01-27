@@ -77,14 +77,6 @@ function ApprovedMembers() {
             }
         },
         {
-            title: <Title style={{ fontSize: "18px", margin: 0, color: "#166805", fontWeight: "600" }}>Appointment Time</Title>,
-            dataIndex: 'jobOccupation',
-            key: 'jobOccupation',
-            render: (text, record) => {
-                return <Title onClick={() => navigate(`/approved-members/verification-details/${record._id}`)} style={{ fontSize: "16px", margin: 0, color: "#818181", cursor:"pointer" }}>{record?.appointment}</Title>
-            }
-        },
-        {
             title: <Title style={{ fontSize: "18px", margin: 0, color: "#166805", fontWeight: "600" }}></Title>,
             width: "100px",
             render: (text, record) => {
@@ -166,7 +158,7 @@ function ApprovedMembers() {
                             <Title style={{ margin: 0, color: "grey", fontWeight: '500' }} level={5}>{committeeDetail?.committeeDetails?.committee?.cycle?.type}</Title>
                         </Col>
                         <Col xs={24} sm={24} md={4} lg={3} xl={3}>
-                            <Title style={{ margin: 0 }} level={4}>Cycle Duration</Title>
+                            <Title style={{ margin: 0 }} level={4}>Term</Title>
                             <Title style={{ margin: 0, color: "grey", fontWeight: '500' }} level={5}>8 months</Title>
                         </Col>
                         <Col xs={24} sm={24} md={4} lg={3} xl={3}>

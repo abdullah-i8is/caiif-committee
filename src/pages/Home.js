@@ -139,7 +139,7 @@ function Home() {
       }
     },
     {
-      title: <Title style={{ fontSize: "18px", margin: 0, color: "#166805", fontWeight: "600" }}>Payment</Title>,
+      title: <Title style={{ fontSize: "18px", margin: 0, color: "#166805", fontWeight: "600" }}>Contribution</Title>,
       dataIndex: 'amount',
       key: 'amount',
       render: (text, record) => {
@@ -147,7 +147,7 @@ function Home() {
       }
     },
     {
-      title: <Title style={{ fontSize: "18px", margin: 0, color: "#166805", fontWeight: "600" }}>Amount</Title>,
+      title: <Title style={{ fontSize: "18px", margin: 0, color: "#166805", fontWeight: "600" }}>Payout</Title>,
       dataIndex: 'payment',
       key: 'payment',
       render: (text, record) => {
@@ -192,7 +192,7 @@ function Home() {
       }
     },
     {
-      title: <Title style={{ fontSize: "18px", margin: 0, color: "#166805", fontWeight: "600" }}>Cycle Duration</Title>,
+      title: <Title style={{ fontSize: "18px", margin: 0, color: "#166805", fontWeight: "600" }}>Term</Title>,
       dataIndex: 'cycle',
       key: 'cycle',
       render: (text, record) => {
@@ -248,7 +248,7 @@ function Home() {
       }
     },
     {
-      title: <Title style={{ fontSize: "18px", margin: 0, color: "#166805", fontWeight: "600" }}>Amount</Title>,
+      title: <Title style={{ fontSize: "18px", margin: 0, color: "#166805", fontWeight: "600" }}>Contribution</Title>,
       dataIndex: 'amount',
       key: 'amount',
       render: (text, record) => {
@@ -293,7 +293,7 @@ function Home() {
       }
     },
     {
-      title: <Title style={{ fontSize: "18px", margin: 0, color: "#166805", fontWeight: "600" }}>Cycle Duration</Title>,
+      title: <Title style={{ fontSize: "18px", margin: 0, color: "#166805", fontWeight: "600" }}>Term</Title>,
       dataIndex: 'cycle',
       key: 'cycle',
       render: (text, record) => {
@@ -314,7 +314,7 @@ function Home() {
     //   }
     // },
     {
-      title: <Title style={{ fontSize: "18px", margin: 0, color: "#166805", fontWeight: "600" }}>Payment</Title>,
+      title: <Title style={{ fontSize: "18px", margin: 0, color: "#166805", fontWeight: "600" }}>Payout</Title>,
       dataIndex: 'payment',
       key: 'payment',
       render: (text, record) => {
@@ -417,18 +417,18 @@ function Home() {
             }}
             onCancel={() => setShowModal(false)}
           >
-            <Title style={{ color: "#166805", margin: "0 0 20px 0" }} level={3}>Enroll request</Title>
+            <Title style={{ color: "#166805", margin: "0 0 20px 0" }} level={3}>New Committee Request</Title>
             <Card style={{ marginBottom: "20px" }}>
               <Row gutter={[24, 0]}>
 
                 <Col xs={24} sm={24} md={24} lg={24} xl={24}>
-                  <Form.Item label={<Title style={{ fontSize: "16px", margin: 0, color: "#4E4E4E" }}>Select Committee ID</Title>}>
+                  <Form.Item label={<Title style={{ fontSize: "16px", margin: 0, color: "#4E4E4E" }}>Select Committee</Title>}>
                     <Select
                       defaultValue="Select Committee"
                       style={{ width: "100%" }}
                       options={committeeOptions?.map((opt) => ({
                         value: opt?._id,
-                        label: opt?.uniqueId
+                        label: opt?.name
                       }))}
                       // options={state?.committees?.committees?.map((opt) => ({ 
                       //   value: opt?.committeeDetails?.committee?._id, 
