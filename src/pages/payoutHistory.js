@@ -113,7 +113,7 @@ function PayoutHistory() {
             title: <Title style={{ fontSize: "18px", margin: 0, color: "#166805", fontWeight: "600" }}></Title>,
             render: (text, record) => {
                 return (
-                    <Button style={{ margin: "0 0 0 20px" }} onClick={() => navigate(`/members/verification-details/${record?.userId?._id}`)} className="add-cycle-btn">View</Button>
+                    <Button onClick={() => navigate(`/members/verification-details/${record?.userId?._id}`)} className="add-cycle-btn">View</Button>
                 )
             }
         },
