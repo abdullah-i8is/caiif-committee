@@ -777,7 +777,7 @@ function VerificationDetails() {
                         </Col>
 
                         <Col xs={24} sm={24} md={24} lg={24} xl={24} style={{ marginBottom: 20 }}>
-                            <Button onClick={() => setShowModal(true)} className="add-cycle-btn" style={{ float: "right" }}>Add more commitee</Button>
+                            <Button onClick={() => setShowModal(true)} className="add-cycle-btn" style={{ float: "right" }}>Join new committee</Button>
                         </Col>
 
                         {user?.adminNotes?.map((note, index) => {

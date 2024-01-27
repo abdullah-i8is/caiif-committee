@@ -289,7 +289,7 @@ function CommitteeDetails() {
                                     },
                                 ]}
                                 name="payment"
-                                label={<Title style={{ fontSize: "16px", margin: 0, color: "#4E4E4E" }}>Total Amount</Title>}>
+                                label={<Title style={{ fontSize: "16px", margin: 0, color: "#4E4E4E" }}>Payout</Title>}>
                                 <Input
                                     onChange={(e, opt) => handleChange({ value: e, type: "payment" })}
                                     placeholder="$ 000"
@@ -305,7 +305,7 @@ function CommitteeDetails() {
                                     },
                                 ]}
                                 name="members"
-                                label={<Title style={{ fontSize: "16px", margin: 0, color: "#4E4E4E" }}>Total Member’s</Title>}>
+                                label={<Title style={{ fontSize: "16px", margin: 0, color: "#4E4E4E" }}>Total Members</Title>}>
                                 <Input
                                     placeholder={99}
                                     onChange={(e, opt) => handleChange({ value: e, type: "members" })}
@@ -351,7 +351,7 @@ function CommitteeDetails() {
                         <Col xs={24} sm={24} md={12} lg={12} xl={12}>
                             <div style={{ display: "flex", justifyContent: "space-between", marginBottom: "8px" }}>
                                 <div>
-                                    <Title style={{ fontSize: "16px", margin: 0, color: "#4E4E4E" }}>Monthly Installment</Title>
+                                    <Title style={{ fontSize: "16px", margin: 0, color: "#4E4E4E" }}>Contribution</Title>
                                 </div>
                                 <div>
                                     <Title style={{ fontSize: "16px", margin: 0, color: "rgba(22, 104, 5, 0.50)" }}>User will have to pay this amount monthly</Title>

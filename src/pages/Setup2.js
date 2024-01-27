@@ -161,7 +161,7 @@ function Setup2() {
                                     }
                                 })
                             }}>
-                            Add payment history
+                            Add payment details
                         </Button>
                     </>
                 )

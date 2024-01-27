@@ -162,7 +162,7 @@ function Home() {
         return (
           <div style={{ display: "flex", alignItems: "center" }}>
             <img width={30} src={memberIcon} />
-            <Title style={{ fontSize: "16px", margin: "0 0 0 10px", color: "#818181" }}>{record?.committeeDetails?.committee?.members}</Title>
+            <Title style={{ fontSize: "16px", margin: "0 0 0 10px", color: "#818181" }}>{record?.committeeDetails?.enrolledUsers?.length+"/"+record?.committeeDetails?.committee?.members}</Title>
           </div>
         )
       }
