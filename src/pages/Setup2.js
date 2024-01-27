@@ -573,7 +573,7 @@ function Setup2() {
                         </div>
                     </div>
                     <Card className="my-card" style={{ marginBottom: "20px" }}>
-                        <Table pagination={false} loading={loading} dataSource={committeeUsers.sort((a, b) => a?.committeeList[0]?.committeeNumber - b?.committeeList[0]?.committeeNumber)} columns={column} />
+                        <Table pagination={false} loading={loading} dataSource={committeeUsers?.sort((a, b) => a?.committeeList[0]?.committeeNumber - b?.committeeList[0]?.committeeNumber)} columns={column} />
                     </Card>
                     {/* <Form
             form={form}
@@ -676,7 +676,7 @@ function Setup2() {
                         </div>
                     </div>
                     <Card className="my-card" style={{ marginBottom: "20px" }}>
-                        <Table pagination={false} loading={loading} dataSource={committeeUsers.sort((a, b) => a?.committeeList[0]?.committeeNumber - b?.committeeList[0]?.committeeNumber)} columns={column3} />
+                        <Table pagination={false} loading={loading} dataSource={committeeUsers?.sort((a, b) => a?.committeeList[0]?.committeeNumber - b?.committeeList[0]?.committeeNumber)} columns={column3} />
                     </Card>
                 </>
             )}
