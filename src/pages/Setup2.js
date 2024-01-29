@@ -628,7 +628,7 @@ function Setup2() {
                         <Table loading={loading} dataSource={committeeUsers2} columns={column} />
                     </Card> */}
                 </>
-            ) : (C:\Users\I8IS Infiniti\Downloads\travelMate-DashBorad-main\src\pages\Setup2.js
+            ) : (
                 <>
                     <Title style={{ color: "#166805", margin: "0 0 20px 0" }} level={3}>Committee Detail</Title>
                     <Card style={{ marginBottom: "20px" }}>
