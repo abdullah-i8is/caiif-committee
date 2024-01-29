@@ -117,24 +117,24 @@ function Setup2() {
                 return <Title onClick={() => navigate(`/members/verification-details/${record._id}`)} style={{ fontSize: "16px", margin: 0, color: "#818181", cursor: "pointer" }}>{record?.level}</Title>
             }
         },
+        // {
+        //     title: <Title style={{ fontSize: "18px", margin: 0, color: "#166805", fontWeight: "600" }}>Payment Status</Title>,
+        //     render: (text, record) => {
+        //         return (
+        //             <Select
+        //                 defaultValue="Select"
+        //                 style={{ width: "100%" }}
+        //                 options={[
+        //                     { value: true, label: "PAYOUT" },
+        //                     { value: false, label: "NOT PAYOUT" }
+        //                 ]}
+        //                 onChange={(e) => handleChangeStatus(e, record._id)}
+        //             />
+        //         )
+        //     }
+        // },
         {
             title: <Title style={{ fontSize: "18px", margin: 0, color: "#166805", fontWeight: "600" }}>Payment Status</Title>,
-            render: (text, record) => {
-                return (
-                    <Select
-                        defaultValue="Select"
-                        style={{ width: "100%" }}
-                        options={[
-                            { value: true, label: "PAYOUT" },
-                            { value: false, label: "NOT PAYOUT" }
-                        ]}
-                        onChange={(e) => handleChangeStatus(e, record._id)}
-                    />
-                )
-            }
-        },
-        {
-            title: <Title style={{ fontSize: "18px", margin: 0, color: "#166805", fontWeight: "600" }}>Status</Title>,
             dataIndex: 'enroll',
             key: 'enroll',
             render: (text, record) => {
@@ -628,7 +628,7 @@ function Setup2() {
                         <Table loading={loading} dataSource={committeeUsers2} columns={column} />
                     </Card> */}
                 </>
-            ) : (
+            ) : (C:\Users\I8IS Infiniti\Downloads\travelMate-DashBorad-main\src\pages\Setup2.js
                 <>
                     <Title style={{ color: "#166805", margin: "0 0 20px 0" }} level={3}>Committee Detail</Title>
                     <Card style={{ marginBottom: "20px" }}>

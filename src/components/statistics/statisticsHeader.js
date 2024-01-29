@@ -30,9 +30,13 @@ const StatisticsHeader = ({ approveMembers, user, committees, enrolledCommittess
                                 style={{ cursor: "pointer" }}
                                 className="mb-24"
                                 onClick={() => {
-                                    navigate(`${card.title === "Total Members" ? "/members" :
-                                            card.title === "Enroll Request" ? "/members" : "/dashboard/committee-details"
-                                        }`)
+                                    if (card.title === "Total Members") {
+                                        navigate("/approved-members");
+                                    } else if (card.title === "Enroll Request") {
+                                        navigate("/members");
+                                    } else {
+                                        navigate("/dashboard/committee-details");
+                                    }
                                 }}>
                                 <Card bordered={false} className="criclebox" style={{ border: '4px solid rgba(22, 104, 5, 0.50)' }}>
                                     <div style={{ display: "flex", justifyContent: "space-between", alignItems: "flex-start" }}>

@@ -128,6 +128,26 @@ function VerificationDetails() {
 
     async function handleSubmit() {
         setLoading(true)
+        // Check if showModal is true and committeeNumber is available
+        if (showModal && !committeeNumber) {
+            api.error({
+                message: 'Validation Error',
+                description: 'Please select a Committee Number',
+                placement: 'bottomRight',
+            });
+            setLoading(false);
+            return;
+        }
+        // Check if user.cId contains committeeNumbers
+    if (!user?.cId || user.cId.some(entry => !entry.committeeNumber)) {
+        api.error({
+            message: 'Validation Error',
+            description: 'Please assign Committee Numbers for all Committees',
+            placement: 'bottomRight',
+        });
+        setLoading(false);
+        return;
+    }
         console.log({
             cId: [...user?.cId, { cid: committeeID, committeeNumber: committeeNumber }],
         });
@@ -775,10 +795,13 @@ function VerificationDetails() {
                                 })
                             }} className="add-cycle-btn">Add note</Button>
                         </Col>
-
-                        <Col xs={24} sm={24} md={24} lg={24} xl={24} style={{ marginBottom: 20 }}>
-                            <Button onClick={() => setShowModal(true)} className="add-cycle-btn" style={{ float: "right" }}>Join new committee</Button>
-                        </Col>
+                        {user?.approve && (
+                            <Col xs={24} sm={24} md={24} lg={24} xl={24} style={{ marginBottom: 20 }}>
+                                <Button onClick={() => setShowModal(true)} className="add-cycle-btn" style={{ float: "right" }}>
+                                    Join new committee
+                                </Button>
+                            </Col>
+                        )}
 
                         {user?.adminNotes?.map((note, index) => {
                             return (
@@ -856,7 +879,11 @@ function VerificationDetails() {
                                         </Form.Item>
                                     </Col>
                                     <Col xs={24} sm={24} md={12} lg={12} xl={12}>
-                                        <Form.Item label={<Title style={{ fontSize: "16px", margin: 0, color: "#4E4E4E" }}>Select Committee Number</Title>}>
+                                        <Form.Item
+                                            label={<Title style={{ fontSize: "16px", margin: 0, color: "#4E4E4E" }}>Select Committee Number</Title>}
+                                            name="committeeNumber" // Add a name to identify this field
+                                            rules={[{ required: true, message: 'Please select committee number' }]} // Add validation rule
+                                        >
                                             <Select
                                                 defaultValue="Select Committee Number"
                                                 style={{ width: "100%" }}
@@ -876,8 +903,8 @@ function VerificationDetails() {
                                         <div style={{ display: "flex", justifyContent: "space-between", marginBottom: 30 }}>
                                             <Title style={{ color: "#166805", margin: "0" }} level={3}>Committee {com?.cid?.uniqueId}</Title>
                                             <Button onClick={() => {
-                                                    setShowModal2(true)
-                                                    setCommitteeIndex(ind)
+                                                setShowModal2(true)
+                                                setCommitteeIndex(ind)
                                             }} className="add-cycle-btn">remove commitee</Button>
                                         </div>
                                     </Col>
