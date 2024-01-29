@@ -310,7 +310,7 @@ function Setup2() {
     }
 
     async function submitPaymentHistory() {
-        if (paymentHistoryDetails.date || paymentHistoryDetails.paidType || paymentHistoryDetails.paymentAmount) {
+        if (paymentHistoryDetails.date && paymentHistoryDetails.paidType && paymentHistoryDetails.paymentAmount) {
             setLoading2(true)
             try {
                 const response = await axios.post(`${API_URL}/admin/paymentRecord`, {
@@ -414,6 +414,7 @@ function Setup2() {
             };
             calculateDateRanges();
         }
+        
     }, [committeeDetail?.startDate, committeeDetail?.endDate]);
 
     console.log(committeeUsers);
@@ -460,9 +461,11 @@ function Setup2() {
                         ]}
                         onChange={(e) => {
                             setPaymentHistoryDetails((prevDetails) => {
+                             
                                 return {
                                     ...prevDetails,
-                                    paidType: e
+                                    paidType: e,
+                                    paymentAmount: e === "PAYOUT" ? committeeDetail.payment : prevDetails.paymentAmount
                                 }
                             })
                         }}

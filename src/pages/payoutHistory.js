@@ -128,7 +128,7 @@ function PayoutHistory() {
                 }
             })
             setLoading(false)
-            setData(response.data.paymentHistory)
+            setData(response.data.payments)
             console.log(response);
         } catch (error) {
             setLoading(false)
@@ -137,6 +137,8 @@ function PayoutHistory() {
     }
 
     useEffect(() => {
+        getPaymentHistory()
+
         GetAllMembers(token)
             .then((res) => {
                 console.log(res?.data);
@@ -145,7 +147,6 @@ function PayoutHistory() {
             .catch((error) => {
                 console.log(error);
             })
-        getPaymentHistory()
     }, [])
 
     return (
