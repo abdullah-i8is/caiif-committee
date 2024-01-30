@@ -977,7 +977,7 @@ function VerificationDetails() {
                             <Button onClick={() => setAdditionalDetail(true)} className="add-cycle-btn">Add Additional Detail</Button>
                         </Col> */}
                         <Col xs={24} sm={24} md={24} lg={24} xl={24}>
-                            <Button loading={loading} onClick={handleSubmit} className="add-cycle-btn">Update</Button>
+                            <Button loading={loading} onClick={handleSubmit} className="add-cycle-btn">Save</Button>
                         </Col>
                         {/* {additionalDetail && ( */}
                         {/* <> */}
