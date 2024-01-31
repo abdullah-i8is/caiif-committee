@@ -917,6 +917,7 @@ function VerificationDetails() {
                                                 options={state?.committees?.committees?.map((opt) => ({ value: opt?.committeeDetails?.committee?._id, label: opt?.committeeDetails?.committee?.uniqueId }))}
                                                 onChange={(e) => {
                                                     handleChange(e, "cId", ind)
+                                                    getUser()
                                                 }}
                                             />
                                         </Form.Item>
