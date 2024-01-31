@@ -1405,7 +1405,7 @@ function Setup2() {
                         <Table
                             pagination={false}
                             loading={loading}
-                            dataSource={committeeUsers.sort((a, b) => a?.committeeList[0]?.committeeNumber - b?.committeeList[0]?.committeeNumber)}
+                            dataSource={committeeUsers}
                             columns={column}
                         />                    </Card>
                     {/* <Form
@@ -1512,7 +1512,7 @@ function Setup2() {
                         <Table
                             pagination={false}
                             loading={loading}
-                            dataSource={committeeUsers.sort((a, b) => a?.committeeList[0]?.committeeNumber - b?.committeeList[0]?.committeeNumber)}
+                            dataSource={committeeUsers}
                             columns={column3}
                         />
                     </Card>
