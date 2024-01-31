@@ -139,15 +139,15 @@ function VerificationDetails() {
             return;
         }
         // Check if user.cId contains committeeNumbers
-    if (!user?.cId || user.cId.some(entry => !entry.committeeNumber)) {
-        api.error({
-            message: 'Validation Error',
-            description: 'Please assign Committee Numbers for all Committees',
-            placement: 'bottomRight',
-        });
-        setLoading(false);
-        return;
-    }
+        if (!user?.cId || user.cId.some(entry => !entry.committeeNumber)) {
+            api.error({
+                message: 'Validation Error',
+                description: 'Please assign Committee Numbers for all Committees',
+                placement: 'bottomRight',
+            });
+            setLoading(false);
+            return;
+        }
         console.log({
             cId: [...user?.cId, { cid: committeeID, committeeNumber: committeeNumber }],
         });
@@ -205,8 +205,8 @@ function VerificationDetails() {
         }
     }
 
-    async function fetchCommitteeNumber(value) {
-        console.log(value);
+    async function fetchCommitteeNumber(value, ind) {
+        console.log(value, ind);
         const response = await axios.get(`${API_URL}/admin/getCommitteeNumbers/${value}`, {
             headers: {
                 Authorization: `Bearer ${token}`
@@ -217,8 +217,8 @@ function VerificationDetails() {
         }
     }
 
-    const handleChange = async (value, name, ind, id) => {
-        // console.log(value, name);
+    const handleChange = async (value, name, ind, cNumber) => {
+        console.log(cNumber);
         setUser((prevDetail) => {
             return {
                 ...prevDetail,
@@ -234,6 +234,7 @@ function VerificationDetails() {
                         return {
                             ...val,
                             cid: value,
+                            committeeNumber: 0,
                         };
                     } else {
                         return val;
@@ -253,6 +254,7 @@ function VerificationDetails() {
                                 startDate: findCom?.committeeDetails?.committee?.startDate,
                                 endDate: findCom?.committeeDetails?.committee?.endDate,
                             },
+                            committeeNumber: 0
                         };
                     } else {
                         return val;
@@ -264,7 +266,7 @@ function VerificationDetails() {
                     committeeList: updatedCommitteeList,
                 };
             });
-            fetchCommitteeNumber(value)
+            fetchCommitteeNumber(value, ind)
         }
         if (name === "committeeNumber") {
             // try {
@@ -424,7 +426,7 @@ function VerificationDetails() {
 
     const [committeeIndex, setCommitteeIndex] = useState(null)
 
-    console.log(committeeIndex);
+    console.log(user);
 
     return (
         <>
@@ -916,8 +918,8 @@ function VerificationDetails() {
                                                 style={{ width: "100%" }}
                                                 options={state?.committees?.committees?.map((opt) => ({ value: opt?.committeeDetails?.committee?._id, label: opt?.committeeDetails?.committee?.uniqueId }))}
                                                 onChange={(e) => {
-                                                    handleChange(e, "cId", ind)
-                                                    getUser()
+                                                    console.log(com);
+                                                    handleChange(e, "cId", ind, com?.committeeNumber)
                                                 }}
                                             />
                                         </Form.Item>
