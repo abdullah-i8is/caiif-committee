@@ -126,9 +126,8 @@ export default function SignIn() {
         <img width={200} src={logo} alt="" />
       </div> */}
 
-      <div>
         <Card>
-          <div style={{ display: "flex", justifyContent: "center", alignItems: "center", }}>
+          <div className="login-form" style={{ display: "flex", justifyContent: "center", alignItems: "center", }}>
             <div style={{ margin: "0 30px" }}>
               <Form
                 form={form}
@@ -188,7 +187,6 @@ export default function SignIn() {
             </div>}
           </div>
         </Card>
-      </div>
     </div>
   );
 }
