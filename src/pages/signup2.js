@@ -283,7 +283,7 @@ export default function SignUp2() {
   return (
     <div>
       {contextHolder}
-      <div style={{ display: "flex", justifyContent: "center", alignItems: width < 768 ? "flex-start" : "center", height: formSubmit && "100vh", }}>
+      <div style={{ display: width > 991 ? "flex" : "", justifyContent: width > 991 ? "center" : "", alignItems: width < 768 ? "flex-start" : "center", height: formSubmit && "100vh", }}>
         <Card style={{ height: step === 2 && "100vh" }}>
           <div style={{ margin: width < 768 ? 0 : "0 50px" }}>
             <Form
