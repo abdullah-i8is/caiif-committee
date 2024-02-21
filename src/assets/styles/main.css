@@ -7,6 +7,12 @@
   font-family: 'Archivo', sans-serif !important;
 }
 
+@media only screen and (max-width:991px) {
+  .ant-layout-header {
+    margin-top: 70px !important;
+  }
+}
+
 body {
   background-color: #fafafa;
   color: rgba(0, 0, 0, 0.65);
