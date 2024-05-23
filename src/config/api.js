@@ -1,1 +1,1 @@
-export const API_URL = "https://dark-jumper-ant.cyclic.app/api/v1";
+export const API_URL = "https://caiif.vercel.app/api/v1";
