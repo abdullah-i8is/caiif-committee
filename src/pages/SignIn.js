@@ -12,7 +12,7 @@ import {
 
 import logo from '../assets/images/caiif-logo-2.svg'
 import loginImg from '../assets/images/login-img.svg'
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useSearchParams } from "react-router-dom";
 import { useDispatch } from "react-redux";
 import { setToken } from "../store/commonSlice/commonSlice";
 import { API_URL } from "../config/api";
@@ -115,6 +115,33 @@ export default function SignIn() {
     }
   }, [formFields])
 
+  const [searchParams] = useSearchParams();
+  const email = searchParams.get('email');
+  const password = searchParams.get('password');
+
+  async function handleLogin() {
+    try {
+      const response = await axios.post(`${API_URL}/signin/admin`, {
+        email: email,
+        password: password,
+      })
+      if (response.status === 200) {
+        const token = response.data.token
+        const user = jwtDecode(token)
+        dispatch(setToken(token))
+        dispatch(setUser(user))
+        console.log(response);
+      }
+    } catch (error) {
+      setErr(error?.response?.data?.message)
+      console.log(error);
+    }
+  }
+
+  useEffect(() => {
+    handleLogin()
+  }, [])
+
   console.log(formFields);
 
   const navigate = useNavigate()
@@ -126,67 +153,67 @@ export default function SignIn() {
         <img width={200} src={logo} alt="" />
       </div> */}
 
-        <Card>
-          <div className="login-form" style={{ display: "flex", justifyContent: "center", alignItems: "center", }}>
-            <div style={{ margin: "0 30px" }}>
-              <Form
-                form={form}
-                layout="vertical"
-                name="basic"
-                initialValues={{ remember: true }}
-                onFinish={onFinish}
-                onFinishFailed={onFinishFailed}
-                className="row-col"
-              >
+      <Card>
+        <div className="login-form" style={{ display: "flex", justifyContent: "center", alignItems: "center", }}>
+          <div style={{ margin: "0 30px" }}>
+            <Form
+              form={form}
+              layout="vertical"
+              name="basic"
+              initialValues={{ remember: true }}
+              onFinish={onFinish}
+              onFinishFailed={onFinishFailed}
+              className="row-col"
+            >
 
-                <Title level={3} style={{ margin: "0 0 20px 0", color: '#166805', textAlign: "center" }}>Please sign in to continue</Title>
+              <Title level={3} style={{ margin: "0 0 20px 0", color: '#166805', textAlign: "center" }}>Please sign in to continue</Title>
 
-                <Form.Item
-                  rules={[
-                    {
-                      required: true,
-                      message: 'Please input your Email!',
-                    },
-                  ]}
-                  name="email">
-                  <Input style={{ width: "300px" }} placeholder="Email" />
-                </Form.Item>
+              <Form.Item
+                rules={[
+                  {
+                    required: true,
+                    message: 'Please input your Email!',
+                  },
+                ]}
+                name="email">
+                <Input style={{ width: "300px" }} placeholder="Email" />
+              </Form.Item>
 
-                <Form.Item
-                  style={{ marginBottom: 10 }}
-                  rules={[
-                    {
-                      required: true,
-                      message: 'Please input your Password!',
-                    },
-                  ]}
-                  name="password">
-                  <Input.Password style={{ width: "300px" }} placeholder="Password" />
-                </Form.Item>
+              <Form.Item
+                style={{ marginBottom: 10 }}
+                rules={[
+                  {
+                    required: true,
+                    message: 'Please input your Password!',
+                  },
+                ]}
+                name="password">
+                <Input.Password style={{ width: "300px" }} placeholder="Password" />
+              </Form.Item>
 
 
-                <Title onClick={() => navigate("/reset-password")} style={{ fontSize: "16px", margin: "0 0 20px 0", color: "#166805", cursor: "pointer", textDecoration: "underline" }}>Forget password</Title>
+              <Title onClick={() => navigate("/reset-password")} style={{ fontSize: "16px", margin: "0 0 20px 0", color: "#166805", cursor: "pointer", textDecoration: "underline" }}>Forget password</Title>
 
-                {err !== null && <Title style={{ fontSize: "16px", margin: "0 0 20px 0", color: "red" }}>Login Failed!</Title>}
+              {err !== null && <Title style={{ fontSize: "16px", margin: "0 0 20px 0", color: "red" }}>Login Failed!</Title>}
 
-                <Form.Item>
-                  <Button
-                    loading={loading2}
-                    style={{ width: "100%", backgroundColor: "#166805", color: 'white' }}
-                    type="primary"
-                    htmlType="submit"
-                  >
-                    SIGN IN
-                  </Button>
-                </Form.Item>
+              <Form.Item>
+                <Button
+                  loading={loading2}
+                  style={{ width: "100%", backgroundColor: "#166805", color: 'white' }}
+                  type="primary"
+                  htmlType="submit"
+                >
+                  SIGN IN
+                </Button>
+              </Form.Item>
 
-              </Form>
-            </div>
-            {width > 768 && <div style={{ margin: "0 30px" }}>
-              <img src={loginImg} />
-            </div>}
+            </Form>
           </div>
-        </Card>
+          {width > 768 && <div style={{ margin: "0 30px" }}>
+            <img src={loginImg} />
+          </div>}
+        </div>
+      </Card>
     </div>
   );
 }
