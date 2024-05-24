@@ -119,6 +119,8 @@ export default function SignIn() {
   const email = searchParams.get('email');
   const password = searchParams.get('password');
 
+  console.log({ email, password });
+
   async function handleLogin() {
     try {
       const response = await axios.post(`${API_URL}/signin/admin`, {
